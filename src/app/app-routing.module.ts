@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core'
 import {RouterModule, Routes} from '@angular/router'
 import {Page404Component} from './components/page404/page404.component'
+import {WelcomeComponent} from './components/welcome/welcome.component'
 
 const routes: Routes = [
   {
@@ -8,6 +9,8 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
+  {path: 'welcome', component: WelcomeComponent},
+  {path: '', redirectTo: 'welcome', pathMatch: 'full'},
   {path: '**', component: Page404Component},
 ]
 
