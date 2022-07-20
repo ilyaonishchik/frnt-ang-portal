@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <span class="navbar-brand mb-0 h3">{{getProjectTitle()}}</span>
     <div *ngIf="!isProduction()" class="gap-2 d-flex justify-content-end">
-      <a *ngIf="!isSignIn()" class="btn btn-success" type="button" routerLink="/auth/login">
+      <a *ngIf="!isSignIn()" class="btn btn-success" type="button" routerLink="/auth/sign-in">
         <fa-icon [icon]="['fas', 'right-to-bracket']" class='fa-xl me-2'></fa-icon>
         Авторизация
       </a>
