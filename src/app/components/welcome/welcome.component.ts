@@ -6,6 +6,7 @@ import {
   faRightToBracket,
   faUserPlus,
 } from '@fortawesome/free-solid-svg-icons'
+import {AppService} from '../../services/app.service'
 
 @Component({
   selector: 'app-welcome',
@@ -15,6 +16,7 @@ import {
 export class WelcomeComponent implements OnInit {
   constructor(
     private welcomeService: WelcomeService,
+    private appService: AppService,
     libraryIcons: FaIconLibrary
   ) {
     libraryIcons.addIcons(faRightToBracket, faUserPlus, faRightFromBracket)
@@ -29,11 +31,11 @@ export class WelcomeComponent implements OnInit {
   logout() {}
 
   isProduction() {
-    return this.welcomeService.isProduction
+    return this.appService.isProduction
   }
 
   getProjectTitle() {
-    return this.welcomeService.projectTitle
+    return this.appService.projectTitle
   }
 
   getLinks() {
