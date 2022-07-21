@@ -1,1 +1,41 @@
-<p>sign-up works!</p>
+<section class='sign-up'>
+  <div class='container py-5'>
+    <div class='row d-flex justify-content-center align-items-center'>
+      <div class='col-12 col-md-8 col-lg-6 col-xl-5'>
+        <div class='card'>
+          <div class='card-header text-center'>
+            <a class='fw-bold text-uppercase' routerLink='/welcome'>{{getProjectTitle()}}</a>
+          </div>
+          <div class='card-body'>
+            <h6 class="card-subtitle text-muted text-center mb-3">Регистрация нового пользователя</h6>
+            <form>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="username" placeholder="Username" required>
+                <label for="username">Имя пользователя</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="email" placeholder="user@example.com" required>
+                <label for="email">Адрес электронной почты</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                <label for="password">Пароль</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="password1" placeholder="Password" required>
+                <label for="password1">Пароль еще раз</label>
+              </div>
+              <div>
+                <button class="btn btn-outline-primary btn-block" type="submit">Зарегистрироваться</button>
+              </div>
+            </form>
+          </div>
+          <div class="card-footer">
+            <a class="float-end link-primary" routerLink="/auth/sign-in">Уже зарегистрирован</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
