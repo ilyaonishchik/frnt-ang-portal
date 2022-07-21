@@ -1,1 +1,37 @@
-<p>sign-in works!</p>
+<section class='sign-in'>
+  <div class='container py-5'>
+    <div class='row d-flex justify-content-center align-items-center'>
+      <div class='col-12 col-md-8 col-lg-6 col-xl-5'>
+        <div class='card'>
+          <div class='card-header text-center'>
+            <a class='fw-bold text-uppercase' routerLink='/welcome'>{{getProjectTitle()}}</a>
+          </div>
+          <div class='card-body'>
+            <h6 class="card-subtitle text-muted text-center mb-3">Вам необходимо авторизоваться</h6>
+            <form>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="username" placeholder="Username" required>
+                <label for="username">Имя пользователя</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                <label for="password">Пароль</label>
+              </div>
+              <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="remember">
+                <label class="form-check-label" for="remember">Запомнить меня</label>
+              </div>
+              <div>
+                <button class="btn btn-outline-primary btn-block" type="submit">Войти</button>
+              </div>
+            </form>
+          </div>
+          <div class="card-footer">
+            <a class='float-start link-info' routerLink='/auth/pass-reset'>Не помню свой пароль</a>
+            <a class="float-end link-success" routerLink="/auth/sign-up">Зарегистрироваться</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
