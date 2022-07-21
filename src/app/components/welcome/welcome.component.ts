@@ -7,6 +7,7 @@ import {
   faUserPlus,
 } from '@fortawesome/free-solid-svg-icons'
 import {AppService} from '../../services/app.service'
+import {AuthService} from '../../modules/auth/services/auth.service'
 
 @Component({
   selector: 'app-welcome',
@@ -17,6 +18,7 @@ export class WelcomeComponent implements OnInit {
   constructor(
     private welcomeService: WelcomeService,
     private appService: AppService,
+    private authService: AuthService,
     libraryIcons: FaIconLibrary
   ) {
     libraryIcons.addIcons(faRightToBracket, faUserPlus, faRightFromBracket)
@@ -25,10 +27,12 @@ export class WelcomeComponent implements OnInit {
   ngOnInit(): void {}
 
   isSignIn() {
-    return false
+    return this.authService.isSignIn()
   }
 
-  logout() {}
+  logout() {
+    this.authService.deleteToken()
+  }
 
   isProduction() {
     return this.appService.isProduction
