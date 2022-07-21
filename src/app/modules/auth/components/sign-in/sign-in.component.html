@@ -4,25 +4,35 @@
       <div class='col-12 col-md-8 col-lg-6 col-xl-5'>
         <div class='card'>
           <div class='card-header text-center'>
-            <a class='fw-bold text-uppercase' routerLink='/welcome'>{{getProjectTitle()}}</a>
+            <a class='fw-bold text-uppercase' routerLink='/'>{{getProjectTitle()}}</a>
           </div>
           <div class='card-body'>
             <h6 class="card-subtitle text-muted text-center mb-3">Вам необходимо авторизоваться</h6>
-            <form>
+            <form [formGroup]='loginForm' (ngSubmit)='submitLogin()'>
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="username" placeholder="Username" required>
+                <input formControlName='username'
+                       [ngClass]="
+                       loginForm.get('username')?.touched &&
+                       loginForm.get('username')?.invalid ? 'is-invalid' : ''"
+                       type="text" class="form-control" id="username" placeholder="Username">
                 <label for="username">Имя пользователя</label>
+                <div class="invalid-feedback">Некорректное имя пользователя</div>
               </div>
               <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                <input formControlName='password'
+                       [ngClass]="
+                       loginForm.get('password')?.touched &&
+                       loginForm.get('password')?.invalid ? 'is-invalid' : ''"
+                       type="password" class="form-control" id="password" placeholder="Password">
                 <label for="password">Пароль</label>
+                <div class="invalid-feedback">Пароль не указан</div>
               </div>
               <div class="form-check mb-3">
                 <input type="checkbox" class="form-check-input" id="remember">
                 <label class="form-check-label" for="remember">Запомнить меня</label>
               </div>
               <div>
-                <button class="btn btn-outline-primary btn-block" type="submit">Войти</button>
+                <button [disabled]="loginForm.invalid" class="btn btn-outline-primary btn-block" type="submit">Войти</button>
               </div>
             </form>
           </div>
