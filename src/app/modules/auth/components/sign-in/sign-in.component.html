@@ -8,6 +8,7 @@
           </div>
           <div class='card-body'>
             <h6 class="card-subtitle text-muted text-center mb-3">Вам необходимо авторизоваться</h6>
+
             <form [formGroup]='loginForm' (ngSubmit)='submitLogin()'>
               <div class="form-floating mb-3">
                 <input formControlName='username'

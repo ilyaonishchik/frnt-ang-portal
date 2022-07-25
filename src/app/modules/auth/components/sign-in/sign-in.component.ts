@@ -1,24 +1,31 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, OnDestroy, OnInit} from '@angular/core'
 import {AppService} from '../../../../services/app.service'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
-import {AuthService} from '../../services/auth.service'
 import {Router} from '@angular/router'
+
+import {AuthService} from '../../services/auth.service'
+import {ToastService} from '../../../../services/toast.service'
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss'],
 })
-export class SignInComponent implements OnInit {
+export class SignInComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private appService: AppService,
-    private authService: AuthService
+    private authService: AuthService,
+    public toastService: ToastService
   ) {}
 
   ngOnInit(): void {
+    if (this.authService.isSignIn()) {
+      this.router.navigate(['/'])
+    }
+
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       password: [
@@ -36,15 +43,24 @@ export class SignInComponent implements OnInit {
       next: (res) => {
         console.log(res.access_token)
         this.authService.setToken(res.access_token)
-        this.router.navigate(['welcome'])
+        this.router.navigate(['/'])
       },
       error: (err) => {
-        console.log(err.error.message)
+        console.error(err)
+        this.toastService.showError(err)
+        // this.loginForm.setErrors([err])
+      },
+      complete: () => {
+        console.log('Complete login')
       },
     })
   }
 
   getProjectTitle() {
     return this.appService.projectTitle
+  }
+
+  ngOnDestroy(): void {
+    this.toastService.clear()
   }
 }
