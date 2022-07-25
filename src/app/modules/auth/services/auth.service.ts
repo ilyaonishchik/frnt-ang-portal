@@ -1,8 +1,11 @@
 import {Injectable} from '@angular/core'
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http'
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpParams,
+} from '@angular/common/http'
 import {catchError, Observable, retry, throwError} from 'rxjs'
-
-import {AppService} from '../../../services/app.service'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -14,7 +17,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private appService: AppService, private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   setToken(token: string) {
     localStorage.setItem('token', token)
@@ -42,13 +45,26 @@ export class AuthService {
   }
 
   handleError(error: any) {
-    let errorMessage = ''
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = error.error.message
-    } else {
-      errorMessage = `Error code: ${error.status}\nMessage: ${error.error.message}`
+    let errorMessage: string = ''
+
+    switch (error.constructor) {
+      case HttpErrorResponse:
+        switch (error.status) {
+          case 400:
+            errorMessage = error.error.message
+            break
+          default:
+            errorMessage = error.statusText
+            break
+        }
+        break
+      case ErrorEvent:
+        errorMessage = error.error.message
+        break
+      default:
+        errorMessage = error.error.message
     }
-    window.alert(errorMessage)
+
     return throwError(() => {
       return errorMessage
     })
