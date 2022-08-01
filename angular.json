@@ -132,5 +132,8 @@
       }
     }
   },
-  "defaultProject": "portal"
+  "defaultProject": "portal",
+  "cli": {
+    "analytics": false
+  }
 }
