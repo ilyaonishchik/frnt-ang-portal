@@ -10,6 +10,10 @@
         <fa-icon [icon]="['fas', 'user-plus']" class='fa-xl me-2'></fa-icon>
         Регистрация
       </a>
+      <a *ngIf="isSignIn()" class="btn btn-outline-success" type="button" routerLink="/admin">
+        <fa-icon [icon]="['fas', 'screwdriver-wrench']" class='fa-xl me-2'></fa-icon>
+        Админ-панель
+      </a>
       <button *ngIf="isSignIn()" class="btn btn-outline-danger" type="button" (click)="logout()">
         <fa-icon [icon]="['fas', 'right-from-bracket']" class='fa-xl me-2'></fa-icon>
         Выход

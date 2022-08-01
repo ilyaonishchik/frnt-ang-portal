@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      (click)='isMenuCollapsed = !isMenuCollapsed'>
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div [ngbCollapse]='isMenuCollapsed'
+         class="collapse navbar-collapse"
+         id="navbarSupportedContent">
+      <ul class='navbar-nav me-auto'>
+        <app-modules></app-modules>
+      </ul>
+      <ul class='navbar-nav d-flex align-items-center flex-row'>
+        <app-messages *ngIf='false'></app-messages>
+        <app-notifications *ngIf='false'></app-notifications>
+        <app-user *ngIf='true'></app-user>
+      </ul>
+    </div>
+  </div>
+</nav>

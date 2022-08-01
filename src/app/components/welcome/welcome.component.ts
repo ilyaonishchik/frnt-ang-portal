@@ -5,6 +5,7 @@ import {
   faRightFromBracket,
   faRightToBracket,
   faUserPlus,
+  faScrewdriverWrench,
 } from '@fortawesome/free-solid-svg-icons'
 import {AppService} from '../../services/app.service'
 import {AuthService} from '../../modules/auth/services/auth.service'
@@ -21,7 +22,12 @@ export class WelcomeComponent implements OnInit {
     private authService: AuthService,
     libraryIcons: FaIconLibrary
   ) {
-    libraryIcons.addIcons(faRightToBracket, faUserPlus, faRightFromBracket)
+    libraryIcons.addIcons(
+      faRightToBracket,
+      faUserPlus,
+      faRightFromBracket,
+      faScrewdriverWrench
+    )
   }
 
   ngOnInit(): void {}
@@ -31,7 +37,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   logout() {
-    this.authService.deleteToken()
+    this.authService.logout()
   }
 
   isProduction() {

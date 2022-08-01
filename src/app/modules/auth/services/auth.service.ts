@@ -6,6 +6,7 @@ import {
   HttpParams,
 } from '@angular/common/http'
 import {catchError, Observable, retry, throwError} from 'rxjs'
+import {Router} from '@angular/router'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -17,7 +18,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   setToken(token: string) {
     localStorage.setItem('token', token)
@@ -42,6 +43,11 @@ export class AuthService {
     return this.http
       .post('/api/v1/auth/login', params, httpOptions)
       .pipe(retry(1), catchError(this.handleError))
+  }
+
+  logout() {
+    this.deleteToken()
+    this.router.navigate(['/'])
   }
 
   handleError(error: any) {

@@ -23,6 +23,7 @@ export class AuthGuard implements CanActivate, CanDeactivate<unknown> {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    //TODO Добавить контрольна админские права
     if (!this.authService.isSignIn()) {
       this.router.navigate(['auth/sign-in'])
       return false

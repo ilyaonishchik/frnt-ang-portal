@@ -1,0 +1,20 @@
+<li ngbDropdown class="nav-item ps-2">
+  <a
+    class="nav-link"
+    id="userDropdown"
+    role='button'
+    ngbDropdownToggle>
+    <img src="assets/img/avatars/default.png"
+         class="rounded-circle user-avatar"
+         alt='Avatar'/>
+    UserName
+  </a>
+  <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+    <li><button ngbDropdownItem class="dropdown-item">Профиль</button></li>
+    <li><button ngbDropdownItem class="dropdown-item">Документы</button></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><button ngbDropdownItem class="dropdown-item" (click)='logout()'>
+      <fa-icon [icon]="['fas', 'right-from-bracket']" class='me-2'></fa-icon>
+      Завершить сеанс</button></li>
+  </ul>
+</li>
