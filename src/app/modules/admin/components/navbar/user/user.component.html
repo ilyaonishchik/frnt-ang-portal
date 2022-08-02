@@ -4,10 +4,13 @@
     id="userDropdown"
     role='button'
     ngbDropdownToggle>
-    <img src="assets/img/avatars/default.png"
+    <img *ngIf="currentUser.id; else noUserAvatar" src="assets/img/avatars/default.png"
          class="rounded-circle user-avatar"
-         alt='Avatar'/>
-    UserName
+         alt='{{currentUser.avatar}}'/>
+    <ng-template #noUserAvatar>
+      <fa-icon [icon]="['fas', 'user-circle']" size='2x'></fa-icon>
+    </ng-template>
+    {{currentUser.name}}
   </a>
   <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
     <li><button ngbDropdownItem class="dropdown-item">Профиль</button></li>

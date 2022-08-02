@@ -1,7 +1,8 @@
 <li class="nav-item">
   <a class="nav-link" href="#" title="Сообщения">
-    <fa-icon [icon]="['fas', 'message']"></fa-icon>
-    <span *ngIf='count' class='badge bg-primary top-0 start-100 translate-middle-y rounded-pill'>{{count}}</span>
+    <fa-layers [fixedWidth]='true'>
+      <fa-icon [icon]="['fas', 'message']"></fa-icon>
+      <fa-layers-counter *ngIf='count' content="{{count}}"></fa-layers-counter>
+    </fa-layers>
   </a>
 </li>
-

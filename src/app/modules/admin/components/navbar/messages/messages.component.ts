@@ -8,7 +8,7 @@ import {faMessage} from '@fortawesome/free-solid-svg-icons'
   styleUrls: ['./messages.component.scss'],
 })
 export class MessagesComponent implements OnInit {
-  count = 34
+  count = '99+'
   constructor(libraryIcons: FaIconLibrary) {
     libraryIcons.addIcons(faMessage)
   }

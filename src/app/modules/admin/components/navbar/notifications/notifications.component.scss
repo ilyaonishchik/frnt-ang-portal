@@ -1,8 +1,16 @@
-.navbar-badge {
-  font-size: .6rem;
-  font-weight: 300;
-  padding: 2px 4px;
-  //position: absolute;
-  right: 5px;
-  top: 9px;
+:host {
+  --fa-top: -0.05em;
+  --fa-right: -0.05em;
+}
+
+.nav-link {
+  padding: 0;
+}
+
+fa-layers {
+  font-size: 1.75em;
+}
+
+fa-layers-counter {
+  font-size: 1.25em;
 }

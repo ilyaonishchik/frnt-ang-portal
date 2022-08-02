@@ -8,7 +8,7 @@ import {faBell} from '@fortawesome/free-solid-svg-icons'
   styleUrls: ['./notifications.component.scss'],
 })
 export class NotificationsComponent implements OnInit {
-  count = 25
+  count = '25'
   constructor(libraryIcons: FaIconLibrary) {
     libraryIcons.addIcons(faBell)
   }
