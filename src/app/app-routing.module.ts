@@ -17,8 +17,16 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/admin/admin.module').then((m) => m.AdminModule),
   },
+  {
+    path: 'sortirovka',
+    loadChildren: () =>
+      import('./modules/sortirovka/sortirovka.module').then(
+        (m) => m.SortirovkaModule
+      ),
+  },
   {path: 'welcome', component: WelcomeComponent},
-  {path: '', redirectTo: 'welcome', pathMatch: 'full'},
+  // {path: '', redirectTo: 'welcome', pathMatch: 'full'},
+  {path: '', redirectTo: 'sortirovka', pathMatch: 'full'},
   {path: '**', component: Page404Component},
 ]
 

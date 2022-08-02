@@ -1,0 +1,52 @@
+<div class="form-field">
+  <label for="voice-control" class="form-field__label">
+    Голос диктора:
+  </label>
+  <div class="form-field__content">
+    <select
+      id="voice-control"
+      name="voice"
+      [(ngModel)]="selectedVoice"
+      (change)="demoSelectedVoice()"
+      class="form-field__control">
+      <option value="">- Select a voice -</option>
+      <option
+        *ngFor="let voice of voices"
+        [ngValue]="voice">
+        {{ voice.name }}
+      </option>
+    </select>
+  </div>
+</div>
+
+
+<div class="form-field">
+  <label for="text-control" class="form-field__label">
+    Text:
+  </label>
+  <div class="form-field__content">
+		<textarea
+      id="text-control"
+      name="text"
+      [(ngModel)]="text"
+      (keydown.Meta.Enter)="speak(text)"
+      class="form-field__control"
+    ></textarea>
+  </div>
+</div>
+
+<div class="form-actions">
+  <button
+    type="button"
+    (click)="speak(text)"
+    class="form-actions__button">
+    Произнести текст
+  </button>
+
+  <button
+    type="button"
+    (click)="stop()"
+    class="form-actions__button form-actions__button--secondary">
+    Остановить произношение
+  </button>
+</div>
