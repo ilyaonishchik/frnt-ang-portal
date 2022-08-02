@@ -7,6 +7,7 @@ import {
 } from '@angular/common/http'
 import {catchError, Observable, retry, throwError} from 'rxjs'
 import {Router} from '@angular/router'
+import {UserInterface} from '../../../types/user'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -30,6 +31,10 @@ export class AuthService {
 
   deleteToken() {
     localStorage.removeItem('token')
+  }
+
+  getUserById(id: number) {
+    return this.http.get<UserInterface>(`/api/v1/users/${id}`)
   }
 
   isSignIn() {
