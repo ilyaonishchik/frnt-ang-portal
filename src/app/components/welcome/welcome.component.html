@@ -1,32 +1,14 @@
-<nav class="navbar">
-  <div class="container-fluid">
-    <span class="navbar-brand mb-0 h3">{{getProjectTitle()}}</span>
-    <div *ngIf="!isProduction()" class="gap-2 d-flex justify-content-end">
-      <a *ngIf="!isSignIn()" class="btn btn-outline-success" type="button" routerLink="/auth/sign-in">
-        <fa-icon [icon]="['fas', 'right-to-bracket']" class='fa-xl me-2'></fa-icon>
-        Авторизация
-      </a>
-      <a *ngIf="!isSignIn()" class="btn btn-outline-primary" type="button" routerLink="/auth/sign-up">
-        <fa-icon [icon]="['fas', 'user-plus']" class='fa-xl me-2'></fa-icon>
-        Регистрация
-      </a>
-      <a *ngIf="isSignIn()" class="btn btn-outline-success" type="button" routerLink="/admin">
-        <fa-icon [icon]="['fas', 'screwdriver-wrench']" class='fa-xl me-2'></fa-icon>
-        Админ-панель
-      </a>
-      <button *ngIf="isSignIn()" class="btn btn-outline-danger" type="button" (click)="logout()">
-        <fa-icon [icon]="['fas', 'right-from-bracket']" class='fa-xl me-2'></fa-icon>
-        Выход
-      </button>
-    </div>
-  </div>
-</nav>
-
+<app-navbar></app-navbar>
 <div class="flex-center">
   <div class="content" role="main">
     <div class="title">Часто используемые ресурсы</div>
     <div class="card-container">
-      <button class="card card-small" tabindex="0" *ngFor="let link of getLinks()" (click)="showLink(link.website)">
+      <button
+        class="card card-small"
+        tabindex="0" *ngFor="let link of getLinks()"
+        (click)="showLink(link.website)"
+        ngbTooltip="{{link.desc? link.desc: link.name}}" placement='bottom' [openDelay]="500"
+      >
         <span>{{link.name}}</span>
       </button>
     </div>
