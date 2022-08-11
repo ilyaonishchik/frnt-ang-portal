@@ -8,7 +8,7 @@ import {
   UrlTree,
 } from '@angular/router'
 import {Observable} from 'rxjs'
-import {AuthService} from '../modules/auth/services/auth.service'
+import {AuthService} from '../services/auth.service'
 
 @Injectable({
   providedIn: 'root',
@@ -23,9 +23,15 @@ export class AuthGuard implements CanActivate, CanDeactivate<unknown> {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    // console.log(state.url)
+    // console.log(route.fragment)
     //TODO Добавить контрольна админские права
     if (!this.authService.isSignIn()) {
-      this.router.navigate(['auth/sign-in'])
+      if (state.url === '/default') {
+        this.router.navigate(['welcome'])
+      } else {
+        this.router.navigate(['auth/sign-in'])
+      }
       return false
     }
     return true
