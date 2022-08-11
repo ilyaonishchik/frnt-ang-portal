@@ -1,0 +1,14 @@
+<app-dropdown>
+  <ng-container dropdown-button>
+    <fa-layers [fixedWidth]='true'>
+      <fa-icon [icon]="['fas', 'message']"></fa-icon>
+      <fa-layers-counter *ngIf='count' content="{{count}}"></fa-layers-counter>
+    </fa-layers>
+  </ng-container>
+  <ng-container dropdown-menu>
+    <li><button class="dropdown-item">Сообщение 1</button></li>
+    <li><button class="dropdown-item">Сообщение 2</button></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><button class="dropdown-item">Сообщение 999</button></li>
+  </ng-container>
+</app-dropdown>

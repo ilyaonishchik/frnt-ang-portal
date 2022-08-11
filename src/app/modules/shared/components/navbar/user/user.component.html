@@ -1,0 +1,19 @@
+<app-dropdown position='end'>
+  <ng-container dropdown-button>
+    <fa-layers *ngIf='!currentUser.avatar' [fixedWidth]='true'>
+      <fa-icon [icon]="['fas', 'user']"></fa-icon>
+    </fa-layers>
+    <img *ngIf='currentUser.avatar' class='rounded-circle user-avatar' src='{{currentUser.avatar}}' alt='Avatar'>
+    {{currentUser.name}}
+  </ng-container>
+  <ng-container dropdown-menu>
+    <li><button class="dropdown-item">
+      <fa-icon [icon]="['fas', 'user-gear']" class='me-2'></fa-icon>
+      Профиль</button></li>
+    <li><button class="dropdown-item">Документы</button></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><button class="dropdown-item" (click)='logout()'>
+      <fa-icon [icon]="['fas', 'right-from-bracket']" class='me-2'></fa-icon>
+      Завершить сеанс</button></li>
+  </ng-container>
+</app-dropdown>

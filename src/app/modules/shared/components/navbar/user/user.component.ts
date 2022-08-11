@@ -2,12 +2,12 @@ import {Component, OnInit} from '@angular/core'
 import {FaIconLibrary} from '@fortawesome/angular-fontawesome'
 import {
   faRightFromBracket,
-  faUserCircle,
+  faUser,
+  faUserGear,
 } from '@fortawesome/free-solid-svg-icons'
-import {Observable} from 'rxjs'
-
-import {AuthService} from '../../../../auth/services/auth.service'
+import {AuthService} from '../../../../../services/auth.service'
 import {UserInterface} from '../../../../../types/user'
+// import {Observable} from 'rxjs'
 
 @Component({
   selector: 'app-user',
@@ -15,27 +15,26 @@ import {UserInterface} from '../../../../../types/user'
   styleUrls: ['./user.component.scss'],
 })
 export class UserComponent implements OnInit {
-  currentUser!: UserInterface
+  currentUser: UserInterface
 
   constructor(private authService: AuthService, libraryIcons: FaIconLibrary) {
-    libraryIcons.addIcons(faRightFromBracket, faUserCircle)
+    libraryIcons.addIcons(faRightFromBracket, faUser, faUserGear)
+    this.currentUser = this.authService.getTestUser()
   }
 
   ngOnInit(): void {
     // this.currentUser = this.authService.getUserById(1)
-    this.authService.getUserById(4).subscribe({
-      next: (res) => {
-        this.currentUser = res
-      },
-      error: (err) => {
-        console.error(err)
-      },
-      complete: () => {
-        console.log('Complete login')
-      },
-    })
-
-    console.log(this.currentUser)
+    // this.authService.getUserById(3).subscribe({
+    //   next: (res) => {
+    //     this.currentUser = res
+    //   },
+    //   error: (err) => {
+    //     console.log(err)
+    //   },
+    //   complete: () => {
+    //     console.log('Complete login')
+    //   },
+    // })
   }
 
   logout() {

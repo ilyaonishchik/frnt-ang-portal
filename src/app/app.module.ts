@@ -8,15 +8,16 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome'
 import {AppRoutingModule} from './app-routing.module'
 import {AppComponent} from './app.component'
 import {Page404Component} from './components/page404/page404.component'
-import {WelcomeComponent} from './components/welcome/welcome.component'
+import {SharedModule} from './modules/shared/shared.module'
 import {ToastComponent} from './components/toast/toast.component'
+import {WelcomeComponent} from './components/welcome/welcome.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     Page404Component,
-    WelcomeComponent,
     ToastComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,8 +25,10 @@ import {ToastComponent} from './components/toast/toast.component'
     NgbModule,
     FontAwesomeModule,
     HttpClientModule,
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
+  exports: [],
 })
 export class AppModule {}

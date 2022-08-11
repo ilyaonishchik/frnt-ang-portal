@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light bg-transparent shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">{{getProjectTitle()}}</a>
+    <app-brand brandName='{{getProjectTitle()}}'></app-brand>
     <button
       class="navbar-toggler"
       type="button"
@@ -11,12 +11,13 @@
          class="collapse navbar-collapse"
          id="navbarSupportedContent">
       <ul class='navbar-nav me-auto'>
-        <app-modules *ngIf='false'></app-modules>
+        <app-modules *ngIf='isUserSigned'></app-modules>
       </ul>
       <ul class='navbar-nav d-flex align-items-center flex-row'>
-        <app-messages *ngIf='true'></app-messages>
-        <app-notifications *ngIf='true'></app-notifications>
-        <app-user *ngIf='true'></app-user>
+        <app-messages *ngIf='isUserSigned'></app-messages>
+        <app-notifications *ngIf='isUserSigned'></app-notifications>
+        <app-user *ngIf='isUserSigned'></app-user>
+        <app-sign *ngIf='!isUserSigned'></app-sign>
       </ul>
     </div>
   </div>
