@@ -4,10 +4,13 @@
     <div class="title">Часто используемые ресурсы</div>
     <div class="card-container">
       <button
+        *ngFor="let link of getLinks()"
         class="card card-small"
-        tabindex="0" *ngFor="let link of getLinks()"
+        tabindex="0"
+        placement='bottom'
         (click)="showLink(link.website)"
-        ngbTooltip="{{link.desc? link.desc: link.name}}" placement='bottom' [openDelay]="500"
+        ngbTooltip="{{link.desc? link.desc: link.name}}"
+        [openDelay]="500"
       >
         <span>{{link.name}}</span>
       </button>
