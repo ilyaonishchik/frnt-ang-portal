@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http'
 import {catchError, Observable, retry, throwError} from 'rxjs'
 import {Router} from '@angular/router'
-import {UserInterface} from '../../../types/user'
+import {UserInterface} from '../types/user'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -37,6 +37,16 @@ export class AuthService {
     return this.http.get<UserInterface>(`/api/v1/users/${id}`)
   }
 
+  getTestUser() {
+    const user: UserInterface = {
+      id: 0,
+      name: 'User',
+      email: 'email@example.com',
+      // avatar: 'assets/img/avatars/default.png',
+    }
+    return user
+  }
+
   isSignIn() {
     return this.getToken() !== null
   }
@@ -52,7 +62,18 @@ export class AuthService {
 
   logout() {
     this.deleteToken()
-    this.router.navigate(['/'])
+    let currentUrl = this.router.url
+    if (currentUrl === '/welcome') {
+      // window.location.reload()
+      // this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+      //   this.router.navigate([currentUrl])
+      // })
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false
+      this.router.onSameUrlNavigation = 'reload'
+      this.router.navigate([currentUrl])
+    } else {
+      this.router.navigate(['welcome'])
+    }
   }
 
   handleError(error: any) {
