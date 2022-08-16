@@ -2,6 +2,7 @@
 <div class="flex-center">
   <div class="content" role="main">
     <div class="title">Часто используемые ресурсы</div>
+    <app-datepicker [dateValue]="invoiceDate" (changed)="onDateChanged($event)"></app-datepicker>
     <div class="card-container">
       <button
         *ngFor="let link of getLinks()"

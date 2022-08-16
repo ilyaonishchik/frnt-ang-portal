@@ -1,0 +1,12 @@
+<div class="input-group">
+  <input class="form-control"
+         placeholder="dd.mm.yyyy"
+         name="dp"
+         readonly
+         ngbDatepicker
+         #dp="ngbDatepicker"
+         [(ngModel)]="valueDate"
+         (dateSelect)="change(dateValue)"
+  >
+  <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button">{{dateValue}}</button>
+</div>

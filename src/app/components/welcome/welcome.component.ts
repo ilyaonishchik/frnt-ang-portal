@@ -7,7 +7,10 @@ import {WelcomeService} from './service/welcome.service'
   styleUrls: ['./welcome.component.scss'],
 })
 export class WelcomeComponent implements OnInit {
-  constructor(private welcomeService: WelcomeService) {}
+  invoiceDate: string
+  constructor(private welcomeService: WelcomeService) {
+    this.invoiceDate = new Date().toLocaleDateString()
+  }
 
   ngOnInit(): void {}
 
@@ -17,5 +20,9 @@ export class WelcomeComponent implements OnInit {
 
   showLink(link: string) {
     window.open(link, '_blank')
+  }
+
+  onDateChanged(value: string) {
+    this.invoiceDate = value
   }
 }
