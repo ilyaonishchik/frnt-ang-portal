@@ -1,10 +1,10 @@
-import {Injectable, OnDestroy} from '@angular/core'
+import {Injectable} from '@angular/core'
 import {AvsSerial, filterInterface} from '../components/serial/avs-serial'
 
 @Injectable({
   providedIn: 'root',
 })
-export class SerialService implements OnDestroy {
+export class SerialService {
   serialPort: AvsSerial
   currentPort: any
   options = {
@@ -39,29 +39,30 @@ export class SerialService implements OnDestroy {
 
   async sendToPort(data: string[]) {
     if (this.currentPort) {
-      console.log(`Sending to port: ${data}`)
       for (const dataKey in data) {
         await this.serialPort.sendData(data[dataKey])
       }
     } else {
-      console.error('No opening ports')
+      console.warn('No opening ports')
     }
+  }
+
+  async sendData(data: string[]) {
+    await this.openPort()
+    await this.sendToPort(data)
+    await this.closePort()
+  }
+
+  async clearDigits() {
+    await this.sendData(['#'])
   }
 
   async closePort() {
     if (this.currentPort) {
       await this.serialPort.close((port: any) => {
         this.currentPort = port
-        console.log('Close port')
+        // console.log('Close port')
       })
-    } else {
-      console.warn('No opening ports')
     }
-  }
-
-  ngOnDestroy() {
-    console.log('Serial service destroy...')
-    this.sendToPort(['#']).then((r) => {})
-    this.closePort().then((r) => {})
   }
 }
