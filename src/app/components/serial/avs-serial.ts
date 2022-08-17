@@ -63,6 +63,8 @@ export class AvsSerial {
 
   public setCurrentPort(port: any) {
     this.port = port
+    // console.log(this.port)
+    // localStorage.setItem('serialPort', JSON.stringify(this.port))
   }
 
   public async connect(callback: Function) {
@@ -83,7 +85,7 @@ export class AvsSerial {
       this.readLoop()
 
       callback(this.port)
-    } else console.error('Port undefined')
+    } else console.warn('Port undefined')
   }
 
   // public async connectOld(callback: Function) {
