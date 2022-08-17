@@ -7,9 +7,18 @@
     {{currentUser.name}}
   </ng-container>
   <ng-container dropdown-menu>
-    <li><button class="dropdown-item">
+    <li>
+      <button class="dropdown-item">
       <fa-icon [icon]="['fas', 'user-gear']" class='me-2'></fa-icon>
-      Профиль</button></li>
+      Профиль
+      </button>
+    </li>
+    <li>
+      <button class="dropdown-item" (click)="gotoLink('/admin')">
+      <fa-icon [icon]="['fas', 'user-gear']" class='me-2'></fa-icon>
+      Админка
+      </button>
+    </li>
     <li><button class="dropdown-item">Документы</button></li>
     <li><hr class="dropdown-divider"></li>
     <li><button class="dropdown-item" (click)='logout()'>

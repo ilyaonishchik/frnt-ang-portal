@@ -7,6 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import {AuthService} from '../../../../../services/auth.service'
 import {UserInterface} from '../../../../../types/user'
+import {Router} from '@angular/router'
 // import {Observable} from 'rxjs'
 
 @Component({
@@ -17,7 +18,11 @@ import {UserInterface} from '../../../../../types/user'
 export class UserComponent implements OnInit {
   currentUser: UserInterface
 
-  constructor(private authService: AuthService, libraryIcons: FaIconLibrary) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    libraryIcons: FaIconLibrary
+  ) {
     libraryIcons.addIcons(faRightFromBracket, faUser, faUserGear)
     this.currentUser = this.authService.getTestUser()
   }
@@ -35,6 +40,10 @@ export class UserComponent implements OnInit {
     //     console.log('Complete login')
     //   },
     // })
+  }
+
+  gotoLink(link: string) {
+    this.router.navigate([link])
   }
 
   logout() {
