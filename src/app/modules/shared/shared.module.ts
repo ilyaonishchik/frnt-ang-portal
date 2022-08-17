@@ -19,11 +19,13 @@ import {SignComponent} from './components/navbar/sign/sign.component'
 import {ModulesComponent} from './components/navbar/modules/modules.component'
 import {BrandComponent} from './components/navbar/brand/brand.component'
 import {DatepickerComponent} from './components/datepicker/datepicker.component'
+import {SidebarComponent} from './components/sidebar/sidebar.component'
 
 @NgModule({
   declarations: [
     DropdownComponent,
     DropdownMenuComponent,
+    SidebarComponent,
     NavbarComponent,
     UserComponent,
     MessagesComponent,
@@ -41,6 +43,6 @@ import {DatepickerComponent} from './components/datepicker/datepicker.component'
     NgbDatepickerModule,
     FormsModule,
   ],
-  exports: [NavbarComponent, DatepickerComponent],
+  exports: [NavbarComponent, SidebarComponent, DatepickerComponent],
 })
 export class SharedModule {}
