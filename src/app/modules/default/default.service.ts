@@ -7,53 +7,17 @@ import {ModuleInterface} from './module.interface'
 export class DefaultService {
   modules: ModuleInterface[] = [
     {
-      name: 'Сортировка ПСМИ',
-      description: 'Сортировка печатных СМИ поступивших в розницу',
-      link: '/sortirovka',
+      name: 'Сортировка подписки',
+      description: 'Сортировка печатных СМИ выписанных подписчиками',
+      link: '/sorting/pdp',
       status: true,
     },
     {
-      name: 'Сортировка подписки',
-      description: 'Сортировка печатных СМИ выписанных подписчиками',
-      link: '/sortirovka',
-      status: false,
+      name: 'Сортировка ПСМИ',
+      description: 'Сортировка печатных СМИ поступивших в розницу',
+      link: '/sorting/rzn',
+      status: true,
     },
-    // {
-    //   name: 'Сортировка ПСМИ',
-    //   description: 'Сортировка печатных СМИ поступивших в розницу',
-    //   link: '/sortirovka',
-    //   status: true,
-    // },
-    // {
-    //   name: 'Сортировка подписки',
-    //   description: 'Сортировка печатных СМИ выписанных подписчиками',
-    //   link: '/sortirovka',
-    //   status: true,
-    // },
-    // {
-    //   name: 'Сортировка ПСМИ',
-    //   description: 'Сортировка печатных СМИ поступивших в розницу',
-    //   link: '/sortirovka',
-    //   status: true,
-    // },
-    // {
-    //   name: 'Сортировка подписки',
-    //   description: 'Сортировка печатных СМИ выписанных подписчиками',
-    //   link: '/sortirovka',
-    //   status: true,
-    // },
-    // {
-    //   name: 'Сортировка ПСМИ',
-    //   description: 'Сортировка печатных СМИ поступивших в розницу',
-    //   link: '/sortirovka',
-    //   status: true,
-    // },
-    // {
-    //   name: 'Сортировка подписки',
-    //   description: 'Сортировка печатных СМИ выписанных подписчиками',
-    //   link: '/sortirovka',
-    //   status: true,
-    // },
   ]
 
   constructor() {}
