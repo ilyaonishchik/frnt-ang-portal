@@ -1,0 +1,38 @@
+<form [formGroup]='searchForm'>
+  <div class='row'>
+    <div class='col-auto mb-3'>
+      <app-datepicker
+        [valueDate]='invoiceDate'
+        (changed)='onChangeInvoiceDate($event)'
+      ></app-datepicker>
+    </div>
+    <div class='col-auto mb-3'>
+      <div class="input-group">
+        <span class="input-group-text" id="barcode-addon">
+          <fa-icon [icon]="['fas','barcode']"></fa-icon>
+        </span>
+        <input
+          [ngClass]="searchForm.invalid ? 'is-invalid' : ''"
+          type="text" class="form-control" placeholder="Введите штрихкод"
+          aria-label="Barcode" aria-describedby="barcode-addon"
+          formControlName='pressCode'
+          (change)='onChangePressCode($event)'>
+          <div class="invalid-tooltip">Введите корректный штрихкод</div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class='mb-3'>
+  <h4 *ngIf='!searching'>Для начала сортировки отсканируйте штрихкод издания...</h4>
+  <p *ngIf='items.length; else notFound' class='h4'>
+    (<span style='color: forestgreen'>{{items[0].indizd}}</span>)
+    {{items[0].naimen}} [{{items[0].nom_izd}}]:
+    <span style='color: #2470dc'>{{items[0].nom_count}}</span>
+    {{items[0].magazine}}
+  </p>
+</div>
+
+<ng-template #notFound>
+  <h4 *ngIf='searching'>Издание со штрихкодом: {{searchCode}} не найдено.</h4>
+</ng-template>
