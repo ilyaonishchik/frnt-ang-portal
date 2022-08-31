@@ -7,6 +7,9 @@ import {AppService} from '../../../../services/app.service'
   styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent implements OnInit {
+  password1!: string
+  password2!: string
+
   constructor(private appService: AppService) {}
 
   ngOnInit(): void {}
