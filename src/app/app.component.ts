@@ -1,5 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core'
-import {ToastService} from './services/toast.service'
+import {Component, OnInit} from '@angular/core'
 import {PrimeNGConfig} from 'primeng/api'
 
 @Component({
@@ -7,17 +6,12 @@ import {PrimeNGConfig} from 'primeng/api'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
-  title = 'portal'
-
-  constructor(
-    public toastService: ToastService,
-    private primeConfig: PrimeNGConfig
-  ) {}
+export class AppComponent implements OnInit {
+  constructor(private primeConfig: PrimeNGConfig) {}
 
   ngOnInit() {
-    this.primeConfig.ripple = true
     document.documentElement.style.fontSize = '15px'
+    this.primeConfig.ripple = false
     this.primeConfig.setTranslation({
       passwordPrompt: 'Введите пароль',
       weak: 'Легкий',
@@ -25,12 +19,34 @@ export class AppComponent implements OnInit, OnDestroy {
       strong: 'Сложный',
 
       dateFormat: 'dd.mm.yy',
-      // monthNames: ['',],
-      // monthNamesShort: [''],
+      monthNames: [
+        'Январь',
+        'Февраль',
+        'Март',
+        'Апрель',
+        'Май',
+        'Июнь',
+        'Июль',
+        'Август',
+        'Сентябрь',
+        'Октябрь',
+        'Ноябрь',
+        'Декабрь',
+      ],
+      monthNamesShort: [
+        'Янв',
+        'Фев',
+        'Мар',
+        'Апр',
+        'Май',
+        'Июн',
+        'Июл',
+        'Авг',
+        'Сен',
+        'Окт',
+        'Ноя',
+        'Дек',
+      ],
     })
-  }
-
-  ngOnDestroy(): void {
-    this.toastService.clear()
   }
 }
