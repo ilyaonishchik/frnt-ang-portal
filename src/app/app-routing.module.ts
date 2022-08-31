@@ -13,16 +13,6 @@ const routes: Routes = [
   //     loadChildren: () =>
   //       import('./modules/default/default.module').then((m) => m.DefaultModule),
   //   },
-  {
-    path: 'auth',
-    loadChildren: () =>
-      import('./modules/auth/auth.module').then((m) => m.AuthModule),
-  },
-  {
-    path: 'error',
-    loadChildren: () =>
-      import('./modules/errors/errors.module').then((m) => m.ErrorsModule),
-  },
   //   {
   //     path: 'admin',
   //     canActivate: [AuthGuard],
@@ -42,12 +32,33 @@ const routes: Routes = [
   //         (m) => m.SortirovkaModule
   //       ),
   //   },
-  //   {
-  //     path: 'welcome',
-  //     component: WelcomeComponent,
-  //   },
+  // {
+  //   path: '',
+  //   loadChildren: () =>
+  //     import('./modules/main/main.module').then((m) => m.MainModule),
+  // },
   //   {path: '', redirectTo: 'default', pathMatch: 'full'},
-  {path: '', component: AppLayoutComponent},
+  {
+    path: '',
+    component: AppLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./modules/main/main.module').then((m) => m.MainModule),
+      },
+    ],
+  },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./modules/auth/auth.module').then((m) => m.AuthModule),
+  },
+  {
+    path: 'error',
+    loadChildren: () =>
+      import('./modules/errors/errors.module').then((m) => m.ErrorsModule),
+  },
   {path: '**', redirectTo: 'error', pathMatch: 'full'},
 ]
 
