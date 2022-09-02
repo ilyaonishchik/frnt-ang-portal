@@ -15,14 +15,31 @@ const httpOptions = {
   }),
 }
 
+interface AuthState {
+  userSignedIn: boolean
+  redirectUrl: string
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient, private router: Router) {}
+  state: AuthState = {
+    userSignedIn: false,
+    redirectUrl: '/',
+  }
+
+  constructor(private http: HttpClient, private router: Router) {
+    this.state.userSignedIn = this.getToken() !== null
+  }
+
+  redirect() {
+    this.router.navigate([this.state.redirectUrl])
+  }
 
   setToken(token: string) {
     localStorage.setItem('token', token)
+    this.state.userSignedIn = true
   }
 
   getToken() {
@@ -31,6 +48,7 @@ export class AuthService {
 
   deleteToken() {
     localStorage.removeItem('token')
+    this.state.userSignedIn = false
   }
 
   getUserById(id: number) {
@@ -47,10 +65,6 @@ export class AuthService {
     return user
   }
 
-  isSignIn() {
-    return this.getToken() !== null
-  }
-
   signIn(userInfo: {username: string; password: string}): Observable<any> {
     const params = new HttpParams({
       fromObject: {username: userInfo.username, password: userInfo.password},
@@ -64,10 +78,6 @@ export class AuthService {
     this.deleteToken()
     let currentUrl = this.router.url
     if (currentUrl === '/welcome') {
-      // window.location.reload()
-      // this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-      //   this.router.navigate([currentUrl])
-      // })
       this.router.routeReuseStrategy.shouldReuseRoute = () => false
       this.router.onSameUrlNavigation = 'reload'
       this.router.navigate([currentUrl])
