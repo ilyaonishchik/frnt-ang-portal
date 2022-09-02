@@ -14,7 +14,7 @@ import {AuthService} from '../services/auth.service'
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate, CanDeactivate<unknown> {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(public authService: AuthService, private router: Router) {}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -25,9 +25,10 @@ export class AuthGuard implements CanActivate, CanDeactivate<unknown> {
     | UrlTree {
     // console.log(state.url)
     // console.log(route.fragment)
+    // console.log('AuthGuard:', this.authService.state.userSignedIn)
     //TODO Добавить контрольна админские права
-    if (!this.authService.isSignIn()) {
-      if (state.url === '/default') {
+    if (!this.authService.state.userSignedIn) {
+      if (state.url === '/') {
         this.router.navigate(['welcome'])
       } else {
         this.router.navigate(['auth/sign-in'])
