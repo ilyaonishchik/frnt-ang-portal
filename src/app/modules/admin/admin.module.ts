@@ -4,11 +4,11 @@ import {CommonModule} from '@angular/common'
 import {AdminRoutingModule} from './admin-routing.module'
 
 import {MainComponent} from './components/main/main.component'
-import {SharedModule} from '../shared/shared.module'
+// import {SharedModule} from '../shared/shared.module'
 
 @NgModule({
   declarations: [MainComponent],
-  imports: [CommonModule, AdminRoutingModule, SharedModule],
+  imports: [CommonModule, AdminRoutingModule],
   exports: [],
 })
 export class AdminModule {}
