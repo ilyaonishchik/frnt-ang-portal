@@ -10,11 +10,7 @@ export class SignUpComponent implements OnInit {
   password1!: string
   password2!: string
 
-  constructor(private appService: AppService) {}
+  constructor(public appService: AppService) {}
 
   ngOnInit(): void {}
-
-  getProjectTitle() {
-    return this.appService.projectTitle
-  }
 }

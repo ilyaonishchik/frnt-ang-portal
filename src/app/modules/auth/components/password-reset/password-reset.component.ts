@@ -7,11 +7,7 @@ import {AppService} from '../../../../services/app.service'
   styleUrls: ['./password-reset.component.scss'],
 })
 export class PasswordResetComponent implements OnInit {
-  constructor(private appService: AppService) {}
+  constructor(public appService: AppService) {}
 
   ngOnInit(): void {}
-
-  getProjectTitle() {
-    return this.appService.projectTitle
-  }
 }

@@ -11,6 +11,9 @@ import {CheckboxModule} from 'primeng/checkbox'
 import {InputTextModule} from 'primeng/inputtext'
 import {ButtonModule} from 'primeng/button'
 import {RippleModule} from 'primeng/ripple'
+import {ToastModule} from 'primeng/toast'
+import {MessagesModule} from 'primeng/messages'
+import {MessageModule} from 'primeng/message'
 
 @NgModule({
   declarations: [SignInComponent, SignUpComponent, PasswordResetComponent],
@@ -24,6 +27,9 @@ import {RippleModule} from 'primeng/ripple'
     ButtonModule,
     RippleModule,
     FormsModule,
+    MessagesModule,
+    MessageModule,
+    ToastModule,
   ],
 })
 export class AuthModule {}

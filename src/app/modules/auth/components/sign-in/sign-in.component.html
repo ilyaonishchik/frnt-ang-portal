@@ -1,7 +1,11 @@
 <div class="surface-0 flex align-items-start justify-content-center min-h-screen min-w-screen overflow-hidden">
   <div class="grid justify-content-center pt-4" style="min-width:80%">
-    <div class="col-12 mt-0 text-center">
-      <img src="assets/img/project.png" alt="BP logo" class="mb-5" style="width:60px; height:60px;">
+    <p-toast key='sign-in' position='top-right'></p-toast>
+    <div class="col-12 text-center mb-2">
+      <p-button styleClass="p-button-text p-button-plain" routerLink='/'>
+        <img src="assets/img/project.png" alt="Logo" style="width: 2rem"/>
+        <span class='ml-2 text-2xl'>{{appService.projectTitle}}</span>
+      </p-button>
     </div>
     <div class="col-12 md:col-10 lg:col-8 xl:col-6" style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
       <div class="h-full w-full m-0 py-5 px-4" style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
@@ -13,12 +17,17 @@
         <div class="w-full md:w-10 mx-auto">
           <div class='field'>
             <label for="username" class="block text-900 text-xl font-medium">Пользователь</label>
-            <input id="username" type="text" placeholder="Имя пользователя" pInputText class="w-full p-3">
+            <input
+              id="username" [(ngModel)]='username'
+              type="text"
+              placeholder="Имя пользователя"
+              pInputText required
+              class="w-full p-3">
           </div>
           <div class='field'>
             <label for="password1" class="block text-900 font-medium text-xl">Пароль</label>
             <p-password
-              id="password1" [ngModel]='password'
+              id="password1" [(ngModel)]='password'
               placeholder="Пароль"
               [toggleMask]='true'
               styleClass="w-full">
@@ -26,14 +35,14 @@
           </div>
           <div class="flex align-items-center mb-3">
             <p-checkbox id="rememberme" [binary]="true" styleClass="mr-2"></p-checkbox>
-            <label for="rememberme">Запомнить меня</label>
+            <label for="rememberme" class='text-xl'>Запомнить меня</label>
           </div>
 
-          <button pButton pRipple label="Войти" class="w-full p-3 text-xl"></button>
+          <button pButton pRipple label="Войти" class="w-full p-3 text-xl" (click)='submitLogin()'></button>
 
           <div class="flex justify-content-between mt-3">
-            <p-button routerLink='/auth/sign-up' label='Зарегистрироваться' styleClass='p-button-text p-button-success'></p-button>
-            <p-button routerLink='/auth/pass-reset' label='Забыли пароль?' styleClass='p-button-text p-button-danger'></p-button>
+            <p-button routerLink='/auth/sign-up' label='Зарегистрироваться' styleClass='p-button-text p-button-success text-xl'></p-button>
+            <p-button routerLink='/auth/pass-reset' label='Забыли пароль?' styleClass='p-button-text p-button-danger text-xl'></p-button>
           </div>
         </div>
       </div>
