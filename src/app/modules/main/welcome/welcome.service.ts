@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core'
-import {LinkInterface} from '../types/link.interface'
+import {LinkInterface} from './link.interface'
 
 @Injectable({
   providedIn: 'root',
