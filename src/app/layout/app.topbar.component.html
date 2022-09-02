@@ -4,7 +4,11 @@
         <span>Бизнес-портал</span>
     </a>
 
-<!--    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">-->
+<!--    <button-->
+<!--      *ngIf='isSigned()'-->
+<!--      #menubutton-->
+<!--      class="p-link layout-menu-button layout-topbar-button"-->
+<!--      (click)="layoutService.onMenuToggle()">-->
 <!--        <i class="pi pi-bars"></i>-->
 <!--    </button>-->
 
@@ -13,37 +17,54 @@
     </button>
 
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <ng-container *ngIf='isSigned()'>
-<!--            <button class="p-link layout-topbar-button">-->
-<!--                <i class="pi pi-calendar" pBadge value='895'></i>-->
-<!--                <span>Календарь</span>-->
-<!--            </button>-->
-            <button class="p-link layout-topbar-button">
+        <ng-container *ngIf='authService.state.userSignedIn'>
+            <button
+              class="p-link layout-topbar-button"
+              pTooltip='Профиль'
+              tooltipPosition='bottom'
+              [showDelay]='1000'
+              [routerLink]="'/'">
                 <i class="pi pi-user"></i>
                 <span>Профиль</span>
             </button>
-            <button class='p-link layout-topbar-button' [routerLink]="'/auth/sign-out'">
+            <button
+              class="p-link layout-topbar-button"
+              pTooltip='Админка'
+              tooltipPosition='bottom'
+              [showDelay]='1000'
+              [routerLink]="'/admin'">
+                <i class="pi pi-cog"></i>
+                <span>Админка</span>
+            </button>
+            <button
+              class='p-link layout-topbar-button'
+              pTooltip='Выход'
+              tooltipPosition='bottom'
+              [showDelay]='1000'
+              (click)='logout()'>
                 <i class='pi pi-sign-out'></i>
                 <span>Выйти</span>
             </button>
         </ng-container>
-        <ng-container *ngIf='!isSigned()'>
-            <button class='p-link layout-topbar-button' [routerLink]="'/auth/sign-in'">
+        <ng-container *ngIf='!authService.state.userSignedIn'>
+            <button
+              class='p-link layout-topbar-button'
+              pTooltip='Авторизация'
+              tooltipPosition='bottom'
+              [showDelay]='1000'
+              [routerLink]="'/auth/sign-in'">
                 <i class='pi pi-sign-in'></i>
                 <span>Войти</span>
             </button>
-            <button class='p-link layout-topbar-button' [routerLink]="'/auth/sign-up'">
+            <button
+              class='p-link layout-topbar-button'
+              pTooltip='Регистрация'
+              tooltipPosition='bottom'
+              [showDelay]='1000'
+              [routerLink]="'/auth/sign-up'">
                 <i class='pi pi-user-plus'></i>
                 <span>Регистрация</span>
             </button>
         </ng-container>
-<!--        <button class="p-link layout-topbar-button">-->
-<!--            <i class="pi pi-user"></i>-->
-<!--            <span>Профиль</span>-->
-<!--        </button>-->
-<!--        <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">-->
-<!--            <i class="pi pi-cog"></i>-->
-<!--            <span>Settings</span>-->
-<!--        </button>-->
     </div>
 </div>
