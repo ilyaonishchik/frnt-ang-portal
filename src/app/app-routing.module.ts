@@ -1,10 +1,9 @@
 import {NgModule} from '@angular/core'
 import {RouterModule, Routes} from '@angular/router'
 import {AppLayoutComponent} from './layout/app.layout.component'
+import {SignedOutGuard} from './guards/signed-out.guard'
 
-// import {AuthGuard} from './guards/auth.guard'
-
-// import {WelcomeComponent} from './components/welcome/welcome.component'
+import {SignedInGuard} from './guards/signed-in.guard'
 
 const routes: Routes = [
   // {
@@ -13,13 +12,13 @@ const routes: Routes = [
   //     loadChildren: () =>
   //       import('./modules/default/default.module').then((m) => m.DefaultModule),
   //   },
-  //   {
-  //     path: 'admin',
-  //     canActivate: [AuthGuard],
-  //     // canDeactivate: [AuthGuard],
-  //     loadChildren: () =>
-  //       import('./modules/admin/admin.module').then((m) => m.AdminModule),
-  //   },
+  {
+    path: 'admin',
+    canLoad: [SignedInGuard],
+    canActivate: [SignedInGuard],
+    loadChildren: () =>
+      import('./modules/admin/admin.module').then((m) => m.AdminModule),
+  },
   //   {
   //     path: 'sorting',
   //     loadChildren: () =>
@@ -51,6 +50,7 @@ const routes: Routes = [
   },
   {
     path: 'auth',
+    canActivate: [SignedOutGuard],
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
@@ -63,7 +63,13 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      enableTracing: false,
+      // preloadingStrategy: null,
+      useHash: false,
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
