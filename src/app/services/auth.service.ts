@@ -60,9 +60,27 @@ export class AuthService {
       id: 0,
       name: 'User',
       email: 'email@example.com',
-      // avatar: 'assets/img/avatars/default.png',
+      avatar: 'assets/img/avatars/default.png',
+      desc: 'Test User',
     }
     return user
+  }
+
+  setUserInfo(user: UserInterface) {
+    localStorage.setItem('user', JSON.stringify(user))
+    // this.state.userInfo = user
+  }
+
+  getUserInfo() {
+    const user = localStorage.getItem('user')
+    if (user) {
+      return JSON.parse(user)
+    }
+    return null
+  }
+
+  deleteUserInfo() {
+    localStorage.removeItem('user')
   }
 
   signIn(userInfo: {username: string; password: string}): Observable<any> {
@@ -76,6 +94,7 @@ export class AuthService {
 
   logout() {
     this.deleteToken()
+    this.deleteUserInfo()
     let currentUrl = this.router.url
     if (currentUrl === '/welcome') {
       this.router.routeReuseStrategy.shouldReuseRoute = () => false

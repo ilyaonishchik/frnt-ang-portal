@@ -41,9 +41,15 @@ export class SignInComponent implements OnInit {
       .signIn({username: this.username, password: this.password})
       .subscribe({
         next: (res) => {
-          console.log(res.access_token)
           this.authService.setToken(res.access_token)
+          this.authService.setUserInfo(res.user)
           this.authService.redirect()
+          // this.messageService.add({
+          //   key: 'sign-in',
+          //   severity: 'success',
+          //   summary: 'Успешная авторизация',
+          //   detail: `Приветствуем вас: ${res.user.name}!`,
+          // })
         },
         error: (err) => {
           console.warn(err)
