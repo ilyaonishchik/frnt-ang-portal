@@ -48,7 +48,7 @@ export class SignedInGuard implements CanActivate, CanLoad {
       return true
     }
     this.authService.state.redirectUrl = url
-    this.router.navigate(['/auth/sign-in'])
+    this.router.navigate(['/auth/sign-in']).then((r) => {})
     return false
   }
 }

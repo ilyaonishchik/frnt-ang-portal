@@ -5,9 +5,16 @@ import {
   HttpHeaders,
   HttpParams,
 } from '@angular/common/http'
-import {catchError, Observable, retry, throwError} from 'rxjs'
 import {Router} from '@angular/router'
-import {UserInterface} from '../types/user'
+
+import {catchError, Observable, retry, throwError} from 'rxjs'
+
+import {
+  IUserReset,
+  IUserSignIn,
+  IUserSignUp,
+  UserInterface,
+} from '../types/user'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -33,8 +40,12 @@ export class AuthService {
     this.state.userSignedIn = this.getToken() !== null
   }
 
-  redirect() {
-    this.router.navigate([this.state.redirectUrl])
+  redirect(url?: string) {
+    if (url) {
+      this.router.navigateByUrl(url).then((r) => {})
+    } else {
+      this.router.navigateByUrl(this.state.redirectUrl).then((r) => {})
+    }
   }
 
   setToken(token: string) {
@@ -83,26 +94,38 @@ export class AuthService {
     localStorage.removeItem('user')
   }
 
-  signIn(userInfo: {username: string; password: string}): Observable<any> {
+  signIn(user: IUserSignIn): Observable<any> {
     const params = new HttpParams({
-      fromObject: {username: userInfo.username, password: userInfo.password},
+      fromObject: {username: user.name, password: user.password},
     })
     return this.http
       .post('/api/v1/auth/login', params, httpOptions)
       .pipe(retry(1), catchError(this.handleError))
   }
 
-  logout() {
+  signUp(user: IUserSignUp): Observable<any> {
+    return this.http
+      .post('/api/v1/auth/signup', user)
+      .pipe(retry(1), catchError(this.handleError))
+  }
+
+  signOut() {
     this.deleteToken()
     this.deleteUserInfo()
     let currentUrl = this.router.url
     if (currentUrl === '/welcome') {
       this.router.routeReuseStrategy.shouldReuseRoute = () => false
       this.router.onSameUrlNavigation = 'reload'
-      this.router.navigate([currentUrl])
+      this.router.navigateByUrl(currentUrl).then((r) => {})
     } else {
-      this.router.navigate(['welcome'])
+      this.router.navigateByUrl('/welcome').then((r) => {})
     }
+  }
+
+  resetPassword(user: IUserReset): Observable<any> {
+    return this.http
+      .post('/api/v1/auth/reset', user)
+      .pipe(retry(1), catchError(this.handleError))
   }
 
   handleError(error: any) {

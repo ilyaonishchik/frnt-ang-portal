@@ -24,6 +24,6 @@ export class AppTopBarComponent implements OnInit {
   ngOnInit() {}
 
   logout() {
-    this.authService.logout()
+    this.authService.signOut()
   }
 }

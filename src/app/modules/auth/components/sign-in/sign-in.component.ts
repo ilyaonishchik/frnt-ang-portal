@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core'
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 
 import {MessageService} from 'primeng/api'
 
@@ -12,58 +13,60 @@ import {AppService} from '../../../../services/app.service'
   providers: [MessageService],
 })
 export class SignInComponent implements OnInit {
-  valCheck: string[] = ['remember']
-
-  username!: string
-  password!: string
+  signInForm!: FormGroup
 
   constructor(
     public appService: AppService,
     public authService: AuthService,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private formBuilder: FormBuilder
+  ) {
+    this.makeForm()
+  }
 
-  ngOnInit(): void {
-    // this.loginForm = this.fb.group({
-    //   username: ['', [Validators.required, Validators.minLength(3)]],
-    //   password: [
-    //     '',
-    //     [
-    //       Validators.required,
-    //       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/),
-    //     ],
-    //   ],
-    // })
+  ngOnInit(): void {}
+
+  get f() {
+    return this.signInForm.controls
+  }
+
+  makeForm() {
+    this.signInForm = this.formBuilder.group({
+      username: [null, [Validators.required]],
+      password: [null, [Validators.required]],
+      remember: [false],
+    })
+  }
+
+  resetForm() {
+    this.signInForm.reset()
   }
 
   submitLogin() {
-    this.authService
-      .signIn({username: this.username, password: this.password})
-      .subscribe({
-        next: (res) => {
-          this.authService.setToken(res.access_token)
-          this.authService.setUserInfo(res.user)
-          this.authService.redirect()
-          // this.messageService.add({
-          //   key: 'sign-in',
-          //   severity: 'success',
-          //   summary: 'Успешная авторизация',
-          //   detail: `Приветствуем вас: ${res.user.name}!`,
-          // })
-        },
-        error: (err) => {
-          console.warn(err)
-          // this.loginForm.setErrors([err])
-          this.messageService.add({
-            key: 'sign-in',
-            severity: 'warn',
-            summary: 'Внимание',
-            detail: err,
-          })
-        },
-        complete: () => {
-          console.log('Complete login')
-        },
-      })
+    this.authService.signIn(this.signInForm.value).subscribe({
+      next: (res) => {
+        this.authService.setToken(res.access_token)
+        this.authService.setUserInfo(res.user)
+        this.authService.redirect()
+        //       // this.messageService.add({
+        //       //   key: 'sign-in',
+        //       //   severity: 'success',
+        //       //   summary: 'Успешная авторизация',
+        //       //   detail: `Приветствуем вас: ${res.user.name}!`,
+        //       // })
+      },
+      error: (err) => {
+        console.warn(err)
+        this.messageService.add({
+          key: 'sign-in',
+          severity: 'warn',
+          summary: 'Внимание',
+          detail: err,
+        })
+      },
+      complete: () => {
+        console.log('Complete login')
+      },
+    })
   }
 }
