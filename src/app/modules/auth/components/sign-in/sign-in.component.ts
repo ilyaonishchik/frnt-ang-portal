@@ -46,7 +46,6 @@ export class SignInComponent implements OnInit {
     this.authService.signIn(this.signInForm.value).subscribe({
       next: (res) => {
         this.authService.setToken(res.access_token)
-        this.authService.setUserInfo(res.user)
         this.authService.redirect()
         //       // this.messageService.add({
         //       //   key: 'sign-in',
@@ -56,17 +55,18 @@ export class SignInComponent implements OnInit {
         //       // })
       },
       error: (err) => {
-        console.warn(err)
+        console.warn(err.code)
         this.messageService.add({
           key: 'sign-in',
           severity: 'warn',
           summary: 'Внимание',
-          detail: err,
+          detail: err.message,
         })
       },
       complete: () => {
         console.log('Complete login')
       },
     })
+    this.resetForm()
   }
 }

@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isUserSigned = this.authService.isSignIn()
+    this.isUserSigned = this.authService.state.userSignedIn
   }
 
   getProjectTitle() {

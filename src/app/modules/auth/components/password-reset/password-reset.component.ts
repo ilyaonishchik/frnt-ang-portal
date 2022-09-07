@@ -52,12 +52,12 @@ export class PasswordResetComponent implements OnInit {
         //       // })
       },
       error: (err) => {
-        console.warn(err)
+        console.warn(err.code)
         this.messageService.add({
           key: 'reset',
           severity: 'warn',
           summary: 'Внимание',
-          detail: err,
+          detail: err.message,
         })
         this.resetForm()
       },

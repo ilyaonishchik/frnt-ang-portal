@@ -15,6 +15,7 @@ import {
   IUserSignUp,
   UserInterface,
 } from '../types/user'
+import {IErrorMessage} from '../types/error'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -69,7 +70,7 @@ export class AuthService {
   getTestUser() {
     const user: UserInterface = {
       id: 0,
-      name: 'User',
+      username: 'User',
       email: 'email@example.com',
       avatar: 'assets/img/avatars/default.png',
       desc: 'Test User',
@@ -96,10 +97,10 @@ export class AuthService {
 
   signIn(user: IUserSignIn): Observable<any> {
     const params = new HttpParams({
-      fromObject: {username: user.name, password: user.password},
+      fromObject: {username: user.username, password: user.password},
     })
     return this.http
-      .post('/api/v1/auth/login', params, httpOptions)
+      .post('/api/v1/auth/signin', params, httpOptions)
       .pipe(retry(1), catchError(this.handleError))
   }
 
@@ -128,25 +129,44 @@ export class AuthService {
       .pipe(retry(1), catchError(this.handleError))
   }
 
-  handleError(error: any) {
-    let errorMessage: string = ''
+  handleError(e: any) {
+    console.log(e)
+    let errorMessage: IErrorMessage
 
-    switch (error.constructor) {
+    switch (e.constructor) {
       case HttpErrorResponse:
-        switch (error.status) {
+        switch (e.status) {
           case 400:
-            errorMessage = error.error.message
+            errorMessage = {
+              code: e.error.error,
+              message: e.error.message,
+            }
+            break
+          case 422:
+            errorMessage = {
+              code: e.error.detail[0].type,
+              message: e.error.detail[0].msg,
+            }
             break
           default:
-            errorMessage = error.statusText
+            errorMessage = {
+              code: 'error',
+              message: e.statusText,
+            }
             break
         }
         break
       case ErrorEvent:
-        errorMessage = error.error.message
+        errorMessage = {
+          code: 'errorEvent',
+          message: e.error.message,
+        }
         break
       default:
-        errorMessage = error.error.message
+        errorMessage = {
+          code: 'errorDefault',
+          message: e.error.message,
+        }
     }
 
     return throwError(() => {

@@ -1,18 +1,18 @@
 export interface UserInterface {
   id: number
-  name: string
+  username: string
   email?: string
   desc?: string
   avatar?: string
 }
 
 export interface IUserSignIn {
-  name: string
+  username: string
   password: string
 }
 
 export interface IUserSignUp {
-  name: string
+  username: string
   email: string
   password: string
 }

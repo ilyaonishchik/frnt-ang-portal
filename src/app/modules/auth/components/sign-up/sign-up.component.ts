@@ -32,7 +32,16 @@ export class SignUpComponent implements OnInit {
     this.signUpForm = this.formBuilder.group(
       {
         username: [null, [Validators.required, Validators.minLength(3)]],
-        email: [null, [Validators.required, Validators.email]],
+        email: [
+          null,
+          [
+            Validators.required,
+            Validators.email,
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+            // ),
+          ],
+        ],
         password: [null, [Validators.required, Validators.minLength(6)]],
         password2: [null, [Validators.required]],
       },
@@ -48,31 +57,31 @@ export class SignUpComponent implements OnInit {
 
   submitSignUp() {
     console.log(this.signUpForm)
-    // this.authService.signUp(this.signUpForm.value).subscribe({
-    //   next: (res) => {
-    //     console.log(res)
-    //     this.messageService.add({
-    //       key: 'sign-up',
-    //       severity: 'success',
-    //       summary: 'Внимание',
-    //       detail: `Заявка на регистрацию пользователя: ${res.name} принята.`,
-    //     })
-    //     // this.authService.setToken(res.access_token)
-    //     // this.authService.redirect()
-    //   },
-    //   error: (err) => {
-    //     console.warn(err)
-    //     this.messageService.add({
-    //       key: 'sign-up',
-    //       severity: 'warn',
-    //       summary: 'Внимание',
-    //       detail: err,
-    //     })
-    //   },
-    //   complete: () => {
-    //     console.log('Complete sign-up')
-    //   },
-    // })
+    this.authService.signUp(this.signUpForm.value).subscribe({
+      next: (res) => {
+        console.log(res)
+        this.messageService.add({
+          key: 'sign-up',
+          severity: 'success',
+          summary: 'Внимание',
+          detail: `Заявка на регистрацию пользователя: ${res.username} принята.`,
+        })
+        // this.authService.setToken(res.access_token)
+        // this.authService.redirect()
+      },
+      error: (err) => {
+        console.warn(err.code)
+        this.messageService.add({
+          key: 'sign-up',
+          severity: 'warn',
+          summary: 'Внимание',
+          detail: err.message,
+        })
+      },
+      complete: () => {
+        console.log('Complete sign-up')
+      },
+    })
   }
 
   resetForm() {
