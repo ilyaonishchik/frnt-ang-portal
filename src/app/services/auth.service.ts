@@ -43,9 +43,9 @@ export class AuthService {
 
   redirect(url?: string) {
     if (url) {
-      this.router.navigateByUrl(url).then((r) => {})
+      this.router.navigateByUrl(url).then((_) => {})
     } else {
-      this.router.navigateByUrl(this.state.redirectUrl).then((r) => {})
+      this.router.navigateByUrl(this.state.redirectUrl).then((_) => {})
     }
   }
 
@@ -123,9 +123,9 @@ export class AuthService {
     if (currentUrl === '/welcome') {
       this.router.routeReuseStrategy.shouldReuseRoute = () => false
       this.router.onSameUrlNavigation = 'reload'
-      this.router.navigateByUrl(currentUrl).then((r) => {})
+      this.router.navigateByUrl(currentUrl).then((_) => {})
     } else {
-      this.router.navigateByUrl('/welcome').then((r) => {})
+      this.router.navigateByUrl('/welcome').then((_) => {})
     }
   }
 

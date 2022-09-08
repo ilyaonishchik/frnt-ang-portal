@@ -18,6 +18,7 @@ import {AppConfigModule} from './config/config.module'
 import {AppSidebarComponent} from './app.sidebar.component'
 import {AppLayoutComponent} from './app.layout.component'
 import {TooltipModule} from 'primeng/tooltip'
+import {DividerModule} from 'primeng/divider'
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import {TooltipModule} from 'primeng/tooltip'
     RouterModule,
     AppConfigModule,
     TooltipModule,
+    DividerModule,
   ],
   exports: [AppLayoutComponent, AppTopBarComponent, AppSidebarComponent],
 })
