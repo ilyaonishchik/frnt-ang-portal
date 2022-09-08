@@ -110,6 +110,12 @@ export class AuthService {
       .pipe(retry(1), catchError(this.handleError))
   }
 
+  verifyCode(code: string): Observable<any> {
+    return this.http
+      .get('/api/v1/auth/verify/' + code)
+      .pipe(retry(1), catchError(this.handleError))
+  }
+
   signOut() {
     this.deleteToken()
     this.deleteUserInfo()
@@ -130,7 +136,6 @@ export class AuthService {
   }
 
   handleError(e: any) {
-    console.log(e)
     let errorMessage: IErrorMessage
 
     switch (e.constructor) {

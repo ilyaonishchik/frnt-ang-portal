@@ -13,9 +13,15 @@ import {AuthRoutingModule} from './auth-routing.module'
 import {SignInComponent} from './components/sign-in/sign-in.component'
 import {SignUpComponent} from './components/sign-up/sign-up.component'
 import {PasswordResetComponent} from './components/password-reset/password-reset.component'
+import {VerifyComponent} from './components/verify/verify.component'
 
 @NgModule({
-  declarations: [SignInComponent, SignUpComponent, PasswordResetComponent],
+  declarations: [
+    SignInComponent,
+    SignUpComponent,
+    PasswordResetComponent,
+    VerifyComponent,
+  ],
   imports: [
     CommonModule,
     AuthRoutingModule,
