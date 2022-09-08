@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core'
-import {AppService} from '../../../../services/app.service'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
-import {AuthService} from '../../../../services/auth.service'
+
 import {MessageService} from 'primeng/api'
+
+import {AppService} from '../../../../services/app.service'
+import {AuthService} from '../../../../services/auth.service'
 
 @Component({
   selector: 'app-password-reset',
   templateUrl: './password-reset.component.html',
   styleUrls: ['./password-reset.component.scss'],
-  providers: [MessageService],
 })
 export class PasswordResetComponent implements OnInit {
   resetPasswordForm!: FormGroup
@@ -54,7 +55,7 @@ export class PasswordResetComponent implements OnInit {
       error: (err) => {
         console.warn(err.code)
         this.messageService.add({
-          key: 'reset',
+          key: 'main',
           severity: 'warn',
           summary: 'Внимание',
           detail: err.message,
@@ -62,6 +63,7 @@ export class PasswordResetComponent implements OnInit {
         this.resetForm()
       },
       complete: () => {
+        this.resetForm()
         console.log('Complete reset password')
       },
     })

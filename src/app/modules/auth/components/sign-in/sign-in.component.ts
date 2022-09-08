@@ -10,7 +10,6 @@ import {AppService} from '../../../../services/app.service'
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss'],
-  providers: [MessageService],
 })
 export class SignInComponent implements OnInit {
   signInForm!: FormGroup
@@ -57,7 +56,7 @@ export class SignInComponent implements OnInit {
       error: (err) => {
         console.warn(err.code)
         this.messageService.add({
-          key: 'sign-in',
+          key: 'main',
           severity: 'warn',
           summary: 'Внимание',
           detail: err.message,
