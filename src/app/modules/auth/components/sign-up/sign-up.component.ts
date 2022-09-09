@@ -5,8 +5,7 @@ import {MessageService} from 'primeng/api'
 
 import {AppService} from '../../../../services/app.service'
 import {AuthService} from '../../../../services/auth.service'
-
-import {MustMatch} from '../../../../shared/validators'
+import {CustomValidators} from '../../../../shared/validators'
 
 @Component({
   selector: 'app-sign-up',
@@ -30,13 +29,27 @@ export class SignUpComponent implements OnInit {
   makeForm() {
     this.signUpForm = this.formBuilder.group(
       {
-        username: [null, [Validators.required, Validators.minLength(3)]],
+        username: [
+          null,
+          [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(50),
+          ],
+        ],
         email: [null, [Validators.required, Validators.email]],
-        password: [null, [Validators.required, Validators.minLength(6)]],
+        password: [
+          null,
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(50),
+          ],
+        ],
         password2: [null, [Validators.required]],
       },
       {
-        validator: MustMatch('password', 'password2'),
+        validators: [CustomValidators.mustMatch('password', 'password2')],
       }
     )
   }

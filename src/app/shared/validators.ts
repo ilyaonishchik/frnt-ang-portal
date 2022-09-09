@@ -1,18 +1,24 @@
-import {FormGroup} from '@angular/forms'
+import {AbstractControl, ValidatorFn} from '@angular/forms'
 
-export function MustMatch(controlName: string, matchingControlName: string) {
-  return (formGroup: FormGroup) => {
-    const control = formGroup.controls[controlName]
-    const matchingControl = formGroup.controls[matchingControlName]
+export class CustomValidators {
+  static mustMatch(
+    firstControlName: string,
+    secondControlName: string
+  ): ValidatorFn {
+    return (controls: AbstractControl) => {
+      const firstControl = controls.get(firstControlName)
+      const secondControl = controls.get(secondControlName)
 
-    if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
-      return
-    }
+      if (secondControl?.errors && !secondControl.errors['mustMatch']) {
+        return null
+      }
 
-    if (control.value !== matchingControl.value) {
-      matchingControl.setErrors({mustMatch: true})
-    } else {
-      matchingControl.setErrors(null)
+      if (firstControl?.value !== secondControl?.value) {
+        controls.get(secondControlName)?.setErrors({mustMatch: true})
+        return {mustMatch: true}
+      } else {
+        return null
+      }
     }
   }
 }
