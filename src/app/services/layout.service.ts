@@ -26,7 +26,8 @@ export class LayoutService {
   config: AppConfig = {
     ripple: false,
     inputStyle: 'outlined',
-    menuMode: 'overlay',
+    // menuMode: 'overlay',
+    menuMode: 'static',
     colorScheme: 'light',
     theme: 'bootstrap4-light-blue',
     scale: 15,

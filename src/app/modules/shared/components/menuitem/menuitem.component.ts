@@ -7,81 +7,15 @@ import {
 } from '@angular/core'
 import {NavigationEnd, Router} from '@angular/router'
 import {animate, state, style, transition, trigger} from '@angular/animations'
-import {Subscription} from 'rxjs'
-import {filter} from 'rxjs/operators'
-import {MenuService} from './app.menu.service'
-import {LayoutService} from './service/app.layout.service'
+import {filter, Subscription} from 'rxjs'
+
+import {LayoutService} from '../../../../services/layout.service'
+import {MenuService} from '../../../../services/menu.service'
 
 @Component({
-  /* tslint:disable:component-selector */
   selector: '[app-menuitem]',
-  /* tslint:enable:component-selector */
-  template: `
-    <ng-container>
-      <div
-        *ngIf="root && item.visible !== false"
-        class="layout-menuitem-root-text"
-      >
-        {{ item.label }}
-      </div>
-      <a
-        *ngIf="(!item.routerLink || item.items) && item.visible !== false"
-        [attr.href]="item.url"
-        (click)="itemClick($event)"
-        [ngClass]="item.class"
-        [attr.target]="item.target"
-        tabindex="0"
-        pRipple
-      >
-        <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
-        <span class="layout-menuitem-text">{{ item.label }}</span>
-        <i
-          class="pi pi-fw pi-angle-down layout-submenu-toggler"
-          *ngIf="item.items"
-        ></i>
-      </a>
-      <a
-        *ngIf="item.routerLink && !item.items && item.visible !== false"
-        (click)="itemClick($event)"
-        [ngClass]="item.class"
-        [routerLink]="item.routerLink"
-        routerLinkActive="active-route"
-        [routerLinkActiveOptions]="item.routerLinkOptions || {exact: true}"
-        [fragment]="item.fragment"
-        [queryParamsHandling]="item.queryParamsHandling"
-        [preserveFragment]="item.preserveFragment"
-        [skipLocationChange]="item.skipLocationChange"
-        [replaceUrl]="item.replaceUrl"
-        [state]="item.state"
-        [queryParams]="item.queryParams"
-        [attr.target]="item.target"
-        tabindex="0"
-        pRipple
-      >
-        <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
-        <span class="layout-menuitem-text">{{ item.label }}</span>
-        <i
-          class="pi pi-fw pi-angle-down layout-submenu-toggler"
-          *ngIf="item.items"
-        ></i>
-      </a>
-
-      <ul
-        *ngIf="item.items && item.visible !== false"
-        [@children]="submenuAnimation"
-      >
-        <ng-template ngFor let-child let-i="index" [ngForOf]="item.items">
-          <li
-            app-menuitem
-            [item]="child"
-            [index]="i"
-            [parentKey]="key"
-            [class]="child.badgeClass"
-          ></li>
-        </ng-template>
-      </ul>
-    </ng-container>
-  `,
+  templateUrl: './menuitem.component.html',
+  styleUrls: ['./menuitem.component.scss'],
   host: {
     '[class.layout-root-menuitem]': 'root',
     '[class.active-menuitem]': 'active',
@@ -107,16 +41,13 @@ import {LayoutService} from './service/app.layout.service'
     ]),
   ],
 })
-export class AppMenuitemComponent implements OnInit, OnDestroy {
+export class MenuitemComponent implements OnInit, OnDestroy {
   @Input() item: any
-
   @Input() index!: number
-
   @Input() root!: boolean
-
   @Input() parentKey!: string
 
-  active = false
+  active: boolean = false
 
   menuSourceSubscription: Subscription
 
@@ -126,18 +57,17 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
 
   constructor(
     public layoutService: LayoutService,
-    private cd: ChangeDetectorRef,
+    private menuService: MenuService,
     public router: Router,
-    private menuService: MenuService
+    private sd: ChangeDetectorRef
   ) {
     this.menuSourceSubscription = this.menuService.menuSource$.subscribe(
       (value) => {
         Promise.resolve(null).then(() => {
           if (value.routeEvent) {
-            this.active =
+            this.active = !!(
               value.key === this.key || value.key.startsWith(this.key + '-')
-                ? true
-                : false
+            )
           } else {
             if (
               value.key !== this.key &&
@@ -163,7 +93,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
       })
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.key = this.parentKey
       ? this.parentKey + '-' + this.index
       : String(this.index)

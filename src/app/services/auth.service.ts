@@ -16,6 +16,7 @@ import {
   UserInterface,
 } from '../types/user'
 import {IErrorMessage} from '../types/error'
+import {LayoutService} from './layout.service'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -37,7 +38,11 @@ export class AuthService {
     redirectUrl: '/',
   }
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    public layoutService: LayoutService,
+    private http: HttpClient,
+    private router: Router
+  ) {
     this.state.userSignedIn = this.getToken() !== null
   }
 
@@ -52,6 +57,7 @@ export class AuthService {
   setToken(token: string) {
     localStorage.setItem('token', token)
     this.state.userSignedIn = true
+    this.layoutService.config.menuMode = 'static'
   }
 
   getToken() {
@@ -61,6 +67,7 @@ export class AuthService {
   deleteToken() {
     localStorage.removeItem('token')
     this.state.userSignedIn = false
+    this.layoutService.config.menuMode = 'overlay'
   }
 
   getUserById(id: number) {

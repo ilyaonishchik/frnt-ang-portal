@@ -1,27 +1,30 @@
-import {Component, OnDestroy, Renderer2, ViewChild} from '@angular/core'
-import {NavigationEnd, Router} from '@angular/router'
+import {Component, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core'
 import {filter, Subscription} from 'rxjs'
-import {LayoutService} from './service/app.layout.service'
-import {AppSidebarComponent} from './app.sidebar.component'
-import {AppTopBarComponent} from './app.topbar.component'
+import {TopbarComponent} from '../topbar/topbar.component'
+import {LayoutService} from '../../../../services/layout.service'
+import {NavigationEnd, Router} from '@angular/router'
+import {SidebarComponent} from '../sidebar/sidebar.component'
+import {AuthService} from '../../../../services/auth.service'
 
 @Component({
   selector: 'app-layout',
-  templateUrl: './app.layout.component.html',
+  templateUrl: './layout.component.html',
+  styleUrls: ['./layout.component.scss'],
 })
-export class AppLayoutComponent implements OnDestroy {
+export class LayoutComponent implements OnInit, OnDestroy {
   overlayMenuOpenSubscription: Subscription
 
   menuOutsideClickListener: any
 
   profileMenuOutsideClickListener: any
 
-  @ViewChild(AppSidebarComponent) appSidebar!: AppSidebarComponent
+  @ViewChild(SidebarComponent) appSidebar!: SidebarComponent
 
-  @ViewChild(AppTopBarComponent) appTopbar!: AppTopBarComponent
+  @ViewChild(TopbarComponent) appTopbar!: TopbarComponent
 
   constructor(
     public layoutService: LayoutService,
+    public authService: AuthService,
     public renderer: Renderer2,
     public router: Router
   ) {
@@ -83,6 +86,8 @@ export class AppLayoutComponent implements OnDestroy {
         this.hideProfileMenu()
       })
   }
+
+  ngOnInit(): void {}
 
   hideMenu() {
     this.layoutService.state.overlayMenuActive = false

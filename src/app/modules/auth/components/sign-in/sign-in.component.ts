@@ -3,8 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 
 import {MessageService} from 'primeng/api'
 
-import {AuthService} from '../../../../services/auth.service'
 import {AppService} from '../../../../services/app.service'
+import {AuthService} from '../../../../services/auth.service'
 
 @Component({
   selector: 'app-sign-in',
@@ -42,6 +42,7 @@ export class SignInComponent implements OnInit {
   }
 
   submitLogin() {
+    console.log(this.signInForm.value)
     this.authService.signIn(this.signInForm.value).subscribe({
       next: (res) => {
         this.authService.setToken(res.access_token)

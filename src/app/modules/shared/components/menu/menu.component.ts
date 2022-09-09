@@ -1,17 +1,16 @@
-import {OnInit} from '@angular/core'
-import {Component} from '@angular/core'
-import {LayoutService} from './service/app.layout.service'
+import {Component, OnInit} from '@angular/core'
 
 @Component({
   selector: 'app-menu',
-  templateUrl: './app.menu.component.html',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss'],
 })
-export class AppMenuComponent implements OnInit {
+export class MenuComponent implements OnInit {
   model: any[] = []
 
-  constructor(public layoutService: LayoutService) {}
+  constructor() {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.model = [
       {
         label: 'Home',
@@ -25,14 +24,14 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Form Layout',
             icon: 'pi pi-fw pi-id-card',
-            routerLink: ['/uikit/formlayout'],
+            routerLink: ['/'],
           },
         ],
       },
       {
         label: 'Pages',
         icon: 'pi pi-fw pi-briefcase',
-        routerLink: ['/pages'],
+        routerLink: ['/'],
         items: [
           {
             label: 'Auth',
@@ -41,24 +40,24 @@ export class AppMenuComponent implements OnInit {
               {
                 label: 'Login',
                 icon: 'pi pi-fw pi-sign-in',
-                routerLink: ['/auth/login'],
+                routerLink: ['/auth/sign-in'],
               },
               {
                 label: 'Error',
                 icon: 'pi pi-fw pi-times-circle',
-                routerLink: ['/auth/error'],
+                routerLink: ['/error/500'],
               },
               {
                 label: 'Access Denied',
                 icon: 'pi pi-fw pi-lock',
-                routerLink: ['/auth/access'],
+                routerLink: ['/error/403'],
               },
             ],
           },
           {
             label: 'Crud',
             icon: 'pi pi-fw pi-pencil',
-            routerLink: ['/pages/crud'],
+            routerLink: ['/'],
           },
         ],
       },

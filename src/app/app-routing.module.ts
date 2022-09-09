@@ -1,25 +1,15 @@
 import {NgModule} from '@angular/core'
 import {RouterModule, Routes} from '@angular/router'
-import {AppLayoutComponent} from './layout/app.layout.component'
-import {SignedOutGuard} from './guards/signed-out.guard'
 
+import {SignedOutGuard} from './guards/signed-out.guard'
 import {SignedInGuard} from './guards/signed-in.guard'
+
+import {LayoutComponent} from './modules/shared/components/layout/layout.component'
 
 const routes: Routes = [
   {
-    path: 'auth',
-    canActivate: [SignedOutGuard],
-    loadChildren: () =>
-      import('./modules/auth/auth.module').then((m) => m.AuthModule),
-  },
-  {
-    path: 'error',
-    loadChildren: () =>
-      import('./modules/errors/errors.module').then((m) => m.ErrorsModule),
-  },
-  {
     path: '',
-    component: AppLayoutComponent,
+    component: LayoutComponent,
     children: [
       {
         path: '',
@@ -34,6 +24,17 @@ const routes: Routes = [
           import('./modules/admin/admin.module').then((m) => m.AdminModule),
       },
     ],
+  },
+  {
+    path: 'auth',
+    canActivate: [SignedOutGuard],
+    loadChildren: () =>
+      import('./modules/auth/auth.module').then((m) => m.AuthModule),
+  },
+  {
+    path: 'error',
+    loadChildren: () =>
+      import('./modules/errors/errors.module').then((m) => m.ErrorsModule),
   },
   {path: '**', redirectTo: 'error', pathMatch: 'full'},
 ]

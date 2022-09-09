@@ -1,20 +1,14 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core'
 import {MenuItem, MessageService} from 'primeng/api'
-import {LayoutService} from './service/app.layout.service'
-import {AuthService} from '../services/auth.service'
+import {LayoutService} from '../../../../services/layout.service'
+import {AuthService} from '../../../../services/auth.service'
 
 @Component({
   selector: 'app-topbar',
-  styles: [
-    `
-      :host ::ng-deep .layout-topbar .layout-topbar-button i span {
-        font-size: 0.75rem;
-      }
-    `,
-  ],
-  templateUrl: './app.topbar.component.html',
+  templateUrl: './topbar.component.html',
+  styleUrls: ['./topbar.component.scss'],
 })
-export class AppTopBarComponent implements OnInit {
+export class TopbarComponent implements OnInit {
   items!: MenuItem[]
 
   @ViewChild('menubutton') menuButton!: ElementRef
@@ -29,7 +23,7 @@ export class AppTopBarComponent implements OnInit {
     public messageService: MessageService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
   showNotifications() {
     this.messageService.add({
