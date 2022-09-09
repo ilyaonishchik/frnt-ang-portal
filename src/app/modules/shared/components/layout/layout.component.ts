@@ -1,10 +1,12 @@
 import {Component, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core'
-import {filter, Subscription} from 'rxjs'
-import {TopbarComponent} from '../topbar/topbar.component'
-import {LayoutService} from '../../../../services/layout.service'
 import {NavigationEnd, Router} from '@angular/router'
-import {SidebarComponent} from '../sidebar/sidebar.component'
+import {filter, Subscription} from 'rxjs'
+
+import {LayoutService} from '../../../../services/layout.service'
 import {AuthService} from '../../../../services/auth.service'
+
+import {TopbarComponent} from '../topbar/topbar.component'
+import {SidebarComponent} from '../sidebar/sidebar.component'
 
 @Component({
   selector: 'app-layout',
@@ -87,7 +89,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
       })
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.checkLayoutMenuMode()
+  }
 
   hideMenu() {
     this.layoutService.state.overlayMenuActive = false

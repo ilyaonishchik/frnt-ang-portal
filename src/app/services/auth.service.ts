@@ -9,14 +9,10 @@ import {Router} from '@angular/router'
 
 import {catchError, Observable, retry, throwError} from 'rxjs'
 
-import {
-  IUserReset,
-  IUserSignIn,
-  IUserSignUp,
-  UserInterface,
-} from '../types/user'
+import {IUserReset, IUserSignIn, IUserSignUp} from '../types/user'
 import {IErrorMessage} from '../types/error'
 import {LayoutService} from './layout.service'
+import {StorageService} from './storage.service'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -40,10 +36,11 @@ export class AuthService {
 
   constructor(
     public layoutService: LayoutService,
+    private storageService: StorageService,
     private http: HttpClient,
     private router: Router
   ) {
-    this.state.userSignedIn = this.getToken() !== null
+    this.state.userSignedIn = this.storageService.getToken() !== null
   }
 
   redirect(url?: string) {
@@ -54,67 +51,19 @@ export class AuthService {
     }
   }
 
-  setToken(token: string) {
-    localStorage.setItem('token', token)
-    this.state.userSignedIn = true
-    this.layoutService.config.menuMode = 'static'
-  }
-
-  getToken() {
-    return localStorage.getItem('token')
-  }
-
-  deleteToken() {
-    localStorage.removeItem('token')
-    this.state.userSignedIn = false
-    this.layoutService.config.menuMode = 'overlay'
-  }
-
-  getUserById(id: number) {
-    return this.http.get<UserInterface>(`/api/v1/users/${id}`)
-  }
-
-  getTestUser() {
-    const user: UserInterface = {
-      id: 0,
-      username: 'User',
-      email: 'email@example.com',
-      avatar: 'assets/img/avatars/default.png',
-      desc: 'Test User',
-    }
-    return user
-  }
-
-  setUserInfo(user: UserInterface) {
-    localStorage.setItem('user', JSON.stringify(user))
-    // this.state.userInfo = user
-  }
-
-  getUserInfo() {
-    const user = localStorage.getItem('user')
-    if (user) {
-      return JSON.parse(user)
-    }
-    return null
-  }
-
-  deleteUserInfo() {
-    localStorage.removeItem('user')
-  }
-
   signIn(user: IUserSignIn): Observable<any> {
     const params = new HttpParams({
       fromObject: {username: user.username, password: user.password},
     })
     return this.http
       .post('/api/v1/auth/signin', params, httpOptions)
-      .pipe(retry(1), catchError(this.handleError))
+      .pipe(retry(2), catchError(this.handleError))
   }
 
   signUp(user: IUserSignUp): Observable<any> {
     return this.http
       .post('/api/v1/auth/signup', user)
-      .pipe(retry(1), catchError(this.handleError))
+      .pipe(retry(2), catchError(this.handleError))
   }
 
   verifyCode(code: string): Observable<any> {
@@ -124,8 +73,9 @@ export class AuthService {
   }
 
   signOut() {
-    this.deleteToken()
-    this.deleteUserInfo()
+    this.storageService.clean()
+    this.state.userSignedIn = false
+    this.checkLayoutMenuMode()
     let currentUrl = this.router.url
     if (currentUrl === '/welcome') {
       this.router.routeReuseStrategy.shouldReuseRoute = () => false
@@ -140,6 +90,16 @@ export class AuthService {
     return this.http
       .post('/api/v1/auth/reset', user)
       .pipe(retry(1), catchError(this.handleError))
+  }
+
+  refreshToken(token: string) {
+    return this.http.post('', {refreshToken: token}, httpOptions)
+  }
+
+  checkLayoutMenuMode(): void {
+    this.layoutService.config.menuMode = this.state.userSignedIn
+      ? 'static'
+      : 'overlay'
   }
 
   handleError(e: any) {

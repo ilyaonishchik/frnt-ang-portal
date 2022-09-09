@@ -5,6 +5,7 @@ import {MessageService} from 'primeng/api'
 
 import {AppService} from '../../../../services/app.service'
 import {AuthService} from '../../../../services/auth.service'
+import {StorageService} from '../../../../services/storage.service'
 
 @Component({
   selector: 'app-sign-in',
@@ -17,6 +18,7 @@ export class SignInComponent implements OnInit {
   constructor(
     public appService: AppService,
     public authService: AuthService,
+    private storageService: StorageService,
     private messageService: MessageService,
     private formBuilder: FormBuilder
   ) {
@@ -41,21 +43,16 @@ export class SignInComponent implements OnInit {
     this.signInForm.reset()
   }
 
-  submitLogin() {
-    console.log(this.signInForm.value)
+  submitSignIn() {
     this.authService.signIn(this.signInForm.value).subscribe({
       next: (res) => {
-        this.authService.setToken(res.access_token)
+        this.storageService.saveToken(res.access_token)
+        this.storageService.saveRefreshToken(res.refresh_token)
+        this.authService.state.userSignedIn = true
         this.authService.redirect()
-        //       // this.messageService.add({
-        //       //   key: 'sign-in',
-        //       //   severity: 'success',
-        //       //   summary: 'Успешная авторизация',
-        //       //   detail: `Приветствуем вас: ${res.user.name}!`,
-        //       // })
       },
       error: (err) => {
-        console.warn(err.code)
+        console.warn('SignIn error (%s): %s', err.code, err.message)
         this.messageService.add({
           key: 'main',
           severity: 'warn',
@@ -64,7 +61,7 @@ export class SignInComponent implements OnInit {
         })
       },
       complete: () => {
-        console.log('Complete login')
+        console.log('SignIn: Complete')
       },
     })
     this.resetForm()
