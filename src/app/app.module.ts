@@ -8,11 +8,12 @@ import {AppRoutingModule} from './app-routing.module'
 import {SharedModule} from './modules/shared/shared.module'
 
 import {AppComponent} from './app.component'
+import {httpInterceptorProviders} from './interceptors/http.interceptor'
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, AppRoutingModule, SharedModule, ToastModule],
-  providers: [MessageService],
+  providers: [MessageService, httpInterceptorProviders],
   bootstrap: [AppComponent],
   exports: [],
 })
