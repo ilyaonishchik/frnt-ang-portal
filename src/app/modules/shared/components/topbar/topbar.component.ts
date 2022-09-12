@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core'
 import {MenuItem, MessageService} from 'primeng/api'
 import {LayoutService} from '../../../../services/layout.service'
 import {AuthService} from '../../../../services/auth.service'
-import {EventBusService} from '../../../../services/event-bus.service'
+import {AppService} from '../../../../services/app.service'
 
 @Component({
   selector: 'app-topbar',
@@ -22,7 +22,7 @@ export class TopbarComponent implements OnInit {
     public layoutService: LayoutService,
     public authService: AuthService,
     public messageService: MessageService,
-    private eventBusService: EventBusService
+    public appService: AppService
   ) {}
 
   ngOnInit(): void {}
@@ -50,7 +50,7 @@ export class TopbarComponent implements OnInit {
     this.authService.getUserMeInfo().subscribe({
       next: (res) => {
         user = JSON.stringify(res)
-        console.log('showUserInfo next: %s', user)
+        // console.log('showUserInfo next: %s', user)
         this.messageService.add({
           key: 'main',
           severity: 'info',
@@ -58,17 +58,9 @@ export class TopbarComponent implements OnInit {
           detail: user,
         })
       },
-      error: (err) => {
-        console.log(err)
-        this.eventBusService.emit({name: 'signout', value: null})
-
-        // this.messageService.add({
-        //   key: 'main',
-        //   severity: 'warn',
-        //   summary: 'Внимание',
-        //   detail: err.message,
-        // })
-      },
+      // error: (err) => {
+      //   console.log(err)
+      // },
     })
   }
 

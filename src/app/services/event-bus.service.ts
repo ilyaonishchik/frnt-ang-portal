@@ -11,7 +11,7 @@ export class EventBusService {
   constructor() {}
 
   emit(event: IEvent) {
-    console.log('Emit event: %s', event)
+    // console.log('Emit event: %s', event)
     this.subject$.next(event)
   }
 

@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
-import {PrimeNGConfig} from 'primeng/api'
+import {MessageService, PrimeNGConfig} from 'primeng/api'
 import {EventBusService} from './services/event-bus.service'
 import {Subscription} from 'rxjs'
 import {AuthService} from './services/auth.service'
@@ -14,7 +14,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private primeConfig: PrimeNGConfig,
     private eventBusService: EventBusService,
-    private authService: AuthService
+    private authService: AuthService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit() {
@@ -58,7 +59,12 @@ export class AppComponent implements OnInit, OnDestroy {
     })
 
     this.eventBusSub = this.eventBusService.on('signout', () => {
-      console.log('Get event: signout')
+      this.messageService.add({
+        key: 'main',
+        severity: 'warn',
+        summary: 'Внимание',
+        detail: 'Ваш сеанс завершен принудительно в связи с окончанием сессии.',
+      })
       this.authService.signOut()
     })
   }

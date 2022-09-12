@@ -112,7 +112,7 @@ export class AuthService {
 
   handleError(e: any) {
     let errorMessage: IErrorMessage
-    console.log('handleError: %s', JSON.stringify(e))
+    // console.log('handleError: %s', JSON.stringify(e))
     switch (e.constructor) {
       case HttpErrorResponse:
         switch (e.status) {

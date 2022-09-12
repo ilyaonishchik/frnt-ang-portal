@@ -18,6 +18,7 @@ import {
 } from 'rxjs'
 import {StorageService} from '../services/storage.service'
 import {AuthService} from '../services/auth.service'
+import {EventBusService} from '../services/event-bus.service'
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
@@ -28,7 +29,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
   constructor(
     private storageService: StorageService,
-    private authService: AuthService
+    private authService: AuthService,
+    private eventBusService: EventBusService
   ) {}
 
   intercept(
@@ -48,15 +50,19 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
     return next.handle(authRequest).pipe(
       catchError((error) => {
-        if (
-          error instanceof HttpErrorResponse &&
-          !authRequest.url.includes('auth/signin') &&
-          error.status === 401
-        ) {
-          console.log('Interceptor error: %s', error.status)
-          return this.handle401Error(authRequest, next)
-        } else {
-          console.log('Interceptor error: %s', error.status)
+        // console.log(error)
+        if (error instanceof HttpErrorResponse) {
+          if (error.status === 401) {
+            if (!authRequest.url.includes('auth/signin')) {
+              return this.handle401Error(authRequest, next)
+            }
+          }
+
+          if (error.status === 403) {
+            if (authRequest.url.includes('auth/refresh')) {
+              this.eventBusService.emit({name: 'signout', value: null})
+            }
+          }
         }
         return throwError(error)
       })
@@ -75,16 +81,16 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             this.storageService.saveToken(token.access_token)
             this.refreshTokenSubject.next(token.access_token)
 
-            console.log(
-              'handle401Error - Refresh access token: %s',
-              token.access_token
-            )
+            // console.log(
+            //   'handle401Error - Refresh access token: %s',
+            //   token.access_token
+            // )
 
             return next.handle(this.addTokenHeader(request, token.access_token))
           }),
           catchError((err) => {
             this.isRefreshing = false
-            console.log('handle401Error - CatchError: %s', JSON.stringify(err))
+            // console.log('handle401Error - CatchError: %s', JSON.stringify(err))
 
             this.storageService.clean()
             return throwError(err)

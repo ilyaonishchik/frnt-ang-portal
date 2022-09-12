@@ -10,7 +10,6 @@ export class StorageService {
   constructor() {}
 
   clean(): void {
-    console.log('SessionStorage clear')
     window.sessionStorage.clear()
   }
 
