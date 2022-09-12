@@ -13,6 +13,7 @@ import {IUserReset, IUserSignIn, IUserSignUp} from '../types/user'
 import {IErrorMessage} from '../types/error'
 import {LayoutService} from './layout.service'
 import {StorageService} from './storage.service'
+import {EventBusService} from './event-bus.service'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -37,6 +38,7 @@ export class AuthService {
   constructor(
     public layoutService: LayoutService,
     private storageService: StorageService,
+    private eventBusService: EventBusService,
     private http: HttpClient,
     private router: Router
   ) {
@@ -93,7 +95,9 @@ export class AuthService {
   }
 
   refreshToken(token: string) {
-    return this.http.post('', {refreshToken: token}, httpOptions)
+    return this.http
+      .get('/api/v1/auth/refresh/' + token)
+      .pipe(catchError(this.handleError))
   }
 
   checkLayoutMenuMode(): void {
@@ -102,26 +106,39 @@ export class AuthService {
       : 'overlay'
   }
 
+  getUserMeInfo() {
+    return this.http.get('/api/v1/users/me').pipe(catchError(this.handleError))
+  }
+
   handleError(e: any) {
     let errorMessage: IErrorMessage
-
+    console.log('handleError: %s', JSON.stringify(e))
     switch (e.constructor) {
       case HttpErrorResponse:
         switch (e.status) {
           case 400:
             errorMessage = {
+              status: e.status,
               code: e.error.error,
               message: e.error.message,
             }
             break
+          // case 403:
+          //   console.log('handleError 403: %s', e.error.message)
+          //   let event: IEvent = {name: 'signout', value: null}
+          //   console.log(event)
+          //   this.eventBusService.emit(event)
+          //   break
           case 422:
             errorMessage = {
+              status: e.status,
               code: e.error.detail[0].type,
               message: e.error.detail[0].msg,
             }
             break
           default:
             errorMessage = {
+              status: e.status,
               code: 'error',
               message: e.statusText,
             }
@@ -130,14 +147,16 @@ export class AuthService {
         break
       case ErrorEvent:
         errorMessage = {
+          status: e.status,
           code: 'errorEvent',
           message: e.error.message,
         }
         break
       default:
         errorMessage = {
+          status: e.status,
           code: 'errorDefault',
-          message: e.error.message,
+          message: e.message,
         }
     }
 

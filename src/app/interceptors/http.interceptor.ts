@@ -5,21 +5,104 @@ import {
   HttpEvent,
   HttpInterceptor,
   HTTP_INTERCEPTORS,
+  HttpErrorResponse,
 } from '@angular/common/http'
-import {Observable} from 'rxjs'
+import {
+  BehaviorSubject,
+  catchError,
+  filter,
+  Observable,
+  switchMap,
+  take,
+  throwError,
+} from 'rxjs'
+import {StorageService} from '../services/storage.service'
+import {AuthService} from '../services/auth.service'
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
-  constructor() {}
+  private isRefreshing = false
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
+    null
+  )
+
+  constructor(
+    private storageService: StorageService,
+    private authService: AuthService
+  ) {}
 
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    request = request.clone({
-      withCredentials: true,
+    let authRequest = request
+
+    const token = this.storageService.getToken()
+    if (token != null) {
+      authRequest = this.addTokenHeader(request, token)
+    }
+
+    // request = request.clone({
+    //   withCredentials: true,
+    // })
+
+    return next.handle(authRequest).pipe(
+      catchError((error) => {
+        if (
+          error instanceof HttpErrorResponse &&
+          !authRequest.url.includes('auth/signin') &&
+          error.status === 401
+        ) {
+          console.log('Interceptor error: %s', error.status)
+          return this.handle401Error(authRequest, next)
+        } else {
+          console.log('Interceptor error: %s', error.status)
+        }
+        return throwError(error)
+      })
+    )
+  }
+
+  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+    if (!this.isRefreshing) {
+      this.isRefreshing = true
+      this.refreshTokenSubject.next(null)
+      const token = this.storageService.getRefreshToken()
+      if (token) {
+        return this.authService.refreshToken(token).pipe(
+          switchMap((token: any) => {
+            this.isRefreshing = false
+            this.storageService.saveToken(token.access_token)
+            this.refreshTokenSubject.next(token.access_token)
+
+            console.log(
+              'handle401Error - Refresh access token: %s',
+              token.access_token
+            )
+
+            return next.handle(this.addTokenHeader(request, token.access_token))
+          }),
+          catchError((err) => {
+            this.isRefreshing = false
+            console.log('handle401Error - CatchError: %s', JSON.stringify(err))
+
+            this.storageService.clean()
+            return throwError(err)
+          })
+        )
+      }
+    }
+    return this.refreshTokenSubject.pipe(
+      filter((token) => token !== null),
+      take(1),
+      switchMap((token) => next.handle(this.addTokenHeader(request, token)))
+    )
+  }
+
+  private addTokenHeader(request: HttpRequest<any>, token: string) {
+    return request.clone({
+      headers: request.headers.set('Authorization', 'Bearer ' + token),
     })
-    return next.handle(request)
   }
 }
 
