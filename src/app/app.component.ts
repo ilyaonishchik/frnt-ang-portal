@@ -1,13 +1,21 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, OnDestroy, OnInit} from '@angular/core'
 import {PrimeNGConfig} from 'primeng/api'
+import {EventBusService} from './services/event-bus.service'
+import {Subscription} from 'rxjs'
+import {AuthService} from './services/auth.service'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
-  constructor(private primeConfig: PrimeNGConfig) {}
+export class AppComponent implements OnInit, OnDestroy {
+  eventBusSub?: Subscription
+  constructor(
+    private primeConfig: PrimeNGConfig,
+    private eventBusService: EventBusService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     document.documentElement.style.fontSize = '15px'
@@ -48,5 +56,14 @@ export class AppComponent implements OnInit {
         'Дек',
       ],
     })
+
+    this.eventBusSub = this.eventBusService.on('signout', () => {
+      console.log('Get event: signout')
+      this.authService.signOut()
+    })
+  }
+
+  ngOnDestroy(): void {
+    if (this.eventBusSub) this.eventBusSub.unsubscribe()
   }
 }
