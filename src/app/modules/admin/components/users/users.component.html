@@ -1,0 +1,45 @@
+<div class='card'>
+  <p-table
+    #dt
+    [value]='users'
+    [paginator]='true'
+    [rows]='5'
+    [showCurrentPageReport]='true'
+    responsiveLayout='scroll'
+    currentPageReportTemplate='Записи с {first} по {last} из {totalRecords}'
+    [rowsPerPageOptions]="[5,10,15,20]"
+    [globalFilterFields]="['username']"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0">Manage Products</h5>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" #filter (input)="onGlobalFilter(dt, $event)" placeholder="Поиск..." />
+      </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate='header'>
+      <tr>
+        <th>ID</th>
+        <th pSortableColumn='username'>Name <p-sortIcon field='username'></p-sortIcon></th>
+        <th pSortableColumn='email'>Email <p-sortIcon field='email'></p-sortIcon></th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate='body' let-user>
+      <tr>
+        <td>{{user.id}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+        <td>
+          <button pButton icon='pi pi-pencil' class='p-button-rounded p-button-success mr-2'></button>
+          <button pButton icon='pi pi-trash' class='p-button-rounded p-button-warning'></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate='paginatorcenter'>
+<!--      <p-button type='button' icon='pi pi-cloud' styleClass='p-button-text'></p-button>-->
+    </ng-template>
+  </p-table>
+</div>
