@@ -11,12 +11,17 @@ import {
 } from '@angular/router'
 import {Observable} from 'rxjs'
 import {AuthService} from '../services/auth.service'
+// import {MenuService} from '../services/menu.service'
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignedInGuard implements CanActivate, CanLoad {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    // private menuService: MenuService,
+    private router: Router
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -27,6 +32,7 @@ export class SignedInGuard implements CanActivate, CanLoad {
     | boolean
     | UrlTree {
     let url: string = state.url
+    // console.log('SignedInGuard A on url: %s', url)
     // console.log('SignedInGuard A', this.authService.state.userSignedIn)
     return this.checkLogin(url)
   }
@@ -45,10 +51,11 @@ export class SignedInGuard implements CanActivate, CanLoad {
 
   checkLogin(url: string): boolean {
     if (this.authService.state.userSignedIn) {
+      // this.menuService.loadMenuItems(url)
       return true
     }
     this.authService.state.redirectUrl = url
-    this.router.navigate(['/auth/sign-in']).then((r) => {})
+    this.router.navigate(['/auth/sign-in']).then((_) => {})
     return false
   }
 }

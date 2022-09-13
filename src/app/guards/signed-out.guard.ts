@@ -8,9 +8,10 @@ import {
   UrlSegment,
   UrlTree,
 } from '@angular/router'
-import {Observable} from 'rxjs'
-import {AuthService} from '../services/auth.service'
 import {Location} from '@angular/common'
+import {Observable} from 'rxjs'
+
+import {AuthService} from '../services/auth.service'
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +27,7 @@ export class SignedOutGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    // console.log('SignedOutGuard A', this.authService.state.userSignedIn)
+    // console.log('SignedOutGuard A url: %s', route.url[0])
     return this.checkLogout(route.url[0])
   }
   canLoad(

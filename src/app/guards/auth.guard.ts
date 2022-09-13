@@ -9,12 +9,17 @@ import {
 } from '@angular/router'
 import {Observable} from 'rxjs'
 import {AuthService} from '../services/auth.service'
+// import {MenuService} from '../services/menu.service'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate, CanDeactivate<unknown> {
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(
+    public authService: AuthService,
+    // private menuService: MenuService,
+    private router: Router
+  ) {}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -23,7 +28,7 @@ export class AuthGuard implements CanActivate, CanDeactivate<unknown> {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    // console.log(state.url)
+    // console.log('AuthGuard A url: %s', state.url)
     // console.log(route.fragment)
     // console.log('AuthGuard:', this.authService.state.userSignedIn)
     //TODO Добавить контрольна админские права
