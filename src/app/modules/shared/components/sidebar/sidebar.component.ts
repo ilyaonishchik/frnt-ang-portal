@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit} from '@angular/core'
+import {Component, ElementRef, Input, OnInit} from '@angular/core'
 
 @Component({
   selector: 'app-sidebar',
@@ -6,6 +6,7 @@ import {Component, ElementRef, OnInit} from '@angular/core'
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
+  @Input() menuType: number = 0
   constructor(public el: ElementRef) {}
 
   ngOnInit(): void {}

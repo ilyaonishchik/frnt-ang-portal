@@ -1,8 +1,8 @@
 <div class="layout-wrapper" [ngClass]="containerClass">
   <app-topbar></app-topbar>
-      <div *ngIf='authService.state.userSignedIn' class="layout-sidebar">
-          <app-sidebar></app-sidebar>
-      </div>
+  <div *ngIf='authService.state.userSignedIn' class="layout-sidebar">
+      <app-sidebar [menuType]='menuType'></app-sidebar>
+  </div>
   <div class="layout-main-container">
     <div class="layout-main">
       <router-outlet></router-outlet>

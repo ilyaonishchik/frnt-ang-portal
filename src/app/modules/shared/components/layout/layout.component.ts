@@ -152,6 +152,14 @@ export class LayoutComponent implements OnInit, OnDestroy {
     }
   }
 
+  get menuType(): number {
+    if (this.router.url.startsWith('/admin')) {
+      return 1
+    } else {
+      return 0
+    }
+  }
+
   ngOnDestroy() {
     if (this.overlayMenuOpenSubscription) {
       this.overlayMenuOpenSubscription.unsubscribe()
