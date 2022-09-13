@@ -45,24 +45,20 @@ export class TopbarComponent implements OnInit {
     })
   }
 
-  showUserInfo() {
-    let user: string = ''
-    this.authService.getUserMeInfo().subscribe({
-      next: (res) => {
-        user = JSON.stringify(res)
-        // console.log('showUserInfo next: %s', user)
-        this.messageService.add({
-          key: 'main',
-          severity: 'info',
-          summary: 'Информация',
-          detail: user,
-        })
-      },
-      // error: (err) => {
-      //   console.log(err)
-      // },
-    })
-  }
+  // showUserInfo() {
+  //   let user: string = ''
+  //   this.authService.getUserMeInfo().subscribe({
+  //     next: (res) => {
+  //       user = JSON.stringify(res)
+  //       this.messageService.add({
+  //         key: 'main',
+  //         severity: 'info',
+  //         summary: 'Информация',
+  //         detail: user,
+  //       })
+  //     },
+  //   })
+  // }
 
   logout() {
     this.authService.signOut()

@@ -63,7 +63,8 @@ export class AppComponent implements OnInit, OnDestroy {
         key: 'main',
         severity: 'warn',
         summary: 'Внимание',
-        detail: 'Ваш сеанс завершен принудительно в связи с окончанием сессии.',
+        detail:
+          'Ваш сеанс завершен принудительно в связи с окончанием времени сессии.',
       })
       this.authService.signOut()
     })

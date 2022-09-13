@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core'
 import {filter, map, Subject, Subscription} from 'rxjs'
+
 import {IEvent} from '../types/event'
 
 @Injectable({
