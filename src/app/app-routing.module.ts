@@ -23,6 +23,15 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/admin/admin.module').then((m) => m.AdminModule),
       },
+      {
+        path: 'pdp',
+        canLoad: [SignedInGuard],
+        canActivate: [SignedInGuard],
+        loadChildren: () =>
+          import('./modules/podpiska/podpiska.module').then(
+            (m) => m.PodpiskaModule
+          ),
+      },
     ],
   },
   {
