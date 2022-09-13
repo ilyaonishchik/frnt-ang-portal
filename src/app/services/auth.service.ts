@@ -7,13 +7,14 @@ import {
 } from '@angular/common/http'
 import {Router} from '@angular/router'
 
-import {catchError, Observable, retry, throwError} from 'rxjs'
+import {catchError, delay, Observable, retry, throwError} from 'rxjs'
 
 import {IUserReset, IUserSignIn, IUserSignUp} from '../types/user'
 import {IErrorMessage} from '../types/error'
 import {LayoutService} from './layout.service'
 import {StorageService} from './storage.service'
 import {EventBusService} from './event-bus.service'
+import {ErrorService} from './error.service'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -39,6 +40,7 @@ export class AuthService {
     public layoutService: LayoutService,
     private storageService: StorageService,
     private eventBusService: EventBusService,
+    private errorService: ErrorService,
     private http: HttpClient,
     private router: Router
   ) {
@@ -59,19 +61,19 @@ export class AuthService {
     })
     return this.http
       .post('/api/v1/auth/signin', params, httpOptions)
-      .pipe(retry(2), catchError(this.handleError))
+      .pipe(delay(200), catchError(this.errorHandler))
   }
 
   signUp(user: IUserSignUp): Observable<any> {
     return this.http
       .post('/api/v1/auth/signup', user)
-      .pipe(retry(2), catchError(this.handleError))
+      .pipe(retry(2), catchError(this.errorHandler))
   }
 
   verifyCode(code: string): Observable<any> {
     return this.http
       .get('/api/v1/auth/verify/' + code)
-      .pipe(retry(1), catchError(this.handleError))
+      .pipe(retry(1), catchError(this.errorHandler))
   }
 
   signOut() {
@@ -91,13 +93,13 @@ export class AuthService {
   resetPassword(user: IUserReset): Observable<any> {
     return this.http
       .post('/api/v1/auth/reset', user)
-      .pipe(retry(1), catchError(this.handleError))
+      .pipe(retry(1), catchError(this.errorHandler))
   }
 
   refreshToken(token: string) {
     return this.http
       .get('/api/v1/auth/refresh/' + token)
-      .pipe(catchError(this.handleError))
+      .pipe(catchError(this.errorHandler))
   }
 
   checkLayoutMenuMode(): void {
@@ -107,10 +109,10 @@ export class AuthService {
   }
 
   getUserMeInfo() {
-    return this.http.get('/api/v1/users/me').pipe(catchError(this.handleError))
+    return this.http.get('/api/v1/users/me').pipe(catchError(this.errorHandler))
   }
 
-  handleError(e: any) {
+  private errorHandler(e: any) {
     let errorMessage: IErrorMessage
     // console.log('handleError: %s', JSON.stringify(e))
     switch (e.constructor) {
@@ -159,6 +161,8 @@ export class AuthService {
           message: e.message,
         }
     }
+
+    this.errorService.handle(errorMessage.message)
 
     return throwError(() => {
       return errorMessage
