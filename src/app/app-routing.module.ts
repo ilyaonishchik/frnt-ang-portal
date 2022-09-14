@@ -20,6 +20,9 @@ const routes: Routes = [
         path: 'admin',
         canLoad: [SignedInGuard],
         canActivate: [SignedInGuard],
+        data: {
+          role: 'ROLE_ADMIN',
+        },
         loadChildren: () =>
           import('./modules/admin/admin.module').then((m) => m.AdminModule),
       },

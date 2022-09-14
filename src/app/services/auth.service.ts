@@ -7,14 +7,15 @@ import {
 } from '@angular/common/http'
 import {Router} from '@angular/router'
 
-import {catchError, delay, Observable, retry, throwError} from 'rxjs'
+import {catchError, Observable, retry, tap, throwError} from 'rxjs'
 
-import {IUserReset, IUserSignIn, IUserSignUp} from '../types/user'
+import {IUser, IUserReset, IUserSignIn, IUserSignUp} from '../types/user'
 import {IErrorMessage} from '../types/error'
 import {LayoutService} from './layout.service'
 import {StorageService} from './storage.service'
 import {EventBusService} from './event-bus.service'
 import {ErrorService} from './error.service'
+import {IToken} from '../types/token'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -25,6 +26,8 @@ const httpOptions = {
 interface AuthState {
   userSignedIn: boolean
   redirectUrl: string
+  userRoles: string[]
+  userPermissions: string[]
 }
 
 @Injectable({
@@ -34,6 +37,8 @@ export class AuthService {
   state: AuthState = {
     userSignedIn: false,
     redirectUrl: '/',
+    userRoles: [],
+    userPermissions: [],
   }
 
   constructor(
@@ -55,19 +60,29 @@ export class AuthService {
     }
   }
 
-  signIn(user: IUserSignIn): Observable<any> {
+  signIn(user: IUserSignIn): Observable<IToken> {
     const params = new HttpParams({
       fromObject: {username: user.username, password: user.password},
     })
     return this.http
-      .post('/api/v1/auth/signin', params, httpOptions)
-      .pipe(delay(200), catchError(this.errorHandler))
+      .post<IToken>('/api/v1/auth/signin', params, httpOptions)
+      .pipe(
+        tap((token) => {
+          console.log(token)
+          this.storageService.saveToken(token.access_token)
+          this.storageService.saveRefreshToken(token.refresh_token)
+          this.state.userRoles.push('ROLE_ADMIN')
+          this.state.userPermissions.push('PERM_VIEW')
+          this.state.userSignedIn = true
+        }),
+        catchError(this.errorHandler)
+      )
   }
 
-  signUp(user: IUserSignUp): Observable<any> {
+  signUp(user: IUserSignUp): Observable<IUser> {
     return this.http
-      .post('/api/v1/auth/signup', user)
-      .pipe(retry(2), catchError(this.errorHandler))
+      .post<IUser>('/api/v1/auth/signup', user)
+      .pipe(catchError(this.errorHandler))
   }
 
   verifyCode(code: string): Observable<any> {
@@ -78,6 +93,8 @@ export class AuthService {
 
   signOut() {
     this.storageService.clean()
+    this.state.userPermissions = []
+    this.state.userRoles = []
     this.state.userSignedIn = false
     this.checkLayoutMenuMode()
     let currentUrl = this.router.url
@@ -92,8 +109,8 @@ export class AuthService {
 
   resetPassword(user: IUserReset): Observable<any> {
     return this.http
-      .post('/api/v1/auth/reset', user)
-      .pipe(retry(1), catchError(this.errorHandler))
+      .get('/api/v1/auth/reset/' + user.email)
+      .pipe(catchError(this.errorHandler))
   }
 
   refreshToken(token: string) {

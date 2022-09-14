@@ -11,17 +11,12 @@ import {
 } from '@angular/router'
 import {Observable} from 'rxjs'
 import {AuthService} from '../services/auth.service'
-// import {MenuService} from '../services/menu.service'
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignedInGuard implements CanActivate, CanLoad {
-  constructor(
-    private authService: AuthService,
-    // private menuService: MenuService,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -32,9 +27,7 @@ export class SignedInGuard implements CanActivate, CanLoad {
     | boolean
     | UrlTree {
     let url: string = state.url
-    // console.log('SignedInGuard A on url: %s', url)
-    // console.log('SignedInGuard A', this.authService.state.userSignedIn)
-    return this.checkLogin(url)
+    return this.checkLogin(route, url)
   }
   canLoad(
     route: Route,
@@ -44,15 +37,21 @@ export class SignedInGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    let url = `/${route.path}`
-    // console.log('SignedInGuard L', this.authService.state.userSignedIn)
-    return this.checkLogin(url)
+    // let url = `/${route.path}`
+    // return this.checkLogin(url)
+    return true
   }
 
-  checkLogin(url: string): boolean {
+  checkLogin(route: ActivatedRouteSnapshot, url: string): boolean {
+    let urlPath = route.url[0].path
     if (this.authService.state.userSignedIn) {
-      // this.menuService.loadMenuItems(url)
-      return true
+      if (urlPath === 'admin') {
+        if (route.data['role'] && route.data['role'] === 'ROLE_ADMIN') {
+          return true
+        }
+      } else {
+        return true
+      }
     }
     this.authService.state.redirectUrl = url
     this.router.navigate(['/auth/sign-in']).then((_) => {})
