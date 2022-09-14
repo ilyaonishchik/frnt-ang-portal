@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core'
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http'
-import {catchError, delay, Observable, throwError} from 'rxjs'
+import {catchError, Observable, throwError} from 'rxjs'
 import {IUser} from './user'
 import {ErrorService} from '../../../../services/error.service'
 
@@ -17,7 +17,7 @@ export class UsersService {
           fromObject: {limit: 100},
         }),
       })
-      .pipe(delay(2), catchError(this.errorHandler))
+      .pipe(catchError(this.errorHandler))
   }
 
   // getUsersAll() {

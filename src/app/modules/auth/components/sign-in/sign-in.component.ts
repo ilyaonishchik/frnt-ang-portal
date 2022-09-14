@@ -45,10 +45,7 @@ export class SignInComponent implements OnInit {
 
   submitSignIn() {
     this.authService.signIn(this.signInForm.value).subscribe({
-      next: (res) => {
-        this.storageService.saveToken(res.access_token)
-        this.storageService.saveRefreshToken(res.refresh_token)
-        this.authService.state.userSignedIn = true
+      next: () => {
         this.authService.redirect()
       },
       error: (err) => {
