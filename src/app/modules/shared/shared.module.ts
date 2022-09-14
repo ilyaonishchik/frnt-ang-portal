@@ -12,10 +12,11 @@ import {DividerModule} from 'primeng/divider'
 import {MenuitemComponent} from './components/menuitem/menuitem.component'
 import {RippleModule} from 'primeng/ripple';
 import { MenuComponent } from './components/menu/menu.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component'
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { FooterComponent } from './components/footer/footer.component'
 
 @NgModule({
-  declarations: [TopbarComponent, LayoutComponent, MenuitemComponent, MenuComponent, SidebarComponent],
+  declarations: [TopbarComponent, LayoutComponent, MenuitemComponent, MenuComponent, SidebarComponent, FooterComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
