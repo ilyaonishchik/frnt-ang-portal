@@ -24,6 +24,7 @@
                 type="text"
                 placeholder="Имя пользователя"
                 pInputText
+                [pAutoFocus]='true'
                 class="w-full p-3">
               <ng-container
                 *ngIf="(f['username'].dirty || f['username'].touched) && f['username'].invalid">
