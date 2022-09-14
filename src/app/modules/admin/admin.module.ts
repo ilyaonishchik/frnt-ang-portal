@@ -9,6 +9,7 @@ import {UsersComponent} from './components/users/users.component'
 import {TableModule} from 'primeng/table'
 import {ButtonModule} from 'primeng/button'
 import {InputTextModule} from 'primeng/inputtext'
+import {SkeletonModule} from 'primeng/skeleton'
 
 @NgModule({
   declarations: [MainComponent, DashboardComponent, UsersComponent],
@@ -18,6 +19,7 @@ import {InputTextModule} from 'primeng/inputtext'
     TableModule,
     ButtonModule,
     InputTextModule,
+    SkeletonModule,
   ],
   exports: [],
 })

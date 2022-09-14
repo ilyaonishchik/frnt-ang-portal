@@ -8,3 +8,8 @@ export interface IUser {
   last_login?: string
   status: number
 }
+
+export interface IUsers {
+  results: IUser[]
+  records: number
+}

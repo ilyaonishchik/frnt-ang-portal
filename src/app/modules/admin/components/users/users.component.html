@@ -1,44 +1,53 @@
 <div class='card'>
   <p-table
     #dt
-    [value]='users'
-    [paginator]='true'
-    [rows]='5'
-    [showCurrentPageReport]='true'
+    dataKey='id'
     responsiveLayout='scroll'
-    currentPageReportTemplate='Записи с {first} по {last} из {totalRecords}'
+    styleClass='p-datatable-sm'
+    [columns]='cols'
+    [value]='users'
+    [lazy]='true'
+    (onLazyLoad)='loadUsers($event)'
+
+    [paginator]='true'
+    [rows]='10'
+    [showCurrentPageReport]='true'
+    [loading]='loading'
+    [totalRecords]='totalRecords'
     [rowsPerPageOptions]="[5,10,15,20]"
+    currentPageReportTemplate='Записи с {first} по {last} из {totalRecords}'
+
     [globalFilterFields]="['username']"
   >
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
-        <h5 class="m-0">Manage Products</h5>
+        <h5 class="m-0">Список пользователей</h5>
         <span class="p-input-icon-left">
           <i class="pi pi-search"></i>
           <input pInputText type="text" #filter (input)="onGlobalFilter(dt, $event)" placeholder="Поиск..." />
       </span>
       </div>
     </ng-template>
-    <ng-template pTemplate='header'>
+    <ng-template pTemplate='header' let-columns>
       <tr>
-        <th>ID</th>
-        <th pSortableColumn='username'>Name <p-sortIcon field='username'></p-sortIcon></th>
-        <th pSortableColumn='email'>Email <p-sortIcon field='email'></p-sortIcon></th>
-        <th></th>
+        <th *ngFor='let col of columns' [pSortableColumn]='col.field'>
+          {{col.header}} <p-sortIcon [field]='col.field'></p-sortIcon>
+        </th>
+        <th>Операции</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate='body' let-user>
+    <ng-template pTemplate='body' let-rowData let-columns="columns">
       <tr>
-        <td>{{user.id}}</td>
-        <td>{{user.username}}</td>
-        <td>{{user.email}}</td>
+        <td *ngFor='let col of columns'>
+          {{rowData[col.field]}}
+        </td>
         <td>
           <button pButton icon='pi pi-pencil' class='p-button-rounded p-button-success mr-2'></button>
           <button pButton icon='pi pi-trash' class='p-button-rounded p-button-warning'></button>
         </td>
       </tr>
     </ng-template>
-    <ng-template pTemplate='paginatorcenter'>
+    <ng-template *ngIf='false' pTemplate='paginatorcenter'>
 <!--      <p-button type='button' icon='pi pi-cloud' styleClass='p-button-text'></p-button>-->
     </ng-template>
   </p-table>

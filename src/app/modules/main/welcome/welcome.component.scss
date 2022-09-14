@@ -74,13 +74,12 @@
 
 /* Responsive Styles */
 @media screen and (max-width: 767px) {
-  .card-container > *:not(.circle-link),
-  .terminal {
+  .card-container > *:not(.circle-link) {
     width: 100%;
   }
 
   .card:not(.highlight-card) {
-    height: 16px;
+    //height: 16px;
     margin: 8px 0;
   }
 

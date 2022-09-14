@@ -45,8 +45,11 @@ export class SignedInGuard implements CanActivate, CanLoad {
   checkLogin(route: ActivatedRouteSnapshot, url: string): boolean {
     let urlPath = route.url[0].path
     if (this.authService.state.userSignedIn) {
-      if (urlPath === 'admin') {
-        if (route.data['role'] && route.data['role'] === 'ROLE_ADMIN') {
+      if (urlPath === 'admin1') {
+        if (
+          route.data['role'] &&
+          this.authService.state.userRoles.indexOf(route.data['role']) !== -1
+        ) {
           return true
         }
       } else {

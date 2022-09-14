@@ -29,7 +29,7 @@ export class MenuService {
   // }
 
   loadMenuItems(menuType: number): void {
-    console.log('loadMenuItems for type: %s', menuType)
+    console.log('LoadMenuItems for type: %s', menuType)
     switch (menuType) {
       case 0: {
         this.menuItems = [

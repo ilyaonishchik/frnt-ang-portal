@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core'
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http'
 import {catchError, Observable, throwError} from 'rxjs'
-import {IUser} from './user'
+import {IUsers} from './user'
 import {ErrorService} from '../../../../services/error.service'
+import {Converters} from '../../../../shared/converters'
 
 @Injectable({
   providedIn: 'root',
@@ -10,11 +11,11 @@ import {ErrorService} from '../../../../services/error.service'
 export class UsersService {
   constructor(private http: HttpClient, private errorService: ErrorService) {}
 
-  getAll(): Observable<IUser[]> {
+  getAll(params?: any): Observable<IUsers> {
     return this.http
-      .get<IUser[]>('/api/v1/users', {
+      .get<IUsers>('/api/v1/users', {
         params: new HttpParams({
-          fromObject: {limit: 100},
+          fromObject: Converters.paramsToApi(params),
         }),
       })
       .pipe(catchError(this.errorHandler))

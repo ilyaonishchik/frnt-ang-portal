@@ -68,7 +68,6 @@ export class AuthService {
       .post<IToken>('/api/v1/auth/signin', params, httpOptions)
       .pipe(
         tap((token) => {
-          console.log(token)
           this.storageService.saveToken(token.access_token)
           this.storageService.saveRefreshToken(token.refresh_token)
           this.state.userRoles.push('ROLE_ADMIN')
