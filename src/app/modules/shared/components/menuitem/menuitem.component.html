@@ -10,6 +10,12 @@
     [attr.href]="item.url"
     (click)="itemClick($event)"
     [ngClass]="item.class"
+
+    [routerLink]="item.routerLink"
+    routerLinkActive="active-route"
+    [routerLinkActiveOptions]="item.routerLinkOptions || {exact: true}"
+
+
     [attr.target]="item.target"
     tabindex="0"
     pRipple
