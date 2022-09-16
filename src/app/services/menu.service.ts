@@ -38,23 +38,23 @@ export class MenuService {
             items: [
               {
                 label: 'Ссылки',
-                icon: 'pi pi-fw pi-home',
+                // icon: 'pi pi-fw pi-home',
                 routerLink: ['/welcome'],
-              },
-              {
-                label: 'Админка',
-                icon: 'pi pi-fw pi-home',
-                routerLink: ['/admin'],
               },
             ],
           },
           {
-            label: 'Подписка',
-            // icon: 'pi pi-fw pi-home',
-            // routerLink: ['/pdp'],
+            label: 'Модули',
             items: [
-              {label: 'Главная', routerLink: ['/pdp']},
-              {label: 'Сортировка', routerLink: ['/pdp/srt']},
+              {
+                label: 'Подписка',
+                // icon: 'pi pi-fw pi-home',
+                routerLink: ['/pdp'],
+                items: [
+                  // {label: 'Главная', routerLink: ['/pdp']},
+                  {label: 'Сортировка', routerLink: ['/pdp/srt']},
+                ],
+              },
             ],
           },
         ]
@@ -63,27 +63,35 @@ export class MenuService {
       case 1: {
         this.menuItems = [
           {
-            label: 'Главная',
+            label: 'Администрирование',
             items: [
               {
-                label: 'Welcome',
-                icon: 'pi pi-fw pi-home',
-                routerLink: ['/welcome'],
-              },
-              {
-                label: 'Main',
-                icon: 'pi pi-fw pi-home',
+                label: 'Главная',
+                // icon: 'pi pi-fw pi-home',
                 routerLink: ['/admin'],
               },
               {
-                label: 'Dashboard',
-                icon: 'pi pi-fw pi-home',
+                label: 'Статистика',
+                // icon: 'pi pi-fw pi-home',
                 routerLink: ['/admin/dashboard'],
               },
+            ],
+          },
+          {
+            label: 'Учетные данные',
+            items: [
               {
                 label: 'Пользователи',
-                icon: 'pi pi-fw pi-users',
+                // icon: 'pi pi-fw pi-users',
                 routerLink: ['/admin/users'],
+              },
+              {
+                label: 'Роли',
+                // icon: 'pi pi-fw pi-users',
+              },
+              {
+                label: 'Права',
+                // icon: 'pi pi-fw pi-users',
               },
             ],
           },

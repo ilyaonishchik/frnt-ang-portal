@@ -32,7 +32,6 @@ export class UsersComponent implements OnInit {
   }
 
   loadUsers(event: LazyLoadEvent) {
-    console.log(event)
     this.loading = true
     this.usersService.getAll(event).subscribe({
       next: (result) => {

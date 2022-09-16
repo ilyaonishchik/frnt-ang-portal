@@ -1,3 +1,5 @@
+import {HttpParams} from '@angular/common/http'
+
 interface ITableParams {
   first: number
   rows: number
@@ -12,21 +14,24 @@ interface ITableParams {
   globalFilter: string
 }
 
-// interface IApiParams {
-//   skip: number
-//   limit: number
-//   page?: number
-//   search?: string
-//   sort?: string
-// }
-
 export class Converters {
-  static paramsToApi(params: ITableParams) {
-    return {
-      skip: params.first,
-      limit: params.rows,
-      search: params.globalFilter,
-      sort: params.sortField,
+  static paramsToApi(params: ITableParams): HttpParams {
+    let result = new HttpParams()
+      .append('skip', params.first)
+      .append('limit', params.rows)
+
+    if (params.sortField) {
+      if (params.sortOrder === -1) {
+        result = result.append('sort', '-' + params.sortField)
+      } else {
+        result = result.append('sort', params.sortField)
+      }
     }
+
+    if (params.globalFilter) {
+      result = result.append('search', params.globalFilter)
+    }
+
+    return result
   }
 }
