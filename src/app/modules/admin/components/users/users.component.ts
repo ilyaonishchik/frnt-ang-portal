@@ -5,6 +5,7 @@ import {LazyLoadEvent} from 'primeng/api'
 
 import {UsersService} from './users.service'
 import {IUser} from './user'
+import {IColumn} from '../../interfaces/column'
 
 @Component({
   selector: 'app-users',
@@ -15,7 +16,8 @@ export class UsersComponent implements OnInit {
   loading: boolean = false
   totalRecords: number = 0
   users: IUser[] = []
-  cols: any[] = []
+  cols: IColumn[] = []
+  timeout: any = null
 
   @ViewChild('filter') filter!: ElementRef
 
@@ -23,7 +25,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.cols = [
-      {field: 'id', header: 'Код'},
+      {field: 'id', header: 'Код', width: 'w-1rem'},
       {field: 'username', header: 'Пользователь'},
       {field: 'email', header: 'Email'},
       // {field: 'desc', header: 'Описание'},
@@ -43,6 +45,13 @@ export class UsersComponent implements OnInit {
   }
 
   onGlobalFilter(table: Table, event: Event) {
-    table.filterGlobal((event.target as HTMLInputElement).value, 'contains')
+    clearTimeout(this.timeout)
+    this.timeout = setTimeout(function () {
+      table.filterGlobal((event.target as HTMLInputElement).value, 'contains')
+    }, 500)
+  }
+
+  clearSearch(table: Table) {
+    table.filterGlobal(null, 'contains')
   }
 }

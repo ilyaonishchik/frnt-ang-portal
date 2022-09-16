@@ -2,13 +2,13 @@
   <p-table
     #dt
     dataKey='id'
-    responsiveLayout='scroll'
-    styleClass='p-datatable-sm'
+    responsiveLayout='stack'
+    styleClass='p-datatable-sm p-datatable-gridlines'
     [columns]='cols'
     [value]='users'
+    [resizableColumns]="true"
     [lazy]='true'
     (onLazyLoad)='loadUsers($event)'
-
     [paginator]='true'
     [rows]='10'
     [showCurrentPageReport]='true'
@@ -16,35 +16,55 @@
     [totalRecords]='totalRecords'
     [rowsPerPageOptions]="[5,10,15,20]"
     currentPageReportTemplate='Записи с {first} по {last} из {totalRecords}'
-
     [globalFilterFields]="['username']"
   >
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
         <h5 class="m-0">Список пользователей</h5>
-        <span class="p-input-icon-left">
+        <span class="p-input-icon-left p-input-icon-right">
           <i class="pi pi-search"></i>
-          <input pInputText type="text" #filter (input)="onGlobalFilter(dt, $event)" placeholder="Поиск..." />
+          <input
+            #filter
+            pInputText
+            type="text"
+            (input)="onGlobalFilter(dt, $event)"
+            placeholder="Поиск..." />
+          <i
+            class="pi pi-times-circle"
+            (click)="filter.value = ''; clearSearch(dt)"></i>
       </span>
       </div>
     </ng-template>
     <ng-template pTemplate='header' let-columns>
       <tr>
-        <th *ngFor='let col of columns' [pSortableColumn]='col.field'>
-          {{col.header}} <p-sortIcon [field]='col.field'></p-sortIcon>
+        <th
+          *ngFor='let col of columns'
+          pResizableColumn
+          [pSortableColumn]='col.field'
+          [ngClass]='col.width'>
+          {{col.header}}<p-sortIcon [field]='col.field'></p-sortIcon>
         </th>
-        <th>Операции</th>
+        <th class='w-9rem'>Операции</th>
       </tr>
     </ng-template>
     <ng-template pTemplate='body' let-rowData let-columns="columns">
       <tr>
         <td *ngFor='let col of columns'>
-          {{rowData[col.field]}}
+          <span class='p-column-title'>{{col.header}}</span>{{rowData[col.field]}}
         </td>
         <td>
-          <button pButton icon='pi pi-pencil' class='p-button-rounded p-button-success mr-2'></button>
-          <button pButton icon='pi pi-trash' class='p-button-rounded p-button-warning'></button>
+          <span class='p-column-title'>Операции</span>
+          <span class='p-buttonset'>
+            <button pButton icon='pi pi-eye' class='p-button-raised p-button-text p-button-info p-button-xsm'></button>
+            <button pButton icon='pi pi-pencil' class='p-button-raised p-button-text p-button-success p-button-xsm'></button>
+            <button pButton icon='pi pi-trash' class='p-button-raised p-button-text p-button-warning p-button-xsm'></button>
+          </span>
         </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate='emptymessage'>
+      <tr>
+        <td colspan='7' class='text-center'>Нет данных для отображения</td>
       </tr>
     </ng-template>
     <ng-template *ngIf='false' pTemplate='paginatorcenter'>

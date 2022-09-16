@@ -82,12 +82,13 @@ export class MenuService {
             items: [
               {
                 label: 'Пользователи',
-                // icon: 'pi pi-fw pi-users',
+                icon: 'pi pi-fw pi-users',
                 routerLink: ['/admin/users'],
               },
               {
                 label: 'Роли',
-                // icon: 'pi pi-fw pi-users',
+                icon: 'pi pi-fw pi-users',
+                routerLink: ['/admin/roles'],
               },
               {
                 label: 'Права',

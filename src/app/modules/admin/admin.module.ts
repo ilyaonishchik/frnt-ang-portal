@@ -9,10 +9,11 @@ import {UsersComponent} from './components/users/users.component'
 import {TableModule} from 'primeng/table'
 import {ButtonModule} from 'primeng/button'
 import {InputTextModule} from 'primeng/inputtext'
-import {SkeletonModule} from 'primeng/skeleton'
+import {SkeletonModule} from 'primeng/skeleton';
+import { RolesComponent } from './components/roles/roles.component'
 
 @NgModule({
-  declarations: [MainComponent, DashboardComponent, UsersComponent],
+  declarations: [MainComponent, DashboardComponent, UsersComponent, RolesComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
