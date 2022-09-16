@@ -7,6 +7,7 @@ import {environment} from '../../environments/environment'
 export class AppService {
   projectTitle: string = environment.title
   isProduction: boolean = environment.production
+  version: string = environment.version
 
   constructor() {}
 }
