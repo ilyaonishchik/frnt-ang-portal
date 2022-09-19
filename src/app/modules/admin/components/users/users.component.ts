@@ -15,8 +15,8 @@ import {IColumn} from '../../interfaces/column'
 export class UsersComponent implements OnInit {
   loading: boolean = false
   totalRecords: number = 0
-  users: IUser[] = []
   cols: IColumn[] = []
+  users: IUser[] = []
   timeout: any = null
 
   @ViewChild('filter') filter!: ElementRef
@@ -28,7 +28,7 @@ export class UsersComponent implements OnInit {
       {field: 'id', header: 'Код', width: 'w-1rem'},
       {field: 'username', header: 'Пользователь'},
       {field: 'email', header: 'Email'},
-      // {field: 'desc', header: 'Описание'},
+      {field: 'comment', header: 'Описание'},
     ]
     this.loading = true
   }

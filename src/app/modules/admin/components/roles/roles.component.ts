@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core'
-import {RolesService} from './roles.service'
-import {IColumn} from '../../interfaces/column'
-import {LazyLoadEvent} from 'primeng/api'
-import {IRole} from './role'
+
 import {Table} from 'primeng/table'
+import {LazyLoadEvent} from 'primeng/api'
+
+import {RolesService} from './roles.service'
+import {IRole} from './role'
+import {IColumn} from '../../interfaces/column'
 
 @Component({
   selector: 'app-roles',
