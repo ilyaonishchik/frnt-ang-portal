@@ -91,8 +91,9 @@ export class MenuService {
                 routerLink: ['/admin/roles'],
               },
               {
-                label: 'Права',
-                // icon: 'pi pi-fw pi-users',
+                label: 'Разрешения',
+                icon: 'pi pi-fw pi-users',
+                routerLink: ['/admin/permissions'],
               },
             ],
           },
