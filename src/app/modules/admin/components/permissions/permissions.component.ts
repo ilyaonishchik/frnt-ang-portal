@@ -19,7 +19,6 @@ export class PermissionsComponent implements OnInit {
   cols: IColumn[] = []
   rowsPerPageOptions = [5, 10, 15, 20]
   submitted: boolean = false
-
   itemDialog: boolean = false
   itemDialogDelete: boolean = false
   itemDialogView: boolean = false

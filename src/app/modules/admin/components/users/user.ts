@@ -1,12 +1,12 @@
 export interface IUser {
-  id: number
-  username: string
-  email: string
+  id?: number
+  username?: string
+  email?: string
   comment?: string
   avatar?: string
   verify?: string
   last_login?: string
-  status: number
+  status?: number
 }
 
 export interface IUsers {

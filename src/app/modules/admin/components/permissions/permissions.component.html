@@ -1,6 +1,7 @@
 <div class='grid'>
   <div class='col-12'>
     <div class='card'>
+
       <p-toolbar styleClass='mb-3 py-2'>
         <ng-template pTemplate='left'>
           <div class='my-2'>
@@ -8,6 +9,7 @@
           </div>
         </ng-template>
       </p-toolbar>
+
       <p-table
         #dt
         dataKey='id'
@@ -51,7 +53,8 @@
               pResizableColumn
               [pSortableColumn]='col.field'
               [ngClass]='col.width'>
-              {{col.header}}<p-sortIcon [field]='col.field'></p-sortIcon>
+              {{col.header}}
+              <p-sortIcon [field]='col.field'></p-sortIcon>
             </th>
             <th class='w-4rem'>Статус</th>
             <th class='w-9rem'>Операции</th>
