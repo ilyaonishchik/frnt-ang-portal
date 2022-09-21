@@ -1,15 +1,6 @@
 <div class='grid'>
   <div class='col-12'>
     <div class='card'>
-
-      <p-toolbar styleClass='mb-3 py-2'>
-        <ng-template pTemplate='left'>
-          <div class='my-2'>
-            <button pButton label='Создать' icon='pi pi-plus' class='p-button-success mr-2' (click)='appendItem()'></button>
-          </div>
-        </ng-template>
-      </p-toolbar>
-
       <p-table
         #dt
         dataKey='id'
@@ -28,11 +19,15 @@
         [rowsPerPageOptions]=rowsPerPageOptions
         currentPageReportTemplate='Записи с {first} по {last} из {totalRecords}'
         [globalFilterFields]="['name']"
+        sortField='id'
+        [sortOrder]=1
       >
         <ng-template pTemplate="caption">
           <div class="flex align-items-center justify-content-between">
-            <h5 class="m-0">Список разрешений</h5>
-            <span class="p-input-icon-left p-input-icon-right">
+            <button pButton label='Создать' icon='pi pi-plus' class='p-button-success mr-2' (click)='appendItem()'></button>
+            <span
+              class='p-input-icon-left'
+              [class.p-input-icon-right]='filter.value'>
               <i class="pi pi-search"></i>
               <input
                 #filter
@@ -41,7 +36,9 @@
                 (input)="onGlobalFilter(dt, $event)"
                 placeholder="Поиск..." />
               <i
+                *ngIf="filter.value"
                 class="pi pi-times-circle"
+                style="cursor: pointer"
                 (click)="filter.value = ''; clearSearch(dt)"></i>
             </span>
           </div>
@@ -62,7 +59,7 @@
         </ng-template>
         <ng-template pTemplate='body' let-rowData let-columns="columns">
           <tr>
-            <td *ngFor='let col of columns'>
+            <td *ngFor='let col of columns' style="white-space: normal">
               <span class='p-column-title'>{{col.header}}</span>
               {{rowData[col.field]}}
             </td>
@@ -81,17 +78,17 @@
               <span class='p-buttonset'>
                 <button
                   pButton icon='pi pi-eye' class='p-button-raised p-button-text p-button-info p-button-xsm'
-                  pTooltip='Просмотреть' tooltipPosition='bottom' [showDelay]='250'
+                  pTooltip='Просмотреть' tooltipPosition='bottom' [showDelay]=250
                   (click)='viewItem(rowData)'>
                 </button>
                 <button
                   pButton icon='pi pi-pencil' class='p-button-raised p-button-text p-button-success p-button-xsm'
-                  pTooltip='Изменить' tooltipPosition='bottom' [showDelay]='250'
+                  pTooltip='Изменить' tooltipPosition='bottom' [showDelay]=250
                   (click)='editItem(rowData)'>
                 </button>
                 <button
                   pButton icon='pi pi-trash' class='p-button-raised p-button-text p-button-warning p-button-xsm'
-                  pTooltip='Удалить' tooltipPosition='bottom' [showDelay]='250'
+                  pTooltip='Удалить' tooltipPosition='bottom' [showDelay]=250
                   (click)='deleteItem(rowData)'>
                 </button>
               </span>
@@ -103,6 +100,15 @@
             <td colspan='7' class='text-center'>Нет данных для отображения</td>
           </tr>
         </ng-template>
+        <ng-template pTemplate="paginatorleft">
+          <p-button
+            type="button"
+            icon="pi pi-refresh"
+            styleClass="p-button-text"
+            pTooltip='Обновить' tooltipPosition='right' [showDelay]=250
+            (click)="clearSearch(dt)">
+          </p-button>
+        </ng-template>
       </p-table>
     </div>
 
@@ -110,17 +116,34 @@
       <ng-template pTemplate='content'>
         <div class='field'>
           <label for='name'>Наименование</label>
-          <input type='text' pInputText id='name' [(ngModel)]='item.name' required [pAutoFocus]='true' [ngClass]="{'ng-invalid ng-dirty': submitted && !item.name}">
+          <input
+            id='name'
+            type='text'
+            pInputText
+            [(ngModel)]='item.name'
+            [maxLength]=50
+            [readonly]='itemDialogView'
+            [pAutoFocus]='true'
+            [ngClass]="{'ng-invalid ng-dirty': submitted && !item.name}">
           <small class='p-error block' *ngIf="submitted && !item.name">Обязательное поле</small>
         </div>
         <div class='field'>
           <label for='comment'>Описание</label>
-          <textarea id='comment' pInputTextarea [(ngModel)]='item.comment' rows='3' cols='20'></textarea>
+          <textarea
+            id='comment'
+            pInputTextarea
+            [(ngModel)]='item.comment'
+            [maxLength]=150
+            [readonly]='itemDialogView'
+            rows='3'
+            cols='20'>
+          </textarea>
         </div>
         <div class='field-checkbox'>
           <p-checkbox
             label='Активная'
             [(ngModel)]='item.status'
+            [readonly]='itemDialogView'
             [binary]='true'
             [trueValue]='1'
             [falseValue]='0'></p-checkbox>

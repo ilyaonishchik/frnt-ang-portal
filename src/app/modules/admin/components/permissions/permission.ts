@@ -1,8 +1,8 @@
 export interface IPermission {
-  id?: number
-  name?: string
-  comment?: string
-  status?: number
+  id: number
+  name: string | null
+  comment: string | null
+  status: number
 }
 
 export interface IPermissions {

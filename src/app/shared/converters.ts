@@ -39,4 +39,12 @@ export class Converters {
 
     return result
   }
+
+  // parToApi(item: Object): HttpParams {
+  //   let result = new HttpParams()
+  //   Object.keys(item).forEach(
+  //     (key) => filter[key] && (result = result.append(key, filter[key]))
+  //   )
+  //   return result
+  // }
 }

@@ -6,7 +6,6 @@ import {LazyLoadEvent} from 'primeng/api'
 import {IColumn} from '../../interfaces/column'
 import {IUser} from './user'
 import {UsersService} from './users.service'
-import {IPermission} from '../permissions/permission'
 
 @Component({
   selector: 'app-users',
@@ -58,18 +57,18 @@ export class UsersComponent implements OnInit {
     this.itemDialog = true
   }
 
-  viewItem(item: IPermission) {
+  viewItem(item: IUser) {
     this.item = {...item}
     this.itemDialog = true
     this.itemDialogView = true
   }
 
-  editItem(item: IPermission) {
+  editItem(item: IUser) {
     this.item = {...item}
     this.itemDialog = true
   }
 
-  deleteItem(item: IPermission) {
+  deleteItem(item: IUser) {
     this.item = {...item}
     this.itemDialogDelete = true
   }

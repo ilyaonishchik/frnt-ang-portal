@@ -5,7 +5,6 @@ import {Table} from 'primeng/table'
 
 import {IColumn} from '../../interfaces/column'
 import {IRole} from './role'
-import {IPermission} from '../permissions/permission'
 import {RolesService} from './roles.service'
 
 @Component({
@@ -54,18 +53,18 @@ export class RolesComponent implements OnInit {
     this.itemDialog = true
   }
 
-  viewItem(item: IPermission) {
+  viewItem(item: IRole) {
     this.item = {...item}
     this.itemDialog = true
     this.itemDialogView = true
   }
 
-  editItem(item: IPermission) {
+  editItem(item: IRole) {
     this.item = {...item}
     this.itemDialog = true
   }
 
-  deleteItem(item: IPermission) {
+  deleteItem(item: IRole) {
     this.item = {...item}
     this.itemDialogDelete = true
   }

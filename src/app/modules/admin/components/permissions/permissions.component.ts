@@ -23,16 +23,18 @@ export class PermissionsComponent implements OnInit {
   itemDialogDelete: boolean = false
   itemDialogView: boolean = false
   items: IPermission[] = []
-  item: IPermission = {}
+  item!: IPermission
+  clearItem!: IPermission
 
-  constructor(private permissionsService: PermissionsService) {}
+  constructor(private permissionsService: PermissionsService) {
+    this.clearItem = {id: 0, name: null, comment: null, status: 1}
+  }
 
   ngOnInit(): void {
     this.cols = [
       {field: 'id', header: 'Код', width: 'w-1rem'},
       {field: 'name', header: 'Наименование'},
       {field: 'comment', header: 'Описание'},
-      // {field: 'status', header: 'Статус'},
     ]
     this.loading = true
   }
@@ -49,7 +51,7 @@ export class PermissionsComponent implements OnInit {
   }
 
   appendItem() {
-    this.item = {}
+    this.item = {...this.clearItem}
     this.submitted = false
     this.itemDialog = true
   }
@@ -72,8 +74,15 @@ export class PermissionsComponent implements OnInit {
 
   confirmDelete() {
     this.itemDialogDelete = false
-
-    this.item = {}
+    this.permissionsService.deletePermission(this.item).subscribe({
+      next: (res) => {
+        this.items = this.items.filter((val) => val.id !== res.record_id)
+      },
+      error: (err) => {
+        console.log(err)
+      },
+    })
+    this.item = {...this.clearItem}
   }
 
   hideDialog() {
@@ -85,12 +94,28 @@ export class PermissionsComponent implements OnInit {
   saveItem() {
     this.submitted = true
     if (this.item.name?.trim()) {
-      if (this.item.id) {
+      if (this.item.id > 0) {
+        this.permissionsService.updatePermission(this.item).subscribe({
+          next: (res) => {
+            this.items[this.findIndexById(res.id)] = res
+          },
+          error: (err) => {
+            console.log(err)
+          },
+        })
       } else {
+        this.permissionsService.createPermission(this.item).subscribe({
+          next: (res) => {
+            this.items.push(res)
+          },
+          error: (err) => {
+            console.log(err)
+          },
+        })
       }
-      // this.items = [...this.items]
+      this.items = [...this.items]
       this.itemDialog = false
-      this.item = {}
+      this.item = {...this.clearItem}
     }
   }
 
@@ -103,5 +128,16 @@ export class PermissionsComponent implements OnInit {
 
   clearSearch(table: Table) {
     table.filterGlobal(null, 'contains')
+  }
+
+  findIndexById(id: number): number {
+    let index = -1
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i].id === id) {
+        index = i
+        break
+      }
+    }
+    return index
   }
 }
