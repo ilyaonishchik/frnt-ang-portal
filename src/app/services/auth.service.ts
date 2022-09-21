@@ -16,6 +16,7 @@ import {StorageService} from './storage.service'
 import {EventBusService} from './event-bus.service'
 import {ErrorService} from './error.service'
 import {IToken} from '../types/token'
+import {AppService} from './app.service'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -40,9 +41,11 @@ export class AuthService {
     userRoles: [],
     userPermissions: [],
   }
+  apiUrl: string = ''
 
   constructor(
     public layoutService: LayoutService,
+    private appService: AppService,
     private storageService: StorageService,
     private eventBusService: EventBusService,
     private errorService: ErrorService,
@@ -50,6 +53,7 @@ export class AuthService {
     private router: Router
   ) {
     this.state.userSignedIn = this.storageService.getToken() !== null
+    this.apiUrl = this.appService.baseApiUrl + ':8001/api/v1/auth/'
   }
 
   redirect(url?: string) {
@@ -65,7 +69,7 @@ export class AuthService {
       fromObject: {username: user.username, password: user.password},
     })
     return this.http
-      .post<IToken>('/api/v1/auth/signin', params, httpOptions)
+      .post<IToken>(this.apiUrl + 'signin', params, httpOptions)
       .pipe(
         tap((token) => {
           this.storageService.saveToken(token.access_token)
@@ -80,13 +84,13 @@ export class AuthService {
 
   signUp(user: IUserSignUp): Observable<IUser> {
     return this.http
-      .post<IUser>('/api/v1/auth/signup', user)
+      .post<IUser>(this.apiUrl + 'signup', user)
       .pipe(catchError(this.errorHandler))
   }
 
   verifyCode(code: string): Observable<any> {
     return this.http
-      .get('/api/v1/auth/verify/' + code)
+      .get(this.apiUrl + 'verify/' + code)
       .pipe(retry(1), catchError(this.errorHandler))
   }
 
@@ -108,13 +112,13 @@ export class AuthService {
 
   resetPassword(user: IUserReset): Observable<any> {
     return this.http
-      .get('/api/v1/auth/reset/' + user.email)
+      .get(this.apiUrl + 'reset/' + user.email)
       .pipe(catchError(this.errorHandler))
   }
 
   refreshToken(token: string) {
     return this.http
-      .get('/api/v1/auth/refresh/' + token)
+      .get(this.apiUrl + 'refresh/' + token)
       .pipe(catchError(this.errorHandler))
   }
 
@@ -125,7 +129,9 @@ export class AuthService {
   }
 
   getUserMeInfo() {
-    return this.http.get('/api/v1/users/me').pipe(catchError(this.errorHandler))
+    return this.http
+      .get(this.apiUrl + 'users/me')
+      .pipe(catchError(this.errorHandler))
   }
 
   private errorHandler(e: any) {

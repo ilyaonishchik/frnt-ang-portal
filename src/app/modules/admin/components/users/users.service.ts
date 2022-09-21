@@ -4,17 +4,19 @@ import {Observable} from 'rxjs'
 import {IUsers} from './user'
 // import {ErrorService} from '../../../../services/error.service'
 import {Converters} from '../../../../shared/converters'
+import {AppService} from '../../../../services/app.service'
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  constructor(
-    private http: HttpClient // private errorService: ErrorService
-  ) {}
+  apiUrl: string = ''
+  constructor(private http: HttpClient, private appService: AppService) {
+    this.apiUrl = appService.baseApiUrl + '/api/v1/auth/'
+  }
 
   getAll(params?: any): Observable<IUsers> {
-    return this.http.get<IUsers>('/api/v1/users', {
+    return this.http.get<IUsers>(this.apiUrl + 'users/', {
       params: Converters.paramsToApi(params),
     })
     // .pipe(catchError(this.errorHandler))

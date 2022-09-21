@@ -1,15 +1,15 @@
 {
-  "/api/v1/sorting/*": {
+  "/api/v2/sorting/*": {
     "target": "http://172.16.190.221:8002",
     "secure": false,
     "logLevel": "info"
   },
-  "/api/v1/*": {
+  "/api/v2/auth/*": {
     "target": "http://172.16.190.221:8001",
     "secure": false,
     "logLevel": "info"
   },
-  "/api/v2/auth/*": {
+  "/api/v3/auth/*": {
     "target": "http://127.0.0.1:8000",
     "secure": false,
     "logLevel": "info"
