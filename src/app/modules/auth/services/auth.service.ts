@@ -11,7 +11,7 @@ import {ISignupResponse} from '../types/signup-response.interface'
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly apiUrl: string = ''
+  readonly apiUrl: string = ''
 
   constructor(private http: HttpClient, private appService: AppService) {
     this.apiUrl = this.appService.urlApiAuth

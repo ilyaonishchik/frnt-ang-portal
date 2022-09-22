@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core'
 import {environment} from '../../environments/environment'
+import {MessageService} from 'primeng/api'
+import {IBackendError} from '../shared/types/backend-errors.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -10,5 +12,16 @@ export class AppService {
   version: string = environment.version
   urlApiAuth: string = environment.urlApiAuth
 
-  constructor() {}
+  constructor(private messageService: MessageService) {}
+
+  showBackendError(error: IBackendError | null): void {
+    if (error) {
+      this.messageService.add({
+        key: 'main',
+        severity: 'warn',
+        summary: 'Внимание',
+        detail: error.message,
+      })
+    }
+  }
 }

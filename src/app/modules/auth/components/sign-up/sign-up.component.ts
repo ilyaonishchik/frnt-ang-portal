@@ -3,12 +3,13 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import {select, Store} from '@ngrx/store'
 import {Observable} from 'rxjs'
 
-import {MessageService} from 'primeng/api'
-
 import {AppService} from '../../../../services/app.service'
 import {CustomValidators} from '../../../../shared/validators'
 import {signupAction} from '../../store/actions/signup.action'
-import {isSubmittingSelector} from '../../store/selectors'
+import {
+  isSubmittingSelector,
+  validationErrorSelector,
+} from '../../store/selectors'
 import {AuthService} from '../../services/auth.service'
 // import {ICurrentUser} from '../../../../shared/types/current-user.interface'
 import {ISignupRequest} from '../../types/signup-request.interface'
@@ -21,18 +22,21 @@ import {ISignupRequest} from '../../types/signup-request.interface'
 export class SignUpComponent implements OnInit {
   signUpForm!: FormGroup
   isSubmitting$!: Observable<boolean>
+  // backendError$!: Observable<IBackendError | null>
 
   constructor(
     private store: Store,
     public appService: AppService,
     public authService: AuthService,
-    private messageService: MessageService,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.initializeForm()
     this.initializeValues()
+    // this.backendError$.subscribe((value) => {
+    //   this.appService.showBackendError(value)
+    // })
   }
 
   initializeForm(): void {
@@ -65,6 +69,10 @@ export class SignUpComponent implements OnInit {
 
   initializeValues(): void {
     this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector))
+    // this.backendError$ = this.store.pipe(select(validationErrorSelector))
+    this.store.pipe(select(validationErrorSelector)).subscribe((value) => {
+      this.appService.showBackendError(value)
+    })
   }
 
   get f() {
