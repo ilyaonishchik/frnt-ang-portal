@@ -1,11 +1,17 @@
 import {Component, OnInit} from '@angular/core'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {select, Store} from '@ngrx/store'
+import {Observable} from 'rxjs'
 
 import {MessageService} from 'primeng/api'
 
 import {AppService} from '../../../../services/app.service'
-import {AuthService} from '../../../../services/auth.service'
 import {CustomValidators} from '../../../../shared/validators'
+import {signupAction} from '../../store/actions/signup.action'
+import {isSubmittingSelector} from '../../store/selectors'
+import {AuthService} from '../../services/auth.service'
+// import {ICurrentUser} from '../../../../shared/types/current-user.interface'
+import {ISignupRequest} from '../../types/signup-request.interface'
 
 @Component({
   selector: 'app-sign-up',
@@ -14,19 +20,22 @@ import {CustomValidators} from '../../../../shared/validators'
 })
 export class SignUpComponent implements OnInit {
   signUpForm!: FormGroup
+  isSubmitting$!: Observable<boolean>
 
   constructor(
+    private store: Store,
     public appService: AppService,
     public authService: AuthService,
     private messageService: MessageService,
     private formBuilder: FormBuilder
-  ) {
-    this.makeForm()
+  ) {}
+
+  ngOnInit(): void {
+    this.initializeForm()
+    this.initializeValues()
   }
 
-  ngOnInit(): void {}
-
-  makeForm() {
+  initializeForm(): void {
     this.signUpForm = this.formBuilder.group(
       {
         username: [
@@ -54,35 +63,42 @@ export class SignUpComponent implements OnInit {
     )
   }
 
+  initializeValues(): void {
+    this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector))
+  }
+
   get f() {
     return this.signUpForm.controls
   }
 
   submitSignUp() {
-    this.authService.signUp(this.signUpForm.value).subscribe({
-      next: (res) => {
-        this.messageService.add({
-          key: 'main',
-          severity: 'success',
-          summary: 'Внимание',
-          detail: `Заявка на регистрацию пользователя: ${res.username} принята.`,
-        })
-      },
-      error: (err) => {
-        console.warn(err.code)
-        this.messageService.add({
-          key: 'main',
-          severity: 'warn',
-          summary: 'Внимание',
-          detail: err.message,
-        })
-      },
-      complete: () => {
-        this.resetForm()
-        console.log('Complete sign-up')
-        this.authService.redirect()
-      },
-    })
+    const request: ISignupRequest = this.signUpForm.value
+    this.store.dispatch(signupAction({request}))
+
+    // this.authService.signUp(this.signUpForm.value).subscribe({
+    //   next: (res) => {
+    //     this.messageService.add({
+    //       key: 'main',
+    //       severity: 'success',
+    //       summary: 'Внимание',
+    //       detail: `Заявка на регистрацию пользователя: ${res.username} принята.`,
+    //     })
+    //   },
+    //   error: (err) => {
+    //     console.warn(err.code)
+    //     this.messageService.add({
+    //       key: 'main',
+    //       severity: 'warn',
+    //       summary: 'Внимание',
+    //       detail: err.message,
+    //     })
+    //   },
+    //   complete: () => {
+    //     this.resetForm()
+    //     console.log('Complete sign-up')
+    //     this.authService.redirect()
+    //   },
+    // })
   }
 
   resetForm() {

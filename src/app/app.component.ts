@@ -68,6 +68,21 @@ export class AppComponent implements OnInit, OnDestroy {
       })
       this.authService.signOut()
     })
+    // console.log('AppComponent ngOnInit')
+    // if (this.authService.state.userSignedIn) {
+    //   if (!this.authService.state.userInfo.id) {
+    //     this.authService.getUserMeInfo().subscribe({
+    //       next: (user) => {
+    //         console.log(user)
+    //         this.authService.state.userInfo = user
+    //         console.log(this.authService.state)
+    //       },
+    //       error: (err) => {
+    //         console.log(err)
+    //       },
+    //     })
+    //   }
+    // }
   }
 
   ngOnDestroy(): void {

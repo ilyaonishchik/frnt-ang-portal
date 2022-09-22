@@ -9,7 +9,15 @@ import {Router} from '@angular/router'
 
 import {catchError, Observable, retry, tap, throwError} from 'rxjs'
 
-import {IUser, IUserReset, IUserSignIn, IUserSignUp} from '../types/user'
+import {
+  // IPermission,
+  // IRole,
+  IUser,
+  IUserInfo,
+  IUserReset,
+  IUserSignIn,
+  IUserSignUp,
+} from '../types/user'
 import {IErrorMessage} from '../types/error'
 import {LayoutService} from './layout.service'
 import {StorageService} from './storage.service'
@@ -24,24 +32,27 @@ const httpOptions = {
   }),
 }
 
-interface AuthState {
+interface IAuthState {
   userSignedIn: boolean
   redirectUrl: string
-  userRoles: string[]
-  userPermissions: string[]
+  userInfo: IUserInfo
 }
+
+// class UserInfo implements IUserInfo {
+//   id = undefined
+//   username = undefined
+// }
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  state: AuthState = {
+  state: IAuthState = {
     userSignedIn: false,
     redirectUrl: '/',
-    userRoles: [],
-    userPermissions: [],
+    userInfo: {},
   }
-  apiUrl: string = ''
+  private readonly apiUrl: string = ''
 
   constructor(
     public layoutService: LayoutService,
@@ -52,8 +63,8 @@ export class AuthService {
     private http: HttpClient,
     private router: Router
   ) {
-    this.state.userSignedIn = this.storageService.getToken() !== null
-    this.apiUrl = this.appService.baseApiUrl + ':8001/api/v1/auth/'
+    this.apiUrl = this.appService.urlApiAuth
+    this.checkState()
   }
 
   redirect(url?: string) {
@@ -74,8 +85,6 @@ export class AuthService {
         tap((token) => {
           this.storageService.saveToken(token.access_token)
           this.storageService.saveRefreshToken(token.refresh_token)
-          this.state.userRoles.push('ROLE_ADMIN')
-          this.state.userPermissions.push('PERM_VIEW')
           this.state.userSignedIn = true
         }),
         catchError(this.errorHandler)
@@ -96,8 +105,7 @@ export class AuthService {
 
   signOut() {
     this.storageService.clean()
-    this.state.userPermissions = []
-    this.state.userRoles = []
+    this.state.userInfo = {}
     this.state.userSignedIn = false
     this.checkLayoutMenuMode()
     let currentUrl = this.router.url
@@ -128,10 +136,19 @@ export class AuthService {
       : 'overlay'
   }
 
-  getUserMeInfo() {
+  getUserMeInfo(): Observable<IUserInfo> {
     return this.http
-      .get(this.apiUrl + 'users/me')
+      .get<IUserInfo>(this.apiUrl + 'users/me')
       .pipe(catchError(this.errorHandler))
+  }
+
+  checkState(): void {
+    // console.log('checkState')
+    // console.log(this.state)
+    if (this.storageService.getToken()) {
+      this.state.userSignedIn = true
+      // console.log(this.state.userInfo)
+    }
   }
 
   private errorHandler(e: any) {
@@ -184,7 +201,7 @@ export class AuthService {
         }
     }
 
-    this.errorService.handle(errorMessage.message)
+    // this.errorService.handle(errorMessage.message)
 
     return throwError(() => {
       return errorMessage

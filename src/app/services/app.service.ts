@@ -8,7 +8,7 @@ export class AppService {
   projectTitle: string = environment.title
   isProduction: boolean = environment.production
   version: string = environment.version
-  baseApiUrl: string = environment.baseApiUrl
+  urlApiAuth: string = environment.urlApiAuth
 
   constructor() {}
 }

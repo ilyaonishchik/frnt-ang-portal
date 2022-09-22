@@ -96,7 +96,7 @@
               </ng-container>
             </div>
             <button
-              [disabled]='signUpForm.invalid'
+              [disabled]='isSubmitting$ | async'
               pButton
               label="Зарегистрироваться"
               class="w-full p-3 text-xl"

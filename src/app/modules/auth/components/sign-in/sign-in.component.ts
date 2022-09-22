@@ -46,6 +46,7 @@ export class SignInComponent implements OnInit {
   submitSignIn() {
     this.authService.signIn(this.signInForm.value).subscribe({
       next: () => {
+        this.authService.getUserMeInfo()
         this.authService.redirect()
       },
       error: (err) => {

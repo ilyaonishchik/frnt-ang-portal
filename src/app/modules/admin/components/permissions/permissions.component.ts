@@ -4,7 +4,7 @@ import {LazyLoadEvent} from 'primeng/api'
 import {Table} from 'primeng/table'
 
 import {IColumn} from '../../interfaces/column'
-import {IPermission} from './permission'
+import {IAdminPermission} from './permission'
 import {PermissionsService} from './permissions.service'
 
 @Component({
@@ -22,9 +22,9 @@ export class PermissionsComponent implements OnInit {
   itemDialog: boolean = false
   itemDialogDelete: boolean = false
   itemDialogView: boolean = false
-  items: IPermission[] = []
-  item!: IPermission
-  clearItem!: IPermission
+  items: IAdminPermission[] = []
+  item!: IAdminPermission
+  clearItem!: IAdminPermission
 
   constructor(private permissionsService: PermissionsService) {
     this.clearItem = {id: 0, name: null, comment: null, status: 1}
@@ -56,18 +56,18 @@ export class PermissionsComponent implements OnInit {
     this.itemDialog = true
   }
 
-  viewItem(item: IPermission) {
+  viewItem(item: IAdminPermission) {
     this.item = {...item}
     this.itemDialog = true
     this.itemDialogView = true
   }
 
-  editItem(item: IPermission) {
+  editItem(item: IAdminPermission) {
     this.item = {...item}
     this.itemDialog = true
   }
 
-  deleteItem(item: IPermission) {
+  deleteItem(item: IAdminPermission) {
     this.item = {...item}
     this.itemDialogDelete = true
   }

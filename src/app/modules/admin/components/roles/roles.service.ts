@@ -11,7 +11,7 @@ import {AppService} from '../../../../services/app.service'
 export class RolesService {
   apiUrl: string = ''
   constructor(private http: HttpClient, private appService: AppService) {
-    this.apiUrl = appService.baseApiUrl + '/api/v1/auth/'
+    this.apiUrl = appService.urlApiAuth
   }
 
   getAll(params?: any): Observable<IRoles> {

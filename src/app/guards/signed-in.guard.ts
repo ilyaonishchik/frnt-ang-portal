@@ -43,18 +43,19 @@ export class SignedInGuard implements CanActivate, CanLoad {
   }
 
   checkLogin(route: ActivatedRouteSnapshot, url: string): boolean {
-    let urlPath = route.url[0].path
+    // let urlPath = route.url[0].path
     if (this.authService.state.userSignedIn) {
-      if (urlPath === 'admin1') {
-        if (
-          route.data['role'] &&
-          this.authService.state.userRoles.indexOf(route.data['role']) !== -1
-        ) {
-          return true
-        }
-      } else {
-        return true
-      }
+      // if (urlPath === 'admin1') {
+      //   if (
+      //     route.data['role'] &&
+      //     this.authService.state.userInfo.roles.indexOf(route.data['role']) !==
+      //       -1
+      //   ) {
+      //     return true
+      //   }
+      // } else {
+      return true
+      // }
     }
     this.authService.state.redirectUrl = url
     this.router.navigate(['/auth/sign-in']).then((_) => {})
