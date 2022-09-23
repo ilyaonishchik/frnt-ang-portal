@@ -3,6 +3,14 @@ import {MenuItem, MessageService} from 'primeng/api'
 import {LayoutService} from '../../../../services/layout.service'
 import {AuthService} from '../../../../services/auth.service'
 import {AppService} from '../../../../services/app.service'
+import {Observable} from 'rxjs'
+import {ICurrentUser} from '../../../../shared/types/current-user.interface'
+import {select, Store} from '@ngrx/store'
+import {
+  currentUserSelector,
+  isAnonymousSelector,
+  isSignedInSelector,
+} from '../../../auth/store/selectors'
 
 @Component({
   selector: 'app-topbar',
@@ -11,6 +19,9 @@ import {AppService} from '../../../../services/app.service'
 })
 export class TopbarComponent implements OnInit {
   items!: MenuItem[]
+  isSignedIn$!: Observable<boolean | null>
+  isAnonymous$!: Observable<boolean>
+  currentUser$!: Observable<ICurrentUser | null>
 
   @ViewChild('menubutton') menuButton!: ElementRef
 
@@ -19,13 +30,18 @@ export class TopbarComponent implements OnInit {
   @ViewChild('topbarmenu') menu!: ElementRef
 
   constructor(
+    private store: Store,
     public layoutService: LayoutService,
     public authService: AuthService,
     public messageService: MessageService,
     public appService: AppService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isSignedIn$ = this.store.pipe(select(isSignedInSelector))
+    this.isAnonymous$ = this.store.pipe(select(isAnonymousSelector))
+    this.currentUser$ = this.store.pipe(select(currentUserSelector))
+  }
 
   showNotifications() {
     this.messageService.add({

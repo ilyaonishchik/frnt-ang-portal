@@ -15,7 +15,7 @@ export class RolesService {
   }
 
   getAll(params?: any): Observable<IRoles> {
-    return this.http.get<IRoles>(this.apiUrl + 'roles/', {
+    return this.http.get<IRoles>(`${this.apiUrl}roles`, {
       params: Converters.paramsToApi(params),
     })
   }

@@ -20,11 +20,11 @@ import {
 } from '../types/user'
 import {IErrorMessage} from '../types/error'
 import {LayoutService} from './layout.service'
-import {StorageService} from './storage.service'
 import {EventBusService} from './event-bus.service'
 import {ErrorService} from './error.service'
 import {IToken} from '../types/token'
 import {AppService} from './app.service'
+import {PersistenceService} from '../shared/services/persistence.service'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -56,8 +56,8 @@ export class AuthService {
 
   constructor(
     public layoutService: LayoutService,
+    private persistenceService: PersistenceService,
     private appService: AppService,
-    private storageService: StorageService,
     private eventBusService: EventBusService,
     private errorService: ErrorService,
     private http: HttpClient,
@@ -83,8 +83,8 @@ export class AuthService {
       .post<IToken>(this.apiUrl + 'signin', params, httpOptions)
       .pipe(
         tap((token) => {
-          this.storageService.saveToken(token.access_token)
-          this.storageService.saveRefreshToken(token.refresh_token)
+          this.persistenceService.setAccessToken(token.access_token)
+          this.persistenceService.setRefreshToken(token.refresh_token)
           this.state.userSignedIn = true
         }),
         catchError(this.errorHandler)
@@ -104,7 +104,7 @@ export class AuthService {
   }
 
   signOut() {
-    this.storageService.clean()
+    this.persistenceService.clear()
     this.state.userInfo = {}
     this.state.userSignedIn = false
     this.checkLayoutMenuMode()
@@ -145,7 +145,7 @@ export class AuthService {
   checkState(): void {
     // console.log('checkState')
     // console.log(this.state)
-    if (this.storageService.getToken()) {
+    if (this.persistenceService.getAccessToken()) {
       this.state.userSignedIn = true
       // console.log(this.state.userInfo)
     }

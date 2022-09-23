@@ -5,11 +5,17 @@ import {
   signupFailureAction,
   signupSuccessAction,
 } from './actions/signup.action'
+import {
+  signinAction,
+  signinFailureAction,
+  signinSuccessAction,
+} from './actions/signin.action'
 
 const initialState: IAuthState = {
   isSubmitting: false,
   currentUser: null,
-  isSignedIn: null,
+  isSignedUp: null,
+  isSignedIn: false,
   validationError: null,
 }
 
@@ -28,12 +34,37 @@ const authReducer = createReducer(
     (state, action): IAuthState => ({
       ...state,
       isSubmitting: false,
-      isSignedIn: true,
+      isSignedUp: true,
       currentUser: action.currentUser,
     })
   ),
   on(
     signupFailureAction,
+    (state, action): IAuthState => ({
+      ...state,
+      isSubmitting: false,
+      validationError: action.error,
+    })
+  ),
+  on(
+    signinAction,
+    (state): IAuthState => ({
+      ...state,
+      isSubmitting: true,
+      validationError: null,
+    })
+  ),
+  on(
+    signinSuccessAction,
+    (state, action): IAuthState => ({
+      ...state,
+      isSubmitting: false,
+      isSignedIn: true,
+      currentUser: action.currentUser,
+    })
+  ),
+  on(
+    signinFailureAction,
     (state, action): IAuthState => ({
       ...state,
       isSubmitting: false,

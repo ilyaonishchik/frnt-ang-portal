@@ -3,9 +3,8 @@
     <img src="assets/img/project.png" alt="logo">
     <span>{{appService.projectTitle}}</span>
   </a>
-
       <button
-        *ngIf='authService.state.userSignedIn'
+        *ngIf='isSignedIn$ | async'
         #menubutton
         class="p-link layout-menu-button layout-topbar-button"
         (click)="layoutService.onMenuToggle()">
@@ -23,7 +22,7 @@
     #topbarmenu
     class="layout-topbar-menu"
     [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-    <ng-container *ngIf='authService.state.userSignedIn'>
+    <ng-container *ngIf='isSignedIn$ | async'>
       <button
         class="p-link layout-topbar-button"
         pTooltip='Уведомления'
@@ -71,7 +70,7 @@
         <span>Выйти</span>
       </button>
     </ng-container>
-    <ng-container *ngIf='!authService.state.userSignedIn'>
+    <ng-container *ngIf='(isAnonymous$ | async)'>
       <button
         class='p-link layout-topbar-button'
         pTooltip='Авторизация'

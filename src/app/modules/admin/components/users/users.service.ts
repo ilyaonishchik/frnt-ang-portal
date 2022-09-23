@@ -16,7 +16,7 @@ export class UsersService {
   }
 
   getAll(params?: any): Observable<IUsers> {
-    return this.http.get<IUsers>(this.apiUrl + 'users/', {
+    return this.http.get<IUsers>(`${this.apiUrl}users`, {
       params: Converters.paramsToApi(params),
     })
     // .pipe(catchError(this.errorHandler))

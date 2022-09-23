@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   title: 'Бизнес-портал',
   version: '0.0.2',
-  urlApiAuth: 'http://172.16.190.221:8001/api/v1/auth/',
-  // urlApiAuth: 'http://localhost:8000/api/v1/auth/',
+  // urlApiAuth: 'http://172.16.190.221:8001/api/v1/auth/',
+  urlApiAuth: 'http://localhost:8000/api/v1/auth/',
 }
 
 /*

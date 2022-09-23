@@ -21,6 +21,8 @@ import {VerifyComponent} from './components/verify/verify.component'
 import {reducer} from './store/reducers'
 import {AuthService} from './services/auth.service'
 import {SignupEffect} from './store/effects/signup.effect'
+import {PersistenceService} from '../../shared/services/persistence.service'
+import {SigninEffect} from './store/effects/signin.effect'
 
 @NgModule({
   declarations: [
@@ -42,8 +44,8 @@ import {SignupEffect} from './store/effects/signup.effect'
     ReactiveFormsModule,
     AutoFocusModule,
     StoreModule.forFeature('auth', reducer),
-    EffectsModule.forFeature([SignupEffect]),
+    EffectsModule.forFeature([SignupEffect, SigninEffect]),
   ],
-  providers: [AuthService],
+  providers: [AuthService, PersistenceService],
 })
 export class AuthModule {}

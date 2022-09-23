@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core'
 import {HttpErrorResponse} from '@angular/common/http'
+import {Router} from '@angular/router'
 
 import {Actions, createEffect, ofType} from '@ngrx/effects'
-import {catchError, map, of, switchMap} from 'rxjs'
+import {catchError, map, of, switchMap, tap} from 'rxjs'
 
 import {
   signupAction,
@@ -15,7 +16,11 @@ import {responseToError} from '../../../../shared/functions/error.function'
 
 @Injectable()
 export class SignupEffect {
-  constructor(private actions$: Actions, private authService: AuthService) {}
+  constructor(
+    private actions$: Actions,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   signup$ = createEffect(() =>
     this.actions$.pipe(
@@ -33,5 +38,16 @@ export class SignupEffect {
         )
       })
     )
+  )
+
+  redirectAfterSignup$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(signupSuccessAction),
+        tap(() => {
+          this.router.navigateByUrl('/')
+        })
+      ),
+    {dispatch: false}
   )
 }

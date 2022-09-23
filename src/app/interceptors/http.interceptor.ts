@@ -16,9 +16,10 @@ import {
   take,
   throwError,
 } from 'rxjs'
-import {StorageService} from '../services/storage.service'
+
 import {AuthService} from '../services/auth.service'
 import {EventBusService} from '../services/event-bus.service'
+import {PersistenceService} from '../shared/services/persistence.service'
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
@@ -28,7 +29,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   )
 
   constructor(
-    private storageService: StorageService,
+    private persistenceService: PersistenceService,
     private authService: AuthService,
     private eventBusService: EventBusService
   ) {}
@@ -39,7 +40,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     let authRequest = request
 
-    const token = this.storageService.getToken()
+    const token = this.persistenceService.getAccessToken()
     if (token != null) {
       authRequest = this.addTokenHeader(request, token)
     }
@@ -73,12 +74,12 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     if (!this.isRefreshing) {
       this.isRefreshing = true
       this.refreshTokenSubject.next(null)
-      const token = this.storageService.getRefreshToken()
+      const token = this.persistenceService.getRefreshToken()
       if (token) {
         return this.authService.refreshToken(token).pipe(
           switchMap((token: any) => {
             this.isRefreshing = false
-            this.storageService.saveToken(token.access_token)
+            this.persistenceService.setAccessToken(token.access_token)
             this.refreshTokenSubject.next(token.access_token)
 
             // console.log(
@@ -92,7 +93,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             this.isRefreshing = false
             // console.log('handle401Error - CatchError: %s', JSON.stringify(err))
 
-            this.storageService.clean()
+            this.persistenceService.clear()
             return throwError(err)
           })
         )

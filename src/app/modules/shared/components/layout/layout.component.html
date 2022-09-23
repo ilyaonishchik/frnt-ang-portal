@@ -1,13 +1,13 @@
 <div class="layout-wrapper" [ngClass]="containerClass">
   <app-topbar></app-topbar>
-  <div *ngIf='authService.state.userSignedIn' class="layout-sidebar">
+  <div *ngIf='isSignedIn$ | async' class="layout-sidebar">
       <app-sidebar [menuType]='menuType'></app-sidebar>
   </div>
   <div class="layout-main-container">
     <div class="layout-main">
       <router-outlet></router-outlet>
     </div>
-    <app-footer *ngIf='!authService.state.userSignedIn'></app-footer>
+    <app-footer *ngIf='isAnonymous$ | async'></app-footer>
   </div>
   <!--    <app-config></app-config>-->
   <div class="layout-mask"></div>

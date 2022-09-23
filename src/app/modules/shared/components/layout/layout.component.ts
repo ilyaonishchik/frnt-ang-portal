@@ -1,12 +1,17 @@
 import {Component, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core'
 import {NavigationEnd, Router} from '@angular/router'
-import {filter, Subscription} from 'rxjs'
+import {filter, Observable, Subscription} from 'rxjs'
 
 import {LayoutService} from '../../../../services/layout.service'
 import {AuthService} from '../../../../services/auth.service'
 
 import {TopbarComponent} from '../topbar/topbar.component'
 import {SidebarComponent} from '../sidebar/sidebar.component'
+import {select, Store} from '@ngrx/store'
+import {
+  isAnonymousSelector,
+  isSignedInSelector,
+} from '../../../auth/store/selectors'
 
 @Component({
   selector: 'app-layout',
@@ -14,6 +19,9 @@ import {SidebarComponent} from '../sidebar/sidebar.component'
   styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent implements OnInit, OnDestroy {
+  isSignedIn$!: Observable<boolean | null>
+  isAnonymous$!: Observable<boolean>
+
   overlayMenuOpenSubscription: Subscription
 
   menuOutsideClickListener: any
@@ -25,6 +33,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   @ViewChild(TopbarComponent) appTopbar!: TopbarComponent
 
   constructor(
+    private store: Store,
     public layoutService: LayoutService,
     public authService: AuthService,
     public renderer: Renderer2,
@@ -90,7 +99,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.authService.checkLayoutMenuMode()
+    this.isSignedIn$ = this.store.pipe(select(isSignedInSelector))
+    this.isAnonymous$ = this.store.pipe(select(isAnonymousSelector))
   }
 
   hideMenu() {

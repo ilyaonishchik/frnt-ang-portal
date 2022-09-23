@@ -1,19 +1,26 @@
 import {NgModule} from '@angular/core'
 import {CommonModule} from '@angular/common'
-import {TopbarComponent} from './components/topbar/topbar.component'
-import {LayoutComponent} from './components/layout/layout.component'
 import {BrowserModule} from '@angular/platform-browser'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
-import {TooltipModule} from 'primeng/tooltip'
 import {RouterModule} from '@angular/router'
 import {HttpClientModule} from '@angular/common/http'
+
+import {StoreModule} from '@ngrx/store'
+import {EffectsModule} from '@ngrx/effects'
+
+import {TooltipModule} from 'primeng/tooltip'
 import {BadgeModule} from 'primeng/badge'
 import {DividerModule} from 'primeng/divider'
-import {MenuitemComponent} from './components/menuitem/menuitem.component'
 import {RippleModule} from 'primeng/ripple'
+
+import {TopbarComponent} from './components/topbar/topbar.component'
+import {LayoutComponent} from './components/layout/layout.component'
+import {MenuitemComponent} from './components/menuitem/menuitem.component'
 import {MenuComponent} from './components/menu/menu.component'
 import {SidebarComponent} from './components/sidebar/sidebar.component'
 import {FooterComponent} from './components/footer/footer.component'
+import {reducer} from '../auth/store/reducers'
+import {SigninEffect} from '../auth/store/effects/signin.effect'
 
 @NgModule({
   declarations: [
@@ -34,6 +41,8 @@ import {FooterComponent} from './components/footer/footer.component'
     BadgeModule,
     DividerModule,
     RippleModule,
+    StoreModule.forFeature('auth', reducer),
+    EffectsModule.forFeature([SigninEffect]),
   ],
   exports: [LayoutComponent, TopbarComponent],
 })
