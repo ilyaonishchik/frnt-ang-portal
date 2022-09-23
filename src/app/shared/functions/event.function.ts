@@ -1,0 +1,34 @@
+import {LazyLoadEvent} from 'primeng/api'
+import {HttpParams} from '@angular/common/http'
+
+export function eventToParams(event: LazyLoadEvent | null): HttpParams {
+  let params = new HttpParams()
+
+  if (event) {
+    if (event.first) {
+      params = params.append('skip', event.first)
+    } else {
+      params = params.append('skip', 0)
+    }
+
+    if (event.rows && event.rows > 0) {
+      params = params.append('limit', event.rows)
+    }
+
+    if (event.sortField) {
+      if (event.sortOrder === -1) {
+        params = params.append('sort', '-' + event.sortField)
+      } else {
+        params = params.append('sort', event.sortField)
+      }
+    }
+
+    if (event.globalFilter) {
+      params = params.append('search', event.globalFilter)
+    }
+  } else {
+    params = params.append('skip', 0)
+  }
+
+  return params
+}

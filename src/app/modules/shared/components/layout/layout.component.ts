@@ -12,6 +12,7 @@ import {
   isAnonymousSelector,
   isSignedInSelector,
 } from '../../../auth/store/selectors'
+import {getCurrentUserAction} from '../../../auth/store/actions/get-current-user.action'
 
 @Component({
   selector: 'app-layout',
@@ -99,6 +100,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(getCurrentUserAction())
     this.isSignedIn$ = this.store.pipe(select(isSignedInSelector))
     this.isAnonymous$ = this.store.pipe(select(isAnonymousSelector))
   }

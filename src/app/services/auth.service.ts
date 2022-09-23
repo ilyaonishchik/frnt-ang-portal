@@ -104,18 +104,18 @@ export class AuthService {
   }
 
   signOut() {
-    this.persistenceService.clear()
+    // this.persistenceService.clear()
     this.state.userInfo = {}
     this.state.userSignedIn = false
     this.checkLayoutMenuMode()
-    let currentUrl = this.router.url
-    if (currentUrl === '/welcome') {
-      this.router.routeReuseStrategy.shouldReuseRoute = () => false
-      this.router.onSameUrlNavigation = 'reload'
-      this.router.navigateByUrl(currentUrl).then((_) => {})
-    } else {
-      this.router.navigateByUrl('/welcome').then((_) => {})
-    }
+    // let currentUrl = this.router.url
+    // if (currentUrl === '/welcome') {
+    //   this.router.routeReuseStrategy.shouldReuseRoute = () => false
+    //   this.router.onSameUrlNavigation = 'reload'
+    //   this.router.navigateByUrl(currentUrl).then((_) => {})
+    // } else {
+    //   this.router.navigateByUrl('/welcome').then((_) => {})
+    // }
   }
 
   resetPassword(user: IUserReset): Observable<any> {

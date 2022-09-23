@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http'
 import {Observable} from 'rxjs'
-import {IRoles} from './role'
+import {IRoles} from '../../interfaces/role'
 import {Converters} from '../../../../shared/converters'
 import {AppService} from '../../../../services/app.service'
 

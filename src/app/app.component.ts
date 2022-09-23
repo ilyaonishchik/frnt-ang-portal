@@ -3,6 +3,8 @@ import {MessageService, PrimeNGConfig} from 'primeng/api'
 import {EventBusService} from './services/event-bus.service'
 import {Subscription} from 'rxjs'
 import {AuthService} from './services/auth.service'
+import {Store} from '@ngrx/store'
+import {signoutAction} from './modules/auth/store/actions/signout.action'
 
 @Component({
   selector: 'app-root',
@@ -12,6 +14,7 @@ import {AuthService} from './services/auth.service'
 export class AppComponent implements OnInit, OnDestroy {
   eventBusSub?: Subscription
   constructor(
+    private store: Store,
     private primeConfig: PrimeNGConfig,
     private eventBusService: EventBusService,
     private authService: AuthService,
@@ -66,23 +69,8 @@ export class AppComponent implements OnInit, OnDestroy {
         detail:
           'Ваш сеанс завершен принудительно в связи с окончанием времени сессии.',
       })
-      this.authService.signOut()
+      this.store.dispatch(signoutAction())
     })
-    // console.log('AppComponent ngOnInit')
-    // if (this.authService.state.userSignedIn) {
-    //   if (!this.authService.state.userInfo.id) {
-    //     this.authService.getUserMeInfo().subscribe({
-    //       next: (user) => {
-    //         console.log(user)
-    //         this.authService.state.userInfo = user
-    //         console.log(this.authService.state)
-    //       },
-    //       error: (err) => {
-    //         console.log(err)
-    //       },
-    //     })
-    //   }
-    // }
   }
 
   ngOnDestroy(): void {

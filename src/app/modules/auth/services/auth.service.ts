@@ -39,4 +39,10 @@ export class AuthService {
       .post<ISigninResponse>(`${this.apiUrl}signin`, params, httpOptions)
       .pipe(map((response: ISigninResponse) => response))
   }
+
+  getCurrentUser(): Observable<ICurrentUser> {
+    return this.http
+      .get<ICurrentUser>(`${this.apiUrl}users/me`)
+      .pipe(map((response: ICurrentUser) => response))
+  }
 }

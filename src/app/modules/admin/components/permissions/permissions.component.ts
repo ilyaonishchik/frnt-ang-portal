@@ -4,7 +4,7 @@ import {LazyLoadEvent} from 'primeng/api'
 import {Table} from 'primeng/table'
 
 import {IColumn} from '../../interfaces/column'
-import {IAdminPermission} from './permission'
+import {IAdminPermission} from '../../interfaces/permission'
 import {PermissionsService} from './permissions.service'
 
 @Component({

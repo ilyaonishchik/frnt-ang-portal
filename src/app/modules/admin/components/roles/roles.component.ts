@@ -4,7 +4,7 @@ import {LazyLoadEvent} from 'primeng/api'
 import {Table} from 'primeng/table'
 
 import {IColumn} from '../../interfaces/column'
-import {IRole} from './role'
+import {IRole} from '../../interfaces/role'
 import {RolesService} from './roles.service'
 
 @Component({

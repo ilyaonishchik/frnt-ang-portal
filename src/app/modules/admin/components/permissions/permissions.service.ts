@@ -2,10 +2,12 @@ import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http'
 import {Observable} from 'rxjs'
 
-import {Converters} from '../../../../shared/converters'
-import {IAdminPermission, IAdminPermissions} from './permission'
+import {LazyLoadEvent} from 'primeng/api'
+
+import {IAdminPermission, IAdminPermissions} from '../../interfaces/permission'
 import {AppService} from '../../../../services/app.service'
 import {IDeleteResult} from '../../../../types/results'
+import {eventToParams} from '../../../../shared/functions/event.function'
 
 @Injectable({
   providedIn: 'root',
@@ -17,11 +19,10 @@ export class PermissionsService {
     this.apiUrl = appService.urlApiAuth
   }
 
-  getAll(params?: any): Observable<IAdminPermissions> {
+  getAll(event: LazyLoadEvent): Observable<IAdminPermissions> {
     return this.http.get<IAdminPermissions>(`${this.apiUrl}permissions`, {
-      params: Converters.paramsToApi(params),
+      params: eventToParams(event),
     })
-    // .pipe(catchError(this.errorHandler))
   }
 
   createPermission(item: IAdminPermission): Observable<IAdminPermission> {

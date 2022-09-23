@@ -35,9 +35,9 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(
-    request: HttpRequest<unknown>,
+    request: HttpRequest<any>,
     next: HttpHandler
-  ): Observable<HttpEvent<unknown>> {
+  ): Observable<HttpEvent<any>> {
     let authRequest = request
 
     const token = this.persistenceService.getAccessToken()
@@ -81,18 +81,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             this.isRefreshing = false
             this.persistenceService.setAccessToken(token.access_token)
             this.refreshTokenSubject.next(token.access_token)
-
-            // console.log(
-            //   'handle401Error - Refresh access token: %s',
-            //   token.access_token
-            // )
-
             return next.handle(this.addTokenHeader(request, token.access_token))
           }),
           catchError((err) => {
             this.isRefreshing = false
-            // console.log('handle401Error - CatchError: %s', JSON.stringify(err))
-
             this.persistenceService.clear()
             return throwError(err)
           })
@@ -108,7 +100,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
   private addTokenHeader(request: HttpRequest<any>, token: string) {
     return request.clone({
-      headers: request.headers.set('Authorization', 'Bearer ' + token),
+      headers: request.headers.set('Authorization', `Bearer ${token}`),
     })
   }
 }

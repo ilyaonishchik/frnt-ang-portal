@@ -21,6 +21,8 @@ import {SidebarComponent} from './components/sidebar/sidebar.component'
 import {FooterComponent} from './components/footer/footer.component'
 import {reducer} from '../auth/store/reducers'
 import {SigninEffect} from '../auth/store/effects/signin.effect'
+import {GetCurrentUserEffect} from '../auth/store/effects/get-current-user.effect'
+import {SignoutEffect} from '../auth/store/effects/signout.effect'
 
 @NgModule({
   declarations: [
@@ -42,7 +44,11 @@ import {SigninEffect} from '../auth/store/effects/signin.effect'
     DividerModule,
     RippleModule,
     StoreModule.forFeature('auth', reducer),
-    EffectsModule.forFeature([SigninEffect]),
+    EffectsModule.forFeature([
+      SigninEffect,
+      GetCurrentUserEffect,
+      SignoutEffect,
+    ]),
   ],
   exports: [LayoutComponent, TopbarComponent],
 })

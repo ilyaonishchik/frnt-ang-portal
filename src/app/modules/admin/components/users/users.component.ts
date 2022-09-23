@@ -4,7 +4,7 @@ import {Table} from 'primeng/table'
 import {LazyLoadEvent} from 'primeng/api'
 
 import {IColumn} from '../../interfaces/column'
-import {IUser} from './user'
+import {IUser} from '../../interfaces/user'
 import {UsersService} from './users.service'
 
 @Component({

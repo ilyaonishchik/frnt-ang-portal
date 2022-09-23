@@ -11,6 +11,7 @@ import {
   isAnonymousSelector,
   isSignedInSelector,
 } from '../../../auth/store/selectors'
+import {signoutAction} from '../../../auth/store/actions/signout.action'
 
 @Component({
   selector: 'app-topbar',
@@ -61,22 +62,8 @@ export class TopbarComponent implements OnInit {
     })
   }
 
-  // showUserInfo() {
-  //   let user: string = ''
-  //   this.authService.getUserMeInfo().subscribe({
-  //     next: (res) => {
-  //       user = JSON.stringify(res)
-  //       this.messageService.add({
-  //         key: 'main',
-  //         severity: 'info',
-  //         summary: 'Информация',
-  //         detail: user,
-  //       })
-  //     },
-  //   })
-  // }
-
   logout() {
+    this.store.dispatch(signoutAction())
     this.authService.signOut()
   }
 }
