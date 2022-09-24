@@ -26,7 +26,6 @@ const initialState: IAuthState = {
   isSubmitting: false,
   isLoading: false,
   currentUser: null,
-  isSignedUp: null,
   isSignedIn: null,
   validationError: null,
 }
@@ -46,7 +45,6 @@ const authReducer = createReducer(
     (state, action): IAuthState => ({
       ...state,
       isSubmitting: false,
-      isSignedUp: true,
       currentUser: action.currentUser,
     })
   ),
