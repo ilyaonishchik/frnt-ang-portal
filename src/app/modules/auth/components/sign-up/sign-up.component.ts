@@ -11,7 +11,6 @@ import {
   validationErrorSelector,
 } from '../../store/selectors'
 import {AuthService} from '../../services/auth.service'
-// import {ICurrentUser} from '../../../../shared/types/current-user.interface'
 import {ISignupRequest} from '../../types/signup-request.interface'
 
 @Component({
@@ -22,7 +21,6 @@ import {ISignupRequest} from '../../types/signup-request.interface'
 export class SignUpComponent implements OnInit {
   signUpForm!: FormGroup
   isSubmitting$!: Observable<boolean>
-  // backendError$!: Observable<IBackendError | null>
 
   constructor(
     private store: Store,
@@ -34,9 +32,6 @@ export class SignUpComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm()
     this.initializeValues()
-    // this.backendError$.subscribe((value) => {
-    //   this.appService.showBackendError(value)
-    // })
   }
 
   initializeForm(): void {
@@ -69,7 +64,6 @@ export class SignUpComponent implements OnInit {
 
   initializeValues(): void {
     this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector))
-    // this.backendError$ = this.store.pipe(select(validationErrorSelector))
     this.store.pipe(select(validationErrorSelector)).subscribe((value) => {
       this.appService.showBackendError(value)
     })
@@ -82,31 +76,6 @@ export class SignUpComponent implements OnInit {
   submitSignUp() {
     const request: ISignupRequest = this.signUpForm.value
     this.store.dispatch(signupAction({request}))
-
-    // this.authService.signUp(this.signUpForm.value).subscribe({
-    //   next: (res) => {
-    //     this.messageService.add({
-    //       key: 'main',
-    //       severity: 'success',
-    //       summary: 'Внимание',
-    //       detail: `Заявка на регистрацию пользователя: ${res.username} принята.`,
-    //     })
-    //   },
-    //   error: (err) => {
-    //     console.warn(err.code)
-    //     this.messageService.add({
-    //       key: 'main',
-    //       severity: 'warn',
-    //       summary: 'Внимание',
-    //       detail: err.message,
-    //     })
-    //   },
-    //   complete: () => {
-    //     this.resetForm()
-    //     console.log('Complete sign-up')
-    //     this.authService.redirect()
-    //   },
-    // })
   }
 
   resetForm() {
