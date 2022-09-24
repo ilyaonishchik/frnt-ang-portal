@@ -12,7 +12,7 @@ import {signoutAction} from './modules/auth/store/actions/signout.action'
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  eventBusSub?: Subscription
+  eventBusSub!: Subscription
   constructor(
     private store: Store,
     private primeConfig: PrimeNGConfig,
