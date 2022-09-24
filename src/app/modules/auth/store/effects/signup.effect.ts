@@ -13,12 +13,14 @@ import {
 import {AuthService} from '../../services/auth.service'
 import {ICurrentUser} from '../../../../shared/types/current-user.interface'
 import {responseToError} from '../../../../shared/functions/error.function'
+import {AppService} from '../../../../services/app.service'
 
 @Injectable()
 export class SignupEffect {
   constructor(
     private actions$: Actions,
     private authService: AuthService,
+    private appService: AppService,
     private router: Router
   ) {}
 
@@ -40,12 +42,13 @@ export class SignupEffect {
     )
   )
 
-  redirectAfterSignup$ = createEffect(
+  afterSignup$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(signupSuccessAction),
-        tap(() => {
-          this.router.navigateByUrl('/')
+        tap((value) => {
+          this.appService.showSignupSuccess(value.currentUser)
+          this.router.navigateByUrl('/').then((_) => {})
         })
       ),
     {dispatch: false}
