@@ -1,4 +1,6 @@
 export enum ActionTypes {
+  REDIRECT = '[Auth] Set redirect url',
+
   SIGNUP = '[Auth] Signup',
   SIGNUP_SUCCESS = '[Auth] Signup success',
   SIGNUP_FAILURE = '[Auth] Signup failure',

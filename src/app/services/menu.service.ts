@@ -73,7 +73,7 @@ export class MenuService {
               {
                 label: 'Статистика',
                 // icon: 'pi pi-fw pi-home',
-                routerLink: ['/admin/dashboard'],
+                routerLink: ['/auth/sign-in'],
               },
             ],
           },

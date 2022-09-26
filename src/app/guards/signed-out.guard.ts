@@ -9,15 +9,25 @@ import {
   UrlTree,
 } from '@angular/router'
 import {Location} from '@angular/common'
-import {Observable} from 'rxjs'
+import {map, Observable} from 'rxjs'
 
 import {AuthService} from '../services/auth.service'
+import {select, Store} from '@ngrx/store'
+import {
+  isAnonymousSelector,
+  isSignedInSelector,
+} from '../modules/auth/store/selectors'
+import {IAuthState} from '../modules/auth/types/auth-state.interface'
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignedOutGuard implements CanActivate, CanLoad {
-  constructor(public authService: AuthService, private location: Location) {}
+  constructor(
+    private store: Store<IAuthState>,
+    private authService: AuthService,
+    private location: Location
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -28,8 +38,20 @@ export class SignedOutGuard implements CanActivate, CanLoad {
     | boolean
     | UrlTree {
     // console.log('SignedOutGuard A url: %s', route.url[0])
-    return this.checkLogout(route.url[0])
+    // return this.checkLogout(route.url[0])
+    return this.store.select(isSignedInSelector).pipe(
+      map((value) => {
+        console.log('Guard canActivate isSignedIn', value)
+        if (value === true) {
+          this.location.back()
+          return false
+        } else {
+          return true
+        }
+      })
+    )
   }
+
   canLoad(
     route: Route,
     segments: UrlSegment[]
@@ -40,16 +62,31 @@ export class SignedOutGuard implements CanActivate, CanLoad {
     | UrlTree {
     // console.log('SignedOutGuard L', this.authService.state.userSignedIn)
     // console.log(route)
-    return true
+    return this.store.select(isAnonymousSelector).pipe(
+      map((value) => {
+        console.log('Guard canLoad isAnonymous', value)
+        if (!value) {
+          this.location.back()
+        }
+        return value
+      })
+    )
   }
 
   checkLogout(url: UrlSegment): boolean {
-    if (this.authService.state.userSignedIn) {
-      if (url.path === 'auth') {
-        this.location.back()
-      }
-      return false
-    }
-    return true
+    // return this.store.select(isAnonymousSelector).pipe(map((value) => {
+    //   console.log(value)
+    //   return true
+    // }))
+
+    // console.log(this.isAnonymous$)
+    // if (this.isAnonymous$) {
+    //   return true
+    // } else {
+    //   if (url.path === 'auth') {
+    //     this.location.back()
+    //   }
+    return false
+    // }
   }
 }

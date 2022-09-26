@@ -21,6 +21,7 @@ import {
   signoutFailureAction,
   signoutSuccessAction,
 } from './actions/signout.action'
+import {redirectAction} from './actions/redirect.action'
 
 const initialState: IAuthState = {
   isSubmitting: false,
@@ -28,10 +29,18 @@ const initialState: IAuthState = {
   currentUser: null,
   isSignedIn: null,
   validationError: null,
+  redirectUrl: '/',
 }
 
 const authReducer = createReducer(
   initialState,
+  on(
+    redirectAction,
+    (state, action): IAuthState => ({
+      ...state,
+      redirectUrl: action.url,
+    })
+  ),
   on(
     signupAction,
     (state): IAuthState => ({
@@ -90,11 +99,12 @@ const authReducer = createReducer(
   ),
   on(
     signoutSuccessAction,
-    (state): IAuthState => ({
+    (state, action): IAuthState => ({
       ...state,
       isSubmitting: false,
       isSignedIn: false,
       currentUser: null,
+      redirectUrl: action.url,
     })
   ),
   on(

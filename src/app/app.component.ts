@@ -5,6 +5,7 @@ import {Subscription} from 'rxjs'
 import {AuthService} from './services/auth.service'
 import {Store} from '@ngrx/store'
 import {signoutAction} from './modules/auth/store/actions/signout.action'
+import {getCurrentUserAction} from './modules/auth/store/actions/get-current-user.action'
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,23 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    console.log('AppComponent ngOnInit')
+    this.initializeConfig()
+    this.eventBusSub = this.eventBusService.on('signout', () => {
+      this.messageService.add({
+        key: 'main',
+        severity: 'warn',
+        summary: 'Внимание',
+        detail:
+          'Ваш сеанс завершен принудительно в связи с окончанием времени сессии.',
+      })
+      this.store.dispatch(signoutAction())
+    })
+    console.log('AppComponent ngOnInit getCurrentUserAction')
+    this.store.dispatch(getCurrentUserAction())
+  }
+
+  initializeConfig(): void {
     document.documentElement.style.fontSize = '15px'
     this.primeConfig.ripple = false
     this.primeConfig.setTranslation({
@@ -59,17 +77,6 @@ export class AppComponent implements OnInit, OnDestroy {
         'Ноя',
         'Дек',
       ],
-    })
-
-    this.eventBusSub = this.eventBusService.on('signout', () => {
-      this.messageService.add({
-        key: 'main',
-        severity: 'warn',
-        summary: 'Внимание',
-        detail:
-          'Ваш сеанс завершен принудительно в связи с окончанием времени сессии.',
-      })
-      this.store.dispatch(signoutAction())
     })
   }
 

@@ -8,7 +8,11 @@ import {AuthService} from '../../services/auth.service'
 
 import {PersistenceService} from '../../../../shared/services/persistence.service'
 import {LayoutService} from '../../../../services/layout.service'
-import {signoutAction, signoutSuccessAction} from '../actions/signout.action'
+import {
+  signoutAction,
+  // signoutRedirectAction,
+  signoutSuccessAction,
+} from '../actions/signout.action'
 
 @Injectable()
 export class SignoutEffect {
@@ -26,27 +30,38 @@ export class SignoutEffect {
       switchMap(() => {
         this.persistenceService.clear()
         this.layoutService.config.menuMode = 'overlay'
-        return of(signoutSuccessAction())
+        return of(signoutSuccessAction({url: '/welcome'}))
       })
     )
   )
 
-  redirectAfterSignout$ = createEffect(
+  afterSignout$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(signoutSuccessAction),
-        tap(() => {
-          let currentUrl = this.router.url
-          if (currentUrl === '/welcome') {
-            this.router.routeReuseStrategy.shouldReuseRoute = () => false
-            this.router.onSameUrlNavigation = 'reload'
-            this.router.navigateByUrl(currentUrl).then((_) => {})
-          } else {
-            this.router.navigateByUrl('/welcome').then((_) => {})
-          }
-          this.router.navigateByUrl('/').then((_) => {})
+        tap((value) => {
+          this.router.navigateByUrl(value.url).then((_) => {})
         })
       ),
     {dispatch: false}
   )
+
+  // redirectAfterSignout$ = createEffect(
+  //   () =>
+  //     this.actions$.pipe(
+  //       ofType(signoutSuccessAction),
+  //       tap(() => {
+  //         let currentUrl = this.router.url
+  //         if (currentUrl === '/welcome') {
+  //           this.router.routeReuseStrategy.shouldReuseRoute = () => false
+  //           this.router.onSameUrlNavigation = 'reload'
+  //           this.router.navigateByUrl(currentUrl).then((_) => {})
+  //         } else {
+  //           this.router.navigateByUrl('/welcome').then((_) => {})
+  //         }
+  //         this.router.navigateByUrl('/').then((_) => {})
+  //       })
+  //     ),
+  //   {dispatch: false}
+  // )
 }

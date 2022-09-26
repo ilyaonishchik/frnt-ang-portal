@@ -28,3 +28,8 @@ export const currentUserSelector = createSelector(
   authFeatureSelector,
   (authState: IAuthState) => authState.currentUser
 )
+
+export const redirectUrlSelector = createSelector(
+  authFeatureSelector,
+  (authState: IAuthState) => authState.redirectUrl
+)

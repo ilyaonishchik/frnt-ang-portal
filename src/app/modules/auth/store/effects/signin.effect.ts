@@ -16,11 +16,15 @@ import {responseToError} from '../../../../shared/functions/error.function'
 import {ISigninResponse} from '../../types/signin-response.interface'
 import {PersistenceService} from '../../../../shared/services/persistence.service'
 import {LayoutService} from '../../../../services/layout.service'
+import {Store} from '@ngrx/store'
+import {IAuthState} from '../../types/auth-state.interface'
+import {redirectUrlSelector} from '../selectors'
 
 @Injectable()
 export class SigninEffect {
   constructor(
     private actions$: Actions,
+    private store: Store<IAuthState>,
     private authService: AuthService,
     private persistenceService: PersistenceService,
     private layoutService: LayoutService,
@@ -50,14 +54,31 @@ export class SigninEffect {
     )
   )
 
-  redirectAfterSignin$ = createEffect(
+  afterSignin$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(signinSuccessAction),
         tap(() => {
-          this.router.navigateByUrl('/')
+          console.log('After signinSuccessAction')
+          let getRedirectUrl$ = this.store
+            .select(redirectUrlSelector)
+            .subscribe((value) => {
+              this.router.navigateByUrl(value).then((_) => {})
+            })
+          getRedirectUrl$.unsubscribe()
         })
       ),
     {dispatch: false}
   )
+
+  // redirectAfterSignin$ = createEffect(
+  //   () =>
+  //     this.actions$.pipe(
+  //       ofType(signinSuccessAction),
+  //       tap(() => {
+  //         this.router.navigateByUrl('/').then((_) => {})
+  //       })
+  //     ),
+  //   {dispatch: false}
+  // )
 }

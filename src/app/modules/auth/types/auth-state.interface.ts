@@ -7,4 +7,5 @@ export interface IAuthState {
   currentUser: ICurrentUser | null
   isSignedIn: boolean | null
   validationError: IBackendError | null
+  redirectUrl: string
 }

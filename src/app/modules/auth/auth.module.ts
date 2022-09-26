@@ -23,6 +23,7 @@ import {AuthService} from './services/auth.service'
 import {SignupEffect} from './store/effects/signup.effect'
 import {PersistenceService} from '../../shared/services/persistence.service'
 import {SigninEffect} from './store/effects/signin.effect'
+import {GetCurrentUserEffect} from './store/effects/get-current-user.effect'
 
 @NgModule({
   declarations: [
@@ -44,7 +45,11 @@ import {SigninEffect} from './store/effects/signin.effect'
     ReactiveFormsModule,
     AutoFocusModule,
     StoreModule.forFeature('auth', reducer),
-    EffectsModule.forFeature([SignupEffect, SigninEffect]),
+    EffectsModule.forFeature([
+      SignupEffect,
+      SigninEffect,
+      GetCurrentUserEffect,
+    ]),
   ],
   providers: [AuthService, PersistenceService],
 })
