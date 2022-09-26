@@ -1,15 +1,6 @@
 <div class='grid'>
   <div class='col-12'>
     <div class='card'>
-
-      <p-toolbar styleClass='mb-3 py-2'>
-        <ng-template pTemplate='left'>
-          <div class='my-2'>
-            <button pButton label='Создать' icon='pi pi-plus' class='p-button-success mr-2' (click)='appendItem()'></button>
-          </div>
-        </ng-template>
-      </p-toolbar>
-
       <p-table
         #dt
         dataKey='id'
@@ -19,7 +10,7 @@
         [value]='items'
         [resizableColumns]="true"
         [lazy]='true'
-        (onLazyLoad)='loadRoles($event)'
+        (onLazyLoad)='loadItems($event)'
         [paginator]='true'
         [rows]='10'
         [showCurrentPageReport]='true'
@@ -28,11 +19,15 @@
         [rowsPerPageOptions]=rowsPerPageOptions
         currentPageReportTemplate='Записи с {first} по {last} из {totalRecords}'
         [globalFilterFields]="['name']"
+        sortField='id'
+        [sortOrder]=1
       >
         <ng-template pTemplate="caption">
           <div class="flex align-items-center justify-content-between">
-            <h5 class="m-0">Список ролей</h5>
-            <span class="p-input-icon-left p-input-icon-right">
+            <button pButton label='Создать' icon='pi pi-plus' class='p-button-success mr-2' (click)='appendItem()'></button>
+            <span
+              class='p-input-icon-left'
+              [class.p-input-icon-right]='filter.value'>
               <i class="pi pi-search"></i>
               <input
                 #filter
@@ -41,7 +36,9 @@
                 (input)="onGlobalFilter(dt, $event)"
                 placeholder="Поиск..." />
               <i
+                *ngIf="filter.value"
                 class="pi pi-times-circle"
+                style="cursor: pointer"
                 (click)="filter.value = ''; clearSearch(dt)"></i>
             </span>
           </div>
@@ -98,7 +95,22 @@
             </td>
           </tr>
         </ng-template>
+        <ng-template pTemplate='emptymessage'>
+          <tr>
+            <td colspan='7' class='text-center'>Нет данных для отображения</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+          <p-button
+            type="button"
+            icon="pi pi-refresh"
+            styleClass="p-button-text"
+            pTooltip='Обновить' tooltipPosition='right' [showDelay]=250
+            (click)="clearSearch(dt)">
+          </p-button>
+        </ng-template>
       </p-table>
     </div>
+
   </div>
 </div>

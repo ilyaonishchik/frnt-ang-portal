@@ -36,7 +36,7 @@ export class RolesComponent implements OnInit {
     this.loading = true
   }
 
-  loadRoles(event?: LazyLoadEvent) {
+  loadItems(event?: LazyLoadEvent) {
     this.loading = true
     this.rolesService.getAll(event).subscribe({
       next: (result) => {
