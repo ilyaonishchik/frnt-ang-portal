@@ -35,9 +35,9 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    // console.log('SignedInGuard = canActivate = Data:', route.data)
     return this.store.select(currentUserSelector).pipe(
       map((value) => {
+        console.log('SignedInGuard canActivate currentUser:', value)
         if (value) {
           return this.checkRole(route.data, value)
         } else {
@@ -54,9 +54,9 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    // console.log('SignedInGuard = canActivateChild = Data:', childRoute.data)
     return this.store.select(currentUserSelector).pipe(
       map((value) => {
+        console.log('SignedInGuard canActivateChild currentUser:', value)
         if (value) {
           return this.checkPermission(childRoute.data, value)
         } else {
@@ -75,7 +75,7 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
     | UrlTree {
     return this.store.select(isSignedInSelector).pipe(
       map((value) => {
-        // console.log('SignedInGuard = canLoad = isSignedInSelector:', value)
+        console.log('SignedInGuard canLoad isSignedIn:', value)
         if (value === true) {
           return true
         } else {

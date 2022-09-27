@@ -38,7 +38,7 @@ export class SignedOutGuard implements CanActivate, CanLoad {
     // return this.checkLogout(route.url[0])
     return this.store.select(isAnonymousSelector).pipe(
       map((value) => {
-        console.log('Guard canActivate isAnonymous', value)
+        console.log('SignedOutGuard canActivate isAnonymous:', value)
         return value
       })
     )
@@ -56,7 +56,7 @@ export class SignedOutGuard implements CanActivate, CanLoad {
     // console.log(route)
     return this.store.select(isAnonymousSelector).pipe(
       map((value) => {
-        console.log('Guard canLoad isAnonymous', value)
+        console.log('SignedOutGuard canLoad isAnonymous:', value)
         if (!value) {
           this.location.back()
         }
