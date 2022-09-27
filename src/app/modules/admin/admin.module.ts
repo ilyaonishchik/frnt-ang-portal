@@ -20,6 +20,7 @@ import {DashboardComponent} from './components/dashboard/dashboard.component'
 import {UsersComponent} from './components/users/users.component'
 import {RolesComponent} from './components/roles/roles.component'
 import {PermissionsComponent} from './components/permissions/permissions.component'
+import {PickListModule} from 'primeng/picklist'
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {PermissionsComponent} from './components/permissions/permissions.compone
     AutoFocusModule,
     CheckboxModule,
     TooltipModule,
+    PickListModule,
   ],
   exports: [],
 })

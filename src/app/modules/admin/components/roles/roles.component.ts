@@ -4,8 +4,8 @@ import {LazyLoadEvent} from 'primeng/api'
 import {Table} from 'primeng/table'
 
 import {IColumn} from '../../interfaces/column'
-import {IRole} from '../../interfaces/role'
 import {RolesService} from './roles.service'
+import {IRole} from '../../../../shared/types/role.interface'
 
 @Component({
   selector: 'app-roles',
@@ -23,9 +23,16 @@ export class RolesComponent implements OnInit {
   itemDialogDelete: boolean = false
   itemDialogView: boolean = false
   items: IRole[] = []
-  item: IRole = {}
+  item!: IRole
+  clearItem!: IRole
 
-  constructor(private rolesService: RolesService) {}
+  sourceCities: any[] = []
+
+  targetCities: any[] = []
+
+  constructor(private rolesService: RolesService) {
+    this.clearItem = {id: 0, name: '', comment: null, status: 1}
+  }
 
   ngOnInit(): void {
     this.cols = [
@@ -34,9 +41,21 @@ export class RolesComponent implements OnInit {
       {field: 'comment', header: 'Описание'},
     ]
     this.loading = true
+
+    this.sourceCities = [
+      {name: 'San Francisco', code: 'SF'},
+      {name: 'London', code: 'LDN'},
+      {name: 'Paris', code: 'PRS'},
+      {name: 'Istanbul', code: 'IST'},
+      {name: 'Berlin', code: 'BRL'},
+      {name: 'Barcelona', code: 'BRC'},
+      {name: 'Rome', code: 'RM'},
+    ]
+
+    this.targetCities = []
   }
 
-  loadItems(event?: LazyLoadEvent) {
+  loadItems(event: LazyLoadEvent) {
     this.loading = true
     this.rolesService.getAll(event).subscribe({
       next: (result) => {
@@ -48,7 +67,7 @@ export class RolesComponent implements OnInit {
   }
 
   appendItem() {
-    this.item = {}
+    this.item = {...this.clearItem}
     this.submitted = false
     this.itemDialog = true
   }
@@ -71,8 +90,15 @@ export class RolesComponent implements OnInit {
 
   confirmDelete() {
     this.itemDialogDelete = false
-
-    this.item = {}
+    this.rolesService.deleteRole(this.item).subscribe({
+      next: (res) => {
+        this.items = this.items.filter((val) => val.id !== res.record_id)
+      },
+      error: (err) => {
+        console.log(err)
+      },
+    })
+    this.item = {...this.clearItem}
   }
 
   hideDialog() {
@@ -84,12 +110,28 @@ export class RolesComponent implements OnInit {
   saveItem() {
     this.submitted = true
     if (this.item.name?.trim()) {
-      if (this.item.id) {
+      if (this.item.id > 0) {
+        this.rolesService.updateRole(this.item).subscribe({
+          next: (res) => {
+            this.items[this.findIndexById(res.id)] = res
+          },
+          error: (err) => {
+            console.log(err)
+          },
+        })
       } else {
+        this.rolesService.createRole(this.item).subscribe({
+          next: (res) => {
+            this.items.push(res)
+          },
+          error: (err) => {
+            console.log(err)
+          },
+        })
       }
-      // this.items = [...this.items]
+      this.items = [...this.items]
       this.itemDialog = false
-      this.item = {}
+      this.item = {...this.clearItem}
     }
   }
 
@@ -102,5 +144,16 @@ export class RolesComponent implements OnInit {
 
   clearSearch(table: Table) {
     table.filterGlobal(null, 'contains')
+  }
+
+  findIndexById(id: number): number {
+    let index = -1
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i].id === id) {
+        index = i
+        break
+      }
+    }
+    return index
   }
 }

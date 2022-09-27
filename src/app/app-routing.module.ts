@@ -38,8 +38,8 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    canActivate: [SignedOutGuard],
     canLoad: [SignedOutGuard],
+    canActivate: [SignedOutGuard],
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },

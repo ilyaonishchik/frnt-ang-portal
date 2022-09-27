@@ -1,11 +1,6 @@
-export interface IAdminPermission {
-  id: number
-  name: string | null
-  comment: string | null
-  status: number
-}
+import {IPermission} from '../../../shared/types/permission.interface'
 
-export interface IAdminPermissions {
+export interface IPermissions {
   records: number
-  results: IAdminPermission[]
+  results: IPermission[]
 }

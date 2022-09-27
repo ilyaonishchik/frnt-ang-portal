@@ -4,8 +4,8 @@ import {LazyLoadEvent} from 'primeng/api'
 import {Table} from 'primeng/table'
 
 import {IColumn} from '../../interfaces/column'
-import {IAdminPermission} from '../../interfaces/permission'
 import {PermissionsService} from './permissions.service'
+import {IPermission} from '../../../../shared/types/permission.interface'
 
 @Component({
   selector: 'app-permissions',
@@ -22,12 +22,12 @@ export class PermissionsComponent implements OnInit {
   itemDialog: boolean = false
   itemDialogDelete: boolean = false
   itemDialogView: boolean = false
-  items: IAdminPermission[] = []
-  item!: IAdminPermission
-  clearItem!: IAdminPermission
+  items: IPermission[] = []
+  item!: IPermission
+  clearItem!: IPermission
 
   constructor(private permissionsService: PermissionsService) {
-    this.clearItem = {id: 0, name: null, comment: null, status: 1}
+    this.clearItem = {id: 0, name: '', comment: null, status: 1}
   }
 
   ngOnInit(): void {
@@ -56,18 +56,18 @@ export class PermissionsComponent implements OnInit {
     this.itemDialog = true
   }
 
-  viewItem(item: IAdminPermission) {
+  viewItem(item: IPermission) {
     this.item = {...item}
     this.itemDialog = true
     this.itemDialogView = true
   }
 
-  editItem(item: IAdminPermission) {
+  editItem(item: IPermission) {
     this.item = {...item}
     this.itemDialog = true
   }
 
-  deleteItem(item: IAdminPermission) {
+  deleteItem(item: IPermission) {
     this.item = {...item}
     this.itemDialogDelete = true
   }

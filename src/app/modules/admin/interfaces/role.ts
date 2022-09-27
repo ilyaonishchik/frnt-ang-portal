@@ -1,9 +1,4 @@
-export interface IRole {
-  id?: number
-  name?: string
-  comment?: string
-  status?: number
-}
+import {IRole} from '../../../shared/types/role.interface'
 
 export interface IRoles {
   results: IRole[]

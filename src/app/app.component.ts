@@ -1,9 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
-import {MessageService, PrimeNGConfig} from 'primeng/api'
-import {EventBusService} from './services/event-bus.service'
 import {Observable, Subscription} from 'rxjs'
-// import {AuthService} from './services/auth.service'
+
 import {select, Store} from '@ngrx/store'
+
+import {MessageService, PrimeNGConfig} from 'primeng/api'
+
+import {EventBusService} from './services/event-bus.service'
 import {signoutAction} from './modules/auth/store/actions/signout.action'
 import {getCurrentUserAction} from './modules/auth/store/actions/get-current-user.action'
 import {currentUserSelector} from './modules/auth/store/selectors'
@@ -22,7 +24,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private store: Store,
     private primeConfig: PrimeNGConfig,
     private eventBusService: EventBusService,
-    // private authService: AuthService,
     private messageService: MessageService
   ) {}
 

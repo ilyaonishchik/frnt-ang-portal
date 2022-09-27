@@ -112,5 +112,68 @@
       </p-table>
     </div>
 
+    <p-dialog [(visible)]='itemDialog' [style]="{width: '75%'}" header='Информация о роли' [modal]='true' class='p-fluid'>
+      <ng-template pTemplate='content'>
+        <div class='field'>
+          <label for='name'>Наименование</label>
+          <input
+            id='name'
+            type='text'
+            pInputText
+            [(ngModel)]='item.name'
+            [maxLength]=50
+            [readonly]='itemDialogView'
+            [pAutoFocus]='true'
+            [ngClass]="{'ng-invalid ng-dirty': submitted && !item.name}">
+          <small class='p-error block' *ngIf="submitted && !item.name">Обязательное поле</small>
+        </div>
+        <div class='field'>
+          <label for='comment'>Описание</label>
+          <textarea
+            id='comment'
+            pInputTextarea
+            [(ngModel)]='item.comment'
+            [maxLength]=150
+            [readonly]='itemDialogView'
+            rows='3'
+            cols='20'>
+          </textarea>
+        </div>
+        <p-pickList [source]='sourceCities' [target]='targetCities' sourceHeader="Доступные" targetHeader="Выбранные" [dragdrop]="false"
+                    [responsive]="true" [sourceStyle]="{'height':'20rem'}" [targetStyle]="{'height':'20rem'}" filterBy="name"
+                    sourceFilterPlaceholder="Поиск по имени" targetFilterPlaceholder="Поиск по имени"
+                    [showSourceControls]='false' [showTargetControls]='false'
+        >
+          <ng-template let-city pTemplate="item">
+            <div>{{city.name}}</div>
+          </ng-template>
+        </p-pickList>
+        <div class='field-checkbox'>
+          <p-checkbox
+            label='Активная'
+            [(ngModel)]='item.status'
+            [readonly]='itemDialogView'
+            [binary]='true'
+            [trueValue]='1'
+            [falseValue]='0'></p-checkbox>
+        </div>
+      </ng-template>
+      <ng-template pTemplate='footer'>
+        <button pButton [label]="itemDialogView? 'Закрыть': 'Отмена'" icon='pi pi-times' class='p-button-text p-button-secondary' (click)='hideDialog()'></button>
+        <button *ngIf='!itemDialogView' pButton label='Сохранить' icon='pi pi-check' class='p-button-text p-button-success' (click)='saveItem()'></button>
+      </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]='itemDialogDelete' header='Подтверждение' [modal]='true' [style]="{width: '450px'}">
+      <div class='flex align-items-center justify-content-center'>
+        <i class='pi pi-exclamation-triangle mr-3' style="font-size: 2rem"></i>
+        <span *ngIf='item'>Вы действительно хотите удалить: <b>{{item.name}}</b></span>
+      </div>
+      <ng-template pTemplate='footer'>
+        <button pButton label='Нет' icon='pi pi-times' class='p-button-text p-button-info' (click)='itemDialogDelete = false'></button>
+        <button pButton label='Да' icon='pi pi-check' class='p-button-text p-button-danger' (click)='confirmDelete()'></button>
+      </ng-template>
+    </p-dialog>
+
   </div>
 </div>
