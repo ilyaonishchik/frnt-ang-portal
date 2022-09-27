@@ -10,9 +10,13 @@ import {PermissionsComponent} from './components/permissions/permissions.compone
 const routes: Routes = [
   {path: '', component: MainComponent},
   {path: 'dashboard', component: DashboardComponent},
-  {path: 'users', component: UsersComponent},
-  {path: 'roles', component: RolesComponent},
-  {path: 'permissions', component: PermissionsComponent},
+  {path: 'users', component: UsersComponent, data: {permission: 'users:view'}},
+  {path: 'roles', component: RolesComponent, data: {permission: 'roles:view'}},
+  {
+    path: 'permissions',
+    component: PermissionsComponent,
+    data: {permission: 'permissions:view'},
+  },
 ]
 
 @NgModule({

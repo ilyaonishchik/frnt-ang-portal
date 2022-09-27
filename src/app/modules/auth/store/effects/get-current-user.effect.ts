@@ -33,7 +33,7 @@ export class GetCurrentUserEffect {
         return this.authService.getCurrentUser().pipe(
           map((currentUser: ICurrentUser) => {
             this.layoutService.config.menuMode = 'static'
-            console.log('getCurrentUserAction', currentUser)
+            // console.log('getCurrentUserAction', currentUser)
             return getCurrentUserSuccessAction({currentUser})
           }),
           catchError(() => {

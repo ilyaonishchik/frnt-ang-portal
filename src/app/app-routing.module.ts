@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core'
 import {RouterModule, Routes} from '@angular/router'
 
-// import {SignedOutGuard} from './guards/signed-out.guard'
+import {SignedOutGuard} from './guards/signed-out.guard'
 import {SignedInGuard} from './guards/signed-in.guard'
 
 import {LayoutComponent} from './modules/shared/components/layout/layout.component'
@@ -18,12 +18,10 @@ const routes: Routes = [
       },
       {
         path: 'admin',
-        // canLoad: [SignedInGuard],
+        canLoad: [SignedInGuard],
         canActivate: [SignedInGuard],
-        // canActivateChild: [SignedInGuard],
-        // data: {
-        //   role: 'ROLE_ADMIN',
-        // },
+        canActivateChild: [SignedInGuard],
+        data: {role: 'admin:view'},
         loadChildren: () =>
           import('./modules/admin/admin.module').then((m) => m.AdminModule),
       },
@@ -40,8 +38,8 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    // canActivate: [SignedOutGuard],
-    // canLoad: [SignedOutGuard],
+    canActivate: [SignedOutGuard],
+    canLoad: [SignedOutGuard],
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },

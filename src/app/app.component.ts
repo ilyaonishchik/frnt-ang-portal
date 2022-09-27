@@ -1,11 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
 import {MessageService, PrimeNGConfig} from 'primeng/api'
 import {EventBusService} from './services/event-bus.service'
-import {Subscription} from 'rxjs'
-import {AuthService} from './services/auth.service'
-import {Store} from '@ngrx/store'
+import {Observable, Subscription} from 'rxjs'
+// import {AuthService} from './services/auth.service'
+import {select, Store} from '@ngrx/store'
 import {signoutAction} from './modules/auth/store/actions/signout.action'
 import {getCurrentUserAction} from './modules/auth/store/actions/get-current-user.action'
+import {currentUserSelector} from './modules/auth/store/selectors'
+import {ICurrentUser} from './shared/types/current-user.interface'
 
 @Component({
   selector: 'app-root',
@@ -14,29 +16,20 @@ import {getCurrentUserAction} from './modules/auth/store/actions/get-current-use
 })
 export class AppComponent implements OnInit, OnDestroy {
   eventBusSub!: Subscription
+  currentUser$!: Observable<ICurrentUser | null>
+
   constructor(
     private store: Store,
     private primeConfig: PrimeNGConfig,
     private eventBusService: EventBusService,
-    private authService: AuthService,
+    // private authService: AuthService,
     private messageService: MessageService
   ) {}
 
   ngOnInit() {
-    console.log('AppComponent ngOnInit')
     this.initializeConfig()
-    this.eventBusSub = this.eventBusService.on('signout', () => {
-      this.messageService.add({
-        key: 'main',
-        severity: 'warn',
-        summary: 'Внимание',
-        detail:
-          'Ваш сеанс завершен принудительно в связи с окончанием времени сессии.',
-      })
-      this.store.dispatch(signoutAction())
-    })
-    console.log('AppComponent ngOnInit getCurrentUserAction')
-    this.store.dispatch(getCurrentUserAction())
+    this.initializeState()
+    this.initializeEvents()
   }
 
   initializeConfig(): void {
@@ -77,6 +70,24 @@ export class AppComponent implements OnInit, OnDestroy {
         'Ноя',
         'Дек',
       ],
+    })
+  }
+
+  initializeState(): void {
+    this.currentUser$ = this.store.pipe(select(currentUserSelector))
+    this.store.dispatch(getCurrentUserAction())
+  }
+
+  initializeEvents(): void {
+    this.eventBusSub = this.eventBusService.on('signout', () => {
+      this.messageService.add({
+        key: 'main',
+        severity: 'warn',
+        summary: 'Внимание',
+        detail:
+          'Ваш сеанс завершен принудительно в связи с окончанием времени сессии.',
+      })
+      this.store.dispatch(signoutAction())
     })
   }
 

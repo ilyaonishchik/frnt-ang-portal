@@ -12,11 +12,8 @@ import {Location} from '@angular/common'
 import {map, Observable} from 'rxjs'
 
 import {AuthService} from '../services/auth.service'
-import {select, Store} from '@ngrx/store'
-import {
-  isAnonymousSelector,
-  isSignedInSelector,
-} from '../modules/auth/store/selectors'
+import {Store} from '@ngrx/store'
+import {isAnonymousSelector} from '../modules/auth/store/selectors'
 import {IAuthState} from '../modules/auth/types/auth-state.interface'
 
 @Injectable({
@@ -39,15 +36,10 @@ export class SignedOutGuard implements CanActivate, CanLoad {
     | UrlTree {
     // console.log('SignedOutGuard A url: %s', route.url[0])
     // return this.checkLogout(route.url[0])
-    return this.store.select(isSignedInSelector).pipe(
+    return this.store.select(isAnonymousSelector).pipe(
       map((value) => {
-        console.log('Guard canActivate isSignedIn', value)
-        if (value === true) {
-          this.location.back()
-          return false
-        } else {
-          return true
-        }
+        console.log('Guard canActivate isAnonymous', value)
+        return value
       })
     )
   }
@@ -71,22 +63,5 @@ export class SignedOutGuard implements CanActivate, CanLoad {
         return value
       })
     )
-  }
-
-  checkLogout(url: UrlSegment): boolean {
-    // return this.store.select(isAnonymousSelector).pipe(map((value) => {
-    //   console.log(value)
-    //   return true
-    // }))
-
-    // console.log(this.isAnonymous$)
-    // if (this.isAnonymous$) {
-    //   return true
-    // } else {
-    //   if (url.path === 'auth') {
-    //     this.location.back()
-    //   }
-    return false
-    // }
   }
 }

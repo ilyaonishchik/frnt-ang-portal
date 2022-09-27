@@ -1,3 +1,6 @@
+import {IPermission} from './permission.interface'
+import {IRole} from './role.interface'
+
 export interface ICurrentUser {
   id: number
   username: string
@@ -7,4 +10,6 @@ export interface ICurrentUser {
   verify: string | null
   last_login: string | null
   status: number
+  roles: IRole[]
+  permissions: IPermission[]
 }

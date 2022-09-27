@@ -1,3 +1,6 @@
+import {IPermission} from '../../../shared/types/permission.interface'
+import {IRole} from '../../../shared/types/role.interface'
+
 export interface ISignupResponse {
   id: number
   username: string
@@ -7,4 +10,6 @@ export interface ISignupResponse {
   verify: string | null
   last_login: string | null
   status: number
+  roles: IRole[]
+  permissions: IPermission[]
 }

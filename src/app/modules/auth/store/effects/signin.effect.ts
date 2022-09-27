@@ -37,10 +37,8 @@ export class SigninEffect {
       switchMap(({request}) => {
         return this.authService.signIn(request).pipe(
           map((response: ISigninResponse) => {
-            this.persistenceService.setAccessToken(response.tokens.access_token)
-            this.persistenceService.setRefreshToken(
-              response.tokens.refresh_token
-            )
+            this.persistenceService.setAccessToken(response.access_token)
+            this.persistenceService.setRefreshToken(response.refresh_token)
             this.layoutService.config.menuMode = 'static'
             return signinSuccessAction({currentUser: response.user})
           }),
