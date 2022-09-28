@@ -6,6 +6,7 @@ import {Table} from 'primeng/table'
 import {IColumn} from '../../interfaces/column'
 import {RolesService} from './roles.service'
 import {IRole} from '../../../../shared/types/role.interface'
+import {IPermission} from '../../../../shared/types/permission.interface'
 
 @Component({
   selector: 'app-roles',
@@ -26,12 +27,17 @@ export class RolesComponent implements OnInit {
   item!: IRole
   clearItem!: IRole
 
-  sourceCities: any[] = []
-
-  targetCities: any[] = []
+  allPermissions: IPermission[] = []
+  sourcePermissions: IPermission[] = []
 
   constructor(private rolesService: RolesService) {
-    this.clearItem = {id: 0, name: '', comment: null, status: 1}
+    this.clearItem = {
+      id: 0,
+      name: '',
+      comment: null,
+      status: 1,
+      permissions: [],
+    }
   }
 
   ngOnInit(): void {
@@ -42,17 +48,11 @@ export class RolesComponent implements OnInit {
     ]
     this.loading = true
 
-    this.sourceCities = [
-      {name: 'San Francisco', code: 'SF'},
-      {name: 'London', code: 'LDN'},
-      {name: 'Paris', code: 'PRS'},
-      {name: 'Istanbul', code: 'IST'},
-      {name: 'Berlin', code: 'BRL'},
-      {name: 'Barcelona', code: 'BRC'},
-      {name: 'Rome', code: 'RM'},
-    ]
-
-    this.targetCities = []
+    this.rolesService.getPermissions().subscribe({
+      next: (value) => {
+        this.allPermissions = value
+      },
+    })
   }
 
   loadItems(event: LazyLoadEvent) {
@@ -68,18 +68,34 @@ export class RolesComponent implements OnInit {
 
   appendItem() {
     this.item = {...this.clearItem}
+    this.sourcePermissions = this.allPermissions
     this.submitted = false
     this.itemDialog = true
   }
 
   viewItem(item: IRole) {
     this.item = {...item}
+    this.sourcePermissions = []
+    this.rolesService.getRole(item).subscribe({
+      next: (result) => {
+        this.item.permissions = result.permissions
+      },
+    })
     this.itemDialog = true
     this.itemDialogView = true
   }
 
   editItem(item: IRole) {
     this.item = {...item}
+    this.sourcePermissions = []
+    this.rolesService.getRole(item).subscribe({
+      next: (result) => {
+        this.item.permissions = result.permissions
+        this.sourcePermissions = this.allPermissions.filter(
+          (i) => result.permissions.findIndex((e) => e.id === i.id) < 0
+        )
+      },
+    })
     this.itemDialog = true
   }
 

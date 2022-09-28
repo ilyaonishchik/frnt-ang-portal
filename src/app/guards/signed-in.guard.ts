@@ -37,7 +37,7 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
     | UrlTree {
     return this.store.select(currentUserSelector).pipe(
       map((value) => {
-        console.log('SignedInGuard canActivate currentUser:', value)
+        // console.log('SignedInGuard canActivate currentUser:', value)
         if (value) {
           return this.checkRole(route.data, value)
         } else {
@@ -56,7 +56,7 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
     | UrlTree {
     return this.store.select(currentUserSelector).pipe(
       map((value) => {
-        console.log('SignedInGuard canActivateChild currentUser:', value)
+        // console.log('SignedInGuard canActivateChild currentUser:', value)
         if (value) {
           return this.checkPermission(childRoute.data, value)
         } else {

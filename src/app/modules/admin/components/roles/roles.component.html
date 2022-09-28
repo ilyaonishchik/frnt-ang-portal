@@ -112,7 +112,7 @@
       </p-table>
     </div>
 
-    <p-dialog [(visible)]='itemDialog' [style]="{width: '75%'}" header='Информация о роли' [modal]='true' class='p-fluid'>
+    <p-dialog [(visible)]='itemDialog' [style]="{width: '60%'}" header='Информация о роли' [modal]='true' class='p-fluid'>
       <ng-template pTemplate='content'>
         <div class='field'>
           <label for='name'>Наименование</label>
@@ -139,15 +139,28 @@
             cols='20'>
           </textarea>
         </div>
-        <p-pickList [source]='sourceCities' [target]='targetCities' sourceHeader="Доступные" targetHeader="Выбранные" [dragdrop]="false"
-                    [responsive]="true" [sourceStyle]="{'height':'20rem'}" [targetStyle]="{'height':'20rem'}" filterBy="name"
-                    sourceFilterPlaceholder="Поиск по имени" targetFilterPlaceholder="Поиск по имени"
-                    [showSourceControls]='false' [showTargetControls]='false'
-        >
-          <ng-template let-city pTemplate="item">
-            <div>{{city.name}}</div>
-          </ng-template>
-        </p-pickList>
+        <div class='field'>
+          <p-pickList
+            [source]='sourcePermissions'
+            [sourceStyle]="{'height':'20rem'}"
+            [showSourceControls]='false'
+            sourceHeader="Доступные"
+            sourceFilterPlaceholder="Поиск по имени"
+            [target]='item.permissions'
+            [targetStyle]="{'height':'20rem'}"
+            [showTargetControls]='false'
+            targetHeader="Выбранные"
+            targetFilterPlaceholder="Поиск по имени"
+            [dragdrop]="false"
+            [responsive]="true"
+            filterBy="name"
+            [disabled]='itemDialogView'
+          >
+            <ng-template let-permission pTemplate="item">
+              <div>{{permission.name}}</div>
+            </ng-template>
+          </p-pickList>
+        </div>
         <div class='field-checkbox'>
           <p-checkbox
             label='Активная'
