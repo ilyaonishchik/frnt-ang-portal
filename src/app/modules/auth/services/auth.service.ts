@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core'
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http'
-import {map, Observable, timeout} from 'rxjs'
+import {map, Observable} from 'rxjs'
 
 import {ISignupRequest} from '../types/signup-request.interface'
 import {ICurrentUser} from '../../../shared/types/current-user.interface'
@@ -41,10 +41,9 @@ export class AuthService {
   }
 
   getCurrentUser(): Observable<ICurrentUser> {
-    return this.http.get<ICurrentUser>(`${this.apiUrl}users/me`).pipe(
-      timeout(5000),
-      map((response: ICurrentUser) => response)
-    )
+    return this.http
+      .get<ICurrentUser>(`${this.apiUrl}users/me`)
+      .pipe(map((response: ICurrentUser) => response))
   }
 
   refreshToken(token: string) {

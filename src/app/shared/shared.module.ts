@@ -19,10 +19,10 @@ import {MenuitemComponent} from './components/menuitem/menuitem.component'
 import {MenuComponent} from './components/menu/menu.component'
 import {SidebarComponent} from './components/sidebar/sidebar.component'
 import {FooterComponent} from './components/footer/footer.component'
-import {reducer} from '../auth/store/reducers'
-import {SigninEffect} from '../auth/store/effects/signin.effect'
-import {GetCurrentUserEffect} from '../auth/store/effects/get-current-user.effect'
-import {SignoutEffect} from '../auth/store/effects/signout.effect'
+import {reducer} from '../modules/auth/store/reducers'
+import {SigninEffect} from '../modules/auth/store/effects/signin.effect'
+import {GetCurrentUserEffect} from '../modules/auth/store/effects/get-current-user.effect'
+import {SignoutEffect} from '../modules/auth/store/effects/signout.effect'
 
 @NgModule({
   declarations: [

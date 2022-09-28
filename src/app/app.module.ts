@@ -9,7 +9,7 @@ import {ToastModule} from 'primeng/toast'
 import {MessageService} from 'primeng/api'
 
 import {AppRoutingModule} from './app-routing.module'
-import {SharedModule} from './modules/shared/shared.module'
+import {SharedModule} from './shared/shared.module'
 
 import {AppComponent} from './app.component'
 import {httpInterceptorProviders} from './interceptors/http.interceptor'

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core'
 import {Subject} from 'rxjs'
-import {IMenuChangeEvent} from '../types/menuchangeevent'
+import {IMenuChangeEvent} from '../shared/types/menuchangeevent'
 import {IMenu} from '../types/menu'
 
 @Injectable({

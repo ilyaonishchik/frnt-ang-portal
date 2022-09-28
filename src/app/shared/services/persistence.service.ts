@@ -51,6 +51,11 @@ export class PersistenceService {
     return this.currentStorage.getItem(REFRESH_TOKEN_KEY)
   }
 
+  clearTokens(): void {
+    this.currentStorage.removeItem(TOKEN_KEY)
+    this.currentStorage.removeItem(REFRESH_TOKEN_KEY)
+  }
+
   clear(): void {
     this.currentStorage.clear()
   }

@@ -4,7 +4,7 @@ import {RouterModule, Routes} from '@angular/router'
 import {SignedOutGuard} from './guards/signed-out.guard'
 import {SignedInGuard} from './guards/signed-in.guard'
 
-import {LayoutComponent} from './modules/shared/components/layout/layout.component'
+import {LayoutComponent} from './shared/components/layout/layout.component'
 
 const routes: Routes = [
   {

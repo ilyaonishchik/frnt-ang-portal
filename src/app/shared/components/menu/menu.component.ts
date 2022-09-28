@@ -1,8 +1,8 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core'
 
-import {MenuService} from '../../../../services/menu.service'
-// import {Observable} from 'rxjs'
-// import {IMenu} from '../../../../types/menu'
+import {Observable} from 'rxjs'
+import {IMenu} from '../../types/menu.interface'
+import {MenuService} from '../../services/menu.service'
 
 @Component({
   selector: 'app-menu',
@@ -11,14 +11,14 @@ import {MenuService} from '../../../../services/menu.service'
 })
 export class MenuComponent implements OnInit, OnChanges {
   @Input() menuType: number = 0
-  // menuItems$?: Observable<IMenu[]>
+  menuItems$?: Observable<IMenu[]>
 
   constructor(public menuService: MenuService) {}
 
   ngOnInit(): void {}
 
   ngOnChanges() {
-    // this.menuItems$ = this.menuService.getMenuItems(this.menuType)
-    this.menuService.loadMenuItems(this.menuType)
+    console.log('MenuComponent ngOnChanges')
+    this.menuItems$ = this.menuService.getItems(this.menuType)
   }
 }

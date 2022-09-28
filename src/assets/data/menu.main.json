@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "label": "Главная",
+      "items": [
+        {
+          "label": "Ссылки",
+          "routerLink": [
+            "/welcome"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Модули",
+      "items": [
+        {
+          "label": "Подписка",
+          "routerLink": [
+            "/pdp"
+          ],
+          "items": [
+            {
+              "label": "Сортировка",
+              "routerLink": [
+                "/pdp/srt"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

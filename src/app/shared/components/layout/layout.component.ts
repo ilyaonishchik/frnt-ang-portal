@@ -2,8 +2,8 @@ import {Component, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core'
 import {NavigationEnd, Router} from '@angular/router'
 import {filter, Observable, Subscription} from 'rxjs'
 
-import {LayoutService} from '../../../../services/layout.service'
-import {AuthService} from '../../../../services/auth.service'
+import {LayoutService} from '../../../services/layout.service'
+import {AuthService} from '../../../services/auth.service'
 
 import {TopbarComponent} from '../topbar/topbar.component'
 import {SidebarComponent} from '../sidebar/sidebar.component'
@@ -11,7 +11,7 @@ import {select, Store} from '@ngrx/store'
 import {
   isAnonymousSelector,
   isSignedInSelector,
-} from '../../../auth/store/selectors'
+} from '../../../modules/auth/store/selectors'
 
 @Component({
   selector: 'app-layout',

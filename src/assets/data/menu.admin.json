@@ -1,0 +1,47 @@
+{
+  "items": [
+    {
+      "label": "Администрирование",
+      "items": [
+        {
+          "label": "Главная",
+          "routerLink": [
+            "/admin"
+          ]
+        },
+        {
+          "label": "Статистика",
+          "routerLink": [
+            "/admin/dashboard"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Учетные данные",
+      "items": [
+        {
+          "label": "Пользователи",
+          "icon": "pi pi-fw pi-users",
+          "routerLink": [
+            "/admin/users"
+          ]
+        },
+        {
+          "label": "Роли",
+          "icon": "pi pi-fw pi-users",
+          "routerLink": [
+            "/admin/roles"
+          ]
+        },
+        {
+          "label": "Разрешения",
+          "icon": "pi pi-fw pi-users",
+          "routerLink": [
+            "/admin/permissions"
+          ]
+        }
+      ]
+    }
+  ]
+}
