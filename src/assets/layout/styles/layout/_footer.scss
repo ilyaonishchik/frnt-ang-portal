@@ -1,8 +1,6 @@
 .layout-footer {
     transition: margin-left $transitionDuration;
-    display: flex;
     align-items: center;
-    justify-content: end;
     padding-top: 1rem;
     border-top: 1px solid var(--surface-border);
 }
