@@ -1,6 +1,6 @@
 <div class='grid'>
   <div class='col-12'>
-    <div class='card'>
+    <div class='card mb-0'>
       <p-table
         #dt
         dataKey='id'
@@ -141,21 +141,24 @@
             cols='20'>
           </textarea>
         </div>
-        <div class='field-checkbox'>
+      </ng-template>
+      <ng-template pTemplate='footer'>
+        <div class='flex justify-content-between'>
           <p-checkbox
+            class='align-content-start'
             label='Активная'
             [(ngModel)]='item.status'
             [readonly]='itemDialogView'
             [binary]='true'
             [trueValue]='1'
             [falseValue]='0'></p-checkbox>
+          <div>
+            <button pButton [label]="itemDialogView? 'Закрыть': 'Отмена'" icon='pi pi-times'
+                    class='p-button-text p-button-secondary' (click)='hideDialog()'></button>
+            <button *ngIf='!itemDialogView' pButton label='Сохранить' icon='pi pi-check'
+                    class='p-button-text p-button-success' (click)='saveItem()'></button>
+          </div>
         </div>
-      </ng-template>
-      <ng-template pTemplate='footer'>
-        <button pButton [label]="itemDialogView? 'Закрыть': 'Отмена'" icon='pi pi-times'
-                class='p-button-text p-button-secondary' (click)='hideDialog()'></button>
-        <button *ngIf='!itemDialogView' pButton label='Сохранить' icon='pi pi-check'
-                class='p-button-text p-button-success' (click)='saveItem()'></button>
       </ng-template>
     </p-dialog>
 

@@ -8,6 +8,8 @@ import {AppService} from '../../../shared/services/app.service'
 import {ISignupResponse} from '../types/signup-response.interface'
 import {ISigninRequest} from '../types/signin-request.interface'
 import {ISigninResponse} from '../types/signin-response.interface'
+import {IToken} from '../../../shared/types/token'
+import {IUserReset} from '../../../shared/types/user.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +48,15 @@ export class AuthService {
       .pipe(map((response: ICurrentUser) => response))
   }
 
+  resetPassword(user: IUserReset): Observable<any> {
+    return this.http.get(`${this.apiUrl}reset/${user.email}`)
+  }
+
   refreshToken(token: string) {
-    return this.http.get(this.apiUrl + 'refresh/' + token).pipe()
+    return this.http.get<IToken>(`${this.apiUrl}refresh/${token}`)
+  }
+
+  verifyCode(code: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}verify/${code}`)
   }
 }

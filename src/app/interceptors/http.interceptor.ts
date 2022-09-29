@@ -13,13 +13,14 @@ import {
   filter,
   Observable,
   switchMap,
-  take,
   throwError,
 } from 'rxjs'
 
-import {AuthService} from '../shared/services/auth.service'
-import {EventBusService} from '../shared/services/event-bus.service'
 import {PersistenceService} from '../shared/services/persistence.service'
+import {AuthService} from '../modules/auth/services/auth.service'
+import {Store} from '@ngrx/store'
+import {IAuthState} from '../modules/auth/types/auth-state.interface'
+import {signoutAction} from '../modules/auth/store/actions/signout.action'
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
@@ -31,7 +32,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   constructor(
     private persistenceService: PersistenceService,
     private authService: AuthService,
-    private eventBusService: EventBusService
+    private store: Store<IAuthState>
   ) {}
 
   intercept(
@@ -44,24 +45,18 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     if (token != null) {
       authRequest = this.addTokenHeader(request, token)
     }
-
-    // request = request.clone({
-    //   withCredentials: true,
-    // })
-
     return next.handle(authRequest).pipe(
       catchError((error) => {
-        // console.log(error)
         if (error instanceof HttpErrorResponse) {
           if (error.status === 401) {
             if (!authRequest.url.includes('auth/signin')) {
               return this.handle401Error(authRequest, next)
             }
           }
-
           if (error.status === 403) {
             if (authRequest.url.includes('auth/refresh')) {
-              this.eventBusService.emit({name: 'signout', value: null})
+              // this.eventBusService.emit({name: 'signout', value: null})
+              this.store.dispatch(signoutAction())
             }
           }
         }
@@ -93,7 +88,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     }
     return this.refreshTokenSubject.pipe(
       filter((token) => token !== null),
-      take(1),
       switchMap((token) => next.handle(this.addTokenHeader(request, token)))
     )
   }

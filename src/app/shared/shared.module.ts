@@ -50,6 +50,6 @@ import {SignoutEffect} from '../modules/auth/store/effects/signout.effect'
       SignoutEffect,
     ]),
   ],
-  exports: [LayoutComponent, TopbarComponent],
+  exports: [TopbarComponent],
 })
 export class SharedModule {}

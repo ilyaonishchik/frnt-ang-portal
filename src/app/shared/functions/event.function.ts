@@ -1,5 +1,6 @@
-import {LazyLoadEvent} from 'primeng/api'
 import {HttpParams} from '@angular/common/http'
+
+import {LazyLoadEvent} from 'primeng/api'
 
 export function eventToParams(event: LazyLoadEvent | null): HttpParams {
   let params = new HttpParams()

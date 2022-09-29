@@ -1,17 +1,18 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core'
-import {MenuItem, MessageService} from 'primeng/api'
-import {LayoutService} from '../../services/layout.service'
-import {AuthService} from '../../services/auth.service'
-import {AppService} from '../../services/app.service'
 import {Observable} from 'rxjs'
-import {ICurrentUser} from '../../types/current-user.interface'
 import {select, Store} from '@ngrx/store'
+import {MenuItem, MessageService} from 'primeng/api'
+
+import {LayoutService} from '../../services/layout.service'
+import {AppService} from '../../services/app.service'
+import {ICurrentUser} from '../../types/current-user.interface'
 import {
   currentUserSelector,
   isAnonymousSelector,
   isSignedInSelector,
 } from '../../../modules/auth/store/selectors'
 import {signoutAction} from '../../../modules/auth/store/actions/signout.action'
+import {AuthService} from '../../../modules/auth/services/auth.service'
 
 @Component({
   selector: 'app-topbar',
@@ -64,6 +65,6 @@ export class TopbarComponent implements OnInit {
 
   logout() {
     this.store.dispatch(signoutAction())
-    this.authService.signOut()
+    // this.authService.signOut()
   }
 }

@@ -1,4 +1,5 @@
-import {IPermission, IRole} from '../../types/user'
+import {IRole} from './role.interface'
+import {IPermission} from './permission.interface'
 
 export interface IUser {
   id: number
@@ -9,6 +10,10 @@ export interface IUser {
   status: number
   roles: IRole[]
   permissions: IPermission[]
+}
+
+export interface IUserReset {
+  email: string
 }
 
 export interface IUserSave {

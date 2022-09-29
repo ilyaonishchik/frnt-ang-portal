@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import {MessageService} from 'primeng/api'
 
 import {AppService} from '../../../../shared/services/app.service'
-import {AuthService} from '../../../../shared/services/auth.service'
+import {AuthService} from '../../services/auth.service'
 
 @Component({
   selector: 'app-password-reset',
@@ -54,16 +54,16 @@ export class PasswordResetComponent implements OnInit {
       },
       error: (err) => {
         console.warn(err.code)
-        this.messageService.add({
-          key: 'main',
-          severity: 'warn',
-          summary: 'Внимание',
-          detail: err.message,
-        })
-        this.resetForm()
+        //   this.messageService.add({
+        //     key: 'main',
+        //     severity: 'warn',
+        //     summary: 'Внимание',
+        //     detail: err.message,
+        //   })
+        //   this.resetForm()
       },
       complete: () => {
-        this.resetForm()
+        //   this.resetForm()
         console.log('Complete reset password')
       },
     })

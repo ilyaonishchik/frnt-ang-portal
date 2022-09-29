@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
 
-import {AuthService} from '../../../../shared/services/auth.service'
 import {AppService} from '../../../../shared/services/app.service'
+import {AuthService} from '../../services/auth.service'
 
 @Component({
   selector: 'app-verify',
@@ -15,8 +15,8 @@ export class VerifyComponent implements OnInit {
 
   constructor(
     private activateRoute: ActivatedRoute,
-    private appService: AppService,
-    private authService: AuthService
+    private authService: AuthService,
+    private appService: AppService
   ) {}
 
   ngOnInit(): void {

@@ -10,9 +10,8 @@ import {
 } from '@angular/router'
 import {Location} from '@angular/common'
 import {map, Observable} from 'rxjs'
-
-import {AuthService} from '../shared/services/auth.service'
 import {Store} from '@ngrx/store'
+
 import {isAnonymousSelector} from '../modules/auth/store/selectors'
 import {IAuthState} from '../modules/auth/types/auth-state.interface'
 
@@ -20,11 +19,7 @@ import {IAuthState} from '../modules/auth/types/auth-state.interface'
   providedIn: 'root',
 })
 export class SignedOutGuard implements CanActivate, CanLoad {
-  constructor(
-    private store: Store<IAuthState>,
-    private authService: AuthService,
-    private location: Location
-  ) {}
+  constructor(private store: Store<IAuthState>, private location: Location) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,

@@ -1,13 +1,11 @@
 import {Component, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core'
 import {NavigationEnd, Router} from '@angular/router'
 import {filter, Observable, Subscription} from 'rxjs'
+import {select, Store} from '@ngrx/store'
 
 import {LayoutService} from '../../services/layout.service'
-import {AuthService} from '../../services/auth.service'
-
 import {TopbarComponent} from '../topbar/topbar.component'
 import {SidebarComponent} from '../sidebar/sidebar.component'
-import {select, Store} from '@ngrx/store'
 import {
   isAnonymousSelector,
   isSignedInSelector,
@@ -35,7 +33,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     public layoutService: LayoutService,
-    public authService: AuthService,
     public renderer: Renderer2,
     public router: Router
   ) {
