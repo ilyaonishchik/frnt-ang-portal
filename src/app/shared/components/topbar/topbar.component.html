@@ -1,63 +1,63 @@
-<div class="layout-topbar">
-  <a class="layout-topbar-logo" routerLink="">
-    <img src='../../../../assets/img/project.png' alt="logo">
+<div class='layout-topbar'>
+  <a class='layout-topbar-logo' routerLink=''>
+    <img src='../../../../assets/img/project.png' alt='logo'>
     <span>{{appService.projectTitle}}</span>
   </a>
-      <button
-        *ngIf='isSignedIn$ | async'
-        #menubutton
-        class="p-link layout-menu-button layout-topbar-button"
-        (click)="layoutService.onMenuToggle()">
-          <i class="pi pi-bars"></i>
-      </button>
+  <button
+    *ngIf='isSignedIn$ | async'
+    #menubutton
+    class='p-link layout-menu-button layout-topbar-button'
+    (click)='layoutService.onMenuToggle()'>
+    <i class='pi pi-bars'></i>
+  </button>
 
   <button
     #topbarmenubutton
-    class="p-link layout-topbar-menu-button layout-topbar-button"
-    (click)="layoutService.showProfileSidebar()">
-    <i class="pi pi-ellipsis-v"></i>
+    class='p-link layout-topbar-menu-button layout-topbar-button'
+    (click)='layoutService.showProfileSidebar()'>
+    <i class='pi pi-ellipsis-v'></i>
   </button>
 
   <div
     #topbarmenu
-    class="layout-topbar-menu"
+    class='layout-topbar-menu'
     [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
     <ng-container *ngIf='isSignedIn$ | async'>
       <button
-        class="p-link layout-topbar-button"
+        class='p-link layout-topbar-button'
         pTooltip='Уведомления'
         tooltipPosition='bottom'
         (click)='showNotifications()'
         [showDelay]='1000'>
-        <i class="pi pi-bell" pBadge severity='danger' [value]="'99+'"></i>
+        <i class='pi pi-bell' pBadge severity='danger' [value]="'99+'"></i>
         <span>Уведомления</span>
       </button>
       <button
-        class="p-link layout-topbar-button"
+        class='p-link layout-topbar-button'
         pTooltip='Сообщения'
         tooltipPosition='bottom'
         (click)='showMessages()'
         [showDelay]='1000'>
-        <i class="pi pi-envelope" pBadge severity='info' value='5'></i>
+        <i class='pi pi-envelope' pBadge severity='info' value='5'></i>
         <span>Сообщения</span>
       </button>
-      <p-divider *ngIf='layoutService.state.profileSidebarVisible' layout="horizontal"></p-divider>
-      <p-divider *ngIf='!layoutService.state.profileSidebarVisible' layout="vertical"></p-divider>
+      <p-divider *ngIf='layoutService.state.profileSidebarVisible' layout='horizontal'></p-divider>
+      <p-divider *ngIf='!layoutService.state.profileSidebarVisible' layout='vertical'></p-divider>
       <button
-        class="p-link layout-topbar-button"
+        class='p-link layout-topbar-button'
         pTooltip='Профиль'
         tooltipPosition='bottom'
         [showDelay]='1000'>
-        <i class="pi pi-user"></i>
+        <i class='pi pi-user'></i>
         <span>Профиль</span>
       </button>
       <button
-        class="p-link layout-topbar-button"
+        class='p-link layout-topbar-button'
         pTooltip='Админка'
         tooltipPosition='bottom'
         [showDelay]='1000'
         [routerLink]="'/admin'">
-        <i class="pi pi-cog"></i>
+        <i class='pi pi-cog'></i>
         <span>Админка</span>
       </button>
       <button

@@ -1,40 +1,42 @@
-<div class="surface-0 flex align-items-start justify-content-center min-h-screen min-w-screen overflow-hidden">
-  <div class="grid justify-content-center pt-4" style="min-width:80%">
-    <div class="col-12 text-center mb-2">
-      <p-button styleClass="p-button-text p-button-plain" routerLink='/'>
-        <img src="assets/img/project.png" alt="Logo" style="width: 2rem"/>
+<div class='surface-0 flex align-items-start justify-content-center min-h-screen min-w-screen overflow-hidden'>
+  <div class='grid justify-content-center pt-4' style='min-width:80%'>
+    <div class='col-12 text-center mb-2'>
+      <p-button styleClass='p-button-text p-button-plain' routerLink='/'>
+        <img src='assets/img/project.png' alt='Logo' style='width: 2rem' />
         <span class='ml-2 text-2xl'>{{appName}}</span>
       </p-button>
     </div>
-    <div class="col-11 md:col-10 lg:col-8 xl:col-6" style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
-      <div class="h-full w-full m-0 py-5 px-4" style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
+    <div class='col-11 md:col-10 lg:col-8 xl:col-6'
+         style='border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);'>
+      <div class='h-full w-full m-0 py-5 px-4'
+           style='border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));'>
         <ng-container *ngIf='username'>
-          <div class="text-center mb-5">
-            <div class="text-900 text-3xl font-medium mb-3">Регистрация подтверждена</div>
-            <div class="text-600 font-medium">Регистрация пользователя {{username}} успешно выполнена.</div>
-            <div class="text-600 font-medium">Для продолжения работы с сайтом пройдите авторизацию.</div>
+          <div class='text-center mb-5'>
+            <div class='text-900 text-3xl font-medium mb-3'>Регистрация подтверждена</div>
+            <div class='text-600 font-medium'>Регистрация пользователя {{username}} успешно выполнена.</div>
+            <div class='text-600 font-medium'>Для продолжения работы с сайтом пройдите авторизацию.</div>
           </div>
-          <div class="w-full md:w-10 mx-auto">
+          <div class='w-full md:w-10 mx-auto'>
             <button
               pButton
-              label="Авторизоваться"
+              label='Авторизоваться'
               routerLink='/auth/sign-in'
-              class="w-full p-3 text-xl">
+              class='w-full p-3 text-xl'>
             </button>
           </div>
         </ng-container>
         <ng-container *ngIf='message'>
-          <div class="text-center mb-5">
-            <div class="text-900 text-3xl font-medium mb-3">Контроль не пройден</div>
-            <div class="text-600 font-medium">При проверке регистрации пользователя возникла ошибка.</div>
-            <div class="text-600 font-medium mt-4 text-red-600">{{message}}</div>
+          <div class='text-center mb-5'>
+            <div class='text-900 text-3xl font-medium mb-3'>Контроль не пройден</div>
+            <div class='text-600 font-medium'>При проверке регистрации пользователя возникла ошибка.</div>
+            <div class='text-600 font-medium mt-4 text-red-600'>{{message}}</div>
           </div>
-          <div class="w-full md:w-10 mx-auto">
+          <div class='w-full md:w-10 mx-auto'>
             <button
               pButton
-              label="На главную"
+              label='На главную'
               routerLink='/'
-              class="w-full p-3 text-xl">
+              class='w-full p-3 text-xl'>
             </button>
           </div>
         </ng-container>

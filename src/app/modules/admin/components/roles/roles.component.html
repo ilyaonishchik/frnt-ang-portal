@@ -4,15 +4,15 @@
       <p-table
         #dt
         dataKey='id'
-        responsiveLayout="stack"
-        styleClass="p-datatable-sm p-datatable-gridlines"
+        responsiveLayout='stack'
+        styleClass='p-datatable-sm p-datatable-gridlines'
         [columns]='cols'
         [value]='items'
-        [resizableColumns]="true"
+        [resizableColumns]='true'
         [lazy]='true'
         (onLazyLoad)='loadItems($event)'
         [paginator]='true'
-        [rows]='10'
+        [rows]='15'
         [showCurrentPageReport]='true'
         [loading]='loading'
         [totalRecords]='totalRecords'
@@ -22,23 +22,24 @@
         sortField='id'
         [sortOrder]=1
       >
-        <ng-template pTemplate="caption">
-          <div class="flex align-items-center justify-content-between">
-            <button pButton label='Создать' icon='pi pi-plus' class='p-button-success mr-2' (click)='appendItem()'></button>
+        <ng-template pTemplate='caption'>
+          <div class='flex align-items-center justify-content-between'>
+            <button pButton label='Создать' icon='pi pi-plus' class='p-button-success mr-2'
+                    (click)='appendItem()'></button>
             <span
               class='p-input-icon-left'
               [class.p-input-icon-right]='filter.value'>
-              <i class="pi pi-search"></i>
+              <i class='pi pi-search'></i>
               <input
                 #filter
                 pInputText
-                type="text"
-                (input)="onGlobalFilter(dt, $event)"
-                placeholder="Поиск..." />
+                type='text'
+                (input)='onGlobalFilter(dt, $event)'
+                placeholder='Поиск...' />
               <i
-                *ngIf="filter.value"
-                class="pi pi-times-circle"
-                style="cursor: pointer"
+                *ngIf='filter.value'
+                class='pi pi-times-circle'
+                style='cursor: pointer'
                 (click)="filter.value = ''; clearSearch(dt)"></i>
             </span>
           </div>
@@ -100,19 +101,20 @@
             <td colspan='7' class='text-center'>Нет данных для отображения</td>
           </tr>
         </ng-template>
-        <ng-template pTemplate="paginatorleft">
+        <ng-template pTemplate='paginatorleft'>
           <p-button
-            type="button"
-            icon="pi pi-refresh"
-            styleClass="p-button-text"
+            type='button'
+            icon='pi pi-refresh'
+            styleClass='p-button-text'
             pTooltip='Обновить' tooltipPosition='right' [showDelay]=250
-            (click)="clearSearch(dt)">
+            (click)='clearSearch(dt)'>
           </p-button>
         </ng-template>
       </p-table>
     </div>
 
-    <p-dialog [(visible)]='itemDialog' [style]="{width: '60%'}" header='Информация о роли' [modal]='true' class='p-fluid'>
+    <p-dialog [(visible)]='itemDialog' [style]="{width: '60%'}" header='Информация о роли' [modal]='true'
+              class='p-fluid'>
       <ng-template pTemplate='content'>
         <div class='field'>
           <label for='name'>Наименование</label>
@@ -125,7 +127,7 @@
             [readonly]='itemDialogView'
             [pAutoFocus]='true'
             [ngClass]="{'ng-invalid ng-dirty': submitted && !item.name}">
-          <small class='p-error block' *ngIf="submitted && !item.name">Обязательное поле</small>
+          <small class='p-error block' *ngIf='submitted && !item.name'>Обязательное поле</small>
         </div>
         <div class='field'>
           <label for='comment'>Описание</label>
@@ -135,7 +137,7 @@
             [(ngModel)]='item.comment'
             [maxLength]=150
             [readonly]='itemDialogView'
-            rows='3'
+            rows='2'
             cols='20'>
           </textarea>
         </div>
@@ -144,20 +146,21 @@
             [source]='sourcePermissions'
             [sourceStyle]="{'height':'20rem'}"
             [showSourceControls]='false'
-            sourceHeader="Доступные"
-            sourceFilterPlaceholder="Поиск по имени"
+            sourceHeader='Доступные'
+            sourceFilterPlaceholder='Поиск по имени'
             [target]='item.permissions'
             [targetStyle]="{'height':'20rem'}"
             [showTargetControls]='false'
-            targetHeader="Выбранные"
-            targetFilterPlaceholder="Поиск по имени"
-            [dragdrop]="false"
-            [responsive]="true"
-            filterBy="name"
+            targetHeader='Выбранные'
+            targetFilterPlaceholder='Поиск по имени'
+            [dragdrop]='false'
+            [responsive]='true'
+            filterBy='name'
             [disabled]='itemDialogView'
           >
-            <ng-template let-permission pTemplate="item">
-              <div>{{permission.name}}</div>
+            <ng-template let-permission pTemplate='item'>
+              <div class='text-900 font-medium'>{{permission.name}}</div>
+              <div class='text-600'>{{permission.comment}}</div>
             </ng-template>
           </p-pickList>
         </div>
@@ -172,19 +175,23 @@
         </div>
       </ng-template>
       <ng-template pTemplate='footer'>
-        <button pButton [label]="itemDialogView? 'Закрыть': 'Отмена'" icon='pi pi-times' class='p-button-text p-button-secondary' (click)='hideDialog()'></button>
-        <button *ngIf='!itemDialogView' pButton label='Сохранить' icon='pi pi-check' class='p-button-text p-button-success' (click)='saveItem()'></button>
+        <button pButton [label]="itemDialogView? 'Закрыть': 'Отмена'" icon='pi pi-times'
+                class='p-button-text p-button-secondary' (click)='hideDialog()'></button>
+        <button *ngIf='!itemDialogView' pButton label='Сохранить' icon='pi pi-check'
+                class='p-button-text p-button-success' (click)='saveItem()'></button>
       </ng-template>
     </p-dialog>
 
     <p-dialog [(visible)]='itemDialogDelete' header='Подтверждение' [modal]='true' [style]="{width: '450px'}">
       <div class='flex align-items-center justify-content-center'>
-        <i class='pi pi-exclamation-triangle mr-3' style="font-size: 2rem"></i>
+        <i class='pi pi-exclamation-triangle mr-3' style='font-size: 2rem'></i>
         <span *ngIf='item'>Вы действительно хотите удалить: <b>{{item.name}}</b></span>
       </div>
       <ng-template pTemplate='footer'>
-        <button pButton label='Нет' icon='pi pi-times' class='p-button-text p-button-info' (click)='itemDialogDelete = false'></button>
-        <button pButton label='Да' icon='pi pi-check' class='p-button-text p-button-danger' (click)='confirmDelete()'></button>
+        <button pButton label='Нет' icon='pi pi-times' class='p-button-text p-button-info'
+                (click)='itemDialogDelete = false'></button>
+        <button pButton label='Да' icon='pi pi-check' class='p-button-text p-button-danger'
+                (click)='confirmDelete()'></button>
       </ng-template>
     </p-dialog>
 
