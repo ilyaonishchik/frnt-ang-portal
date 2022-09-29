@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import {select, Store} from '@ngrx/store'
 import {Observable} from 'rxjs'
 
-import {AppService} from '../../../../services/app.service'
+import {AppService} from '../../../../shared/services/app.service'
 import {CustomValidators} from '../../../../shared/validators'
 import {signupAction} from '../../store/actions/signup.action'
 import {

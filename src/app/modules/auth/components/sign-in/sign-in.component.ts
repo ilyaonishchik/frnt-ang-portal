@@ -4,7 +4,7 @@ import {Observable} from 'rxjs'
 
 import {select, Store} from '@ngrx/store'
 
-import {AppService} from '../../../../services/app.service'
+import {AppService} from '../../../../shared/services/app.service'
 import {
   isSubmittingSelector,
   validationErrorSelector,

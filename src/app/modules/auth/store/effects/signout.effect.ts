@@ -7,7 +7,7 @@ import {of, switchMap, tap} from 'rxjs'
 import {AuthService} from '../../services/auth.service'
 
 import {PersistenceService} from '../../../../shared/services/persistence.service'
-import {LayoutService} from '../../../../services/layout.service'
+import {LayoutService} from '../../../../shared/services/layout.service'
 import {
   signoutAction,
   // signoutRedirectAction,

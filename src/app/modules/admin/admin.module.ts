@@ -21,6 +21,7 @@ import {UsersComponent} from './components/users/users.component'
 import {RolesComponent} from './components/roles/roles.component'
 import {PermissionsComponent} from './components/permissions/permissions.component'
 import {PickListModule} from 'primeng/picklist'
+import {TabViewModule} from 'primeng/tabview'
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import {PickListModule} from 'primeng/picklist'
     CheckboxModule,
     TooltipModule,
     PickListModule,
+    TabViewModule,
   ],
   exports: [],
 })

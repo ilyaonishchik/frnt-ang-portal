@@ -4,8 +4,10 @@ import {Table} from 'primeng/table'
 import {LazyLoadEvent} from 'primeng/api'
 
 import {IColumn} from '../../interfaces/column'
-import {IUser} from '../../interfaces/user'
 import {UsersService} from './users.service'
+import {IUser} from '../../../../shared/types/user.interface'
+import {IPermission} from '../../../../shared/types/permission.interface'
+import {IRole} from '../../../../shared/types/role.interface'
 
 @Component({
   selector: 'app-users',
@@ -22,13 +24,29 @@ export class UsersComponent implements OnInit {
   itemDialog: boolean = false
   itemDialogDelete: boolean = false
   itemDialogView: boolean = false
-
   items: IUser[] = []
-  item: IUser = {}
+  item!: IUser
+  clearItem!: IUser
+
+  allRoles: IRole[] = []
+  allPermissions: IPermission[] = []
+  sourceRoles: IRole[] = []
+  sourcePermissions: IPermission[] = []
 
   @ViewChild('filter') filter!: ElementRef
 
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService) {
+    this.clearItem = {
+      id: 0,
+      username: '',
+      email: '',
+      comment: null,
+      avatar: null,
+      status: 1,
+      roles: [],
+      permissions: [],
+    }
+  }
 
   ngOnInit(): void {
     this.cols = [
@@ -38,6 +56,17 @@ export class UsersComponent implements OnInit {
       {field: 'comment', header: 'Описание'},
     ]
     this.loading = true
+
+    this.usersService.getRoles().subscribe({
+      next: (value) => {
+        this.allRoles = value
+      },
+    })
+    this.usersService.getPermissions().subscribe({
+      next: (value) => {
+        this.allPermissions = value
+      },
+    })
   }
 
   loadItems(event: LazyLoadEvent) {
@@ -52,19 +81,43 @@ export class UsersComponent implements OnInit {
   }
 
   appendItem() {
-    this.item = {}
+    this.item = {...this.clearItem}
+    this.sourceRoles = this.allRoles
+    this.sourcePermissions = this.allPermissions
     this.submitted = false
     this.itemDialog = true
   }
 
   viewItem(item: IUser) {
     this.item = {...item}
+    this.sourceRoles = []
+    this.sourcePermissions = []
+    this.usersService.getUser(item).subscribe({
+      next: (result) => {
+        this.item.roles = result.roles
+        this.item.permissions = result.permissions
+      },
+    })
     this.itemDialog = true
     this.itemDialogView = true
   }
 
   editItem(item: IUser) {
     this.item = {...item}
+    this.sourceRoles = []
+    this.sourcePermissions = []
+    this.usersService.getUser(item).subscribe({
+      next: (result) => {
+        this.item.roles = result.roles
+        this.item.permissions = result.permissions
+        this.sourceRoles = this.allRoles.filter(
+          (i) => result.roles.findIndex((e) => e.id === i.id) < 0
+        )
+        this.sourcePermissions = this.allPermissions.filter(
+          (i) => result.permissions.findIndex((e) => e.id === i.id) < 0
+        )
+      },
+    })
     this.itemDialog = true
   }
 
@@ -75,8 +128,15 @@ export class UsersComponent implements OnInit {
 
   confirmDelete() {
     this.itemDialogDelete = false
-
-    this.item = {}
+    this.usersService.deleteUser(this.item).subscribe({
+      next: (res) => {
+        this.items = this.items.filter((val) => val.id !== res.record_id)
+      },
+      error: (err) => {
+        console.log(err)
+      },
+    })
+    this.item = {...this.clearItem}
   }
 
   hideDialog() {
@@ -89,11 +149,27 @@ export class UsersComponent implements OnInit {
     this.submitted = true
     if (this.item.username?.trim()) {
       if (this.item.id) {
+        this.usersService.updateUser(this.item).subscribe({
+          next: (res) => {
+            this.items[this.findIndexById(res.id)] = res
+          },
+          error: (err) => {
+            console.log(err)
+          },
+        })
       } else {
+        this.usersService.createUser(this.item).subscribe({
+          next: (res) => {
+            this.items.push(res)
+          },
+          error: (err) => {
+            console.log(err)
+          },
+        })
       }
-      // this.items = [...this.items]
+      this.items = [...this.items]
       this.itemDialog = false
-      this.item = {}
+      this.item = {...this.clearItem}
     }
   }
 
@@ -106,5 +182,16 @@ export class UsersComponent implements OnInit {
 
   clearSearch(table: Table) {
     table.filterGlobal(null, 'contains')
+  }
+
+  findIndexById(id: number): number {
+    let index = -1
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i].id === id) {
+        index = i
+        break
+      }
+    }
+    return index
   }
 }

@@ -5,7 +5,7 @@ import {select, Store} from '@ngrx/store'
 
 import {MessageService, PrimeNGConfig} from 'primeng/api'
 
-import {EventBusService} from './services/event-bus.service'
+import {EventBusService} from './shared/services/event-bus.service'
 import {signoutAction} from './modules/auth/store/actions/signout.action'
 import {getCurrentUserAction} from './modules/auth/store/actions/get-current-user.action'
 import {currentUserSelector} from './modules/auth/store/selectors'

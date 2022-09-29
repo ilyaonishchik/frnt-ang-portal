@@ -9,7 +9,7 @@ import {NavigationEnd, Router} from '@angular/router'
 import {animate, state, style, transition, trigger} from '@angular/animations'
 import {filter, Subscription} from 'rxjs'
 
-import {LayoutService} from '../../../services/layout.service'
+import {LayoutService} from '../../services/layout.service'
 import {MenuService} from '../../services/menu.service'
 
 @Component({

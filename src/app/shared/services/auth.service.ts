@@ -2,35 +2,35 @@ import {Injectable} from '@angular/core'
 import {
   HttpClient,
   HttpErrorResponse,
-  HttpHeaders,
-  HttpParams,
+  // HttpHeaders,
+  // HttpParams,
 } from '@angular/common/http'
-import {Router} from '@angular/router'
+// import {Router} from '@angular/router'
 
-import {catchError, Observable, retry, tap, throwError} from 'rxjs'
+import {catchError, Observable, retry, throwError} from 'rxjs'
 
 import {
   // IPermission,
   // IRole,
-  IUser,
+  // IUser,
   IUserInfo,
   IUserReset,
-  IUserSignIn,
-  IUserSignUp,
-} from '../types/user'
+  // IUserSignIn,
+  // IUserSignUp,
+} from '../../types/user'
 import {IErrorMessage} from '../types/error'
 import {LayoutService} from './layout.service'
 import {EventBusService} from './event-bus.service'
 import {ErrorService} from './error.service'
-import {IToken} from '../types/token'
+// import {IToken} from '../../types/token'
 import {AppService} from './app.service'
-import {PersistenceService} from '../shared/services/persistence.service'
+import {PersistenceService} from './persistence.service'
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/x-www-form-urlencoded',
-  }),
-}
+// const httpOptions = {
+//   headers: new HttpHeaders({
+//     'Content-Type': 'application/x-www-form-urlencoded',
+//   }),
+// }
 
 interface IAuthState {
   userSignedIn: boolean
@@ -60,42 +60,41 @@ export class AuthService {
     private appService: AppService,
     private eventBusService: EventBusService,
     private errorService: ErrorService,
-    private http: HttpClient,
-    private router: Router
+    private http: HttpClient // private router: Router
   ) {
     this.apiUrl = this.appService.urlApiAuth
     this.checkState()
   }
 
-  redirect(url?: string) {
-    if (url) {
-      this.router.navigateByUrl(url).then((_) => {})
-    } else {
-      this.router.navigateByUrl(this.state.redirectUrl).then((_) => {})
-    }
-  }
+  // redirect(url?: string) {
+  //   if (url) {
+  //     this.router.navigateByUrl(url).then((_) => {})
+  //   } else {
+  //     this.router.navigateByUrl(this.state.redirectUrl).then((_) => {})
+  //   }
+  // }
 
-  signIn(user: IUserSignIn): Observable<IToken> {
-    const params = new HttpParams({
-      fromObject: {username: user.username, password: user.password},
-    })
-    return this.http
-      .post<IToken>(this.apiUrl + 'signin', params, httpOptions)
-      .pipe(
-        tap((token) => {
-          this.persistenceService.setAccessToken(token.access_token)
-          this.persistenceService.setRefreshToken(token.refresh_token)
-          this.state.userSignedIn = true
-        }),
-        catchError(this.errorHandler)
-      )
-  }
+  // signIn(user: IUserSignIn): Observable<IToken> {
+  //   const params = new HttpParams({
+  //     fromObject: {username: user.username, password: user.password},
+  //   })
+  //   return this.http
+  //     .post<IToken>(this.apiUrl + 'signin', params, httpOptions)
+  //     .pipe(
+  //       tap((token) => {
+  //         this.persistenceService.setAccessToken(token.access_token)
+  //         this.persistenceService.setRefreshToken(token.refresh_token)
+  //         this.state.userSignedIn = true
+  //       }),
+  //       catchError(this.errorHandler)
+  //     )
+  // }
 
-  signUp(user: IUserSignUp): Observable<IUser> {
-    return this.http
-      .post<IUser>(this.apiUrl + 'signup', user)
-      .pipe(catchError(this.errorHandler))
-  }
+  // signUp(user: IUserSignUp): Observable<IUser> {
+  //   return this.http
+  //     .post<IUser>(this.apiUrl + 'signup', user)
+  //     .pipe(catchError(this.errorHandler))
+  // }
 
   verifyCode(code: string): Observable<any> {
     return this.http
@@ -136,11 +135,11 @@ export class AuthService {
       : 'overlay'
   }
 
-  getUserMeInfo(): Observable<IUserInfo> {
-    return this.http
-      .get<IUserInfo>(this.apiUrl + 'users/me')
-      .pipe(catchError(this.errorHandler))
-  }
+  // getUserMeInfo(): Observable<IUserInfo> {
+  //   return this.http
+  //     .get<IUserInfo>(this.apiUrl + 'users/me')
+  //     .pipe(catchError(this.errorHandler))
+  // }
 
   checkState(): void {
     // console.log('checkState')

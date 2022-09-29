@@ -17,8 +17,8 @@ import {
   throwError,
 } from 'rxjs'
 
-import {AuthService} from '../services/auth.service'
-import {EventBusService} from '../services/event-bus.service'
+import {AuthService} from '../shared/services/auth.service'
+import {EventBusService} from '../shared/services/event-bus.service'
 import {PersistenceService} from '../shared/services/persistence.service'
 
 @Injectable()

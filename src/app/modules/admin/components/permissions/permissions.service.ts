@@ -4,8 +4,8 @@ import {Observable} from 'rxjs'
 
 import {LazyLoadEvent} from 'primeng/api'
 
-import {AppService} from '../../../../services/app.service'
-import {IDeleteResult} from '../../../../types/results'
+import {AppService} from '../../../../shared/services/app.service'
+import {IDeleteResult} from '../../../../shared/types/results.interface'
 import {eventToParams} from '../../../../shared/functions/event.function'
 import {IPermissions} from '../../interfaces/permission'
 import {IPermission} from '../../../../shared/types/permission.interface'

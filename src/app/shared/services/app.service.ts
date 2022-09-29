@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core'
-import {environment} from '../../environments/environment'
+import {environment} from '../../../environments/environment'
 import {MessageService} from 'primeng/api'
-import {IBackendError} from '../shared/types/backend-errors.interface'
-import {ICurrentUser} from '../shared/types/current-user.interface'
+import {IBackendError} from '../types/backend-errors.interface'
+import {ICurrentUser} from '../types/current-user.interface'
 
 @Injectable({
   providedIn: 'root',

@@ -4,7 +4,7 @@ import {map, Observable} from 'rxjs'
 
 import {ISignupRequest} from '../types/signup-request.interface'
 import {ICurrentUser} from '../../../shared/types/current-user.interface'
-import {AppService} from '../../../services/app.service'
+import {AppService} from '../../../shared/services/app.service'
 import {ISignupResponse} from '../types/signup-response.interface'
 import {ISigninRequest} from '../types/signin-request.interface'
 import {ISigninResponse} from '../types/signin-response.interface'

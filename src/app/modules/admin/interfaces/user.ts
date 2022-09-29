@@ -1,13 +1,4 @@
-export interface IUser {
-  id?: number
-  username?: string
-  email?: string
-  comment?: string
-  avatar?: string
-  verify?: string
-  last_login?: string
-  status?: number
-}
+import {IUser} from '../../../shared/types/user.interface'
 
 export interface IUsers {
   results: IUser[]

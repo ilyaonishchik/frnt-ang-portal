@@ -3,8 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 
 import {MessageService} from 'primeng/api'
 
-import {AppService} from '../../../../services/app.service'
-import {AuthService} from '../../../../services/auth.service'
+import {AppService} from '../../../../shared/services/app.service'
+import {AuthService} from '../../../../shared/services/auth.service'
 
 @Component({
   selector: 'app-password-reset',

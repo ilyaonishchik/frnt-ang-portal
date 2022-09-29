@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
 
-import {AuthService} from '../../../../services/auth.service'
-import {AppService} from '../../../../services/app.service'
+import {AuthService} from '../../../../shared/services/auth.service'
+import {AppService} from '../../../../shared/services/app.service'
 
 @Component({
   selector: 'app-verify',

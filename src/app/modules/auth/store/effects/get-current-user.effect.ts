@@ -11,7 +11,7 @@ import {
   getCurrentUserSuccessAction,
 } from '../actions/get-current-user.action'
 import {ICurrentUser} from '../../../../shared/types/current-user.interface'
-import {LayoutService} from '../../../../services/layout.service'
+import {LayoutService} from '../../../../shared/services/layout.service'
 
 @Injectable()
 export class GetCurrentUserEffect {

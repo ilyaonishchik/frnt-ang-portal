@@ -15,7 +15,7 @@ import {responseToError} from '../../../../shared/functions/error.function'
 
 import {ISigninResponse} from '../../types/signin-response.interface'
 import {PersistenceService} from '../../../../shared/services/persistence.service'
-import {LayoutService} from '../../../../services/layout.service'
+import {LayoutService} from '../../../../shared/services/layout.service'
 import {Store} from '@ngrx/store'
 import {IAuthState} from '../../types/auth-state.interface'
 import {redirectUrlSelector} from '../selectors'
