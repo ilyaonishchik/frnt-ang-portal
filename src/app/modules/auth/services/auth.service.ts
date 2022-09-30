@@ -10,6 +10,7 @@ import {ISigninRequest} from '../types/signin-request.interface'
 import {ISigninResponse} from '../types/signin-response.interface'
 import {IToken} from '../../../shared/types/token'
 import {IUserReset} from '../../../shared/types/user.interface'
+import {IVerifyResponse} from '../types/verify-response.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -56,7 +57,7 @@ export class AuthService {
     return this.http.get<IToken>(`${this.apiUrl}refresh/${token}`)
   }
 
-  verifyCode(code: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}verify/${code}`)
+  verifyCode(code: string): Observable<IVerifyResponse> {
+    return this.http.get<IVerifyResponse>(`${this.apiUrl}verify/${code}`)
   }
 }

@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router'
 
 import {AppService} from '../../../../shared/services/app.service'
 import {AuthService} from '../../services/auth.service'
+import {IVerifyResponse} from '../../types/verify-response.interface'
 
 @Component({
   selector: 'app-verify',
@@ -29,8 +30,8 @@ export class VerifyComponent implements OnInit {
 
   verifyCode(code: string) {
     this.authService.verifyCode(code).subscribe({
-      next: (res) => {
-        this.username = res.username
+      next: (response: IVerifyResponse) => {
+        this.username = response.username
       },
       error: (err) => {
         console.log(err.code)
