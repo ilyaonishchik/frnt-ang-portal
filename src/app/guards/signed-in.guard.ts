@@ -41,7 +41,7 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
         if (value) {
           return this.checkRole(route.data, value)
         } else {
-          return false
+          return this.checkUrl(state.url)
         }
       })
     )
@@ -114,5 +114,13 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
       result = true
     }
     return result
+  }
+
+  checkUrl(url: string): boolean {
+    if (url === '/') {
+      this.router.navigateByUrl('/welcome').then((_) => {})
+      return false
+    }
+    return true
   }
 }

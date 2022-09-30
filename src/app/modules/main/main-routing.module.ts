@@ -4,14 +4,14 @@ import {RouterModule, Routes} from '@angular/router'
 import {WelcomeComponent} from './welcome/welcome.component'
 import {DefaultComponent} from './default/default.component'
 
-import {AuthGuard} from '../../guards/auth.guard'
+import {SignedInGuard} from '../../guards/signed-in.guard'
 
 const routes: Routes = [
   {path: 'welcome', component: WelcomeComponent},
   {
     path: '',
     component: DefaultComponent,
-    canActivate: [AuthGuard],
+    canActivate: [SignedInGuard],
   },
 ]
 

@@ -60,7 +60,7 @@
               <label for='rememberme' class='text-xl'>Запомнить меня</label>
             </div>
             <button
-              [disabled]='isSubmitting$ | async'
+              [disabled]='signInForm.invalid || (isSubmitting$ | async)'
               pButton
               label='Войти'
               class='w-full p-3 text-xl'
