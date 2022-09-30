@@ -5,7 +5,11 @@
   </div>
   <div class='layout-main-container'>
     <div class='layout-main'>
-      <router-outlet></router-outlet>
+      <div class='grid'>
+        <div class='col-12'>
+          <router-outlet></router-outlet>
+        </div>
+      </div>
     </div>
     <app-footer *ngIf='isAnonymous$ | async'></app-footer>
   </div>

@@ -1,24 +1,18 @@
-<div class='p-2'>
-  <div class='grid'>
-    <div class='col-12'>
-      <div class='content'>
-        <div class='title'>Часто используемые ресурсы</div>
-        <div class='card-container'>
-          <button
-            *ngFor='let link of links'
-            pButton
-            type='button'
-            class='card card-small'
-            tabindex='0'
-            (click)='showLink(link.website)'
-            pTooltip='{{link.desc? link.desc: link.name}}'
-            tooltipPosition='bottom'
-            [showDelay]='500'
-            label='{{link.name}}'
-          >
-          </button>
-        </div>
-      </div>
-    </div>
+<div class='content'>
+  <div class='title'>Часто используемые ресурсы</div>
+  <div class='card-container'>
+    <button
+      *ngFor='let link of links'
+      pButton
+      type='button'
+      class='card card-small'
+      tabindex='0'
+      (click)='showLink(link.website)'
+      pTooltip='{{link.desc? link.desc: link.name}}'
+      tooltipPosition='bottom'
+      [showDelay]='500'
+      label='{{link.name}}'
+    >
+    </button>
   </div>
 </div>
