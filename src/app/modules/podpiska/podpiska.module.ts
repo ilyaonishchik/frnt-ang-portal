@@ -8,6 +8,7 @@ import {CardModule} from 'primeng/card'
 import {CalendarModule} from 'primeng/calendar'
 import {DropdownModule} from 'primeng/dropdown'
 import {FormsModule} from '@angular/forms'
+import {InputTextModule} from 'primeng/inputtext'
 
 @NgModule({
   declarations: [MainComponent, SortirovkaComponent],
@@ -18,6 +19,7 @@ import {FormsModule} from '@angular/forms'
     CalendarModule,
     DropdownModule,
     FormsModule,
+    InputTextModule,
   ],
 })
 export class PodpiskaModule {}

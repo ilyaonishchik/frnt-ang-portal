@@ -91,6 +91,8 @@ export class AppComponent implements OnInit, OnDestroy {
       firstDayOfWeek: 1,
       today: 'Сегодня',
       clear: 'Очистить',
+      emptyMessage: 'Нет данных',
+      emptyFilterMessage: 'Нет данных',
     })
   }
 

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core'
 
 import {SortingService} from '../../services/sorting.service'
-import {IIncoming} from './interfaces/invoices.interface'
+import {IIncoming, IOutgoing} from './interfaces/invoices.interface'
 
 @Component({
   selector: 'app-sortirovka',
@@ -10,8 +10,10 @@ import {IIncoming} from './interfaces/invoices.interface'
 })
 export class SortirovkaComponent implements OnInit {
   items!: IIncoming[]
+  cells!: IOutgoing[]
   selectedItem: IIncoming | null = null
   selectedDate!: Date
+  selectedBarcode: string | null = null
 
   constructor(private sortingService: SortingService) {
     this.selectedDate = new Date()
@@ -19,19 +21,33 @@ export class SortirovkaComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedDate.setDate(this.selectedDate.getDate() - 3)
-    this.sortingService
-      .getIncomingInvoices(4, this.selectedDate.toLocaleDateString())
-      .subscribe({
-        next: (value) => {
-          console.log(value)
-
-          this.items = value
-        },
-      })
+    this.selectDate()
   }
 
   selecting() {
-    console.log(this.selectedItem)
+    // console.log(this.selectedItem)
+    if (this.selectedItem?.id_rec) {
+      console.log(this.selectedItem.barcode)
+      this.sortingService
+        .getOutgoingInvoices(this.selectedItem.id_rec)
+        .subscribe({
+          next: (value) => {
+            this.cells = value
+          },
+        })
+    }
+  }
+
+  selectBarcode() {
+    this.selectedItem = null
+    let filteredItems: IIncoming[] = this.items.filter(
+      (item) => item.barcode === this.selectedBarcode
+    )
+    if (filteredItems.length > 0) {
+      this.selectedItem = filteredItems[0]
+      this.selecting()
+    }
+    this.selectedBarcode = null
   }
 
   selectDate() {
