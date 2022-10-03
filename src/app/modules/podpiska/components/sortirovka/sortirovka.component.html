@@ -1,6 +1,34 @@
 <div class='card'>
   <h4>Подписка: Сортировка</h4>
   <p>Сортировка поступивших изданий по ячейкам сортировочного стеллажа.</p>
+  <div class='grid'>
+    <p-calendar
+      class='w-10rem mr-3'
+      [(ngModel)]='selectedDate'
+      [showIcon]='true'
+      [showButtonBar]='true'
+      [selectOtherMonths]='true'
+      (onClose)='selectDate()'
+    ></p-calendar>
+    <p-dropdown
+      [options]='items'
+      [(ngModel)]='selectedItem'
+      [filter]='true'
+      [showClear]='true'
+      filterBy='barcode,indizd'
+      placeholder='Выберите издание'
+      (onChange)='selecting()'
+    >
+      <ng-template pTemplate='selectedItem'>
+        <div *ngIf='selectedItem'>
+          <div>{{selectedItem.indizd}} {{selectedItem.naimen.slice(0,50)}} {{selectedItem.nom_izd}}</div>
+        </div>
+      </ng-template>
+      <ng-template let-prihod pTemplate='item'>
+        <div>{{prihod.barcode}} {{prihod.indizd}}</div>
+      </ng-template>
+    </p-dropdown>
+  </div>
   <div class='py-4'>
     <div class='flex flex-row flex-wrap justify-content-center card-container gap-3'>
       <div class='surface-card shadow-2 p-3 border-round'>

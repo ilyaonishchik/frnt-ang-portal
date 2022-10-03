@@ -12,6 +12,7 @@ export class AppService {
   isProduction: boolean = environment.production
   version: string = environment.version
   urlApiAuth: string = environment.urlApiAuth
+  urlApiPdp: string = environment.urlApiPdp
 
   constructor(private messageService: MessageService) {}
 
