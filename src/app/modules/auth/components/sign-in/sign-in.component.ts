@@ -5,10 +5,7 @@ import {Observable} from 'rxjs'
 import {select, Store} from '@ngrx/store'
 
 import {AppService} from '../../../../shared/services/app.service'
-import {
-  isSubmittingSelector,
-  validationErrorSelector,
-} from '../../store/selectors'
+import {isSubmittingSelector} from '../../store/selectors'
 import {ISigninRequest} from '../../types/signin-request.interface'
 import {signinAction} from '../../store/actions/signin.action'
 
@@ -46,9 +43,6 @@ export class SignInComponent implements OnInit {
 
   initializeValues(): void {
     this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector))
-    this.store.pipe(select(validationErrorSelector)).subscribe((value) => {
-      this.appService.showBackendError(value)
-    })
   }
 
   resetForm() {

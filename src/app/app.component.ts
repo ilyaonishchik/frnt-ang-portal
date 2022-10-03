@@ -8,8 +8,12 @@ import {MessageService, PrimeNGConfig} from 'primeng/api'
 import {EventBusService} from './shared/services/event-bus.service'
 import {signoutAction} from './modules/auth/store/actions/signout.action'
 import {getCurrentUserAction} from './modules/auth/store/actions/get-current-user.action'
-import {currentUserSelector} from './modules/auth/store/selectors'
+import {
+  currentUserSelector,
+  validationErrorSelector,
+} from './modules/auth/store/selectors'
 import {ICurrentUser} from './shared/types/current-user.interface'
+import {AppService} from './shared/services/app.service'
 
 @Component({
   selector: 'app-root',
@@ -18,13 +22,15 @@ import {ICurrentUser} from './shared/types/current-user.interface'
 })
 export class AppComponent implements OnInit, OnDestroy {
   eventBusSub!: Subscription
+  backendError!: Subscription
   currentUser$!: Observable<ICurrentUser | null>
 
   constructor(
     private store: Store,
     private primeConfig: PrimeNGConfig,
     private eventBusService: EventBusService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private appService: AppService
   ) {}
 
   ngOnInit() {
@@ -71,6 +77,20 @@ export class AppComponent implements OnInit, OnDestroy {
         'Ноя',
         'Дек',
       ],
+      dayNames: [
+        'Воскресенье',
+        'Понедельник',
+        'Вторник',
+        'Среда',
+        'Четверг',
+        'Пятница',
+        'Суббота',
+      ],
+      dayNamesShort: ['Вск', 'Пнд', 'Втр', 'Срд', 'Чтв', 'Птн', 'Сбт'],
+      dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+      firstDayOfWeek: 1,
+      today: 'Сегодня',
+      clear: 'Очистить',
     })
   }
 
@@ -90,6 +110,11 @@ export class AppComponent implements OnInit, OnDestroy {
       })
       this.store.dispatch(signoutAction())
     })
+    this.backendError = this.store
+      .pipe(select(validationErrorSelector))
+      .subscribe((value) => {
+        this.appService.showBackendError(value)
+      })
   }
 
   ngOnDestroy(): void {

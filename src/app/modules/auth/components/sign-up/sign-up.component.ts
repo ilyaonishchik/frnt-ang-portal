@@ -6,10 +6,7 @@ import {Observable} from 'rxjs'
 import {AppService} from '../../../../shared/services/app.service'
 import {CustomValidators} from '../../../../shared/validators'
 import {signupAction} from '../../store/actions/signup.action'
-import {
-  isSubmittingSelector,
-  validationErrorSelector,
-} from '../../store/selectors'
+import {isSubmittingSelector} from '../../store/selectors'
 import {AuthService} from '../../services/auth.service'
 import {ISignupRequest} from '../../types/signup-request.interface'
 
@@ -64,9 +61,6 @@ export class SignUpComponent implements OnInit {
 
   initializeValues(): void {
     this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector))
-    this.store.pipe(select(validationErrorSelector)).subscribe((value) => {
-      this.appService.showBackendError(value)
-    })
   }
 
   get f() {
