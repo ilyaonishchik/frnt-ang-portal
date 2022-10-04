@@ -1,45 +1,52 @@
 <div class='card'>
-  <h4>Подписка: Сортировка</h4>
-  <p>Сортировка поступивших изданий по ячейкам сортировочного стеллажа.</p>
-  <div class='grid'>
-    <div class='ml-2 w-10rem'>
+  <div class='flex justify-content-between mb-5'>
+    <div class='flex text-lg'>Сортировка изданий принятых по подписке согласно ДУ.</div>
+    <div class='flex justify-content-end text-600 text-sm'>COM11</div>
+  </div>
+  <div class='grid align-items-center'>
+    <div class='ml-2 mb-2 w-10rem'>
       <p-calendar
         [(ngModel)]='selectedDate'
         [showIcon]='true'
         [showButtonBar]='true'
         [selectOtherMonths]='true'
-        (onClose)='selectDate()'
+        (onClose)='changeInvoiceDate()'
       ></p-calendar>
     </div>
-    <div class='ml-3'>
+    <div class='ml-2 mb-2'>
       <input
-        class='w-10rem'
+        class='w-12rem'
         type='text'
         pInputText
+        placeholder='Штрихкод издания'
         [(ngModel)]='selectedBarcode'
-        (change)='selectBarcode()'>
+        (change)='changeBarcode()'>
     </div>
-    <div class='ml-3'>
+    <div class='ml-2 mb-2'>
       <p-dropdown
         [options]='items'
         [(ngModel)]='selectedItem'
         [filter]='true'
         filterBy='indizd,naimen'
-        placeholder='Выберите издание'
-        (onChange)='selecting()'
+        [resetFilterOnHide]='true'
+        placeholder='Выберите издание самостоятельно'
+        [showClear]='true'
+        (onChange)='changeCurrentItem()'
+        (onClear)='clearCurrentItem()'
       >
         <ng-template pTemplate='selectedItem'>
           <div *ngIf='selectedItem'>
-            <div>{{selectedItem.indizd}} - {{selectedItem.naimen}} {{selectedItem.nom_izd}}</div>
+            <div>{{selectedItem.indizd}} - {{selectedItem.naimen.slice(0,50)}} №{{selectedItem.nom_izd}}</div>
           </div>
         </ng-template>
         <ng-template let-prihod pTemplate='item'>
-          <div>{{prihod.indizd}} - {{prihod.naimen}} {{prihod.nom_izd}}</div>
+          <div>{{prihod.indizd}} - {{prihod.naimen.slice(0,50)}} №{{prihod.nom_izd}}</div>
         </ng-template>
       </p-dropdown>
     </div>
+    <div class='ml-2 mb-2' *ngIf='selectedItem'>Экз.: {{selectedItem.nom_count}}</div>
   </div>
-  <div class='py-4'>
+  <div class='mt-2 p-3 border-round border-bluegray-700 border-1' *ngIf='selectedItem'>
     <div class='flex flex-row flex-wrap justify-content-center card-container gap-3'>
       <div *ngFor='let cell of cells' class='surface-card shadow-2 p-3 border-round'>
         <div class='flex justify-content-between'>

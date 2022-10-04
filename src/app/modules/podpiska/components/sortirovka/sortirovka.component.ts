@@ -20,14 +20,12 @@ export class SortirovkaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.selectedDate.setDate(this.selectedDate.getDate() - 3)
-    this.selectDate()
+    this.selectedDate.setDate(this.selectedDate.getDate() - 1)
+    this.changeInvoiceDate()
   }
 
-  selecting() {
-    // console.log(this.selectedItem)
+  changeCurrentItem() {
     if (this.selectedItem?.id_rec) {
-      console.log(this.selectedItem.barcode)
       this.sortingService
         .getOutgoingInvoices(this.selectedItem.id_rec)
         .subscribe({
@@ -38,26 +36,35 @@ export class SortirovkaComponent implements OnInit {
     }
   }
 
-  selectBarcode() {
+  clearCurrentItem() {
+    this.selectedItem = null
+    this.selectedBarcode = null
+    this.cells = []
+  }
+
+  changeBarcode() {
     this.selectedItem = null
     let filteredItems: IIncoming[] = this.items.filter(
       (item) => item.barcode === this.selectedBarcode
     )
     if (filteredItems.length > 0) {
       this.selectedItem = filteredItems[0]
-      this.selecting()
+      this.changeCurrentItem()
     }
     this.selectedBarcode = null
   }
 
-  selectDate() {
-    // console.log(this.selectedDate.toLocaleDateString())
-    this.sortingService
-      .getIncomingInvoices(4, this.selectedDate.toLocaleDateString())
-      .subscribe({
-        next: (value) => {
-          this.items = value
-        },
-      })
+  changeInvoiceDate() {
+    if (this.selectedDate) {
+      this.sortingService
+        .getIncomingInvoices(4, this.selectedDate.toLocaleDateString())
+        .subscribe({
+          next: (value) => {
+            this.items = value
+          },
+        })
+    } else {
+      this.items = []
+    }
   }
 }
