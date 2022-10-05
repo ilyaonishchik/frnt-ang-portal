@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core'
 
 import {SortingService} from '../../services/sorting.service'
 import {IIncoming, IOutgoing} from './interfaces/invoices.interface'
+import {AvsSerial} from '../../../../shared/classes/avs-serial'
 
 @Component({
   selector: 'app-sortirovka',
@@ -9,6 +10,16 @@ import {IIncoming, IOutgoing} from './interfaces/invoices.interface'
   styleUrls: ['./sortirovka.component.scss'],
 })
 export class SortirovkaComponent implements OnInit {
+  serialPort!: AvsSerial
+  currentPort: any
+  options = {
+    baudRate: 19200,
+    dataBits: 8,
+    parity: 'none',
+    bufferSize: 256,
+    flowControl: 'none',
+  }
+
   items!: IIncoming[]
   cells!: IOutgoing[]
   selectedItem: IIncoming | null = null
@@ -16,6 +27,7 @@ export class SortirovkaComponent implements OnInit {
   selectedBarcode: string | null = null
 
   constructor(private sortingService: SortingService) {
+    this.serialPort = new AvsSerial(this.dataPortHandler, this.options)
     this.selectedDate = new Date()
   }
 
@@ -65,6 +77,25 @@ export class SortirovkaComponent implements OnInit {
         })
     } else {
       this.items = []
+    }
+  }
+
+  dataPortHandler(data: string): void {
+    console.log(`Read from serial port: ${data}`)
+  }
+
+  sendDataToPort(): void {
+    if (!this.currentPort) {
+      this.serialPort.connect((port: any) => {
+        this.currentPort = port
+      })
+    } else {
+      console.log(this.currentPort)
+      this.serialPort.sendData('#\r').then((_) => {})
+      this.serialPort.sendData(';1-55\r').then((_) => {})
+      this.serialPort.close((port: any) => {
+        this.currentPort = port
+      })
     }
   }
 }
