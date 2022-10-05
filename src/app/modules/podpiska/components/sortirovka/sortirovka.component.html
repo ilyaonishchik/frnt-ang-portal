@@ -1,7 +1,7 @@
 <div class='card'>
   <div class='flex justify-content-between mb-5'>
     <div class='flex text-lg'>Сортировка изданий принятых по подписке согласно ДУ.</div>
-    <div class='flex justify-content-end text-600 text-sm' (click)='sendDataToPort()'>COM11</div>
+    <div class='flex justify-content-end text-600 text-sm'>COM11</div>
   </div>
   <div class='grid align-items-center'>
     <div class='ml-2 mb-2 w-10rem'>
@@ -36,11 +36,11 @@
       >
         <ng-template pTemplate='selectedItem'>
           <div *ngIf='selectedItem'>
-            <div>{{selectedItem.indizd}} - {{selectedItem.naimen.slice(0,50)}} №{{selectedItem.nom_izd}}</div>
+            <div>{{selectedItem.indizd}} - {{selectedItem.naimen.slice(0, 50)}} №{{selectedItem.nom_izd}}</div>
           </div>
         </ng-template>
         <ng-template let-prihod pTemplate='item'>
-          <div>{{prihod.indizd}} - {{prihod.naimen.slice(0,50)}} №{{prihod.nom_izd}}</div>
+          <div>{{prihod.indizd}} - {{prihod.naimen.slice(0, 50)}} №{{prihod.nom_izd}}</div>
         </ng-template>
       </p-dropdown>
     </div>

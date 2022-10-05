@@ -38,8 +38,19 @@ export class AvsSerial {
     if ('serial' in navigator) {
       let nav: any = navigator
       const _ports = await nav.serial.getPorts()
-      console.log(_ports)
-      for (let i = 0; i < _ports.length - 1; i++) {
+      // console.log('Ports: ', _ports)
+
+      if (_ports.length == 0) {
+        try {
+          const requestPort = await nav.serial.requestPort()
+          _ports.push(requestPort)
+          console.log('Ports after request: ', _ports)
+        } catch (error) {
+          console.error(error)
+        }
+      }
+
+      for (let i = 0; i <= _ports.length - 1; i++) {
         const _port = _ports[i].getInfo()
         if (filters) {
           if (
@@ -86,42 +97,42 @@ export class AvsSerial {
     } else console.error('Port undefined')
   }
 
-  public async connectOld(callback: Function) {
-    this.keepReading = true
-    if ('serial' in navigator) {
-      // The Web Serial API is supported by the browser.
-      let nav: any = navigator
-      const ports = await nav.serial.getPorts()
-      console.log(ports)
-
-      try {
-        this.port = ports[0]
-        // this.port = await nav.serial.requestPort()
-      } catch (error) {
-        console.error('Requesting port error: ' + error)
-        return
-      }
-
-      try {
-        await this.port.open(this.options)
-      } catch (error) {
-        console.error('Opening port error: ' + error)
-        return
-      }
-
-      const textEncoder = new TextEncoderStream()
-      this.writableStreamClosed = textEncoder.readable.pipeTo(
-        this.port.writable
-      )
-      this.writer = textEncoder.writable.getWriter()
-
-      this.readLoop()
-
-      callback(this.port)
-    } else {
-      console.error('This browser does NOT support the Web Serial API')
-    }
-  }
+  // public async connectOld(callback: Function) {
+  //   this.keepReading = true
+  //   if ('serial' in navigator) {
+  //     // The Web Serial API is supported by the browser.
+  //     let nav: any = navigator
+  //     const ports = await nav.serial.getPorts()
+  //     console.log(ports)
+  //
+  //     try {
+  //       this.port = ports[0]
+  //       // this.port = await nav.serial.requestPort()
+  //     } catch (error) {
+  //       console.error('Requesting port error: ' + error)
+  //       return
+  //     }
+  //
+  //     try {
+  //       await this.port.open(this.options)
+  //     } catch (error) {
+  //       console.error('Opening port error: ' + error)
+  //       return
+  //     }
+  //
+  //     const textEncoder = new TextEncoderStream()
+  //     this.writableStreamClosed = textEncoder.readable.pipeTo(
+  //       this.port.writable
+  //     )
+  //     this.writer = textEncoder.writable.getWriter()
+  //
+  //     this.readLoop()
+  //
+  //     callback(this.port)
+  //   } else {
+  //     console.error('This browser does NOT support the Web Serial API')
+  //   }
+  // }
 
   private async readLoop() {
     while (this.port.readable && this.keepReading) {

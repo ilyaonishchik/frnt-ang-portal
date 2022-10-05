@@ -1,37 +1,34 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, OnDestroy, OnInit} from '@angular/core'
 
 import {SortingService} from '../../services/sorting.service'
 import {IIncoming, IOutgoing} from './interfaces/invoices.interface'
-import {AvsSerial} from '../../../../shared/classes/avs-serial'
+import {SerialService} from '../../../../shared/services/serial.service'
 
 @Component({
   selector: 'app-sortirovka',
   templateUrl: './sortirovka.component.html',
   styleUrls: ['./sortirovka.component.scss'],
 })
-export class SortirovkaComponent implements OnInit {
-  serialPort!: AvsSerial
-  currentPort: any
-  options = {
-    baudRate: 19200,
-    dataBits: 8,
-    parity: 'none',
-    bufferSize: 256,
-    flowControl: 'none',
-  }
-
-  items!: IIncoming[]
-  cells!: IOutgoing[]
+export class SortirovkaComponent implements OnInit, OnDestroy {
+  items: IIncoming[] = []
+  cells: IOutgoing[] = []
   selectedItem: IIncoming | null = null
-  selectedDate!: Date
+  selectedDate: Date
   selectedBarcode: string | null = null
+  region: number = 4
 
-  constructor(private sortingService: SortingService) {
-    this.serialPort = new AvsSerial(this.dataPortHandler, this.options)
+  constructor(
+    private sortingService: SortingService,
+    private serialService: SerialService
+  ) {
     this.selectedDate = new Date()
   }
 
   ngOnInit(): void {
+    // const filters = [{usbVendorId: 1027, usbProductId: 24592}]
+    this.serialService.getPorts().then((r) => {
+      this.serialService.setCurrentPort(r.pop())
+    })
     this.selectedDate.setDate(this.selectedDate.getDate() - 1)
     this.changeInvoiceDate()
   }
@@ -42,9 +39,11 @@ export class SortirovkaComponent implements OnInit {
         .getOutgoingInvoices(this.selectedItem.id_rec)
         .subscribe({
           next: (value) => {
-            this.cells = value
+            this.updateCells(value)
           },
         })
+    } else {
+      this.updateCells([])
     }
   }
 
@@ -69,7 +68,10 @@ export class SortirovkaComponent implements OnInit {
   changeInvoiceDate() {
     if (this.selectedDate) {
       this.sortingService
-        .getIncomingInvoices(4, this.selectedDate.toLocaleDateString())
+        .getIncomingInvoices(
+          this.region,
+          this.selectedDate.toLocaleDateString()
+        )
         .subscribe({
           next: (value) => {
             this.items = value
@@ -80,22 +82,27 @@ export class SortirovkaComponent implements OnInit {
     }
   }
 
-  dataPortHandler(data: string): void {
-    console.log(`Read from serial port: ${data}`)
+  updateCells(cells: IOutgoing[]): void {
+    this.cells = cells
+    let lines: string[] = []
+    for (const cellKey in cells) {
+      if (cells[cellKey].cell) {
+        lines.push(`;${cells[cellKey].cell}-${cells[cellKey].nom_count}`)
+      }
+    }
+    this.sendDataToPort(lines)
   }
 
-  sendDataToPort(): void {
-    if (!this.currentPort) {
-      this.serialPort.connect((port: any) => {
-        this.currentPort = port
-      })
-    } else {
-      console.log(this.currentPort)
-      this.serialPort.sendData('#\r').then((_) => {})
-      this.serialPort.sendData(';1-55\r').then((_) => {})
-      this.serialPort.close((port: any) => {
-        this.currentPort = port
-      })
-    }
+  sendDataToPort(text: string[]): void {
+    text.unshift('#')
+    this.serialService.sendData(text)
+  }
+
+  clearDigits() {
+    this.serialService.clearDigits()
+  }
+
+  ngOnDestroy() {
+    this.clearDigits()
   }
 }
