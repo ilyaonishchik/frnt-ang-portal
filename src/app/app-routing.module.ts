@@ -27,8 +27,9 @@ const routes: Routes = [
       },
       {
         path: 'pdp',
-        // canLoad: [SignedInGuard],
-        // canActivate: [SignedInGuard],
+        canLoad: [SignedInGuard],
+        canActivate: [SignedInGuard],
+        canActivateChild: [SignedInGuard],
         loadChildren: () =>
           import('./modules/podpiska/podpiska.module').then(
             (m) => m.PodpiskaModule
