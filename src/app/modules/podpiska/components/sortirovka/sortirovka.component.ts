@@ -15,6 +15,9 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
   selectedItem: IIncoming | null = null
   selectedDate: Date
   selectedBarcode: string | null = null
+  barcodeNotFound: boolean = false
+  digitsExist: boolean = false
+  digitsRequest: boolean = true
   region: number = 4
 
   constructor(
@@ -25,15 +28,17 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // const filters = [{usbVendorId: 1027, usbProductId: 24592}]
-    this.serialService.getPorts().then((r) => {
-      this.serialService.setCurrentPort(r.pop())
+    const filters = [{usbVendorId: 1027, usbProductId: 24592}]
+    this.serialService.getPorts(filters, this.digitsRequest).then((ports) => {
+      this.digitsExist = ports.length > 0
+      this.serialService.setCurrentPort(ports.pop())
     })
     this.selectedDate.setDate(this.selectedDate.getDate() - 1)
     this.changeInvoiceDate()
   }
 
-  changeCurrentItem() {
+  changeCurrentItem(): void {
+    this.barcodeNotFound = false
     if (this.selectedItem?.id_rec) {
       this.sortingService
         .getOutgoingInvoices(this.selectedItem.id_rec)
@@ -47,25 +52,31 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
     }
   }
 
-  clearCurrentItem() {
+  clearCurrentItem(): void {
     this.selectedItem = null
     this.selectedBarcode = null
-    this.cells = []
+    this.updateCells([])
   }
 
-  changeBarcode() {
+  changeBarcode(): void {
     this.selectedItem = null
     let filteredItems: IIncoming[] = this.items.filter(
       (item) => item.barcode === this.selectedBarcode
     )
     if (filteredItems.length > 0) {
+      this.barcodeNotFound = false
       this.selectedItem = filteredItems[0]
       this.changeCurrentItem()
+    } else {
+      this.barcodeNotFound = true
+      this.clearCurrentItem()
     }
     this.selectedBarcode = null
   }
 
-  changeInvoiceDate() {
+  changeInvoiceDate(): void {
+    this.barcodeNotFound = false
+    this.updateCells([])
     if (this.selectedDate) {
       this.sortingService
         .getIncomingInvoices(
@@ -84,25 +95,33 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
 
   updateCells(cells: IOutgoing[]): void {
     this.cells = cells
-    let lines: string[] = []
-    for (const cellKey in cells) {
-      if (cells[cellKey].cell) {
-        lines.push(`;${cells[cellKey].cell}-${cells[cellKey].nom_count}`)
+    if (cells) {
+      let lines: string[] = []
+      for (const cellKey in cells) {
+        if (cells[cellKey].cell) {
+          lines.push(`;${cells[cellKey].cell}-${cells[cellKey].nom_count}`)
+        }
       }
+      this.sendDataToPort(lines)
+    } else {
+      this.clearDigits()
     }
-    this.sendDataToPort(lines)
   }
 
   sendDataToPort(text: string[]): void {
-    text.unshift('#')
-    this.serialService.sendData(text)
+    if (this.digitsExist) {
+      text.unshift('#')
+      this.serialService.sendData(text)
+    }
   }
 
-  clearDigits() {
-    this.serialService.clearDigits()
+  clearDigits(): void {
+    if (this.digitsExist) {
+      this.serialService.clearDigits()
+    }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.clearDigits()
   }
 }
