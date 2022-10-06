@@ -98,6 +98,9 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
     } else {
       result = true
     }
+    if (!result) {
+      this.router.navigateByUrl('/error/403').then((_) => {})
+    }
     return result
   }
 
@@ -112,6 +115,9 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
       }
     } else {
       result = true
+    }
+    if (!result) {
+      this.router.navigateByUrl('/error/403').then((_) => {})
     }
     return result
   }
