@@ -53,6 +53,7 @@
           <p-sortIcon [field]='col.field'></p-sortIcon>
         </th>
         <th class='w-4rem'>Статус</th>
+        <th class='w-4rem'>Статус1</th>
         <th class='w-9rem'>Операции</th>
       </tr>
     </ng-template>
@@ -71,6 +72,12 @@
                 'pi-times-circle text-red-400': !rowData['status']
                 }">
           </i>
+        </td>
+        <td class='text-center'>
+          <span class='p-column-title'>Статус</span>
+          <avs-status
+            [status]="rowData['status']"
+          ></avs-status>
         </td>
         <td class='text-center'>
           <span class='p-column-title'>Операции</span>

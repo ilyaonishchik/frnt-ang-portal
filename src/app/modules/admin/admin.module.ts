@@ -22,6 +22,7 @@ import {RolesComponent} from './components/roles/roles.component'
 import {PermissionsComponent} from './components/permissions/permissions.component'
 import {PickListModule} from 'primeng/picklist'
 import {TabViewModule} from 'primeng/tabview'
+import {ColumnsModule} from '../../shared/components/table/columns/columns.module'
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import {TabViewModule} from 'primeng/tabview'
     TooltipModule,
     PickListModule,
     TabViewModule,
+    ColumnsModule,
   ],
   exports: [],
 })
