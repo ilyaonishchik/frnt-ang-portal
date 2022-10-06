@@ -23,8 +23,8 @@ export class SerialService {
     console.log(`Load from port: ${data}`)
   }
 
-  async getPorts(filters?: filterInterface[]) {
-    return await this.serialPort.getPorts(filters)
+  async getPorts(filters: filterInterface[] = [], request: boolean = false) {
+    return await this.serialPort.getPorts(filters, request)
   }
 
   setCurrentPort(port: any) {
@@ -39,7 +39,6 @@ export class SerialService {
 
   private async sendToPort(data: string[]) {
     if (this.currentPort) {
-      console.log(data)
       for (const dataKey in data) {
         await this.serialPort.sendData(data[dataKey])
       }

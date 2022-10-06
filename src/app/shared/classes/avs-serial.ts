@@ -34,24 +34,28 @@ export class AvsSerial {
     if (endLineCharacter) this.endLineCharacter = endLineCharacter
   }
 
-  public async getPorts(filters?: filterInterface[]) {
+  public async getPorts(
+    filters: filterInterface[] = [],
+    request: boolean = false
+  ) {
     if ('serial' in navigator) {
       let nav: any = navigator
       const _ports = await nav.serial.getPorts()
       // console.log('Ports: ', _ports)
 
-      if (_ports.length == 0) {
+      if (_ports.length == 0 && request) {
         try {
-          const requestPort = await nav.serial.requestPort()
+          const requestPort = await nav.serial.requestPort({filters: filters})
           _ports.push(requestPort)
-          console.log('Ports after request: ', _ports)
+          // console.log('Ports after request: ', _ports)
         } catch (error) {
-          console.error(error)
+          console.warn('User not selected port')
         }
       }
 
       for (let i = 0; i <= _ports.length - 1; i++) {
         const _port = _ports[i].getInfo()
+        // console.log(_port)
         if (filters) {
           if (
             filters.find(
@@ -94,7 +98,7 @@ export class AvsSerial {
       this.readLoop()
 
       callback(this.port)
-    } else console.error('Port undefined')
+    } else console.warn('Port undefined')
   }
 
   // public async connectOld(callback: Function) {
