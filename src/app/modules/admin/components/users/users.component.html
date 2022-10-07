@@ -64,33 +64,17 @@
         </td>
         <td class='text-center'>
           <span class='p-column-title'>Статус</span>
-          <i
-            class='pi'
-            [ngClass]="{
-                'pi-check-circle text-green-400': rowData['status'],
-                'pi-times-circle text-red-400': !rowData['status']
-                }">
-          </i>
+          <avs-status
+            [status]="rowData['status']"
+          ></avs-status>
         </td>
         <td class='text-center'>
           <span class='p-column-title'>Операции</span>
-          <span class='p-buttonset'>
-                <button
-                  pButton icon='pi pi-eye' class='p-button-raised p-button-text p-button-info p-button-xsm'
-                  pTooltip='Просмотреть' tooltipPosition='bottom' [showDelay]='250'
-                  (click)='viewItem(rowData)'>
-                </button>
-                <button
-                  pButton icon='pi pi-pencil' class='p-button-raised p-button-text p-button-success p-button-xsm'
-                  pTooltip='Изменить' tooltipPosition='bottom' [showDelay]='250'
-                  (click)='editItem(rowData)'>
-                </button>
-                <button
-                  pButton icon='pi pi-trash' class='p-button-raised p-button-text p-button-warning p-button-xsm'
-                  pTooltip='Удалить' tooltipPosition='bottom' [showDelay]='250'
-                  (click)='deleteItem(rowData)'>
-                </button>
-              </span>
+          <avs-action
+            (clickView)='viewItem(rowData)'
+            (clickEdit)='editItem(rowData)'
+            (clickDelete)='deleteItem(rowData)'>
+          </avs-action>
         </td>
       </tr>
     </ng-template>
