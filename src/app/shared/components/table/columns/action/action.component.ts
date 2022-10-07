@@ -1,4 +1,5 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core'
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
+import {IItemCRUD} from '../../../../types/rbac.interface'
 
 @Component({
   selector: 'avs-action',
@@ -6,6 +7,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core'
   styleUrls: ['./action.component.scss'],
 })
 export class ActionComponent implements OnInit {
+  @Input('userCRUD') crud: IItemCRUD | null = null
   @Output('clickView') onClickView: EventEmitter<any> = new EventEmitter<any>()
   @Output('clickEdit') onClickEdit: EventEmitter<any> = new EventEmitter<any>()
   @Output('clickDelete') onClickDelete: EventEmitter<any> =

@@ -6,6 +6,8 @@ import {Table} from 'primeng/table'
 import {IColumn} from '../../interfaces/column'
 import {PermissionsService} from './permissions.service'
 import {IPermission} from '../../../../shared/types/permission.interface'
+import {RbacService} from '../../../../shared/services/rbac.service'
+import {IItemCRUD} from '../../../../shared/types/rbac.interface'
 
 @Component({
   selector: 'app-permissions',
@@ -25,18 +27,24 @@ export class PermissionsComponent implements OnInit {
   items: IPermission[] = []
   item!: IPermission
   clearItem!: IPermission
+  userCRUD!: IItemCRUD
 
-  constructor(private permissionsService: PermissionsService) {
+  constructor(
+    private permissionsService: PermissionsService,
+    private rbacService: RbacService
+  ) {
     this.clearItem = {id: 0, name: '', comment: null, status: 1}
   }
 
   ngOnInit(): void {
+    this.userCRUD = this.rbacService.getItemCRUD('permissions')
     this.cols = [
       {field: 'id', header: 'Код', width: 'w-1rem'},
       {field: 'name', header: 'Наименование'},
       {field: 'comment', header: 'Описание'},
     ]
     this.loading = true
+    console.log(this.userCRUD)
   }
 
   loadItems(event: LazyLoadEvent) {

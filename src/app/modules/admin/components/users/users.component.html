@@ -22,8 +22,13 @@
   >
     <ng-template pTemplate='caption'>
       <div class='flex align-items-center justify-content-between'>
-        <button pButton label='Создать' icon='pi pi-plus' class='p-button-success mr-2'
-                (click)='appendItem()'></button>
+        <button
+          pButton
+          label='Создать'
+          icon='pi pi-plus'
+          class='p-button-success mr-2'
+          [disabled]='!userCRUD.create'
+          (click)='appendItem()'></button>
         <span
           class='p-input-icon-left'
           [class.p-input-icon-right]='filter.value'>
@@ -71,6 +76,7 @@
         <td class='text-center'>
           <span class='p-column-title'>Операции</span>
           <avs-action
+            [userCRUD]='userCRUD'
             (clickView)='viewItem(rowData)'
             (clickEdit)='editItem(rowData)'
             (clickDelete)='deleteItem(rowData)'>

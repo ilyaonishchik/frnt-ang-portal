@@ -7,6 +7,8 @@ import {IColumn} from '../../interfaces/column'
 import {RolesService} from './roles.service'
 import {IRole} from '../../../../shared/types/role.interface'
 import {IPermission} from '../../../../shared/types/permission.interface'
+import {IItemCRUD} from '../../../../shared/types/rbac.interface'
+import {RbacService} from '../../../../shared/services/rbac.service'
 
 @Component({
   selector: 'app-roles',
@@ -27,10 +29,15 @@ export class RolesComponent implements OnInit {
   item!: IRole
   clearItem!: IRole
 
+  userCRUD!: IItemCRUD
+
   allPermissions: IPermission[] = []
   sourcePermissions: IPermission[] = []
 
-  constructor(private rolesService: RolesService) {
+  constructor(
+    private rolesService: RolesService,
+    private rbacService: RbacService
+  ) {
     this.clearItem = {
       id: 0,
       name: '',
@@ -41,6 +48,7 @@ export class RolesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userCRUD = this.rbacService.getItemCRUD('permissions')
     this.cols = [
       {field: 'id', header: 'Код', width: 'w-1rem'},
       {field: 'name', header: 'Наименование'},

@@ -8,6 +8,8 @@ import {UsersService} from './users.service'
 import {IUser} from '../../../../shared/types/user.interface'
 import {IPermission} from '../../../../shared/types/permission.interface'
 import {IRole} from '../../../../shared/types/role.interface'
+import {IItemCRUD} from '../../../../shared/types/rbac.interface'
+import {RbacService} from '../../../../shared/services/rbac.service'
 
 @Component({
   selector: 'app-users',
@@ -27,6 +29,7 @@ export class UsersComponent implements OnInit {
   items: IUser[] = []
   item!: IUser
   clearItem!: IUser
+  userCRUD!: IItemCRUD
 
   allRoles: IRole[] = []
   allPermissions: IPermission[] = []
@@ -35,7 +38,10 @@ export class UsersComponent implements OnInit {
 
   @ViewChild('filter') filter!: ElementRef
 
-  constructor(private usersService: UsersService) {
+  constructor(
+    private usersService: UsersService,
+    private rbacService: RbacService
+  ) {
     this.clearItem = {
       id: 0,
       username: '',
@@ -49,6 +55,7 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userCRUD = this.rbacService.getItemCRUD('permissions')
     this.cols = [
       {field: 'id', header: 'Код', width: 'w-1rem'},
       {field: 'username', header: 'Пользователь'},
