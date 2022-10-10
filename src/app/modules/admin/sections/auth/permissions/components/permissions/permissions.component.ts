@@ -57,22 +57,13 @@ export class PermissionsComponent implements OnInit {
 
   loadItems(event: LazyLoadEvent) {
     this.store.dispatch(getPermissionsAction({event}))
-    // this.loading = true
-    // this.permissionsService.getAll(event).subscribe({
-    //   next: (result) => {
-    //     this.items = result.results
-    //     this.totalRecords = result.records
-    //     this.loading = false
-    //   },
-    // })
   }
 
   onGlobalFilter(table: Table, event: Event) {
     clearTimeout(this.timeout)
     this.timeout = setTimeout(function () {
-      console.log((event.target as HTMLInputElement).value)
-      // table.filterGlobal((event.target as HTMLInputElement).value, 'contains')
-    }, 500)
+      table.filterGlobal((event.target as HTMLInputElement).value, 'contains')
+    }, 1000)
   }
 
   clearSearch(table: Table) {
