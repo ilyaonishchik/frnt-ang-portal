@@ -3,11 +3,11 @@ import {Component, OnInit} from '@angular/core'
 import {LazyLoadEvent} from 'primeng/api'
 import {Table} from 'primeng/table'
 
-import {IColumn} from '../../interfaces/column'
 import {PermissionsService} from './permissions.service'
-import {IPermission} from '../../../../shared/types/permission.interface'
-import {RbacService} from '../../../../shared/services/rbac.service'
-import {IItemCRUD} from '../../../../shared/types/rbac.interface'
+import {IPermission} from 'src/app/shared/types/permission.interface'
+import {RbacService} from 'src/app/shared/services/rbac.service'
+import {IItemCRUD} from 'src/app/shared/types/rbac.interface'
+import {IColumn} from 'src/app/shared/types/column.interface'
 
 @Component({
   selector: 'app-permissions',

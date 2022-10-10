@@ -3,12 +3,12 @@ import {Component, OnInit} from '@angular/core'
 import {LazyLoadEvent} from 'primeng/api'
 import {Table} from 'primeng/table'
 
-import {IColumn} from '../../interfaces/column'
 import {RolesService} from './roles.service'
 import {IRole} from '../../../../shared/types/role.interface'
 import {IPermission} from '../../../../shared/types/permission.interface'
 import {IItemCRUD} from '../../../../shared/types/rbac.interface'
 import {RbacService} from '../../../../shared/services/rbac.service'
+import {IColumn} from '../../../../shared/types/column.interface'
 
 @Component({
   selector: 'app-roles',

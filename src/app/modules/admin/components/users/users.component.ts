@@ -3,13 +3,13 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core'
 import {Table} from 'primeng/table'
 import {LazyLoadEvent} from 'primeng/api'
 
-import {IColumn} from '../../interfaces/column'
 import {UsersService} from './users.service'
 import {IUser} from '../../../../shared/types/user.interface'
 import {IPermission} from '../../../../shared/types/permission.interface'
 import {IRole} from '../../../../shared/types/role.interface'
 import {IItemCRUD} from '../../../../shared/types/rbac.interface'
 import {RbacService} from '../../../../shared/services/rbac.service'
+import {IColumn} from '../../../../shared/types/column.interface'
 
 @Component({
   selector: 'app-users',
