@@ -23,7 +23,15 @@ import {environment} from '../environments/environment'
     AppRoutingModule,
     SharedModule,
     ToastModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot(
+      {},
+      {
+        runtimeChecks: {
+          strictStateImmutability: false,
+          strictActionImmutability: false,
+        },
+      }
+    ),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
