@@ -149,6 +149,8 @@ const authReducer = createReducer(
       isLoading: false,
       isSignedIn: false,
       currentUser: null,
+      allRoles: [],
+      allPermissions: [],
     })
   ),
   on(getAllRolesAction, (state): IAuthState => ({...state, isLoading: true})),
