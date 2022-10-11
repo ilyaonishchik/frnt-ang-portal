@@ -4,11 +4,11 @@ import {LazyLoadEvent} from 'primeng/api'
 import {Table} from 'primeng/table'
 
 import {RolesService} from './roles.service'
-import {IRole} from '../../../../shared/types/role.interface'
-import {IPermission} from '../../../../shared/types/permission.interface'
-import {IItemCRUD} from '../../../../shared/types/rbac.interface'
-import {RbacService} from '../../../../shared/services/rbac.service'
-import {IColumn} from '../../../../shared/types/column.interface'
+import {RbacService} from 'src/app/shared/services/rbac.service'
+import {IColumn} from 'src/app/shared/interfaces/column.interface'
+import {IRole} from 'src/app/shared/interfaces/role.interface'
+import {IItemCRUD} from 'src/app/shared/interfaces/rbac.interface'
+import {IPermission} from 'src/app/shared/interfaces/permission.interface'
 
 @Component({
   selector: 'app-roles',

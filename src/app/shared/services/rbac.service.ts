@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core'
 import {Store} from '@ngrx/store'
 
-import {IItemCRUD} from '../types/rbac.interface'
+import {IItemCRUD} from '../interfaces/rbac.interface'
 import {currentUserSelector} from '../../modules/auth/store/selectors'
-import {IPermission} from '../types/permission.interface'
+import {IPermission} from '../interfaces/permission.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -34,12 +34,12 @@ export class RbacService {
   getItemCRUD(item: string): IItemCRUD {
     let crud: IItemCRUD = {
       create: false,
-      view: false,
+      read: false,
       update: false,
       delete: false,
     }
     crud.create = this.checkPermission(`${item}:create`)
-    crud.view = this.checkPermission(`${item}:view`)
+    crud.read = this.checkPermission(`${item}:read`)
     crud.update = this.checkPermission(`${item}:update`)
     crud.delete = this.checkPermission(`${item}:delete`)
 

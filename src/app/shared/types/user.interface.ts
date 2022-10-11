@@ -1,5 +1,5 @@
-import {IRole} from './role.interface'
-import {IPermission} from './permission.interface'
+import {IRole} from '../interfaces/role.interface'
+import {IPermission} from '../interfaces/permission.interface'
 
 export interface IUser {
   id: number

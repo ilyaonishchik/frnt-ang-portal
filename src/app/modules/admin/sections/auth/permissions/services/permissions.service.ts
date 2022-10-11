@@ -5,8 +5,8 @@ import {Observable} from 'rxjs'
 import {LazyLoadEvent} from 'primeng/api'
 
 import {environment} from 'src/environments/environment'
-import {IPermissionsResponse} from '../interfaces/permissions-response.interface'
 import {eventToParams} from 'src/app/shared/functions/event.function'
+import {IPermissionsResponse} from 'src/app/shared/interfaces/permissions-response.interface'
 
 @Injectable({
   providedIn: 'root',

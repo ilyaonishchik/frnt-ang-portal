@@ -6,7 +6,7 @@ import {Table} from 'primeng/table'
 import {LazyLoadEvent} from 'primeng/api'
 
 import {environment} from 'src/environments/environment'
-import {IColumn} from 'src/app/shared/types/column.interface'
+import {IColumn} from 'src/app/shared/interfaces/column.interface'
 import {getPermissionsAction} from '../../store/actions/permissions.action'
 
 import {
@@ -14,7 +14,7 @@ import {
   isLoadingSelector,
   permissionsSelector,
 } from '../../store/selectors'
-import {IPermission} from 'src/app/shared/types/permission.interface'
+import {IPermission} from 'src/app/shared/interfaces/permission.interface'
 
 @Component({
   selector: 'app-permissions',

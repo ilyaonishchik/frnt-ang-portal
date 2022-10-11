@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router'
 
 import {AppService} from '../../../../shared/services/app.service'
 import {AuthService} from '../../services/auth.service'
-import {IVerifyResponse} from '../../types/verify-response.interface'
+import {IVerifyResponse} from '../../interfaces/verify-response.interface'
 
 @Component({
   selector: 'app-verify',

@@ -5,11 +5,11 @@ import {LazyLoadEvent} from 'primeng/api'
 
 import {UsersService} from './users.service'
 import {IUser} from '../../../../shared/types/user.interface'
-import {IPermission} from '../../../../shared/types/permission.interface'
-import {IRole} from '../../../../shared/types/role.interface'
-import {IItemCRUD} from '../../../../shared/types/rbac.interface'
+import {IPermission} from '../../../../shared/interfaces/permission.interface'
+import {IRole} from '../../../../shared/interfaces/role.interface'
+import {IItemCRUD} from '../../../../shared/interfaces/rbac.interface'
 import {RbacService} from '../../../../shared/services/rbac.service'
-import {IColumn} from '../../../../shared/types/column.interface'
+import {IColumn} from '../../../../shared/interfaces/column.interface'
 
 @Component({
   selector: 'app-users',

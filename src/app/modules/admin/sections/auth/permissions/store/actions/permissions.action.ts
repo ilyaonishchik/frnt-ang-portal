@@ -3,7 +3,7 @@ import {createAction, props} from '@ngrx/store'
 import {LazyLoadEvent} from 'primeng/api'
 
 import {ActionTypes} from '../actionTypes'
-import {IPermission} from 'src/app/shared/types/permission.interface'
+import {IPermission} from 'src/app/shared/interfaces/permission.interface'
 
 export const getPermissionsAction = createAction(
   ActionTypes.GET_PERMISSIONS,

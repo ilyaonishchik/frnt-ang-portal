@@ -1,6 +1,6 @@
 export interface IItemCRUD {
   create: boolean
-  view: boolean
+  read: boolean
   update: boolean
   delete: boolean
 }

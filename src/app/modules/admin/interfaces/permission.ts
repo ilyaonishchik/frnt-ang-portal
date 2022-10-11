@@ -1,4 +1,4 @@
-import {IPermission} from '../../../shared/types/permission.interface'
+import {IPermission} from '../../../shared/interfaces/permission.interface'
 
 export interface IPermissions {
   records: number

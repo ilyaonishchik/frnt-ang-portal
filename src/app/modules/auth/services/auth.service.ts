@@ -2,15 +2,19 @@ import {Injectable} from '@angular/core'
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http'
 import {map, Observable} from 'rxjs'
 
-import {ISignupRequest} from '../types/signup-request.interface'
-import {ICurrentUser} from '../../../shared/types/current-user.interface'
+import {ISignupRequest} from '../interfaces/signup-request.interface'
+import {ICurrentUser} from '../../../shared/interfaces/current-user.interface'
 import {AppService} from '../../../shared/services/app.service'
-import {ISignupResponse} from '../types/signup-response.interface'
-import {ISigninRequest} from '../types/signin-request.interface'
-import {ISigninResponse} from '../types/signin-response.interface'
+import {ISignupResponse} from '../interfaces/signup-response.interface'
+import {ISigninRequest} from '../interfaces/signin-request.interface'
+import {ISigninResponse} from '../interfaces/signin-response.interface'
 import {IToken} from '../../../shared/types/token'
 import {IUserReset} from '../../../shared/types/user.interface'
-import {IVerifyResponse} from '../types/verify-response.interface'
+import {IVerifyResponse} from '../interfaces/verify-response.interface'
+import {IPermission} from '../../../shared/interfaces/permission.interface'
+import {IPermissions} from '../../admin/interfaces/permission'
+import {IRole} from '../../../shared/interfaces/role.interface'
+import {IRolesResponse} from '../../../shared/interfaces/roles-response.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +51,18 @@ export class AuthService {
     return this.http
       .get<ICurrentUser>(`${this.apiUrl}users/me`)
       .pipe(map((response: ICurrentUser) => response))
+  }
+
+  getRoles(): Observable<IRole[]> {
+    return this.http
+      .get<IRolesResponse>(`${this.apiUrl}roles`)
+      .pipe(map((response: IRolesResponse) => response.results))
+  }
+
+  getPermissions(): Observable<IPermission[]> {
+    return this.http
+      .get<IPermissions>(`${this.apiUrl}permissions`)
+      .pipe(map((response: IPermissions) => response.results))
   }
 
   resetPassword(user: IUserReset): Observable<any> {

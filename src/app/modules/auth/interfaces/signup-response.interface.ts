@@ -1,5 +1,5 @@
-import {IPermission} from '../../../shared/types/permission.interface'
-import {IRole} from '../../../shared/types/role.interface'
+import {IPermission} from '../../../shared/interfaces/permission.interface'
+import {IRole} from '../../../shared/interfaces/role.interface'
 
 export interface ISignupResponse {
   id: number

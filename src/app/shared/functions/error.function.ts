@@ -1,5 +1,5 @@
 import {HttpErrorResponse} from '@angular/common/http'
-import {IBackendError} from '../types/backend-errors.interface'
+import {IBackendError} from '../interfaces/backend-errors.interface'
 
 export function responseToError(response: HttpErrorResponse): IBackendError {
   let error: IBackendError

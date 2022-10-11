@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
-import {IItemCRUD} from '../../../../types/rbac.interface'
+import {IItemCRUD} from 'src/app/shared/interfaces/rbac.interface'
 
 @Component({
   selector: 'avs-action',

@@ -19,7 +19,7 @@ import {
 import {PersistenceService} from '../shared/services/persistence.service'
 import {AuthService} from '../modules/auth/services/auth.service'
 import {Store} from '@ngrx/store'
-import {IAuthState} from '../modules/auth/types/auth-state.interface'
+import {IAuthState} from '../modules/auth/interfaces/auth-state.interface'
 import {signoutAction} from '../modules/auth/store/actions/signout.action'
 
 @Injectable()

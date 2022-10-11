@@ -12,7 +12,7 @@ import {
   currentUserSelector,
   validationErrorSelector,
 } from './modules/auth/store/selectors'
-import {ICurrentUser} from './shared/types/current-user.interface'
+import {ICurrentUser} from './shared/interfaces/current-user.interface'
 import {AppService} from './shared/services/app.service'
 
 @Component({

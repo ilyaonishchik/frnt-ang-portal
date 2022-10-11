@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core'
 
 import {Observable} from 'rxjs'
-import {IMenu} from '../../types/menu.interface'
+import {IMenu} from '../../interfaces/menu.interface'
 import {MenuService} from '../../services/menu.service'
 
 @Component({

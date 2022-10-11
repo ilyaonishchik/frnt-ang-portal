@@ -1,6 +1,6 @@
 import {createAction, props} from '@ngrx/store'
 import {ActionTypes} from '../actionTypes'
-import {IBackendError} from '../../../../shared/types/backend-errors.interface'
+import {IBackendError} from 'src/app/shared/interfaces/backend-errors.interface'
 
 export const signoutAction = createAction(ActionTypes.SIGNOUT)
 

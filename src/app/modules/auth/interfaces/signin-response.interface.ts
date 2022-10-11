@@ -1,4 +1,4 @@
-import {ICurrentUser} from '../../../shared/types/current-user.interface'
+import {ICurrentUser} from '../../../shared/interfaces/current-user.interface'
 
 export interface ISigninResponse {
   access_token: string

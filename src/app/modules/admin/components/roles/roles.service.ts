@@ -5,10 +5,10 @@ import {map, Observable} from 'rxjs'
 import {IRoles} from '../../interfaces/role'
 import {AppService} from '../../../../shared/services/app.service'
 import {IDeleteResult} from '../../../../shared/types/results.interface'
-import {IRole, IRoleSave} from '../../../../shared/types/role.interface'
+import {IRole, IRoleSave} from '../../../../shared/interfaces/role.interface'
 import {LazyLoadEvent} from 'primeng/api'
 import {eventToParams} from '../../../../shared/functions/event.function'
-import {IPermission} from '../../../../shared/types/permission.interface'
+import {IPermission} from '../../../../shared/interfaces/permission.interface'
 import {IPermissions} from '../../interfaces/permission'
 
 @Injectable({

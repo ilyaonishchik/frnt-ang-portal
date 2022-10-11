@@ -1,22 +1,26 @@
 import {Injectable} from '@angular/core'
 
+import {Store} from '@ngrx/store'
 import {Actions, createEffect, ofType} from '@ngrx/effects'
-import {catchError, map, of, switchMap} from 'rxjs'
+import {catchError, map, of, switchMap, tap} from 'rxjs'
 
 import {AuthService} from '../../services/auth.service'
-import {PersistenceService} from '../../../../shared/services/persistence.service'
+import {PersistenceService} from 'src/app/shared/services/persistence.service'
 import {
   getCurrentUserAction,
   getCurrentUserFailureAction,
   getCurrentUserSuccessAction,
 } from '../actions/get-current-user.action'
-import {ICurrentUser} from '../../../../shared/types/current-user.interface'
-import {LayoutService} from '../../../../shared/services/layout.service'
+import {ICurrentUser} from 'src/app/shared/interfaces/current-user.interface'
+import {LayoutService} from 'src/app/shared/services/layout.service'
+import {IAuthState} from '../../interfaces/auth-state.interface'
+import {getAllRolesAction} from '../actions/get-all-roles.action'
 
 @Injectable()
 export class GetCurrentUserEffect {
   constructor(
     private actions$: Actions,
+    private store: Store<IAuthState>,
     private authService: AuthService,
     private persistenceService: PersistenceService,
     private layoutService: LayoutService
@@ -42,5 +46,16 @@ export class GetCurrentUserEffect {
         )
       })
     )
+  )
+
+  afterGetCurrentUser$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(getCurrentUserSuccessAction),
+        tap(() => {
+          this.store.dispatch(getAllRolesAction())
+        })
+      ),
+    {dispatch: false}
   )
 }

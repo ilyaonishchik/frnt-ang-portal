@@ -11,7 +11,7 @@ import {
   signupSuccessAction,
 } from '../actions/signup.action'
 import {AuthService} from '../../services/auth.service'
-import {ICurrentUser} from '../../../../shared/types/current-user.interface'
+import {ICurrentUser} from '../../../../shared/interfaces/current-user.interface'
 import {responseToError} from '../../../../shared/functions/error.function'
 import {AppService} from '../../../../shared/services/app.service'
 

@@ -1,8 +1,8 @@
 import {createAction, props} from '@ngrx/store'
 import {ActionTypes} from '../actionTypes'
-import {ISigninRequest} from '../../types/signin-request.interface'
-import {IBackendError} from '../../../../shared/types/backend-errors.interface'
-import {ICurrentUser} from '../../../../shared/types/current-user.interface'
+import {ISigninRequest} from '../../interfaces/signin-request.interface'
+import {IBackendError} from 'src/app/shared/interfaces/backend-errors.interface'
+import {ICurrentUser} from 'src/app/shared/interfaces/current-user.interface'
 
 export const signinAction = createAction(
   ActionTypes.SIGNIN,

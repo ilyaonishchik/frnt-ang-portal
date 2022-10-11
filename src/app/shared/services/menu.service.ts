@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http'
 import {map, Observable, Subject} from 'rxjs'
 
-import {IMenu, IMenus} from '../types/menu.interface'
-import {IMenuChangeEvent} from '../types/menuchangeevent'
+import {IMenu, IMenus} from '../interfaces/menu.interface'
+import {IMenuChangeEvent} from '../interfaces/menuchangeevent'
 
 @Injectable({
   providedIn: 'root',

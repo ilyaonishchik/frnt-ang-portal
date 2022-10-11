@@ -5,9 +5,7 @@ import {MenuItem, MessageService} from 'primeng/api'
 
 import {LayoutService} from '../../services/layout.service'
 import {AppService} from '../../services/app.service'
-import {ICurrentUser} from '../../types/current-user.interface'
 import {
-  currentUserSelector,
   isAnonymousSelector,
   isSignedInSelector,
 } from '../../../modules/auth/store/selectors'
@@ -23,7 +21,6 @@ export class TopbarComponent implements OnInit {
   items!: MenuItem[]
   isSignedIn$!: Observable<boolean | null>
   isAnonymous$!: Observable<boolean>
-  currentUser$!: Observable<ICurrentUser | null>
 
   @ViewChild('menubutton') menuButton!: ElementRef
 
@@ -42,7 +39,6 @@ export class TopbarComponent implements OnInit {
   ngOnInit(): void {
     this.isSignedIn$ = this.store.pipe(select(isSignedInSelector))
     this.isAnonymous$ = this.store.pipe(select(isAnonymousSelector))
-    this.currentUser$ = this.store.pipe(select(currentUserSelector))
   }
 
   showNotifications() {

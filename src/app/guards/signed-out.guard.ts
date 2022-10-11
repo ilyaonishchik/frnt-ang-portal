@@ -13,7 +13,7 @@ import {map, Observable} from 'rxjs'
 import {Store} from '@ngrx/store'
 
 import {isAnonymousSelector} from '../modules/auth/store/selectors'
-import {IAuthState} from '../modules/auth/types/auth-state.interface'
+import {IAuthState} from '../modules/auth/interfaces/auth-state.interface'
 
 @Injectable({
   providedIn: 'root',

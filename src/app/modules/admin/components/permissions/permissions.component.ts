@@ -4,10 +4,10 @@ import {LazyLoadEvent} from 'primeng/api'
 import {Table} from 'primeng/table'
 
 import {PermissionsService} from './permissions.service'
-import {IPermission} from 'src/app/shared/types/permission.interface'
+import {IPermission} from 'src/app/shared/interfaces/permission.interface'
 import {RbacService} from 'src/app/shared/services/rbac.service'
-import {IItemCRUD} from 'src/app/shared/types/rbac.interface'
-import {IColumn} from 'src/app/shared/types/column.interface'
+import {IItemCRUD} from 'src/app/shared/interfaces/rbac.interface'
+import {IColumn} from 'src/app/shared/interfaces/column.interface'
 
 @Component({
   selector: 'app-permissions',

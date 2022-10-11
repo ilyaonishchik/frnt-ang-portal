@@ -1,9 +1,9 @@
 import {createAction, props} from '@ngrx/store'
 
 import {ActionTypes} from '../actionTypes'
-import {ISignupRequest} from '../../types/signup-request.interface'
-import {ICurrentUser} from '../../../../shared/types/current-user.interface'
-import {IBackendError} from '../../../../shared/types/backend-errors.interface'
+import {ISignupRequest} from '../../interfaces/signup-request.interface'
+import {ICurrentUser} from 'src/app/shared/interfaces/current-user.interface'
+import {IBackendError} from 'src/app/shared/interfaces/backend-errors.interface'
 
 export const signupAction = createAction(
   ActionTypes.SIGNUP,

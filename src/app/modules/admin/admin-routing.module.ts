@@ -5,7 +5,6 @@ import {MainComponent} from './components/main/main.component'
 import {DashboardComponent} from './components/dashboard/dashboard.component'
 import {UsersComponent} from './components/users/users.component'
 import {RolesComponent} from './components/roles/roles.component'
-// import {PermissionsComponent} from './components/permissions/permissions.component'
 
 const routes: Routes = [
   {path: '', component: MainComponent},
@@ -18,8 +17,6 @@ const routes: Routes = [
       import('./sections/auth/permissions/permissions.module').then(
         (m) => m.PermissionsModule
       ),
-    // component: PermissionsComponent,
-    // data: {permission: 'permissions:view'},
   },
 ]
 

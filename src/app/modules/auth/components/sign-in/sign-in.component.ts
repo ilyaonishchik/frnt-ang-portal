@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store'
 
 import {AppService} from '../../../../shared/services/app.service'
 import {isSubmittingSelector} from '../../store/selectors'
-import {ISigninRequest} from '../../types/signin-request.interface'
+import {ISigninRequest} from '../../interfaces/signin-request.interface'
 import {signinAction} from '../../store/actions/signin.action'
 
 @Component({

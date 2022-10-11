@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core'
 import {HttpErrorResponse} from '@angular/common/http'
 import {Router} from '@angular/router'
 
+import {Store} from '@ngrx/store'
 import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {catchError, map, of, switchMap, tap} from 'rxjs'
 
@@ -11,14 +12,14 @@ import {
   signinSuccessAction,
 } from '../actions/signin.action'
 import {AuthService} from '../../services/auth.service'
-import {responseToError} from '../../../../shared/functions/error.function'
+import {responseToError} from 'src/app/shared/functions/error.function'
 
-import {ISigninResponse} from '../../types/signin-response.interface'
-import {PersistenceService} from '../../../../shared/services/persistence.service'
-import {LayoutService} from '../../../../shared/services/layout.service'
-import {Store} from '@ngrx/store'
-import {IAuthState} from '../../types/auth-state.interface'
+import {ISigninResponse} from '../../interfaces/signin-response.interface'
+import {PersistenceService} from 'src/app/shared/services/persistence.service'
+import {LayoutService} from 'src/app/shared/services/layout.service'
+import {IAuthState} from '../../interfaces/auth-state.interface'
 import {redirectUrlSelector} from '../selectors'
+import {getAllRolesAction} from '../actions/get-all-roles.action'
 
 @Injectable()
 export class SigninEffect {
@@ -57,7 +58,7 @@ export class SigninEffect {
       this.actions$.pipe(
         ofType(signinSuccessAction),
         tap(() => {
-          console.log('After signinSuccessAction')
+          this.store.dispatch(getAllRolesAction())
           let getRedirectUrl$ = this.store
             .select(redirectUrlSelector)
             .subscribe((value) => {

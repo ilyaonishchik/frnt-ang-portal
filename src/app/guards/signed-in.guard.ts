@@ -14,12 +14,12 @@ import {
 import {map, Observable} from 'rxjs'
 import {Store} from '@ngrx/store'
 
-import {IAuthState} from '../modules/auth/types/auth-state.interface'
+import {IAuthState} from '../modules/auth/interfaces/auth-state.interface'
 import {
   currentUserSelector,
   isSignedInSelector,
 } from '../modules/auth/store/selectors'
-import {ICurrentUser} from '../shared/types/current-user.interface'
+import {ICurrentUser} from '../shared/interfaces/current-user.interface'
 
 @Injectable({
   providedIn: 'root',

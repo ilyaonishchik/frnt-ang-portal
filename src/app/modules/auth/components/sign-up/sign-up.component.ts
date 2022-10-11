@@ -8,7 +8,7 @@ import {CustomValidators} from '../../../../shared/validators'
 import {signupAction} from '../../store/actions/signup.action'
 import {isSubmittingSelector} from '../../store/selectors'
 import {AuthService} from '../../services/auth.service'
-import {ISignupRequest} from '../../types/signup-request.interface'
+import {ISignupRequest} from '../../interfaces/signup-request.interface'
 
 @Component({
   selector: 'app-sign-up',

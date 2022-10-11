@@ -4,11 +4,11 @@ import {Observable} from 'rxjs'
 
 import {LazyLoadEvent} from 'primeng/api'
 
-import {AppService} from '../../../../shared/services/app.service'
-import {IDeleteResult} from '../../../../shared/types/results.interface'
+import {AppService} from 'src/app/shared/services/app.service'
+import {IDeleteResult} from 'src/app/shared/types/results.interface'
 import {eventToParams} from '../../../../shared/functions/event.function'
 import {IPermissions} from '../../interfaces/permission'
-import {IPermission} from '../../../../shared/types/permission.interface'
+import {IPermission} from 'src/app/shared/interfaces/permission.interface'
 
 @Injectable({
   providedIn: 'root',

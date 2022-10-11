@@ -8,7 +8,7 @@ import {
   getPermissionsSuccessAction,
 } from '../actions/permissions.action'
 import {PermissionsService} from '../../services/permissions.service'
-import {IPermissionsResponse} from '../../interfaces/permissions-response.interface'
+import {IPermissionsResponse} from 'src/app/shared/interfaces/permissions-response.interface'
 
 @Injectable()
 export class PermissionsEffect {
