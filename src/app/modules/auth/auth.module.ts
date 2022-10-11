@@ -21,9 +21,11 @@ import {VerifyComponent} from './components/verify/verify.component'
 import {reducer} from './store/reducers'
 import {AuthService} from './services/auth.service'
 import {SignupEffect} from './store/effects/signup.effect'
-import {PersistenceService} from '../../shared/services/persistence.service'
+import {PersistenceService} from 'src/app/shared/services/persistence.service'
 import {SigninEffect} from './store/effects/signin.effect'
 import {GetCurrentUserEffect} from './store/effects/get-current-user.effect'
+import {GetAllRolesEffect} from './store/effects/get-all-roles.effect'
+import {GetAllPermissionsEffect} from './store/effects/get-all-permissions.effect'
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import {GetCurrentUserEffect} from './store/effects/get-current-user.effect'
       SignupEffect,
       SigninEffect,
       GetCurrentUserEffect,
+      GetAllRolesEffect,
+      GetAllPermissionsEffect,
     ]),
   ],
   providers: [AuthService, PersistenceService],

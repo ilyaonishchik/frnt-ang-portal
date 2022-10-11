@@ -16,4 +16,12 @@ export enum ActionTypes {
   GET_CURRENT_USER = '[Auth] Get current user',
   GET_CURRENT_USER_SUCCESS = '[Auth] Get current user success',
   GET_CURRENT_USER_FAILURE = '[Auth] Get current user failure',
+
+  GET_ALL_ROLES = '[Auth] Get all roles',
+  GET_ALL_ROLES_SUCCESS = '[Auth] Get all roles success',
+  GET_ALL_ROLES_FAILURE = '[Auth] Get all roles failure',
+
+  GET_ALL_PERMISSIONS = '[Auth] Get all permissions',
+  GET_ALL_PERMISSIONS_SUCCESS = '[Auth] Get all permissions success',
+  GET_ALL_PERMISSIONS_FAILURE = '[Auth] Get all permissions failure',
 }

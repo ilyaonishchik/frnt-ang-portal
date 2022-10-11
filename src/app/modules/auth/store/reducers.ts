@@ -1,4 +1,4 @@
-import {IAuthState} from '../types/auth-state.interface'
+import {IAuthState} from '../interfaces/auth-state.interface'
 import {Action, createReducer, on} from '@ngrx/store'
 import {
   signupAction,
@@ -22,11 +22,23 @@ import {
   signoutSuccessAction,
 } from './actions/signout.action'
 import {redirectAction} from './actions/redirect.action'
+import {
+  getAllRolesAction,
+  getAllRolesFailureAction,
+  getAllRolesSuccessAction,
+} from './actions/get-all-roles.action'
+import {
+  getAllPermissionsAction,
+  getAllPermissionsFailureAction,
+  getAllPermissionsSuccessAction,
+} from './actions/get-all-permissions.action'
 
 const initialState: IAuthState = {
   isSubmitting: false,
   isLoading: false,
   currentUser: null,
+  allRoles: [],
+  allPermissions: [],
   isSignedIn: null,
   validationError: null,
   redirectUrl: '/',
@@ -104,6 +116,8 @@ const authReducer = createReducer(
       isSubmitting: false,
       isSignedIn: false,
       currentUser: null,
+      allRoles: [],
+      allPermissions: [],
       redirectUrl: action.url,
     })
   ),
@@ -135,6 +149,43 @@ const authReducer = createReducer(
       isLoading: false,
       isSignedIn: false,
       currentUser: null,
+    })
+  ),
+  on(getAllRolesAction, (state): IAuthState => ({...state, isLoading: true})),
+  on(
+    getAllRolesSuccessAction,
+    (state, action): IAuthState => ({
+      ...state,
+      isLoading: false,
+      allRoles: action.roles,
+    })
+  ),
+  on(
+    getAllRolesFailureAction,
+    (state): IAuthState => ({
+      ...state,
+      isLoading: false,
+      allRoles: [],
+    })
+  ),
+  on(
+    getAllPermissionsAction,
+    (state): IAuthState => ({...state, isLoading: true})
+  ),
+  on(
+    getAllPermissionsSuccessAction,
+    (state, action): IAuthState => ({
+      ...state,
+      isLoading: false,
+      allPermissions: action.permissions,
+    })
+  ),
+  on(
+    getAllPermissionsFailureAction,
+    (state): IAuthState => ({
+      ...state,
+      isLoading: false,
+      allPermissions: [],
     })
   )
 )

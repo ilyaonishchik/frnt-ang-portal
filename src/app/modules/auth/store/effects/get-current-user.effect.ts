@@ -15,6 +15,7 @@ import {ICurrentUser} from 'src/app/shared/interfaces/current-user.interface'
 import {LayoutService} from 'src/app/shared/services/layout.service'
 import {IAuthState} from '../../interfaces/auth-state.interface'
 import {getAllRolesAction} from '../actions/get-all-roles.action'
+import {getAllPermissionsAction} from '../actions/get-all-permissions.action'
 
 @Injectable()
 export class GetCurrentUserEffect {
@@ -54,6 +55,7 @@ export class GetCurrentUserEffect {
         ofType(getCurrentUserSuccessAction),
         tap(() => {
           this.store.dispatch(getAllRolesAction())
+          this.store.dispatch(getAllPermissionsAction())
         })
       ),
     {dispatch: false}

@@ -20,6 +20,7 @@ import {LayoutService} from 'src/app/shared/services/layout.service'
 import {IAuthState} from '../../interfaces/auth-state.interface'
 import {redirectUrlSelector} from '../selectors'
 import {getAllRolesAction} from '../actions/get-all-roles.action'
+import {getAllPermissionsAction} from '../actions/get-all-permissions.action'
 
 @Injectable()
 export class SigninEffect {
@@ -59,6 +60,7 @@ export class SigninEffect {
         ofType(signinSuccessAction),
         tap(() => {
           this.store.dispatch(getAllRolesAction())
+          this.store.dispatch(getAllPermissionsAction())
           let getRedirectUrl$ = this.store
             .select(redirectUrlSelector)
             .subscribe((value) => {

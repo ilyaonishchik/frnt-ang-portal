@@ -1,6 +1,6 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store'
 
-import {IAuthState} from '../types/auth-state.interface'
+import {IAuthState} from '../interfaces/auth-state.interface'
 
 export const authFeatureSelector = createFeatureSelector<IAuthState>('auth')
 
@@ -27,6 +27,16 @@ export const validationErrorSelector = createSelector(
 export const currentUserSelector = createSelector(
   authFeatureSelector,
   (authState: IAuthState) => authState.currentUser
+)
+
+export const allRolesSelector = createSelector(
+  authFeatureSelector,
+  (authState: IAuthState) => authState.allRoles
+)
+
+export const allPermissionsSelector = createSelector(
+  authFeatureSelector,
+  (authState: IAuthState) => authState.allPermissions
 )
 
 export const redirectUrlSelector = createSelector(

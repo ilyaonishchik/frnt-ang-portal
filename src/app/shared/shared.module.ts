@@ -23,6 +23,8 @@ import {reducer} from '../modules/auth/store/reducers'
 import {SigninEffect} from '../modules/auth/store/effects/signin.effect'
 import {GetCurrentUserEffect} from '../modules/auth/store/effects/get-current-user.effect'
 import {SignoutEffect} from '../modules/auth/store/effects/signout.effect'
+import {GetAllRolesEffect} from '../modules/auth/store/effects/get-all-roles.effect'
+import {GetAllPermissionsEffect} from '../modules/auth/store/effects/get-all-permissions.effect'
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import {SignoutEffect} from '../modules/auth/store/effects/signout.effect'
       SigninEffect,
       GetCurrentUserEffect,
       SignoutEffect,
+      GetAllRolesEffect,
+      GetAllPermissionsEffect,
     ]),
   ],
   exports: [TopbarComponent],
