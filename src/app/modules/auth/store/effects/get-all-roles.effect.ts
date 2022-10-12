@@ -19,7 +19,6 @@ export class GetAllRolesEffect {
     this.actions$.pipe(
       ofType(getAllRolesAction),
       switchMap(() => {
-        console.log('getAllRolesAction Effect')
         return this.authService.getRoles().pipe(
           map((roles: IRole[]) => {
             return getAllRolesSuccessAction({roles: roles})

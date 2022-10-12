@@ -15,10 +15,10 @@ import {
   switchMap,
   throwError,
 } from 'rxjs'
+import {Store} from '@ngrx/store'
 
 import {PersistenceService} from '../shared/services/persistence.service'
 import {AuthService} from '../modules/auth/services/auth.service'
-import {Store} from '@ngrx/store'
 import {IAuthState} from '../modules/auth/interfaces/auth-state.interface'
 import {signoutAction} from '../modules/auth/store/actions/signout.action'
 
@@ -55,7 +55,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           }
           if (error.status === 403) {
             if (authRequest.url.includes('auth/refresh')) {
-              // this.eventBusService.emit({name: 'signout', value: null})
               this.store.dispatch(signoutAction())
             }
           }
