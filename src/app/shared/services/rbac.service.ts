@@ -4,6 +4,7 @@ import {Store} from '@ngrx/store'
 import {IItemCRUD} from '../interfaces/rbac.interface'
 import {currentUserSelector} from '../../modules/auth/store/selectors'
 import {IPermission} from '../interfaces/permission.interface'
+import {environment} from '../../../environments/environment'
 
 @Injectable({
   providedIn: 'root',
@@ -23,26 +24,29 @@ export class RbacService {
   //   return false
   // }
 
-  checkPermission(name: string): boolean {
+  checkPermission(code: string): boolean {
     return (
       this.userPermissions.findIndex((item) => {
-        return item.name === name
+        return item.code === code
       }) != -1
     )
   }
 
   getItemCRUD(item: string): IItemCRUD {
-    let crud: IItemCRUD = {
-      create: false,
-      read: false,
-      update: false,
-      delete: false,
+    if (this.checkPermission(environment.adminPermissionCode)) {
+      return {
+        create: true,
+        read: true,
+        update: true,
+        delete: true,
+      }
+    } else {
+      return {
+        create: this.checkPermission(`${item}:create`),
+        read: this.checkPermission(`${item}:read`),
+        update: this.checkPermission(`${item}:update`),
+        delete: this.checkPermission(`${item}:delete`),
+      }
     }
-    crud.create = this.checkPermission(`${item}:create`)
-    crud.read = this.checkPermission(`${item}:read`)
-    crud.update = this.checkPermission(`${item}:update`)
-    crud.delete = this.checkPermission(`${item}:delete`)
-
-    return crud
   }
 }
