@@ -11,7 +11,10 @@ export const environment = {
   urlApiPdp: '/api/v1/sorting/',
 
   rowsPerPageCount: 15,
-  rowsPerPageOptions: [5, 10, 15, 20],
+  rowsPerPageOptions: [10, 15, 20, 25],
+
+  adminRoleCode: 'role:administrator',
+  adminPermissionCode: 'permission:administrator',
 }
 
 /*
