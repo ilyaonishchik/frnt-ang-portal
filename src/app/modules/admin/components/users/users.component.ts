@@ -55,7 +55,7 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userCRUD = this.rbacService.getItemCRUD('permissions')
+    this.userCRUD = this.rbacService.getItemCRUD('user')
     this.cols = [
       {field: 'id', header: 'Код', width: 'w-1rem'},
       {field: 'username', header: 'Пользователь'},

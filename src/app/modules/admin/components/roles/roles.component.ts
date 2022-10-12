@@ -49,7 +49,7 @@ export class RolesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userCRUD = this.rbacService.getItemCRUD('permissions')
+    this.userCRUD = this.rbacService.getItemCRUD('role')
     this.cols = [
       {field: 'id', header: 'ID', width: 'w-1rem'},
       {field: 'code', header: 'Код'},
