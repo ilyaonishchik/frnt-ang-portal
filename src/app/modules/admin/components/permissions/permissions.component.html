@@ -77,8 +77,8 @@
           <span class='p-column-title'>Операции</span>
           <avs-action
             [userCRUD]='userCRUD'
-            (clickView)='viewItem(rowData)'
-            (clickEdit)='editItem(rowData)'
+            (clickRead)='viewItem(rowData)'
+            (clickUpdate)='editItem(rowData)'
             (clickDelete)='deleteItem(rowData)'>
           </avs-action>
         </td>
@@ -162,5 +162,3 @@
             (click)='confirmDelete()'></button>
   </ng-template>
 </p-dialog>
-
-

@@ -8,8 +8,9 @@ import {IItemCRUD} from 'src/app/shared/interfaces/rbac.interface'
 })
 export class ActionComponent implements OnInit {
   @Input('userCRUD') crud: IItemCRUD | null = null
-  @Output('clickView') onClickView: EventEmitter<any> = new EventEmitter<any>()
-  @Output('clickEdit') onClickEdit: EventEmitter<any> = new EventEmitter<any>()
+  @Output('clickRead') onClickView: EventEmitter<any> = new EventEmitter<any>()
+  @Output('clickUpdate') onClickEdit: EventEmitter<any> =
+    new EventEmitter<any>()
   @Output('clickDelete') onClickDelete: EventEmitter<any> =
     new EventEmitter<any>()
 
