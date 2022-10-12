@@ -40,6 +40,7 @@ export class RolesComponent implements OnInit {
   ) {
     this.clearItem = {
       id: 0,
+      code: '',
       name: '',
       comment: null,
       status: 1,
@@ -50,7 +51,8 @@ export class RolesComponent implements OnInit {
   ngOnInit(): void {
     this.userCRUD = this.rbacService.getItemCRUD('permissions')
     this.cols = [
-      {field: 'id', header: 'Код', width: 'w-1rem'},
+      {field: 'id', header: 'ID', width: 'w-1rem'},
+      {field: 'code', header: 'Код'},
       {field: 'name', header: 'Наименование'},
       {field: 'comment', header: 'Описание'},
     ]

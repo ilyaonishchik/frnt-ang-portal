@@ -7,11 +7,16 @@ import {LazyLoadEvent} from 'primeng/api'
 
 import {environment} from 'src/environments/environment'
 import {IColumn} from 'src/app/shared/interfaces/column.interface'
-import {getPermissionsAction} from '../../store/actions/permissions.action'
+import {
+  getPermissionsAction,
+  readPermissionAction,
+} from '../../store/actions/permissions.action'
 
 import {
   countSelector,
   isLoadingSelector,
+  itemDialogSelector,
+  itemSelector,
   permissionsSelector,
 } from '../../store/selectors'
 import {IPermission} from 'src/app/shared/interfaces/permission.interface'
@@ -24,17 +29,19 @@ import {IPermission} from 'src/app/shared/interfaces/permission.interface'
 export class PermissionsComponent implements OnInit {
   timeout: any = null
   columns: IColumn[] = []
-  rowsPerPageCount!: number
-  rowsPerPageOptions!: number[]
+  rowsPerPageCount: number = environment.rowsPerPageCount
+  rowsPerPageOptions: number[] = environment.rowsPerPageOptions
 
   isLoading$!: Observable<boolean>
+  item$!: Observable<IPermission | null>
   items$!: Observable<IPermission[]>
   itemsCount$!: Observable<number>
+  itemDialog$!: Observable<boolean>
+  itemDialogView$!: Observable<boolean>
+  itemDialogDelete$!: Observable<boolean>
+  submitted$!: Observable<boolean>
 
-  constructor(private store: Store) {
-    this.rowsPerPageCount = environment.rowsPerPageCount
-    this.rowsPerPageOptions = environment.rowsPerPageOptions
-  }
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.setColumns()
@@ -43,7 +50,8 @@ export class PermissionsComponent implements OnInit {
 
   setColumns(): void {
     this.columns = [
-      {field: 'id', header: 'Код', width: 'w-1rem'},
+      {field: 'id', header: 'ID', width: 'w-1rem'},
+      {field: 'code', header: 'Код'},
       {field: 'name', header: 'Наименование'},
       {field: 'comment', header: 'Описание'},
     ]
@@ -51,12 +59,82 @@ export class PermissionsComponent implements OnInit {
 
   initializeValues(): void {
     this.isLoading$ = this.store.pipe(select(isLoadingSelector))
+    this.item$ = this.store.pipe(select(itemSelector))
     this.items$ = this.store.pipe(select(permissionsSelector))
     this.itemsCount$ = this.store.pipe(select(countSelector))
+    this.itemDialog$ = this.store.pipe(select(itemDialogSelector))
   }
 
-  loadItems(event: LazyLoadEvent) {
+  loadItems(event: LazyLoadEvent): void {
     this.store.dispatch(getPermissionsAction({event}))
+  }
+
+  createItem(): void {
+    // this.item = {...this.clearItem}
+    // this.submitted = false
+    // this.itemDialog = true
+  }
+
+  readItem(item: IPermission): void {
+    this.store.dispatch(readPermissionAction({item}))
+  }
+
+  updateItem(item: IPermission): void {
+    // this.item = {...item}
+    // this.itemDialog = true
+  }
+
+  deleteItem(item: IPermission): void {
+    // this.item = {...item}
+    // this.itemDialogDelete = true
+  }
+
+  confirmDelete(): void {
+    // this.itemDialogDelete = false
+    // this.permissionsService.deletePermission(this.item).subscribe({
+    //   next: (res) => {
+    //     this.items = this.items.filter((val) => val.id !== res.record_id)
+    //   },
+    //   error: (err) => {
+    //     console.log(err)
+    //   },
+    // })
+    // this.item = {...this.clearItem}
+  }
+
+  cancelDelete(): void {}
+
+  hideDialog(): void {
+    // this.itemDialog = false
+    // this.itemDialogView = false
+    // this.submitted = false
+  }
+
+  saveItem(): void {
+    // this.submitted = true
+    // if (this.item.name?.trim()) {
+    //   if (this.item.id > 0) {
+    //     this.permissionsService.updatePermission(this.item).subscribe({
+    //       next: (res) => {
+    //         this.items[this.findIndexById(res.id)] = res
+    //       },
+    //       error: (err) => {
+    //         console.log(err)
+    //       },
+    //     })
+    //   } else {
+    //     this.permissionsService.createPermission(this.item).subscribe({
+    //       next: (res) => {
+    //         this.items.push(res)
+    //       },
+    //       error: (err) => {
+    //         console.log(err)
+    //       },
+    //     })
+    //   }
+    //   this.items = [...this.items]
+    //   this.itemDialog = false
+    //   this.item = {...this.clearItem}
   }
 
   onGlobalFilter(table: Table, event: Event) {

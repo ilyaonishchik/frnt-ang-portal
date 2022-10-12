@@ -16,7 +16,7 @@
     [rowsPerPageOptions]=rowsPerPageOptions
     [showCurrentPageReport]='true'
     currentPageReportTemplate='Записи с {first} по {last} из {totalRecords}'
-    [globalFilterFields]="['name']"
+    [globalFilterFields]="['code', 'name']"
     sortField='id'
     [sortOrder]=1
   >
@@ -28,6 +28,7 @@
           icon='pi pi-plus'
           class='p-button-success mr-2'
           [disabled]='false'
+          (click)='createItem()'
         >
         </button>
         <span
@@ -76,7 +77,11 @@
         </td>
         <td class='text-center'>
           <span class='p-column-title'>Операции</span>
-          <avs-action>
+          <avs-action
+            (clickRead)='readItem(rowData)'
+            (clickUpdate)='updateItem(rowData)'
+            (clickDelete)='deleteItem(rowData)'>
+          >
           </avs-action>
         </td>
       </tr>
@@ -97,3 +102,74 @@
     </ng-template>
   </p-table>
 </div>
+
+<p-dialog
+  *ngIf='(item$ | async) as item'
+  [(visible)]='itemDialog$ | async'
+  [style]="{width: '450px'}"
+  header='Информация о разрешении'
+  [modal]='true'
+  class='p-fluid'
+>
+  <ng-template pTemplate='content'>
+    <div class='field'>
+      <label for='name'>Наименование</label>
+      <input
+        id='name'
+        type='text'
+        pInputText
+        [(ngModel)]='item.name'
+        [maxLength]=50
+        [readonly]='itemDialogView$ | async'
+        [pAutoFocus]='true'
+        [ngClass]="{'ng-invalid ng-dirty': (submitted$ | async) && !item.name}">
+      <small class='p-error block' *ngIf='(submitted$ | async) && !item.name'>Обязательное поле</small>
+    </div>
+    <div class='field'>
+      <label for='comment'>Описание</label>
+      <textarea
+        id='comment'
+        pInputTextarea
+        [(ngModel)]='item.comment'
+        [maxLength]=150
+        [readonly]='itemDialogView$ | async'
+        rows='3'
+        cols='20'>
+          </textarea>
+    </div>
+  </ng-template>
+  <ng-template pTemplate='footer'>
+    <div class='flex justify-content-between'>
+      <p-checkbox
+        class='align-content-start'
+        label='Активная'
+        [(ngModel)]='item.status'
+        [readonly]='itemDialogView$ | async'
+        [binary]='true'
+        [trueValue]='1'
+        [falseValue]='0'></p-checkbox>
+      <div>
+        <button pButton [label]="(itemDialogView$ | async)? 'Закрыть': 'Отмена'" icon='pi pi-times'
+                class='p-button-text p-button-secondary' (click)='hideDialog()'></button>
+        <button *ngIf='!(itemDialogView$ | async)' pButton label='Сохранить' icon='pi pi-check'
+                class='p-button-text p-button-success' (click)='saveItem()'></button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]='itemDialogDelete$ | async' header='Подтверждение' [modal]='true' [style]="{width: '450px'}">
+  <div class='flex align-items-center justify-content-center'>
+    <i class='pi pi-exclamation-triangle mr-3' style='font-size: 2rem'></i>
+    <span *ngIf='(item$ | async) as item'>Вы действительно хотите удалить: <b>{{item.name}}</b></span>
+  </div>
+  <ng-template pTemplate='footer'>
+    <button pButton label='Нет' icon='pi pi-times' class='p-button-text p-button-info'
+            (click)='cancelDelete()'></button>
+    <button pButton label='Да' icon='pi pi-check' class='p-button-text p-button-danger'
+            (click)='confirmDelete()'></button>
+  </ng-template>
+</p-dialog>
+
+
+

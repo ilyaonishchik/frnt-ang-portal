@@ -33,13 +33,14 @@ export class PermissionsComponent implements OnInit {
     private permissionsService: PermissionsService,
     private rbacService: RbacService
   ) {
-    this.clearItem = {id: 0, name: '', comment: null, status: 1}
+    this.clearItem = {id: 0, code: '', name: '', comment: null, status: 1}
   }
 
   ngOnInit(): void {
     this.userCRUD = this.rbacService.getItemCRUD('permissions')
     this.cols = [
-      {field: 'id', header: 'Код', width: 'w-1rem'},
+      {field: 'id', header: 'ID', width: 'w-1rem'},
+      {field: 'code', header: 'Код'},
       {field: 'name', header: 'Наименование'},
       {field: 'comment', header: 'Описание'},
     ]

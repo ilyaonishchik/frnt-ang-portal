@@ -53,6 +53,7 @@ export class RolesService {
 
   private itemToRole(item: IRole): IRoleSave {
     return {
+      code: item.code,
       name: item.name,
       comment: item.comment,
       status: item.status,
