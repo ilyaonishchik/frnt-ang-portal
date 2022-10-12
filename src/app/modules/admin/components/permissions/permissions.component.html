@@ -101,8 +101,13 @@
   </p-table>
 </div>
 
-<p-dialog [(visible)]='itemDialog' [style]="{width: '450px'}" header='Информация о разрешении' [modal]='true'
-          class='p-fluid'>
+<p-dialog
+  [(visible)]='itemDialog'
+  [style]="{width: '450px'}"
+  header='Информация о разрешении'
+  [modal]='true'
+  class='p-fluid'
+>
   <ng-template pTemplate='content'>
     <div class='field'>
       <label for='name'>Наименование</label>
