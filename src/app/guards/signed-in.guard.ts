@@ -4,7 +4,6 @@ import {
   CanActivate,
   CanActivateChild,
   CanLoad,
-  Data,
   Route,
   Router,
   RouterStateSnapshot,
@@ -15,11 +14,7 @@ import {map, Observable} from 'rxjs'
 import {Store} from '@ngrx/store'
 
 import {IAuthState} from '../modules/auth/interfaces/auth-state.interface'
-import {
-  currentUserSelector,
-  isSignedInSelector,
-} from '../modules/auth/store/selectors'
-import {ICurrentUser} from '../shared/interfaces/current-user.interface'
+import {isSignedInSelector} from '../modules/auth/store/selectors'
 
 @Injectable({
   providedIn: 'root',
@@ -35,17 +30,17 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.store.select(currentUserSelector).pipe(
+    return this.store.select(isSignedInSelector).pipe(
       map((value) => {
-        // console.log('SignedInGuard canActivate currentUser:', value)
-        if (value) {
-          return this.checkRole(route.data, value)
+        if (value === true) {
+          return true
         } else {
           return this.checkUrl(state.url)
         }
       })
     )
   }
+
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -54,17 +49,13 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.store.select(currentUserSelector).pipe(
+    return this.store.select(isSignedInSelector).pipe(
       map((value) => {
-        // console.log('SignedInGuard canActivateChild currentUser:', value)
-        if (value) {
-          return this.checkPermission(childRoute.data, value)
-        } else {
-          return false
-        }
+        return value === true
       })
     )
   }
+
   canLoad(
     route: Route,
     segments: UrlSegment[]
@@ -75,7 +66,6 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
     | UrlTree {
     return this.store.select(isSignedInSelector).pipe(
       map((value) => {
-        console.log('SignedInGuard canLoad isSignedIn:', value)
         if (value === true) {
           return true
         } else {
@@ -84,42 +74,6 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
         }
       })
     )
-  }
-
-  checkRole(data: Data, user: ICurrentUser): boolean {
-    let result: boolean = false
-    if (data['role']) {
-      for (const key in user.roles) {
-        if (user.roles[key].name === data['role']) {
-          result = true
-          break
-        }
-      }
-    } else {
-      result = true
-    }
-    if (!result) {
-      this.router.navigateByUrl('/error/403').then((_) => {})
-    }
-    return result
-  }
-
-  checkPermission(data: Data, user: ICurrentUser): boolean {
-    let result: boolean = false
-    if (data['permission']) {
-      for (const key in user.permissions) {
-        if (user.permissions[key].name === data['permission']) {
-          result = true
-          break
-        }
-      }
-    } else {
-      result = true
-    }
-    if (!result) {
-      this.router.navigateByUrl('/error/403').then((_) => {})
-    }
-    return result
   }
 
   checkUrl(url: string): boolean {

@@ -15,14 +15,14 @@ import {map, Observable} from 'rxjs'
 import {Store} from '@ngrx/store'
 
 import {ICurrentUser} from '../shared/interfaces/current-user.interface'
-import {environment} from '../../environments/environment'
 import {IAuthState} from '../modules/auth/interfaces/auth-state.interface'
 import {currentUserSelector} from '../modules/auth/store/selectors'
+import {environment} from '../../environments/environment'
 
 @Injectable({
   providedIn: 'root',
 })
-export class PermissionGuard implements CanActivate, CanActivateChild, CanLoad {
+export class RoleGuard implements CanActivate, CanActivateChild, CanLoad {
   constructor(private store: Store<IAuthState>, private router: Router) {}
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -35,7 +35,7 @@ export class PermissionGuard implements CanActivate, CanActivateChild, CanLoad {
     return this.store.select(currentUserSelector).pipe(
       map((user) => {
         if (user) {
-          return this.checkPermission(route.data, user)
+          return this.checkRole(route.data, user)
         } else {
           return false
         }
@@ -64,7 +64,7 @@ export class PermissionGuard implements CanActivate, CanActivateChild, CanLoad {
       map((user) => {
         if (user) {
           if (route.data) {
-            return this.checkPermission(route.data, user)
+            return this.checkRole(route.data, user)
           } else {
             return true
           }
@@ -76,15 +76,15 @@ export class PermissionGuard implements CanActivate, CanActivateChild, CanLoad {
     )
   }
 
-  checkPermission(data: Data, user: ICurrentUser): boolean {
+  checkRole(data: Data, user: ICurrentUser): boolean {
     let result: boolean = false
-    if (data['permission']) {
-      for (const key in user.permissions) {
-        if (user.permissions[key].code === environment.adminPermissionCode) {
+    if (data['role']) {
+      for (const key in user.roles) {
+        if (user.roles[key].code === environment.adminRoleCode) {
           result = true
           break
         }
-        if (user.permissions[key].code === data['permission']) {
+        if (user.roles[key].code === data['role']) {
           result = true
           break
         }

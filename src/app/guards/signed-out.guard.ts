@@ -29,11 +29,8 @@ export class SignedOutGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    // console.log('SignedOutGuard A url: %s', route.url[0])
-    // return this.checkLogout(route.url[0])
     return this.store.select(isAnonymousSelector).pipe(
       map((value) => {
-        console.log('SignedOutGuard canActivate isAnonymous:', value)
         return value
       })
     )
@@ -47,11 +44,8 @@ export class SignedOutGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    // console.log('SignedOutGuard L', this.authService.state.userSignedIn)
-    // console.log(route)
     return this.store.select(isAnonymousSelector).pipe(
       map((value) => {
-        console.log('SignedOutGuard canLoad isAnonymous:', value)
         if (!value) {
           this.location.back()
         }

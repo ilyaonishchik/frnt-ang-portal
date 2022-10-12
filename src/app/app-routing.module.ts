@@ -20,8 +20,8 @@ const routes: Routes = [
         path: 'admin',
         canLoad: [SignedInGuard],
         canActivate: [SignedInGuard],
-        canActivateChild: [SignedInGuard],
-        data: {role: 'admin:view'},
+        // canActivateChild: [SignedInGuard],
+        // data: {role: 'admin:view'},
         loadChildren: () =>
           import('./modules/admin/admin.module').then((m) => m.AdminModule),
       },
@@ -29,7 +29,7 @@ const routes: Routes = [
         path: 'pdp',
         canLoad: [SignedInGuard],
         canActivate: [SignedInGuard],
-        canActivateChild: [SignedInGuard],
+        // canActivateChild: [SignedInGuard],
         loadChildren: () =>
           import('./modules/podpiska/podpiska.module').then(
             (m) => m.PodpiskaModule
