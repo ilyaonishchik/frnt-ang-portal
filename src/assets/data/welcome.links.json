@@ -5,7 +5,7 @@
     {"name": "ПТКС РПО 2", "website": "http://172.16.100.27/belpost", "desc": "Дополнительная ссылка"},
     {"name": "Розница печатных СМИ", "website": "http://172.16.188.140/portal"},
     {"name": "Мониторинг услуг", "website": "http://172.16.188.140/stat/index.php/user/login.html"},
-    {"name": "Учёт обмена", "website": "http://msp.belpost.by/Uslugi/Vhod.aspx"},
+    {"name": "Учёт услуг", "website": "http://msp.belpost.by/Uslugi/Vhod.aspx"},
     {"name": "Ходовик", "website": "http://hodovik.belpost.by/Login.aspx"},
     {"name": "Регистрация в НПЭС", "website": "https://arm.npas.belpost.by/login"},
     {"name": "РУП \"Белпочта\"", "website": "https://www.belpost.by"},
