@@ -7,4 +7,8 @@ export enum ActionTypes {
   PERMISSION_CREATE = '[Permissions] Create permission',
   PERMISSION_UPDATE = '[Permissions] Update permission',
   PERMISSION_DELETE = '[Permissions] Delete permission',
+  PERMISSION_DELETE_CONFIRM = '[Permissions] Delete permission confirm',
+  PERMISSION_DELETE_CANCEL = '[Permissions] Delete permission cancel',
+  PERMISSION_SAVE = '[Permissions] Save permission',
+  PERMISSION_DIALOG_HIDE = '[Permissions] Hide permission dialog',
 }

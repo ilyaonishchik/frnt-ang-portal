@@ -34,3 +34,18 @@ export const itemDialogSelector = createSelector(
   permissionsFeatureSelector,
   (permissionsState: IPermissionsState) => permissionsState.itemDialog
 )
+
+export const itemDialogViewSelector = createSelector(
+  permissionsFeatureSelector,
+  (permissionsState: IPermissionsState) => permissionsState.itemDialogView
+)
+
+export const itemDialogDeleteSelector = createSelector(
+  permissionsFeatureSelector,
+  (permissionsState: IPermissionsState) => permissionsState.itemDialogDelete
+)
+
+export const submittedSelector = createSelector(
+  permissionsFeatureSelector,
+  (permissionsState: IPermissionsState) => permissionsState.submitted
+)
