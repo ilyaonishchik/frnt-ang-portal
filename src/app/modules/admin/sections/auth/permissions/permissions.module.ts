@@ -13,6 +13,11 @@ import {PermissionsComponent} from './components/permissions/permissions.compone
 import {reducers} from './store/reducers'
 import {PermissionsRoutingModule} from './permissions-routing.module'
 import {ColumnsModule} from 'src/app/shared/components/table/columns/columns.module'
+import {DialogModule} from 'primeng/dialog'
+import {FormsModule} from '@angular/forms'
+import {AutoFocusModule} from 'primeng/autofocus'
+import {InputTextareaModule} from 'primeng/inputtextarea'
+import {CheckboxModule} from 'primeng/checkbox'
 
 @NgModule({
   imports: [
@@ -25,6 +30,11 @@ import {ColumnsModule} from 'src/app/shared/components/table/columns/columns.mod
     InputTextModule,
     TooltipModule,
     ColumnsModule,
+    DialogModule,
+    FormsModule,
+    AutoFocusModule,
+    InputTextareaModule,
+    CheckboxModule,
   ],
   declarations: [PermissionsComponent],
 })

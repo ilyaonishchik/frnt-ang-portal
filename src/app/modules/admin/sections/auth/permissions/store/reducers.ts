@@ -4,13 +4,19 @@ import {
   getPermissionsAction,
   getPermissionsFailureAction,
   getPermissionsSuccessAction,
+  readPermissionAction,
 } from './actions/permissions.action'
 
 const initialState: IPermissionsState = {
   isLoading: false,
   error: null,
+  item: null,
   items: [],
   count: 0,
+  itemDialog: false,
+  itemDialogView: false,
+  itemDialogDelete: false,
+  submitted: false,
 }
 
 const permissionsReducer = createReducer(
@@ -36,6 +42,15 @@ const permissionsReducer = createReducer(
     (state): IPermissionsState => ({
       ...state,
       isLoading: false,
+    })
+  ),
+  on(
+    readPermissionAction,
+    (state, action): IPermissionsState => ({
+      ...state,
+      item: action.item,
+      itemDialog: true,
+      itemDialogView: true,
     })
   )
 )

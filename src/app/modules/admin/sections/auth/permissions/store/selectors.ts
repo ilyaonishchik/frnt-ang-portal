@@ -24,3 +24,13 @@ export const countSelector = createSelector(
   permissionsFeatureSelector,
   (permissionsState: IPermissionsState) => permissionsState.count
 )
+
+export const itemSelector = createSelector(
+  permissionsFeatureSelector,
+  (permissionsState: IPermissionsState) => permissionsState.item
+)
+
+export const itemDialogSelector = createSelector(
+  permissionsFeatureSelector,
+  (permissionsState: IPermissionsState) => permissionsState.itemDialog
+)

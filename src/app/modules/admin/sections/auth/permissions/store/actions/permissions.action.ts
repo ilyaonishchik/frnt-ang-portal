@@ -18,3 +18,8 @@ export const getPermissionsSuccessAction = createAction(
 export const getPermissionsFailureAction = createAction(
   ActionTypes.GET_PERMISSIONS_FAILURE
 )
+
+export const readPermissionAction = createAction(
+  ActionTypes.PERMISSION_READ,
+  props<{item: IPermission}>()
+)
