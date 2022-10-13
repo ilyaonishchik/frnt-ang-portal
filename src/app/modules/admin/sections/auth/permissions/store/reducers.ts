@@ -18,7 +18,7 @@ import {routerNavigationAction} from '@ngrx/router-store'
 const initialState: IPermissionsState = {
   isLoading: false,
   error: null,
-  item: null,
+  // item: null,
   items: [],
   count: 0,
   itemDialog: false,
@@ -56,7 +56,7 @@ const permissionsReducer = createReducer(
     createPermissionAction,
     (state): IPermissionsState => ({
       ...state,
-      item: {id: 0, code: '', name: '', comment: null, status: 1},
+      // item: {id: 0, code: '', name: '', comment: null, status: 1},
       itemDialog: true,
       submitted: false,
     })
@@ -65,7 +65,7 @@ const permissionsReducer = createReducer(
     readPermissionAction,
     (state, action): IPermissionsState => ({
       ...state,
-      item: action.item,
+      // item: action.item,
       itemDialog: true,
       itemDialogView: true,
     })
@@ -74,7 +74,7 @@ const permissionsReducer = createReducer(
     updatePermissionAction,
     (state, action): IPermissionsState => ({
       ...state,
-      item: action.item,
+      // item: action.item,
       itemDialog: true,
     })
   ),
@@ -82,7 +82,7 @@ const permissionsReducer = createReducer(
     deletePermissionAction,
     (state, action): IPermissionsState => ({
       ...state,
-      item: action.item,
+      // item: action.item,
       itemDialogDelete: true,
     })
   ),
@@ -90,7 +90,7 @@ const permissionsReducer = createReducer(
     deletePermissionConfirmAction,
     (state): IPermissionsState => ({
       ...state,
-      item: null,
+      // item: null,
       itemDialogDelete: false,
     })
   ),
@@ -98,7 +98,7 @@ const permissionsReducer = createReducer(
     deletePermissionCancelAction,
     (state): IPermissionsState => ({
       ...state,
-      item: null,
+      // item: null,
       itemDialogDelete: false,
     })
   ),
@@ -106,7 +106,7 @@ const permissionsReducer = createReducer(
     savePermissionAction,
     (state): IPermissionsState => ({
       ...state,
-      item: null,
+      // item: null,
       submitted: true,
       itemDialog: false,
     })
@@ -115,7 +115,7 @@ const permissionsReducer = createReducer(
     hidePermissionDialogAction,
     (state): IPermissionsState => ({
       ...state,
-      item: null,
+      // item: null,
       itemDialog: false,
       itemDialogView: false,
       submitted: false,
