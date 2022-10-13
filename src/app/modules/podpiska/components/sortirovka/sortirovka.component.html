@@ -26,6 +26,9 @@
     </div>
     <div class='col'>
       <p-dropdown
+        [style]="{'width': '23rem', overflow: 'visible' }"
+        [ngStyle]="{width: 'min-content'}"
+        [panelStyle]="{width: '22rem'}"
         [options]='items'
         [(ngModel)]='selectedItem'
         [filter]='true'
@@ -39,7 +42,7 @@
       >
         <ng-template pTemplate='selectedItem'>
           <div *ngIf='selectedItem'>
-            <div>{{selectedItem.naimen}} - №{{selectedItem.nom_izd}}</div>
+            <div>{{selectedItem.indizd}} - №{{selectedItem.nom_izd}} ({{selectedItem.barcode}})</div>
           </div>
         </ng-template>
         <ng-template let-prihod pTemplate='item'>
@@ -52,6 +55,11 @@
         </ng-template>
       </p-dropdown>
     </div>
+  </div>
+  <div
+    *ngIf='selectedItem'
+    class='py-2 info-line font-medium text-2xl'
+  >{{selectedItem.indizd}} - {{selectedItem.naimen}} №{{selectedItem.nom_izd}}, поступило: {{selectedItem.nom_count}}
   </div>
   <div class='mt-2 p-3 border-round border-bluegray-700 border-1'>
     <div class='flex flex-row flex-wrap justify-content-center card-container gap-3'>

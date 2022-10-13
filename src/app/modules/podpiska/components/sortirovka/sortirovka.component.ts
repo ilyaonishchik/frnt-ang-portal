@@ -39,6 +39,7 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
 
   changeCurrentItem(): void {
     this.barcodeNotFound = false
+    console.log('changeCurrentItem')
     if (this.selectedItem?.id_rec) {
       this.sortingService
         .getOutgoingInvoices(this.selectedItem.id_rec)
@@ -53,12 +54,14 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
   }
 
   clearCurrentItem(): void {
+    console.log('clearCurrentItem')
     this.selectedItem = null
     this.selectedBarcode = null
     this.updateCells([])
   }
 
   changeBarcode(): void {
+    console.log('changeBarcode')
     this.selectedItem = null
     let filteredItems: IIncoming[] = this.items.filter(
       (item) => item.barcode === this.selectedBarcode
@@ -75,6 +78,7 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
   }
 
   changeInvoiceDate(): void {
+    console.log('changeInvoiceDate')
     this.barcodeNotFound = false
     this.updateCells([])
     if (this.selectedDate) {
@@ -94,6 +98,7 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
   }
 
   updateCells(cells: IOutgoing[]): void {
+    console.log('updateCells')
     this.cells = cells
     if (cells) {
       let lines: string[] = []
@@ -119,6 +124,10 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
     if (this.digitsExist) {
       this.serialService.clearDigits()
     }
+  }
+
+  testAction(text: string): void {
+    console.log(text)
   }
 
   ngOnDestroy(): void {
