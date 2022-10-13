@@ -45,13 +45,18 @@ export class PermissionsComponent implements OnInit {
   userCRUD!: IItemCRUD
   item!: IPermission
 
+  deleteVisible: boolean = false
+  dialogVisible: boolean = false
+  actionRead: boolean = false
+  submitted: boolean = false
+
   isLoading$!: Observable<boolean>
   // item$!: Observable<IPermission | null>
   items$!: Observable<IPermission[]>
   itemsCount$!: Observable<number>
-  itemDialog$!: Observable<boolean>
-  itemDialogView$!: Observable<boolean>
-  itemDialogDelete$!: Observable<boolean>
+  // itemDialog$!: Observable<boolean>
+  // itemDialogView$!: Observable<boolean>
+  // itemDialogDelete$!: Observable<boolean>
   submitted$!: Observable<boolean>
 
   constructor(private store: Store, private rbacService: RbacService) {}
@@ -67,7 +72,6 @@ export class PermissionsComponent implements OnInit {
       {field: 'id', header: 'ID', width: 'w-1rem'},
       {field: 'code', header: 'Код'},
       {field: 'name', header: 'Наименование'},
-      {field: 'comment', header: 'Описание'},
     ]
   }
 
@@ -76,9 +80,9 @@ export class PermissionsComponent implements OnInit {
     // this.item$ = this.store.pipe(select(itemSelector))
     this.items$ = this.store.pipe(select(permissionsSelector))
     this.itemsCount$ = this.store.pipe(select(countSelector))
-    this.itemDialog$ = this.store.pipe(select(itemDialogSelector))
-    this.itemDialogView$ = this.store.pipe(select(itemDialogViewSelector))
-    this.itemDialogDelete$ = this.store.pipe(select(itemDialogDeleteSelector))
+    // this.itemDialog$ = this.store.pipe(select(itemDialogSelector))
+    // this.itemDialogView$ = this.store.pipe(select(itemDialogViewSelector))
+    // this.itemDialogDelete$ = this.store.pipe(select(itemDialogDeleteSelector))
     this.submitted$ = this.store.pipe(select(submittedSelector))
   }
 
@@ -87,32 +91,40 @@ export class PermissionsComponent implements OnInit {
   }
 
   createItem(): void {
-    this.store.dispatch(createPermissionAction())
+    this.item = {id: 0, code: '', name: '', comment: null, status: 1}
+    this.dialogVisible = true
+    this.actionRead = false
+    // this.store.dispatch(createPermissionAction())
     // this.item = {...this.clearItem}
     // this.submitted = false
     // this.itemDialog = true
   }
 
-  readItem(item: IPermission): void {
-    this.item = item
-    this.store.dispatch(readPermissionAction({item}))
+  readItem(itemId: number): void {
+    console.log(itemId)
+    // this.item = item
+    // this.dialogVisible = true
+    // this.actionRead = true
+    // this.store.dispatch(readPermissionAction({item}))
   }
 
   updateItem(item: IPermission): void {
     this.item = {...item}
-    this.store.dispatch(updatePermissionAction({item}))
+    this.dialogVisible = true
+    this.actionRead = false
+    // this.store.dispatch(updatePermissionAction({item}))
   }
 
   deleteItem(item: IPermission): void {
     this.item = item
     this.store.dispatch(deletePermissionAction({item}))
     // this.item = {...item}
-    // this.itemDialogDelete = true
+    this.deleteVisible = true
   }
 
   confirmDelete(): void {
-    this.store.dispatch(deletePermissionConfirmAction())
-    // this.itemDialogDelete = false
+    // this.store.dispatch(deletePermissionConfirmAction())
+    this.deleteVisible = false
     // this.permissionsService.deletePermission(this.item).subscribe({
     //   next: (res) => {
     //     this.items = this.items.filter((val) => val.id !== res.record_id)
@@ -125,16 +137,19 @@ export class PermissionsComponent implements OnInit {
   }
 
   cancelDelete(): void {
-    this.store.dispatch(deletePermissionCancelAction())
+    this.deleteVisible = false
+    // this.store.dispatch(deletePermissionCancelAction())
   }
 
   hideDialog(): void {
-    this.store.dispatch(hidePermissionDialogAction())
+    // this.store.dispatch(hidePermissionDialogAction())
+    this.dialogVisible = false
   }
 
   saveItem(): void {
-    console.log(this.item)
-    this.store.dispatch(savePermissionAction({item: this.item}))
+    // console.log(this.item)
+    // this.store.dispatch(savePermissionAction({item: this.item}))
+    this.dialogVisible = false
     // this.submitted = true
     // if (this.item.name?.trim()) {
     //   if (this.item.id > 0) {
