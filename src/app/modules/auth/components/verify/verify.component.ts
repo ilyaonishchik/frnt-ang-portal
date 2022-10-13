@@ -34,8 +34,15 @@ export class VerifyComponent implements OnInit {
         this.username = response.username
       },
       error: (err) => {
-        console.log(err.code)
-        this.message = err.message
+        switch (err.status) {
+          case 400: {
+            this.message = err.error.message
+            break
+          }
+          default: {
+            this.message = err.message
+          }
+        }
       },
       complete: () => {
         console.log('Complete verify')
