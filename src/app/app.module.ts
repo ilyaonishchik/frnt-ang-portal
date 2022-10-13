@@ -15,6 +15,7 @@ import {AppComponent} from './app.component'
 import {httpInterceptorProviders} from './interceptors/http.interceptor'
 
 import {environment} from '../environments/environment'
+import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store'
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,7 @@ import {environment} from '../environments/environment'
     SharedModule,
     ToastModule,
     StoreModule.forRoot(
-      {},
+      {router: routerReducer},
       {
         runtimeChecks: {
           strictStateImmutability: false,
@@ -37,6 +38,7 @@ import {environment} from '../environments/environment'
       maxAge: 25,
       logOnly: environment.production,
     }),
+    StoreRouterConnectingModule.forRoot(),
   ],
   providers: [MessageService, httpInterceptorProviders],
   bootstrap: [AppComponent],

@@ -13,6 +13,7 @@ import {
   savePermissionAction,
   updatePermissionAction,
 } from './actions/permissions.action'
+import {routerNavigationAction} from '@ngrx/router-store'
 
 const initialState: IPermissionsState = {
   isLoading: false,
@@ -119,7 +120,8 @@ const permissionsReducer = createReducer(
       itemDialogView: false,
       submitted: false,
     })
-  )
+  ),
+  on(routerNavigationAction, (): IPermissionsState => initialState)
 )
 
 export function reducers(state: IPermissionsState, action: Action) {
