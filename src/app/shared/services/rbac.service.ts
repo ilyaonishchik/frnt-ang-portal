@@ -5,17 +5,20 @@ import {IItemCRUD} from '../interfaces/rbac.interface'
 import {currentUserSelector} from '../../modules/auth/store/selectors'
 import {IPermission} from '../interfaces/permission.interface'
 import {environment} from '../../../environments/environment'
+import {IRole} from '../interfaces/role.interface'
 
 @Injectable({
   providedIn: 'root',
 })
 export class RbacService {
   userPermissions: IPermission[] = []
+  userRoles: IRole[] = []
 
   constructor(private store: Store) {
     this.store.select(currentUserSelector).subscribe((user) => {
       if (user) {
         this.userPermissions = user.permissions
+        this.userRoles = user.roles
       }
     })
   }
