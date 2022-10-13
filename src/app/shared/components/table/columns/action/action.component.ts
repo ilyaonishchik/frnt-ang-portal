@@ -8,7 +8,7 @@ import {IItemCRUD} from 'src/app/shared/interfaces/rbac.interface'
 })
 export class ActionComponent implements OnInit {
   @Input('userCRUD') crud: IItemCRUD | null = null
-  @Output('clickRead') onClickView: EventEmitter<any> = new EventEmitter<any>()
+  @Output('clickRead') onClickRead: EventEmitter<any> = new EventEmitter<any>()
   @Output('clickUpdate') onClickEdit: EventEmitter<any> =
     new EventEmitter<any>()
   @Output('clickDelete') onClickDelete: EventEmitter<any> =
@@ -18,8 +18,8 @@ export class ActionComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  clickView() {
-    this.onClickView.emit()
+  clickRead() {
+    this.onClickRead.emit()
   }
   clickEdit() {
     this.onClickEdit.emit()
