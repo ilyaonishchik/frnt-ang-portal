@@ -75,12 +75,12 @@
         </td>
         <td class='text-center'>
           <span class='p-column-title'>Операции</span>
-          <avs-action
+          <avs-table-action
             [userCRUD]='userCRUD'
-            (clickView)='viewItem(rowData)'
-            (clickEdit)='editItem(rowData)'
+            (clickRead)='viewItem(rowData)'
+            (clickUpdate)='editItem(rowData)'
             (clickDelete)='deleteItem(rowData)'>
-          </avs-action>
+          </avs-table-action>
         </td>
       </tr>
     </ng-template>

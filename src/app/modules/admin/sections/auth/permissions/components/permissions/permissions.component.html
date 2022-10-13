@@ -77,13 +77,13 @@
         </td>
         <td class='text-center'>
           <span class='p-column-title'>Операции</span>
-          <avs-action
+          <avs-table-action
             [userCRUD]='userCRUD'
-            (clickRead)='readItem(rowData)'
+            (clickRead)='readItem(rowData[dt.dataKey])'
             (clickUpdate)='updateItem(rowData)'
             (clickDelete)='deleteItem(rowData)'
           >
-          </avs-action>
+          </avs-table-action>
         </td>
       </tr>
     </ng-template>
@@ -104,14 +104,16 @@
   </p-table>
 </div>
 
-<p-dialog
-  [visible]='(itemDialog$ | async)!'
-  [style]="{width: '450px'}"
+<avs-dialog-action
+  *ngIf='item'
+  [(visible)]=dialogVisible
+  [(status)]=item.status
+  [actionRead]=actionRead
   header='Информация о разрешении'
-  [modal]='true'
-  class='p-fluid'
+  (clickConfirm)=saveItem()
+  (clickCancel)=hideDialog()
 >
-  <ng-template pTemplate='content'>
+  <ng-container>
     <div class='field'>
       <label for='name'>Код</label>
       <input
@@ -120,7 +122,7 @@
         pInputText
         [(ngModel)]='item.code'
         [maxLength]=100
-        [readonly]='(itemDialogView$ | async)!'
+        [readonly]=actionRead
         [pAutoFocus]='true'
         [ngClass]="{'ng-invalid ng-dirty': (submitted$ | async) && !item.code}">
       <small class='p-error block' *ngIf='(submitted$ | async) && !item.code'>Обязательное поле</small>
@@ -133,7 +135,7 @@
         pInputText
         [(ngModel)]='item.name'
         [maxLength]=150
-        [readonly]='(itemDialogView$ | async)!'
+        [readonly]=actionRead
         [ngClass]="{'ng-invalid ng-dirty': (submitted$ | async) && !item.name}">
       <small class='p-error block' *ngIf='(submitted$ | async) && !item.name'>Обязательное поле</small>
     </div>
@@ -144,43 +146,17 @@
         pInputTextarea
         [(ngModel)]='item.comment'
         [maxLength]=200
-        [readonly]='(itemDialogView$ | async)!'
+        [readonly]=actionRead
         rows='3'
         cols='20'>
           </textarea>
     </div>
-  </ng-template>
-  <ng-template pTemplate='footer'>
-    <div class='flex justify-content-between'>
-      <p-checkbox
-        class='align-content-start'
-        label='Активная'
-        [(ngModel)]='item.status'
-        [readonly]='(itemDialogView$ | async)!'
-        [binary]='true'
-        [trueValue]='1'
-        [falseValue]='0'
-      ></p-checkbox>
-      <div>
-        {{itemDialogView$ | async}}
-        <button pButton [label]="(itemDialogView$ | async)? 'Закрыть': 'Отмена'" icon='pi pi-times'
-                class='p-button-text p-button-secondary' (click)='hideDialog()'></button>
-        <button *ngIf='!(itemDialogView$ | async)' pButton label='Сохранить' icon='pi pi-check'
-                class='p-button-text p-button-success' (click)='saveItem()'></button>
-      </div>
-    </div>
-  </ng-template>
-</p-dialog>
+  </ng-container>
+</avs-dialog-action>
 
-<p-dialog [visible]='(itemDialogDelete$ | async)' header='Подтверждение' [modal]='true' [style]="{width: '450px'}">
-  <div class='flex align-items-center justify-content-center'>
-    <i class='pi pi-exclamation-triangle mr-3' style='font-size: 2rem'></i>
-    <span *ngIf='item'>Вы действительно хотите удалить: <b>{{item.name}}</b></span>
-  </div>
-  <ng-template pTemplate='footer'>
-    <button pButton label='Нет' icon='pi pi-times' class='p-button-text p-button-info'
-            (click)='cancelDelete()'></button>
-    <button pButton label='Да' icon='pi pi-check' class='p-button-text p-button-danger'
-            (click)='confirmDelete()'></button>
-  </ng-template>
-</p-dialog>
+<avs-dialog-delete *ngIf='item'
+                   [(visible)]=deleteVisible
+                   [itemInfo]=item.name
+                   (clickConfirm)='confirmDelete()'
+                   (clickCancel)='cancelDelete()'
+></avs-dialog-delete>

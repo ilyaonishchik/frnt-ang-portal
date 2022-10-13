@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {IItemCRUD} from 'src/app/shared/interfaces/rbac.interface'
 
 @Component({
-  selector: 'avs-action',
+  selector: 'avs-table-action',
   templateUrl: './action.component.html',
   styleUrls: ['./action.component.scss'],
 })

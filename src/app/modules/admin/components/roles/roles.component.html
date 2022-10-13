@@ -75,12 +75,12 @@
         </td>
         <td class='text-center'>
           <span class='p-column-title'>Операции</span>
-          <avs-action
+          <avs-table-action
             [userCRUD]='userCRUD'
-            (clickView)='viewItem(rowData)'
-            (clickEdit)='editItem(rowData)'
+            (clickRead)='viewItem(rowData)'
+            (clickUpdate)='editItem(rowData)'
             (clickDelete)='deleteItem(rowData)'>
-          </avs-action>
+          </avs-table-action>
         </td>
       </tr>
     </ng-template>
@@ -104,6 +104,19 @@
 <p-dialog [(visible)]='itemDialog' [style]="{width: '60%'}" header='Информация о роли' [modal]='true'
           class='p-fluid'>
   <ng-template pTemplate='content'>
+    <div class='field'>
+      <label for='name'>Код</label>
+      <input
+        id='code'
+        type='text'
+        pInputText
+        [(ngModel)]='item.code'
+        [maxLength]=50
+        [readonly]='itemDialogView'
+        [pAutoFocus]='true'
+        [ngClass]="{'ng-invalid ng-dirty': submitted && !item.code}">
+      <small class='p-error block' *ngIf='submitted && !item.code'>Обязательное поле</small>
+    </div>
     <div class='field'>
       <label for='name'>Наименование</label>
       <input
