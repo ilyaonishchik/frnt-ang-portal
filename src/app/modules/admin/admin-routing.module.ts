@@ -4,14 +4,17 @@ import {RouterModule, Routes} from '@angular/router'
 import {MainComponent} from './components/main/main.component'
 import {DashboardComponent} from './components/dashboard/dashboard.component'
 import {UsersComponent} from './components/users/users.component'
-import {RolesComponent} from './components/roles/roles.component'
 // import {RoleGuard} from '../../guards/role.guard'
 
 const routes: Routes = [
   {path: '', component: MainComponent},
   {path: 'dashboard', component: DashboardComponent},
   {path: 'users', component: UsersComponent},
-  {path: 'roles', component: RolesComponent},
+  {
+    path: 'roles',
+    loadChildren: () =>
+      import('./sections/auth/roles/roles.module').then((m) => m.RolesModule),
+  },
   {
     path: 'permissions',
     // canLoad: [RoleGuard],

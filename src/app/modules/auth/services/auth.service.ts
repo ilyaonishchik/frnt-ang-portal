@@ -14,7 +14,7 @@ import {IVerifyResponse} from '../interfaces/verify-response.interface'
 import {IPermission} from '../../../shared/interfaces/permission.interface'
 import {IPermissions} from '../../admin/interfaces/permission'
 import {IRole} from '../../../shared/interfaces/role.interface'
-import {IRolesResponse} from '../../../shared/interfaces/roles-response.interface'
+import {IRolesResponse} from '../../admin/sections/auth/roles/interfaces/roles-response.interface'
 
 @Injectable({
   providedIn: 'root',

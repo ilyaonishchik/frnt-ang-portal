@@ -13,12 +13,7 @@ export const errorSelector = createSelector(
   (rolesState: IRolesState) => rolesState.error
 )
 
-export const permissionsSelector = createSelector(
+export const rolesSelector = createSelector(
   rolesFeatureSelector,
-  (rolesState: IRolesState) => rolesState.items
-)
-
-export const countSelector = createSelector(
-  rolesFeatureSelector,
-  (rolesState: IRolesState) => rolesState.count
+  (rolesState: IRolesState) => rolesState.data
 )

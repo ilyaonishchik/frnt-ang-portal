@@ -6,7 +6,7 @@ import {LazyLoadEvent} from 'primeng/api'
 
 import {environment} from 'src/environments/environment'
 import {eventToParams} from 'src/app/shared/functions/event.function'
-import {IRolesResponse} from 'src/app/shared/interfaces/roles-response.interface'
+import {IRolesResponse} from '../interfaces/roles-response.interface'
 
 @Injectable({
   providedIn: 'root',

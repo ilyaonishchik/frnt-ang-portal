@@ -6,12 +6,12 @@ import {
   getRolesFailureAction,
   getRolesSuccessAction,
 } from './actions/roles.action'
+import {routerNavigationAction} from '@ngrx/router-store'
 
 const initialState: IRolesState = {
   isLoading: false,
   error: null,
-  items: [],
-  count: 0,
+  data: {items: [], count: 0},
 }
 
 const rolesReducer = createReducer(
@@ -28,8 +28,7 @@ const rolesReducer = createReducer(
     (state, action): IRolesState => ({
       ...state,
       isLoading: false,
-      items: action.items,
-      count: action.count,
+      data: action.roles,
     })
   ),
   on(
@@ -38,7 +37,8 @@ const rolesReducer = createReducer(
       ...state,
       isLoading: false,
     })
-  )
+  ),
+  on(routerNavigationAction, (): IRolesState => initialState)
 )
 
 export function reducers(state: IRolesState, action: Action) {

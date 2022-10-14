@@ -1,8 +1,7 @@
-import {IRole} from 'src/app/shared/interfaces/role.interface'
+import {IRoles} from './roles.interface'
 
 export interface IRolesState {
   isLoading: boolean
   error: string | null
-  items: IRole[]
-  count: number
+  data: IRoles | null
 }

@@ -1,4 +1,4 @@
-import {IRole} from './role.interface'
+import {IRole} from 'src/app/shared/interfaces/role.interface'
 
 export interface IRolesResponse {
   records: number
