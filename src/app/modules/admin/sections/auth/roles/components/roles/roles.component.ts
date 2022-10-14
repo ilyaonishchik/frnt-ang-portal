@@ -3,6 +3,9 @@ import {Observable} from 'rxjs'
 
 import {select, Store} from '@ngrx/store'
 
+import {LazyLoadEvent} from 'primeng/api'
+import {Table} from 'primeng/table'
+
 import {IColumn} from 'src/app/shared/interfaces/column.interface'
 import {environment} from 'src/environments/environment'
 import {IItemCRUD} from 'src/app/shared/interfaces/rbac.interface'
@@ -10,10 +13,7 @@ import {IRole} from 'src/app/shared/interfaces/role.interface'
 import {IRoles} from '../../interfaces/roles.interface'
 import {RbacService} from 'src/app/shared/services/rbac.service'
 import {isLoadingSelector, rolesSelector} from '../../store/selectors'
-import {LazyLoadEvent} from 'primeng/api'
 import {getRolesAction} from '../../store/actions/roles.action'
-import {Table} from 'primeng/table'
-import {IPermission} from '../../../../../../../shared/interfaces/permission.interface'
 
 @Component({
   selector: 'app-roles',
@@ -79,16 +79,37 @@ export class RolesComponent implements OnInit {
     // this.store.dispatch(readPermissionAction({item}))
   }
 
-  updateItem(item: IPermission): void {
+  updateItem(item: IRole): void {
     // this.item = {...item}
     // this.dialogVisible = true
     // this.isActionRead = false
     // this.store.dispatch(updatePermissionAction({item}))
   }
 
-  deleteItem(item: IPermission): void {
-    // this.item = {...item}
-    // this.deleteVisible = true
+  deleteItem(item: IRole): void {
+    this.item = {...item}
+    this.deleteVisible = true
+  }
+
+  confirmDelete(id: number): void {
+    // this.store.dispatch(deletePermissionAction({id}))
+    this.item = null
+    this.deleteVisible = false
+    // this.store.dispatch(deletePermissionConfirmAction())
+    // this.permissionsService.deletePermission(this.item).subscribe({
+    //   next: (res) => {
+    //     this.items = this.items.filter((val) => val.id !== res.record_id)
+    //   },
+    //   error: (err) => {
+    //     console.log(err)
+    //   },
+    // })
+    // this.item = {...this.clearItem}
+  }
+
+  cancelDelete(): void {
+    this.item = null
+    this.deleteVisible = false
   }
 
   onGlobalFilter(table: Table, event: Event) {

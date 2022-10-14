@@ -155,9 +155,10 @@
   </ng-container>
 </avs-dialog-action>
 
-<avs-dialog-delete *ngIf='item'
-                   [(visible)]=deleteVisible
-                   [itemInfo]=item.name
-                   (clickConfirm)='confirmDelete(item.id)'
-                   (clickCancel)='cancelDelete()'
+<avs-dialog-delete
+  *ngIf='item'
+  [(visible)]=deleteVisible
+  itemInfo='{{item.name}} ({{item.code}})'
+  (clickConfirm)='confirmDelete(item.id)'
+  (clickCancel)='cancelDelete()'
 ></avs-dialog-delete>

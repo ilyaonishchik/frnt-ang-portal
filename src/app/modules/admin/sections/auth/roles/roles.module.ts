@@ -14,6 +14,7 @@ import {RolesComponent} from './components/roles/roles.component'
 import {ColumnsModule} from 'src/app/shared/components/table/columns/columns.module'
 import {GetRolesEffect} from './store/effects/roles.effect'
 import {reducers} from './store/reducers'
+import {AvsDialogModule} from '../../../../../shared/components/dialog/dialog.module'
 
 @NgModule({
   declarations: [RolesComponent],
@@ -27,6 +28,7 @@ import {reducers} from './store/reducers'
     InputTextModule,
     ColumnsModule,
     TooltipModule,
+    AvsDialogModule,
   ],
 })
 export class RolesModule {}

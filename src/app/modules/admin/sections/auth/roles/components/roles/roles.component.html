@@ -104,3 +104,12 @@
     </ng-template>
   </p-table>
 </div>
+
+
+<avs-dialog-delete
+  *ngIf='item'
+  [(visible)]=deleteVisible
+  itemInfo='{{item.name}} ({{item.code}})'
+  (clickConfirm)=confirmDelete(item.id)
+  (clickCancel)=cancelDelete()
+></avs-dialog-delete>
