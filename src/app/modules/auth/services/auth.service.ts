@@ -12,9 +12,9 @@ import {IToken} from '../../../shared/types/token'
 import {IUserReset} from '../../../shared/types/user.interface'
 import {IVerifyResponse} from '../interfaces/verify-response.interface'
 import {IPermission} from '../../../shared/interfaces/permission.interface'
-import {IPermissions} from '../../admin/interfaces/permission'
 import {IRole} from '../../../shared/interfaces/role.interface'
 import {IRolesResponse} from '../../admin/sections/auth/roles/interfaces/roles-response.interface'
+import {IPermissionsResponse} from '../../admin/sections/auth/permissions/interfaces/permissions-response.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -61,8 +61,8 @@ export class AuthService {
 
   getPermissions(): Observable<IPermission[]> {
     return this.http
-      .get<IPermissions>(`${this.apiUrl}permissions`)
-      .pipe(map((response: IPermissions) => response.results))
+      .get<IPermissionsResponse>(`${this.apiUrl}permissions`)
+      .pipe(map((response: IPermissionsResponse) => response.results))
   }
 
   resetPassword(user: IUserReset): Observable<any> {

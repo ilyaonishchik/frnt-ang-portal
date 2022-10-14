@@ -16,7 +16,9 @@ import {IPermissionsResponse} from '../interfaces/permissions-response.interface
 export class PermissionsService {
   constructor(private http: HttpClient) {}
 
-  getPermissions(event: LazyLoadEvent): Observable<IPermissionsResponse> {
+  getPermissions(
+    event: LazyLoadEvent | null
+  ): Observable<IPermissionsResponse> {
     const fullUrl = `${environment.urlApi}/auth/permissions`
 
     return this.http.get<IPermissionsResponse>(fullUrl, {
