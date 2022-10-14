@@ -8,7 +8,6 @@ import {InputTextModule} from 'primeng/inputtext'
 import {SkeletonModule} from 'primeng/skeleton'
 import {ToolbarModule} from 'primeng/toolbar'
 import {DialogModule} from 'primeng/dialog'
-import {AutoFocusModule} from 'primeng/autofocus'
 import {CheckboxModule} from 'primeng/checkbox'
 import {TooltipModule} from 'primeng/tooltip'
 import {InputTextareaModule} from 'primeng/inputtextarea'
@@ -16,7 +15,6 @@ import {PickListModule} from 'primeng/picklist'
 import {TabViewModule} from 'primeng/tabview'
 
 import {AdminRoutingModule} from './admin-routing.module'
-
 import {MainComponent} from './components/main/main.component'
 import {DashboardComponent} from './components/dashboard/dashboard.component'
 import {UsersComponent} from './components/users/users.component'
@@ -43,7 +41,6 @@ import {ColumnsModule} from 'src/app/shared/components/table/columns/columns.mod
     DialogModule,
     FormsModule,
     InputTextareaModule,
-    AutoFocusModule,
     CheckboxModule,
     TooltipModule,
     PickListModule,

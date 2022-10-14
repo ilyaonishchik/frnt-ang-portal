@@ -11,7 +11,6 @@ import {InputTextModule} from 'primeng/inputtext'
 import {ButtonModule} from 'primeng/button'
 import {RippleModule} from 'primeng/ripple'
 import {ToastModule} from 'primeng/toast'
-import {AutoFocusModule} from 'primeng/autofocus'
 
 import {AuthRoutingModule} from './auth-routing.module'
 import {SignInComponent} from './components/sign-in/sign-in.component'
@@ -45,7 +44,6 @@ import {GetAllPermissionsEffect} from './store/effects/get-all-permissions.effec
     FormsModule,
     ToastModule,
     ReactiveFormsModule,
-    AutoFocusModule,
     StoreModule.forFeature('auth', reducer),
     EffectsModule.forFeature([
       SignupEffect,

@@ -9,7 +9,6 @@ import {TableModule} from 'primeng/table'
 import {ButtonModule} from 'primeng/button'
 import {InputTextModule} from 'primeng/inputtext'
 import {TooltipModule} from 'primeng/tooltip'
-import {AutoFocusModule} from 'primeng/autofocus'
 import {InputTextareaModule} from 'primeng/inputtextarea'
 
 import {PermissionsEffect} from './store/effects/permissions.effect'
@@ -31,7 +30,6 @@ import {AvsDialogModule} from 'src/app/shared/components/dialog/dialog.module'
     TooltipModule,
     ColumnsModule,
     FormsModule,
-    AutoFocusModule,
     InputTextareaModule,
     AvsDialogModule,
   ],

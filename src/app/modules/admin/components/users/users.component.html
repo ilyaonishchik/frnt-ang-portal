@@ -113,7 +113,7 @@
         [(ngModel)]='item.username'
         [maxLength]=50
         [readonly]='itemDialogView'
-        [pAutoFocus]='true'
+        autofocus
         [ngClass]="{'ng-invalid ng-dirty': submitted && !item.username}">
       <small class='p-error block' *ngIf='submitted && !item.username'>Обязательное поле</small>
     </div>
@@ -126,7 +126,7 @@
         [(ngModel)]='item.email'
         [maxLength]=50
         [readonly]='itemDialogView'
-        [pAutoFocus]='true'
+        autofocus
         [ngClass]="{'ng-invalid ng-dirty': submitted && !item.email}">
       <small class='p-error block' *ngIf='submitted && !item.email'>Обязательное поле</small>
     </div>
