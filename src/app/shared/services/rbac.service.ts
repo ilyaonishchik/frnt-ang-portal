@@ -35,7 +35,7 @@ export class RbacService {
     )
   }
 
-  getItemCRUD(item: string): IItemCRUD {
+  getItemCRUD(item: string | null): IItemCRUD {
     if (this.checkPermission(environment.adminPermissionCode)) {
       return {
         create: true,
@@ -44,11 +44,20 @@ export class RbacService {
         delete: true,
       }
     } else {
-      return {
-        create: this.checkPermission(`${item}:create`),
-        read: this.checkPermission(`${item}:read`),
-        update: this.checkPermission(`${item}:update`),
-        delete: this.checkPermission(`${item}:delete`),
+      if (item) {
+        return {
+          create: this.checkPermission(`${item}:create`),
+          read: this.checkPermission(`${item}:read`),
+          update: this.checkPermission(`${item}:update`),
+          delete: this.checkPermission(`${item}:delete`),
+        }
+      } else {
+        return {
+          create: false,
+          read: false,
+          update: false,
+          delete: false,
+        }
       }
     }
   }
