@@ -8,7 +8,7 @@ import {IPermissions} from '../../interfaces/permissions.interface'
 
 export const getPermissionsAction = createAction(
   ActionTypes.GET_PERMISSIONS,
-  props<{event: LazyLoadEvent}>()
+  props<{event: LazyLoadEvent | null}>()
 )
 
 export const getPermissionsSuccessAction = createAction(
