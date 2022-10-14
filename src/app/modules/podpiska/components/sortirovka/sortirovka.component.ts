@@ -28,7 +28,10 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const filters = [{usbVendorId: 1027, usbProductId: 24592}]
+    const filters = [
+      {usbVendorId: 1027, usbProductId: 24592},
+      {usbVendorId: 1027, usbProductId: 24577},
+    ]
     this.serialService.getPorts(filters, this.digitsRequest).then((ports) => {
       this.digitsExist = ports.length > 0
       this.serialService.setCurrentPort(ports.pop())
