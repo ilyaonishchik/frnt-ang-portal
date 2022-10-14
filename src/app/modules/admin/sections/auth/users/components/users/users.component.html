@@ -1,0 +1,9 @@
+<div class='card mb-0'>
+<avs-table
+  *ngIf='(users$ | async) as data'
+  [columns]=columns
+  [crudName]=crudName
+  [data]=data
+  (onLazyLoad)=loadItems($event)
+></avs-table>
+</div>

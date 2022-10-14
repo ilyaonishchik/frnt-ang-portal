@@ -3,13 +3,17 @@ import {RouterModule, Routes} from '@angular/router'
 
 import {MainComponent} from './components/main/main.component'
 import {DashboardComponent} from './components/dashboard/dashboard.component'
-import {UsersComponent} from './components/users/users.component'
+// import {UsersComponent} from './components/users/users.component'
 // import {RoleGuard} from '../../guards/role.guard'
 
 const routes: Routes = [
   {path: '', component: MainComponent},
   {path: 'dashboard', component: DashboardComponent},
-  {path: 'users', component: UsersComponent},
+  {
+    path: 'users',
+    loadChildren: () =>
+      import('./sections/auth/users/users.module').then((m) => m.UsersModule),
+  },
   {
     path: 'roles',
     loadChildren: () =>
