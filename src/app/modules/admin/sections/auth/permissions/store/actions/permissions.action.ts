@@ -4,6 +4,7 @@ import {LazyLoadEvent} from 'primeng/api'
 
 import {ActionTypes} from '../actionTypes'
 import {IPermission} from 'src/app/shared/interfaces/permission.interface'
+import {IPermissions} from '../../interfaces/permissions.interface'
 
 export const getPermissionsAction = createAction(
   ActionTypes.GET_PERMISSIONS,
@@ -12,7 +13,7 @@ export const getPermissionsAction = createAction(
 
 export const getPermissionsSuccessAction = createAction(
   ActionTypes.GET_PERMISSIONS_SUCCESS,
-  props<{items: IPermission[]; count: number}>()
+  props<{permissions: IPermissions}>()
 )
 
 export const getPermissionsFailureAction = createAction(
@@ -21,11 +22,6 @@ export const getPermissionsFailureAction = createAction(
 
 export const createPermissionAction = createAction(
   ActionTypes.PERMISSION_CREATE
-)
-
-export const readPermissionAction = createAction(
-  ActionTypes.PERMISSION_READ,
-  props<{item: IPermission}>()
 )
 
 export const updatePermissionAction = createAction(

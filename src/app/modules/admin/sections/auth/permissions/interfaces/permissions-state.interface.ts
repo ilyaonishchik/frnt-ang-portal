@@ -1,11 +1,11 @@
-import {IPermission} from 'src/app/shared/interfaces/permission.interface'
+import {IPermissions} from './permissions.interface'
 
 export interface IPermissionsState {
   isLoading: boolean
   error: string | null
-  // item: IPermission | null
-  items: IPermission[]
-  count: number
+  data: IPermissions | null
+  // items: IPermission[]
+  // count: number
   itemDialog: boolean
   itemDialogView: boolean
   itemDialogDelete: boolean

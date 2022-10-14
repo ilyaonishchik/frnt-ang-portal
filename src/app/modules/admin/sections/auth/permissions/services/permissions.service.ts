@@ -6,8 +6,9 @@ import {LazyLoadEvent} from 'primeng/api'
 
 import {environment} from 'src/environments/environment'
 import {eventToParams} from 'src/app/shared/functions/event.function'
-import {IPermissionsResponse} from 'src/app/shared/interfaces/permissions-response.interface'
 import {IPermission} from 'src/app/shared/interfaces/permission.interface'
+import {IDeleteResponse} from 'src/app/shared/interfaces/delete-response.interface'
+import {IPermissionsResponse} from '../interfaces/permissions-response.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -27,5 +28,11 @@ export class PermissionsService {
     const fullUrl = `${environment.urlApi}/auth/permissions/${id}`
 
     return this.http.get<IPermission>(fullUrl)
+  }
+
+  deletePermission(id: number): Observable<IDeleteResponse> {
+    const fullUrl = `${environment.urlApi}/auth/permissions/${id}`
+
+    return this.http.delete<IDeleteResponse>(fullUrl)
   }
 }

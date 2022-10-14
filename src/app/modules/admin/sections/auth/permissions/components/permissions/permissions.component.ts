@@ -7,30 +7,19 @@ import {LazyLoadEvent} from 'primeng/api'
 
 import {environment} from 'src/environments/environment'
 import {IColumn} from 'src/app/shared/interfaces/column.interface'
-import {
-  createPermissionAction,
-  deletePermissionAction,
-  deletePermissionCancelAction,
-  deletePermissionConfirmAction,
-  getPermissionsAction,
-  hidePermissionDialogAction,
-  readPermissionAction,
-  savePermissionAction,
-  updatePermissionAction,
-} from '../../store/actions/permissions.action'
+import {getPermissionsAction} from '../../store/actions/permissions.action'
 
 import {
-  countSelector,
+  // countSelector,
   isLoadingSelector,
-  itemDialogDeleteSelector,
-  itemDialogSelector,
-  itemDialogViewSelector,
   permissionsSelector,
-  submittedSelector,
+  // submittedSelector,
 } from '../../store/selectors'
 import {IPermission} from 'src/app/shared/interfaces/permission.interface'
 import {IItemCRUD} from 'src/app/shared/interfaces/rbac.interface'
 import {RbacService} from 'src/app/shared/services/rbac.service'
+import {deletePermissionAction} from '../../store/actions/delete.action'
+import {IPermissions} from '../../interfaces/permissions.interface'
 
 @Component({
   selector: 'app-permissions',
@@ -43,21 +32,22 @@ export class PermissionsComponent implements OnInit {
   rowsPerPageCount: number = environment.rowsPerPageCount
   rowsPerPageOptions: number[] = environment.rowsPerPageOptions
   userCRUD!: IItemCRUD
-  item!: IPermission
+  item: IPermission | null = null
 
   deleteVisible: boolean = false
   dialogVisible: boolean = false
-  actionRead: boolean = false
+  isActionRead: boolean = false
   submitted: boolean = false
 
   isLoading$!: Observable<boolean>
   // item$!: Observable<IPermission | null>
-  items$!: Observable<IPermission[]>
-  itemsCount$!: Observable<number>
+  // items$!: Observable<IPermission[]>
+  // itemsCount$!: Observable<number>
+  permissions$!: Observable<IPermissions | null>
   // itemDialog$!: Observable<boolean>
   // itemDialogView$!: Observable<boolean>
   // itemDialogDelete$!: Observable<boolean>
-  submitted$!: Observable<boolean>
+  // submitted$!: Observable<boolean>
 
   constructor(private store: Store, private rbacService: RbacService) {}
 
@@ -78,12 +68,12 @@ export class PermissionsComponent implements OnInit {
   initializeValues(): void {
     this.isLoading$ = this.store.pipe(select(isLoadingSelector))
     // this.item$ = this.store.pipe(select(itemSelector))
-    this.items$ = this.store.pipe(select(permissionsSelector))
-    this.itemsCount$ = this.store.pipe(select(countSelector))
+    this.permissions$ = this.store.pipe(select(permissionsSelector))
+    // this.itemsCount$ = this.store.pipe(select(countSelector))
     // this.itemDialog$ = this.store.pipe(select(itemDialogSelector))
     // this.itemDialogView$ = this.store.pipe(select(itemDialogViewSelector))
     // this.itemDialogDelete$ = this.store.pipe(select(itemDialogDeleteSelector))
-    this.submitted$ = this.store.pipe(select(submittedSelector))
+    // this.submitted$ = this.store.pipe(select(submittedSelector))
   }
 
   loadItems(event: LazyLoadEvent): void {
@@ -93,7 +83,7 @@ export class PermissionsComponent implements OnInit {
   createItem(): void {
     this.item = {id: 0, code: '', name: '', comment: null, status: 1}
     this.dialogVisible = true
-    this.actionRead = false
+    this.isActionRead = false
     // this.store.dispatch(createPermissionAction())
     // this.item = {...this.clearItem}
     // this.submitted = false
@@ -111,20 +101,21 @@ export class PermissionsComponent implements OnInit {
   updateItem(item: IPermission): void {
     this.item = {...item}
     this.dialogVisible = true
-    this.actionRead = false
+    this.isActionRead = false
     // this.store.dispatch(updatePermissionAction({item}))
   }
 
   deleteItem(item: IPermission): void {
-    this.item = item
-    this.store.dispatch(deletePermissionAction({item}))
-    // this.item = {...item}
+    this.item = {...item}
     this.deleteVisible = true
   }
 
-  confirmDelete(): void {
-    // this.store.dispatch(deletePermissionConfirmAction())
+  confirmDelete(id: number): void {
+    this.store.dispatch(deletePermissionAction({id}))
+    this.item = null
     this.deleteVisible = false
+
+    // this.store.dispatch(deletePermissionConfirmAction())
     // this.permissionsService.deletePermission(this.item).subscribe({
     //   next: (res) => {
     //     this.items = this.items.filter((val) => val.id !== res.record_id)
@@ -137,19 +128,20 @@ export class PermissionsComponent implements OnInit {
   }
 
   cancelDelete(): void {
+    this.item = null
     this.deleteVisible = false
-    // this.store.dispatch(deletePermissionCancelAction())
   }
 
   hideDialog(): void {
-    // this.store.dispatch(hidePermissionDialogAction())
     this.dialogVisible = false
+    this.item = null
   }
 
   saveItem(): void {
     // console.log(this.item)
     // this.store.dispatch(savePermissionAction({item: this.item}))
     this.dialogVisible = false
+    this.item = null
     // this.submitted = true
     // if (this.item.name?.trim()) {
     //   if (this.item.id > 0) {

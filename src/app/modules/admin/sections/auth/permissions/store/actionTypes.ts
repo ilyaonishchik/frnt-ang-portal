@@ -3,6 +3,14 @@ export enum ActionTypes {
   GET_PERMISSIONS_SUCCESS = '[Permissions] Get permissions success',
   GET_PERMISSIONS_FAILURE = '[Permissions] Get permissions failure',
 
+  GET_PERMISSION = '[Permission] Get permission',
+  GET_PERMISSION_SUCCESS = '[Permission] Get permission success',
+  GET_PERMISSION_FAILURE = '[Permission] Get permission failure',
+
+  DELETE_PERMISSION = '[Permission] Delete permission',
+  DELETE_PERMISSION_SUCCESS = '[Permission] Delete permission success',
+  DELETE_PERMISSION_FAILURE = '[Permission] Delete permission failure',
+
   PERMISSION_READ = '[Permission] Read permission',
   PERMISSION_CREATE = '[Permission] Create permission',
   PERMISSION_UPDATE = '[Permission] Update permission',

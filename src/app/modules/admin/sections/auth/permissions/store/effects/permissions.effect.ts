@@ -8,24 +8,26 @@ import {
   getPermissionsSuccessAction,
 } from '../actions/permissions.action'
 import {PermissionsService} from '../../services/permissions.service'
-import {IPermissionsResponse} from 'src/app/shared/interfaces/permissions-response.interface'
+import {IPermissionsResponse} from '../../interfaces/permissions-response.interface'
 
 @Injectable()
-export class PermissionsEffect {
+export class GetPermissionsEffect {
   constructor(
     private actions$: Actions,
     private permissionsService: PermissionsService
   ) {}
 
-  permissions$ = createEffect(() =>
+  getPermissions$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getPermissionsAction),
       switchMap(({event}) => {
         return this.permissionsService.getPermissions(event).pipe(
-          map((permissions: IPermissionsResponse) => {
+          map((response: IPermissionsResponse) => {
             return getPermissionsSuccessAction({
-              items: permissions.results,
-              count: permissions.records,
+              permissions: {
+                items: response.results,
+                count: response.records,
+              },
             })
           }),
           catchError(() => {

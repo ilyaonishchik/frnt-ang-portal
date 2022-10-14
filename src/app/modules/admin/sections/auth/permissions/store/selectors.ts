@@ -17,13 +17,13 @@ export const errorSelector = createSelector(
 
 export const permissionsSelector = createSelector(
   permissionsFeatureSelector,
-  (permissionsState: IPermissionsState) => permissionsState.items
+  (permissionsState: IPermissionsState) => permissionsState.data
 )
 
-export const countSelector = createSelector(
-  permissionsFeatureSelector,
-  (permissionsState: IPermissionsState) => permissionsState.count
-)
+// export const countSelector = createSelector(
+//   permissionsFeatureSelector,
+//   (permissionsState: IPermissionsState) => permissionsState.count
+// )
 
 // export const itemSelector = createSelector(
 //   permissionsFeatureSelector,

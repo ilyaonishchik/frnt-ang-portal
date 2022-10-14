@@ -1,16 +1,17 @@
 <div class='card mb-0'>
   <p-table
+    *ngIf='(permissions$ | async) as data'
     #dt
     dataKey='id'
     responsiveLayout='stack'
     styleClass='p-datatable-sm p-datatable-gridlines'
     [columns]='columns'
     [resizableColumns]='true'
-    [value]='(items$ | async)!'
+    [value]='data.items'
     [lazy]='true'
     (onLazyLoad)='loadItems($event)'
     [loading]='(isLoading$ | async)!'
-    [totalRecords]='(itemsCount$ | async)!'
+    [totalRecords]='data.count'
     [paginator]='true'
     [rows]=rowsPerPageCount
     [rowsPerPageOptions]=rowsPerPageOptions
@@ -108,7 +109,7 @@
   *ngIf='item'
   [(visible)]=dialogVisible
   [(status)]=item.status
-  [actionRead]=actionRead
+  [actionRead]=isActionRead
   header='Информация о разрешении'
   (clickConfirm)=saveItem()
   (clickCancel)=hideDialog()
@@ -122,10 +123,10 @@
         pInputText
         [(ngModel)]='item.code'
         [maxLength]=100
-        [readonly]=actionRead
-        [pAutoFocus]='true'
-        [ngClass]="{'ng-invalid ng-dirty': (submitted$ | async) && !item.code}">
-      <small class='p-error block' *ngIf='(submitted$ | async) && !item.code'>Обязательное поле</small>
+        [readonly]=isActionRead
+        autofocus
+        [ngClass]="{'ng-invalid ng-dirty': submitted && !item.code}">
+      <small class='p-error block' *ngIf='submitted && !item.code'>Обязательное поле</small>
     </div>
     <div class='field'>
       <label for='name'>Наименование</label>
@@ -135,9 +136,9 @@
         pInputText
         [(ngModel)]='item.name'
         [maxLength]=150
-        [readonly]=actionRead
-        [ngClass]="{'ng-invalid ng-dirty': (submitted$ | async) && !item.name}">
-      <small class='p-error block' *ngIf='(submitted$ | async) && !item.name'>Обязательное поле</small>
+        [readonly]=isActionRead
+        [ngClass]="{'ng-invalid ng-dirty': submitted && !item.name}">
+      <small class='p-error block' *ngIf='submitted && !item.name'>Обязательное поле</small>
     </div>
     <div class='field'>
       <label for='comment'>Описание</label>
@@ -146,7 +147,7 @@
         pInputTextarea
         [(ngModel)]='item.comment'
         [maxLength]=200
-        [readonly]=actionRead
+        [readonly]=isActionRead
         rows='3'
         cols='20'>
           </textarea>
@@ -157,6 +158,6 @@
 <avs-dialog-delete *ngIf='item'
                    [(visible)]=deleteVisible
                    [itemInfo]=item.name
-                   (clickConfirm)='confirmDelete()'
+                   (clickConfirm)='confirmDelete(item.id)'
                    (clickCancel)='cancelDelete()'
 ></avs-dialog-delete>

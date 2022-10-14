@@ -1,4 +1,4 @@
-import {IPermission} from './permission.interface'
+import {IPermission} from 'src/app/shared/interfaces/permission.interface'
 
 export interface IPermissionsResponse {
   records: number
