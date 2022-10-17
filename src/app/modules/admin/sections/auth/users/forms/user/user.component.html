@@ -1,0 +1,43 @@
+<form [formGroup]='form' (ngSubmit)='onSubmit()'>
+  <div class='field'>
+    <label for='name'>Имя пользователя</label>
+    <input
+      id='name'
+      type='text'
+      pInputText
+      formControlName='username'
+    >
+  </div>
+  <div class='field'>
+    <label for='name'>Электронная почта</label>
+    <input
+      id='email'
+      type='text'
+      pInputText
+      formControlName='email'
+    >
+  </div>
+  <div class='field'>
+    <label for='comment'>Описание</label>
+    <textarea
+      id='comment'
+      pInputTextarea
+      formControlName='comment'
+    >
+    </textarea>
+  </div>
+  <div class='field'>
+    <p-checkbox
+      label='Активная'
+      formControlName='status'
+      [binary]=true
+      [trueValue]=1
+      [falseValue]=0
+    >
+    </p-checkbox>
+  </div>
+</form>
+
+
+
+

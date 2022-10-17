@@ -15,6 +15,7 @@ export class RbacService {
   userRoles: IRole[] = []
 
   constructor(private store: Store) {
+    // TODO Реализовать отписку
     this.store.select(currentUserSelector).subscribe((user) => {
       if (user) {
         this.userPermissions = user.permissions
