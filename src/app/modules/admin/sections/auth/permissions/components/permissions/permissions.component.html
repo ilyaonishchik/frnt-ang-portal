@@ -15,8 +15,9 @@
     [paginator]='true'
     [rows]=rowsPerPageCount
     [rowsPerPageOptions]=rowsPerPageOptions
-    [showCurrentPageReport]='true'
+    [showCurrentPageReport]=true
     currentPageReportTemplate='Записи с {first} по {last} из {totalRecords}'
+    [filterDelay]=1000
     [globalFilterFields]="['code', 'name']"
     sortField='id'
     [sortOrder]=1

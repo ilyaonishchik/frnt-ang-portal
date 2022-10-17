@@ -6,7 +6,10 @@ import {LazyLoadEvent} from 'primeng/api'
 
 import {environment} from 'src/environments/environment'
 import {eventToParams} from 'src/app/shared/functions/event.function'
-import {IPermission} from 'src/app/shared/interfaces/permission.interface'
+import {
+  IPermission,
+  IPermissionSave,
+} from 'src/app/shared/interfaces/permission.interface'
 import {IDeleteResponse} from 'src/app/shared/interfaces/delete-response.interface'
 import {IPermissionsResponse} from '../interfaces/permissions-response.interface'
 
@@ -14,27 +17,33 @@ import {IPermissionsResponse} from '../interfaces/permissions-response.interface
   providedIn: 'root',
 })
 export class PermissionsService {
-  constructor(private http: HttpClient) {}
+  private readonly fullUrl: string
+
+  constructor(private http: HttpClient) {
+    this.fullUrl = `${environment.urlApi}/auth/permissions`
+  }
 
   getPermissions(
     event: LazyLoadEvent | null
   ): Observable<IPermissionsResponse> {
-    const fullUrl = `${environment.urlApi}/auth/permissions`
-
-    return this.http.get<IPermissionsResponse>(fullUrl, {
+    return this.http.get<IPermissionsResponse>(this.fullUrl, {
       params: eventToParams(event),
     })
   }
 
   getPermission(id: number): Observable<IPermission> {
-    const fullUrl = `${environment.urlApi}/auth/permissions/${id}`
+    return this.http.get<IPermission>(`${this.fullUrl}/${id}`)
+  }
 
-    return this.http.get<IPermission>(fullUrl)
+  createPermission(item: IPermissionSave): Observable<IPermission> {
+    return this.http.post<IPermission>(this.fullUrl, item)
+  }
+
+  updatePermission(id: number, item: IPermissionSave): Observable<IPermission> {
+    return this.http.put<IPermission>(`${this.fullUrl}/${id}`, item)
   }
 
   deletePermission(id: number): Observable<IDeleteResponse> {
-    const fullUrl = `${environment.urlApi}/auth/permissions/${id}`
-
-    return this.http.delete<IDeleteResponse>(fullUrl)
+    return this.http.delete<IDeleteResponse>(`${this.fullUrl}/${id}`)
   }
 }

@@ -11,6 +11,10 @@ export enum ActionTypes {
   DELETE_PERMISSION_SUCCESS = '[Permission] Delete permission success',
   DELETE_PERMISSION_FAILURE = '[Permission] Delete permission failure',
 
+  SAVE_PERMISSION = '[Permission] Save permission',
+  SAVE_PERMISSION_SUCCESS = '[Permission] Save permission success',
+  SAVE_PERMISSION_FAILURE = '[Permission] Save permission failure',
+
   PERMISSION_READ = '[Permission] Read permission',
   PERMISSION_CREATE = '[Permission] Create permission',
   PERMISSION_UPDATE = '[Permission] Update permission',

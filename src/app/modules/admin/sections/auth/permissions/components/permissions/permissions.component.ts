@@ -169,10 +169,10 @@ export class PermissionsComponent implements OnInit {
   }
 
   onGlobalFilter(table: Table, event: Event) {
-    clearTimeout(this.timeout)
-    this.timeout = setTimeout(function () {
-      table.filterGlobal((event.target as HTMLInputElement).value, 'contains')
-    }, 1000)
+    // clearTimeout(this.timeout)
+    // this.timeout = setTimeout(function () {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains')
+    // }, 1000)
   }
 
   clearSearch(table: Table) {
