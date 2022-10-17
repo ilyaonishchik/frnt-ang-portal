@@ -15,6 +15,7 @@
   [rowsPerPageOptions]=rowsPerPageOptions
   [showCurrentPageReport]=true
   currentPageReportTemplate='Записи с {first} по {last} из {totalRecords}'
+  [filterDelay]=1000
   [globalFilterFields]=filterFields
   [sortField]=sortField
   [sortOrder]=1
@@ -26,7 +27,7 @@
         label='Создать'
         icon='pi pi-plus'
         class='p-button-success mr-2'
-        [disabled]='userCRUD.create'
+        [disabled]=!userCRUD.create
         (click)='createItem()'
       >
       </button>
@@ -53,8 +54,8 @@
       <th
         *ngFor='let col of columns'
         pResizableColumn
-        [pSortableColumn]='col.field'
-        [ngClass]='col.width'>
+        [pSortableColumn]=col.field
+        [ngClass]=col.width>
         {{col.header}}
         <p-sortIcon [field]='col.field'></p-sortIcon>
       </th>
@@ -70,19 +71,19 @@
       </td>
       <td class='text-center'>
         <span class='p-column-title'>Статус</span>
-<!--        <avs-status-->
-<!--          [status]="rowData['status']"-->
-<!--        ></avs-status>-->
+        <avs-columns-status
+          [status]="rowData['status']"
+        ></avs-columns-status>
       </td>
       <td class='text-center'>
         <span class='p-column-title'>Операции</span>
-<!--        <avs-table-action-->
-<!--          [userCRUD]='userCRUD'-->
-<!--          (clickRead)='readItem(rowData[dt.dataKey])'-->
-<!--          (clickUpdate)='updateItem(rowData)'-->
-<!--          (clickDelete)='deleteItem(rowData)'-->
-<!--        >-->
-<!--        </avs-table-action>-->
+        <avs-columns-actions
+          [userCRUD]=userCRUD
+          (clickRead)=readItem(rowData[dt.dataKey])
+          (clickUpdate)=updateItem(rowData[dt.dataKey])
+          (clickDelete)=deleteItem(rowData[dt.dataKey])
+        >
+        </avs-columns-actions>
       </td>
     </tr>
   </ng-template>
@@ -97,7 +98,7 @@
       icon='pi pi-refresh'
       styleClass='p-button-text'
       pTooltip='Обновить' tooltipPosition='right' [showDelay]=250
-      (click)='clearSearch(dt)'>
+      (click)=clearSearch(dt)>
     </p-button>
   </ng-template>
 </p-table>

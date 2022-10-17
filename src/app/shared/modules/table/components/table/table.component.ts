@@ -14,7 +14,6 @@ import {RbacService} from 'src/app/shared/services/rbac.service'
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit {
-  timeout: any = null
   rowsPerPageCount: number = environment.rowsPerPageCount
   rowsPerPageOptions: number[] = environment.rowsPerPageOptions
   userCRUD!: IItemCRUD
@@ -30,6 +29,14 @@ export class TableComponent implements OnInit {
   @Output('onLazyLoad') onLazyLoad: EventEmitter<LazyLoadEvent> =
     new EventEmitter<LazyLoadEvent>()
 
+  @Output('actionCreate') onCreate: EventEmitter<any> = new EventEmitter<any>()
+  @Output('actionRead') onRead: EventEmitter<number> =
+    new EventEmitter<number>()
+  @Output('actionUpdate') onUpdate: EventEmitter<number> =
+    new EventEmitter<number>()
+  @Output('actionDelete') onDelete: EventEmitter<number> =
+    new EventEmitter<number>()
+
   constructor(private rbacService: RbacService) {}
 
   ngOnInit(): void {
@@ -40,13 +47,24 @@ export class TableComponent implements OnInit {
     this.onLazyLoad.emit(event)
   }
 
-  createItem(): void {}
+  createItem(): void {
+    this.onCreate.emit()
+  }
+
+  readItem(id: number): void {
+    this.onRead.emit(id)
+  }
+
+  updateItem(id: number): void {
+    this.onUpdate.emit(id)
+  }
+
+  deleteItem(id: number): void {
+    this.onDelete.emit(id)
+  }
 
   onGlobalFilter(table: Table, event: Event) {
-    clearTimeout(this.timeout)
-    this.timeout = setTimeout(function () {
-      table.filterGlobal((event.target as HTMLInputElement).value, 'contains')
-    }, 1000)
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains')
   }
 
   clearSearch(table: Table) {
