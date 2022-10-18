@@ -5,21 +5,17 @@ import {StoreModule} from '@ngrx/store'
 import {EffectsModule} from '@ngrx/effects'
 
 import {DialogModule} from 'primeng/dialog'
-import {InputTextModule} from 'primeng/inputtext'
-import {InputTextareaModule} from 'primeng/inputtextarea'
-import {CheckboxModule} from 'primeng/checkbox'
 
 import {UsersRoutingModule} from './users-routing.module'
 import {UsersComponent} from './components/users/users.component'
 import {AvsTableModule} from 'src/app/shared/modules/table/table.module'
 import {GetUsersEffect} from './store/effects/users.effect'
 import {reducers} from './store/reducers'
-import {UserComponent} from './forms/user/user.component'
-import {ButtonModule} from 'primeng/button'
-import {ReactiveFormsModule} from '@angular/forms'
+import {UserModule} from '../../../components/user/user.module'
+import {AvsDialogModule} from '../../../../../shared/components/dialog/dialog.module'
 
 @NgModule({
-  declarations: [UsersComponent, UserComponent],
+  declarations: [UsersComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,
@@ -27,11 +23,8 @@ import {ReactiveFormsModule} from '@angular/forms'
     StoreModule.forFeature('users', reducers),
     AvsTableModule,
     DialogModule,
-    InputTextModule,
-    InputTextareaModule,
-    CheckboxModule,
-    ButtonModule,
-    ReactiveFormsModule,
+    UserModule,
+    AvsDialogModule,
   ],
 })
 export class UsersModule {}

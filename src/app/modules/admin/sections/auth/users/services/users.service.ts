@@ -6,7 +6,7 @@ import {LazyLoadEvent} from 'primeng/api'
 
 import {environment} from 'src/environments/environment'
 import {IResponseItems} from 'src/app/shared/interfaces/response-items.interface'
-import {IUser} from 'src/app/shared/interfaces/user.interface'
+import {IUser, IUserInfo} from 'src/app/shared/interfaces/user.interface'
 import {eventToParams} from 'src/app/shared/functions/event.function'
 
 @Injectable({
@@ -23,5 +23,9 @@ export class UsersService {
     return this.http.get<IResponseItems<IUser>>(this.fullUrl, {
       params: eventToParams(event),
     })
+  }
+
+  getUser(id: number): Observable<IUserInfo> {
+    return this.http.get<IUserInfo>(`${this.fullUrl}/${id}`)
   }
 }

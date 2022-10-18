@@ -12,17 +12,19 @@
   ></avs-table>
 </div>
 
-<p-dialog
-  [(visible)]=dialogVisible
-  [style]="{width: '60%'}"
-  header='Информация о пользователе'
-  [modal]=true
-  class='p-fluid'
->
-  <app-form-user
-    [initialValues]=currentItem
-  ></app-form-user>
-</p-dialog>
+<!--<avs-dialog-action-->
+<!--  [(visible)]=dialogVisible-->
+<!--  (clickCancel)=hideDialog()-->
+<!--  [actionRead]=isReadOnly-->
+<!--  header='Информация о пользователе'-->
+<!--&gt;-->
+<!--  <ng-template appForm></ng-template>-->
 
-
-
+<!--</avs-dialog-action>-->
+<div class="buttons-container">
+  <button class="show-btn" (click)="readItem(1)">Show component</button>
+  <button class="remove-btn" (click)="hideDialog()">
+    Remove component
+  </button>
+</div>
+<ng-template appForm></ng-template>
