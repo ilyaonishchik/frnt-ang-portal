@@ -8,10 +8,11 @@ import {CheckboxModule} from 'primeng/checkbox'
 
 import {DeleteComponent} from './delete/delete.component'
 import {ActionComponent} from './action/action.component'
+import {FormDirective} from '../../directives/form.directive'
 
 @NgModule({
-  declarations: [DeleteComponent, ActionComponent],
-  exports: [DeleteComponent, ActionComponent],
+  declarations: [DeleteComponent, ActionComponent, FormDirective],
+  exports: [DeleteComponent, ActionComponent, FormDirective],
   imports: [
     CommonModule,
     DialogModule,

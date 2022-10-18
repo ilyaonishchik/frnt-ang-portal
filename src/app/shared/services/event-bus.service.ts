@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 import {filter, map, Subject, Subscription} from 'rxjs'
 
-import {IEvent} from '../types/event.interface'
+import {IEvent} from '../interfaces/event.interface'
 
 @Injectable({
   providedIn: 'root',

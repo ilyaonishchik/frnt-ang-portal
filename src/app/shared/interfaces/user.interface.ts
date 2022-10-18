@@ -15,9 +15,11 @@ export interface IUser {
 export interface IUserInfo {
   id: number
   username: string
-  email: string
+  email: string | null
   comment: string | null
   avatar: string | null
+  verify: string | null
+  last_login: string | null
   status: number
   roles: IRole[]
   permissions: IPermission[]
@@ -44,4 +46,8 @@ export interface ICurrentUser {
   status: number
   roles: IRole[]
   permissions: IPermission[]
+}
+
+export interface IUserReset {
+  email: string
 }
