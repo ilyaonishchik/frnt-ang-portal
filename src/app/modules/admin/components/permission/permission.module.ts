@@ -10,6 +10,7 @@ import {ReadComponent} from './components/read/read.component'
 import {PermissionComponent} from './forms/permission/permission.component'
 import {InputTextModule} from 'primeng/inputtext'
 import {InputTextareaModule} from 'primeng/inputtextarea'
+import {ReactiveFormsModule} from '@angular/forms'
 
 @NgModule({
   declarations: [ReadComponent, PermissionComponent],
@@ -19,6 +20,8 @@ import {InputTextareaModule} from 'primeng/inputtextarea'
     StoreModule.forFeature('permission', reducers),
     InputTextModule,
     InputTextareaModule,
+    ReactiveFormsModule,
   ],
+  exports: [ReadComponent],
 })
 export class PermissionModule {}

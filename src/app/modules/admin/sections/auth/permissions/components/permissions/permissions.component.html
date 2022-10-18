@@ -12,7 +12,13 @@
   ></avs-table>
 </div>
 
-<avs-table-dialog-actions></avs-table-dialog-actions>
+<avs-table-dialog-actions
+  [(visible)]=dialogVisible
+>
+  <div content>
+    <app-permission-read></app-permission-read>
+  </div>
+</avs-table-dialog-actions>
 
 <avs-table-dialog-delete></avs-table-dialog-delete>
 

@@ -76,7 +76,7 @@ export class PermissionsComponent implements OnInit {
   readItem(event: any): void {
     console.log(event)
     // this.item = item
-    // this.dialogVisible = true
+    this.dialogVisible = true
     // this.actionRead = true
     // this.store.dispatch(readPermissionAction({item}))
   }

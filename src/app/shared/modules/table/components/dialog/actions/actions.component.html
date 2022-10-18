@@ -1,1 +1,15 @@
-<p>actions works!</p>
+<p-dialog
+  [(visible)]=visible
+  (visibleChange)=onVisibleChange($event)
+  [style]="{width: '60%'}"
+  [modal]=true
+  class='p-fluid'
+>
+  <p-header>
+    <ng-content select='[header]'></ng-content>
+  </p-header>
+  <ng-content select='[content]'></ng-content>
+  <p-footer>
+    <ng-content select='[footer]'></ng-content>
+  </p-footer>
+</p-dialog>

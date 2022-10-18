@@ -1,26 +1,31 @@
-<div class='field'>
-  <label for='name'>Код</label>
-  <input
-    id='code'
-    type='text'
-    pInputText
-  >
-</div>
-<div class='field'>
-  <label for='name'>Наименование</label>
-  <input
-    id='name'
-    type='text'
-    pInputText
-  >
-</div>
-<div class='field'>
-  <label for='comment'>Описание</label>
-  <textarea
-    id='comment'
-    pInputTextarea
-    rows='3'
-    cols='20'
-  >
+<form [formGroup]=formPermission>
+  <div class='field'>
+    <label for='name'>Код</label>
+    <input
+      id='code'
+      type='text'
+      pInputText
+      formControlName='code'
+    >
+  </div>
+  <div class='field'>
+    <label for='name'>Наименование</label>
+    <input
+      id='name'
+      type='text'
+      pInputText
+      formControlName='name'
+    >
+  </div>
+  <div class='field'>
+    <label for='comment'>Описание</label>
+    <textarea
+      id='comment'
+      pInputTextarea
+      rows='3'
+      cols='20'
+      formControlName='comment'
+    >
   </textarea>
-</div>
+  </div>
+</form>

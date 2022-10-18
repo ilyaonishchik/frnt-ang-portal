@@ -17,6 +17,7 @@ import {
   DeleteComponent,
   DeleteComponent as DialogDeleteComponent,
 } from './components/dialog/delete/delete.component'
+import {DialogModule} from 'primeng/dialog'
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import {
     ButtonModule,
     TooltipModule,
     InputTextModule,
+    DialogModule,
   ],
   exports: [TableComponent, ActionsComponent, DeleteComponent],
 })
