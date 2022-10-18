@@ -8,7 +8,8 @@ import {IColumn} from 'src/app/shared/interfaces/column.interface'
 import {getPermissionsAction} from '../../store/actions/permissions.action'
 
 import {isLoadingSelector, permissionsSelector} from '../../store/selectors'
-import {IPermissions} from '../../interfaces/permissions.interface'
+import {ITableItems} from 'src/app/shared/interfaces/table-items.interface'
+import {IPermission} from 'src/app/shared/interfaces/permission.interface'
 
 @Component({
   selector: 'app-permissions',
@@ -20,7 +21,7 @@ export class PermissionsComponent implements OnInit {
   crudName: string
 
   isLoading$!: Observable<boolean>
-  permissions$!: Observable<IPermissions | null>
+  permissions$!: Observable<ITableItems<IPermission> | null>
 
   dialogVisible: boolean = false
   isReadOnly: boolean = false
@@ -55,13 +56,7 @@ export class PermissionsComponent implements OnInit {
 
   initializeValues(): void {
     this.isLoading$ = this.store.pipe(select(isLoadingSelector))
-    // this.item$ = this.store.pipe(select(itemSelector))
     this.permissions$ = this.store.pipe(select(permissionsSelector))
-    // this.itemsCount$ = this.store.pipe(select(countSelector))
-    // this.itemDialog$ = this.store.pipe(select(itemDialogSelector))
-    // this.itemDialogView$ = this.store.pipe(select(itemDialogViewSelector))
-    // this.itemDialogDelete$ = this.store.pipe(select(itemDialogDeleteSelector))
-    // this.submitted$ = this.store.pipe(select(submittedSelector))
   }
 
   loadItems(event: LazyLoadEvent): void {

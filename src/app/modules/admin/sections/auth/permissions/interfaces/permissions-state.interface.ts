@@ -1,13 +1,8 @@
-import {IPermissions} from './permissions.interface'
+import {ITableItems} from 'src/app/shared/interfaces/table-items.interface'
+import {IPermission} from 'src/app/shared/interfaces/permission.interface'
 
 export interface IPermissionsState {
   isLoading: boolean
   error: string | null
-  data: IPermissions | null
-  // items: IPermission[]
-  // count: number
-  itemDialog: boolean
-  itemDialogView: boolean
-  itemDialogDelete: boolean
-  submitted: boolean
+  data: ITableItems<IPermission>
 }
