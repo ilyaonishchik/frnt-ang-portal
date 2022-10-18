@@ -8,13 +8,13 @@ import {AppService} from '../../../shared/services/app.service'
 import {ISignupResponse} from '../interfaces/signup-response.interface'
 import {ISigninRequest} from '../interfaces/signin-request.interface'
 import {ISigninResponse} from '../interfaces/signin-response.interface'
-import {IToken} from '../../../shared/types/token'
-import {IUserReset} from '../../../shared/types/user.interface'
+import {IToken} from '../interfaces/token.interface'
 import {IVerifyResponse} from '../interfaces/verify-response.interface'
 import {IPermission} from '../../../shared/interfaces/permission.interface'
 import {IRole} from '../../../shared/interfaces/role.interface'
 import {IRolesResponse} from '../../admin/sections/auth/roles/interfaces/roles-response.interface'
 import {IPermissionsResponse} from '../../admin/sections/auth/permissions/interfaces/permissions-response.interface'
+import {IUserReset} from '../../../shared/interfaces/user.interface'
 
 @Injectable({
   providedIn: 'root',
