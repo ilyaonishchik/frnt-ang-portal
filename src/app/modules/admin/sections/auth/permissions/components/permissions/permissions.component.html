@@ -1,165 +1,71 @@
 <div class='card mb-0'>
-  <p-table
+  <avs-table
     *ngIf='(permissions$ | async) as data'
-    #dt
-    dataKey='id'
-    responsiveLayout='stack'
-    styleClass='p-datatable-sm p-datatable-gridlines'
-    [columns]='columns'
-    [resizableColumns]='true'
-    [value]='data.items'
-    [lazy]='true'
-    (onLazyLoad)='loadItems($event)'
-    [loading]='(isLoading$ | async)!'
-    [totalRecords]='data.count'
-    [paginator]='true'
-    [rows]=rowsPerPageCount
-    [rowsPerPageOptions]=rowsPerPageOptions
-    [showCurrentPageReport]=true
-    currentPageReportTemplate='Записи с {first} по {last} из {totalRecords}'
-    [filterDelay]=1000
-    [globalFilterFields]="['code', 'name']"
-    sortField='id'
-    [sortOrder]=1
-  >
-    <ng-template pTemplate='caption'>
-      <div class='flex align-items-center justify-content-between'>
-        <button
-          pButton
-          label='Создать'
-          icon='pi pi-plus'
-          class='p-button-success mr-2'
-          [disabled]='!userCRUD.create'
-          (click)='createItem()'
-        >
-        </button>
-        <span
-          class='p-input-icon-left'
-          [class.p-input-icon-right]='filter.value'>
-              <i class='pi pi-search'></i>
-              <input
-                #filter
-                pInputText
-                type='text'
-                (input)='onGlobalFilter(dt, $event)'
-                placeholder='Поиск...' />
-              <i
-                *ngIf='filter.value'
-                class='pi pi-times-circle'
-                style='cursor: pointer'
-                (click)="filter.value = ''; clearSearch(dt)"></i>
-            </span>
-      </div>
-    </ng-template>
-    <ng-template pTemplate='header' let-columns>
-      <tr>
-        <th
-          *ngFor='let col of columns'
-          pResizableColumn
-          [pSortableColumn]='col.field'
-          [ngClass]='col.width'>
-          {{col.header}}
-          <p-sortIcon [field]='col.field'></p-sortIcon>
-        </th>
-        <th class='w-4rem'>Статус</th>
-        <th class='w-9rem'>Операции</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate='body' let-rowData let-columns='columns'>
-      <tr>
-        <td *ngFor='let col of columns' style='white-space: normal'>
-          <span class='p-column-title'>{{col.header}}</span>
-          {{rowData[col.field]}}
-        </td>
-        <td class='text-center'>
-          <span class='p-column-title'>Статус</span>
-          <avs-status
-            [status]="rowData['status']"
-          ></avs-status>
-        </td>
-        <td class='text-center'>
-          <span class='p-column-title'>Операции</span>
-          <avs-table-action
-            [userCRUD]='userCRUD'
-            (clickRead)='readItem(rowData[dt.dataKey])'
-            (clickUpdate)='updateItem(rowData)'
-            (clickDelete)='deleteItem(rowData)'
-          >
-          </avs-table-action>
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate='emptymessage'>
-      <tr>
-        <td colspan='7' class='text-center'>Нет данных для отображения</td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate='paginatorleft'>
-      <p-button
-        type='button'
-        icon='pi pi-refresh'
-        styleClass='p-button-text'
-        pTooltip='Обновить' tooltipPosition='right' [showDelay]=250
-        (click)='clearSearch(dt)'>
-      </p-button>
-    </ng-template>
-  </p-table>
+    [columns]=columns
+    [data]=data
+    (onLazyLoad)=loadItems($event)
+    [filterFields]="['code', 'name']"
+    (actionCreate)=createItem()
+    (actionRead)=readItem($event)
+    (actionUpdate)=updateItem($event)
+    (actionDelete)=deleteItem($event)
+  ></avs-table>
 </div>
 
-<avs-dialog-action
-  *ngIf='item'
-  [(visible)]=dialogVisible
-  [(status)]=item.status
-  [actionRead]=isActionRead
-  header='Информация о разрешении'
-  (clickConfirm)=saveItem()
-  (clickCancel)=hideDialog()
->
-  <ng-container>
-    <div class='field'>
-      <label for='name'>Код</label>
-      <input
-        id='code'
-        type='text'
-        pInputText
-        [(ngModel)]='item.code'
-        [maxLength]=100
-        [readonly]=isActionRead
-        autofocus
-        [ngClass]="{'ng-invalid ng-dirty': submitted && !item.code}">
-      <small class='p-error block' *ngIf='submitted && !item.code'>Обязательное поле</small>
-    </div>
-    <div class='field'>
-      <label for='name'>Наименование</label>
-      <input
-        id='name'
-        type='text'
-        pInputText
-        [(ngModel)]='item.name'
-        [maxLength]=150
-        [readonly]=isActionRead
-        [ngClass]="{'ng-invalid ng-dirty': submitted && !item.name}">
-      <small class='p-error block' *ngIf='submitted && !item.name'>Обязательное поле</small>
-    </div>
-    <div class='field'>
-      <label for='comment'>Описание</label>
-      <textarea
-        id='comment'
-        pInputTextarea
-        [(ngModel)]='item.comment'
-        [maxLength]=200
-        [readonly]=isActionRead
-        rows='3'
-        cols='20'>
-          </textarea>
-    </div>
-  </ng-container>
-</avs-dialog-action>
+<!--<avs-dialog-action-->
+<!--  *ngIf='item'-->
+<!--  [(visible)]=dialogVisible-->
+<!--  [(status)]=item.status-->
+<!--  [actionRead]=isActionRead-->
+<!--  header='Информация о разрешении'-->
+<!--  (clickConfirm)=saveItem()-->
+<!--  (clickCancel)=hideDialog()-->
+<!--&gt;-->
+<!--  <ng-container>-->
+<!--    <div class='field'>-->
+<!--      <label for='name'>Код</label>-->
+<!--      <input-->
+<!--        id='code'-->
+<!--        type='text'-->
+<!--        pInputText-->
+<!--        [(ngModel)]='item.code'-->
+<!--        [maxLength]=100-->
+<!--        [readonly]=isActionRead-->
+<!--        autofocus-->
+<!--        [ngClass]="{'ng-invalid ng-dirty': submitted && !item.code}">-->
+<!--      <small class='p-error block' *ngIf='submitted && !item.code'>Обязательное поле</small>-->
+<!--    </div>-->
+<!--    <div class='field'>-->
+<!--      <label for='name'>Наименование</label>-->
+<!--      <input-->
+<!--        id='name'-->
+<!--        type='text'-->
+<!--        pInputText-->
+<!--        [(ngModel)]='item.name'-->
+<!--        [maxLength]=150-->
+<!--        [readonly]=isActionRead-->
+<!--        [ngClass]="{'ng-invalid ng-dirty': submitted && !item.name}">-->
+<!--      <small class='p-error block' *ngIf='submitted && !item.name'>Обязательное поле</small>-->
+<!--    </div>-->
+<!--    <div class='field'>-->
+<!--      <label for='comment'>Описание</label>-->
+<!--      <textarea-->
+<!--        id='comment'-->
+<!--        pInputTextarea-->
+<!--        [(ngModel)]='item.comment'-->
+<!--        [maxLength]=200-->
+<!--        [readonly]=isActionRead-->
+<!--        rows='3'-->
+<!--        cols='20'>-->
+<!--          </textarea>-->
+<!--    </div>-->
+<!--  </ng-container>-->
+<!--</avs-dialog-action>-->
 
-<avs-dialog-delete
-  *ngIf='item'
-  [(visible)]=deleteVisible
-  itemInfo='{{item.name}} ({{item.code}})'
-  (clickConfirm)='confirmDelete(item.id)'
-  (clickCancel)='cancelDelete()'
-></avs-dialog-delete>
+<!--<avs-dialog-delete-->
+<!--  *ngIf='item'-->
+<!--  [(visible)]=deleteVisible-->
+<!--  itemInfo='{{item.name}} ({{item.code}})'-->
+<!--  (clickConfirm)='confirmDelete(item.id)'-->
+<!--  (clickCancel)='cancelDelete()'-->
+<!--&gt;</avs-dialog-delete>-->

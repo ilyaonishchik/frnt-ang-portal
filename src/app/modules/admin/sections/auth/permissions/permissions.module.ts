@@ -16,9 +16,10 @@ import {PermissionsComponent} from './components/permissions/permissions.compone
 import {reducers} from './store/reducers'
 import {PermissionsRoutingModule} from './permissions-routing.module'
 import {ColumnsModule} from 'src/app/shared/components/table/columns/columns.module'
-import {AvsDialogModule} from 'src/app/shared/components/dialog/dialog.module'
+// import {AvsDialogModule} from 'src/app/shared/components/dialog/dialog.module'
 import {DeletePermissionEffect} from './store/effects/delete.effect'
 import {ReadPermissionEffect} from './store/effects/read.effect'
+import {AvsTableModule} from 'src/app/shared/modules/table/table.module'
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import {ReadPermissionEffect} from './store/effects/read.effect'
     ColumnsModule,
     FormsModule,
     InputTextareaModule,
-    AvsDialogModule,
+    // AvsDialogModule,
+    AvsTableModule,
   ],
   declarations: [PermissionsComponent],
 })
