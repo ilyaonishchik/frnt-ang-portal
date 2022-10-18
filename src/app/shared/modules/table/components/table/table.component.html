@@ -71,19 +71,19 @@
       </td>
       <td class='text-center'>
         <span class='p-column-title'>Статус</span>
-        <avs-columns-status
+        <avs-table-columns-status
           [status]="rowData['status']"
-        ></avs-columns-status>
+        ></avs-table-columns-status>
       </td>
       <td class='text-center'>
         <span class='p-column-title'>Операции</span>
-        <avs-columns-actions
+        <avs-table-columns-actions
           [userCRUD]=userCRUD
           (clickRead)=readItem(rowData[dt.dataKey])
           (clickUpdate)=updateItem(rowData[dt.dataKey])
           (clickDelete)=deleteItem(rowData[dt.dataKey])
         >
-        </avs-columns-actions>
+        </avs-table-columns-actions>
       </td>
     </tr>
   </ng-template>
