@@ -29,7 +29,7 @@ export class GetUsersEffect {
             })
           }),
           catchError(() => {
-            return of(getUsersFailureAction)
+            return of(getUsersFailureAction())
           })
         )
       })
