@@ -1,5 +1,7 @@
-import {Component, OnInit} from '@angular/core'
-import {FormBuilder, FormGroup} from '@angular/forms'
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+
+import {IPermissionSave} from 'src/app/shared/interfaces/permission.interface'
 
 @Component({
   selector: 'app-permission-form',
@@ -7,6 +9,13 @@ import {FormBuilder, FormGroup} from '@angular/forms'
   styleUrls: ['./permission.component.scss'],
 })
 export class PermissionComponent implements OnInit {
+  @Input('readOnly') readOnlyProps: boolean = false
+  @Input('initialValues') initialValuesProps!: IPermissionSave
+
+  @Output('changeValues') changeValuesEvent =
+    new EventEmitter<IPermissionSave>()
+  @Output('formValid') formValidEvent = new EventEmitter<boolean>()
+
   formPermission!: FormGroup
   constructor(private fb: FormBuilder) {}
 
@@ -16,10 +25,24 @@ export class PermissionComponent implements OnInit {
 
   initializeForm(): void {
     this.formPermission = this.fb.group({
-      code: '123',
-      name: '2342',
-      comment: '34564564564',
-      status: true,
+      code: [this.initialValuesProps.code, [Validators.required]],
+      name: [this.initialValuesProps.name, [Validators.required]],
+      comment: [this.initialValuesProps.comment],
+      status: [this.initialValuesProps.status],
     })
+    this.onChangeValues()
+  }
+
+  onChangeValues(): void {
+    this.onValidateForm()
+    this.changeValuesEvent.emit(this.formPermission.value)
+  }
+
+  onValidateForm(): void {
+    this.formValidEvent.emit(this.formPermission.valid)
+  }
+
+  get f() {
+    return this.formPermission.controls
   }
 }
