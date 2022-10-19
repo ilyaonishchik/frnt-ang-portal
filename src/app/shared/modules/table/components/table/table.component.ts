@@ -25,6 +25,7 @@ export class TableComponent implements OnInit {
   @Input('filterFields') filterFields: string[] = []
   @Input('sortField') sortField: string = 'id'
   @Input('keyField') keyField: string = 'id'
+  @Input('confirmField') confirmField: string = 'id'
 
   @Output('onLazyLoad') onLazyLoad: EventEmitter<LazyLoadEvent> =
     new EventEmitter<LazyLoadEvent>()
@@ -34,8 +35,7 @@ export class TableComponent implements OnInit {
     new EventEmitter<number>()
   @Output('actionUpdate') onUpdate: EventEmitter<number> =
     new EventEmitter<number>()
-  @Output('actionDelete') onDelete: EventEmitter<number> =
-    new EventEmitter<number>()
+  @Output('actionDelete') onDelete: EventEmitter<any> = new EventEmitter<any>()
 
   constructor(private rbacService: RbacService) {}
 
@@ -59,8 +59,8 @@ export class TableComponent implements OnInit {
     this.onUpdate.emit(id)
   }
 
-  deleteItem(id: number): void {
-    this.onDelete.emit(id)
+  deleteItem(event: any): void {
+    this.onDelete.emit(event[this.confirmField])
   }
 
   onGlobalFilter(table: Table, event: Event) {
