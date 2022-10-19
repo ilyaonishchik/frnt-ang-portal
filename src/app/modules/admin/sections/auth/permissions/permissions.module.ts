@@ -18,6 +18,7 @@ import {PermissionsRoutingModule} from './permissions-routing.module'
 import {ColumnsModule} from 'src/app/shared/components/table/columns/columns.module'
 import {AvsTableModule} from 'src/app/shared/modules/table/table.module'
 import {PermissionModule} from '../../../components/permission/permission.module'
+import {DialogModule} from 'primeng/dialog'
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import {PermissionModule} from '../../../components/permission/permission.module
     InputTextareaModule,
     AvsTableModule,
     PermissionModule,
+    DialogModule,
   ],
   declarations: [PermissionsComponent],
 })

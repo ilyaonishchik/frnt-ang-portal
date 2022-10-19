@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, OnDestroy, OnInit} from '@angular/core'
 import {select, Store} from '@ngrx/store'
 import {Observable} from 'rxjs'
 
@@ -74,6 +74,8 @@ export class PermissionsComponent implements OnInit, OnDestroy {
     // this.item = {...this.clearItem}
     // this.submitted = false
     // this.itemDialog = true
+    this.dialogVisible = true
+    this.dialogAction = 2
   }
 
   readItem(id: number): void {

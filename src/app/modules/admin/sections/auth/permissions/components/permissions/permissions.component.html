@@ -12,15 +12,28 @@
   ></avs-table>
 </div>
 
-<avs-table-dialog-actions
+<app-permission-read
+  *ngIf='dialogAction == 1'
   [(visible)]=dialogVisible
->
-  <div content>
-    <app-permission-read></app-permission-read>
-  </div>
-</avs-table-dialog-actions>
+  (visibleChange)='hideDialog()'
+  [itemId]=idItem
+></app-permission-read>
 
-<avs-table-dialog-delete></avs-table-dialog-delete>
+<app-permission-create
+  *ngIf='dialogAction == 2'
+  [(visible)]=dialogVisible
+  (visibleChange)='hideDialog()'
+></app-permission-create>
+
+<!--<p-dialog-->
+<!--  [(visible)]=dialogVisible-->
+<!--  [style]="{width: '60%'}"-->
+<!--  [modal]=true-->
+<!--  class='p-fluid'-->
+<!--&gt;-->
+<!--  <app-permission-form></app-permission-form>-->
+<!--</p-dialog>-->
+
 
 <!--<avs-dialog-action-->
 <!--  *ngIf='item'-->

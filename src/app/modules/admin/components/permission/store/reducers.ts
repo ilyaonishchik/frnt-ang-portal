@@ -6,6 +6,9 @@ import {
   getPermissionAction,
   getPermissionSuccessAction,
   getPermissionFailureAction,
+  createPermissionAction,
+  createPermissionSuccessAction,
+  createPermissionFailureAction,
 } from './actions/permission.action'
 
 const initialState: IPermissionState = {
@@ -14,6 +17,7 @@ const initialState: IPermissionState = {
   isSubmitting: false,
   validationError: null,
   item: null,
+  itemSave: null,
 }
 
 const permissionReducer = createReducer(
@@ -23,6 +27,8 @@ const permissionReducer = createReducer(
     (state): IPermissionState => ({
       ...state,
       isLoading: true,
+      item: null,
+      itemSave: null,
     })
   ),
   on(
@@ -35,6 +41,31 @@ const permissionReducer = createReducer(
   ),
   on(
     getPermissionFailureAction,
+    (state): IPermissionState => ({
+      ...state,
+      isLoading: false,
+    })
+  ),
+  on(
+    createPermissionAction,
+    (state, action): IPermissionState => ({
+      ...state,
+      isSubmitting: true,
+      item: null,
+      itemSave: action.permission,
+    })
+  ),
+  on(
+    createPermissionSuccessAction,
+    (state, action): IPermissionState => ({
+      ...state,
+      isLoading: false,
+      item: action.permission,
+      itemSave: null,
+    })
+  ),
+  on(
+    createPermissionFailureAction,
     (state): IPermissionState => ({
       ...state,
       isLoading: false,
