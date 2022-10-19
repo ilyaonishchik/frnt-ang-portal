@@ -27,6 +27,7 @@ export class PermissionsComponent implements OnInit, OnDestroy {
   dialogVisible: boolean = false
 
   idItem: number = 0
+  confirmValue: string = ''
 
   constructor(private store: Store) {
     this.columns = [
@@ -68,27 +69,30 @@ export class PermissionsComponent implements OnInit, OnDestroy {
   }
 
   deleteItem(event: any): void {
-    console.log(event)
-    // this.item = {...item}
-    // this.deleteVisible = true
+    this.confirmValue = event
+    this.dialogVisible = true
+    this.dialogAction = 4
   }
 
-  // confirmDelete(id: number): void {
-  //   this.store.dispatch(deletePermissionAction({id}))
-  //   this.item = null
-  //   this.deleteVisible = false
+  confirmDelete(): void {
+    //   this.store.dispatch(deletePermissionAction({id}))
+    //   this.item = null
+    //   this.deleteVisible = false
 
-  // this.store.dispatch(deletePermissionConfirmAction())
-  // this.permissionsService.deletePermission(this.item).subscribe({
-  //   next: (res) => {
-  //     this.items = this.items.filter((val) => val.id !== res.record_id)
-  //   },
-  //   error: (err) => {
-  //     console.log(err)
-  //   },
-  // })
-  // this.item = {...this.clearItem}
-  // }
+    // this.store.dispatch(deletePermissionConfirmAction())
+    // this.permissionsService.deletePermission(this.item).subscribe({
+    //   next: (res) => {
+    //     this.items = this.items.filter((val) => val.id !== res.record_id)
+    //   },
+    //   error: (err) => {
+    //     console.log(err)
+    //   },
+    // })
+    // this.item = {...this.clearItem}
+    this.idItem = 0
+    this.dialogVisible = false
+    this.dialogAction = 0
+  }
 
   // cancelDelete(): void {
   //   this.item = null

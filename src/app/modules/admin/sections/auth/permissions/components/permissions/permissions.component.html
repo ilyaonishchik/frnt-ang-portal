@@ -5,6 +5,7 @@
     [data]=data
     (onLazyLoad)=loadItems($event)
     [filterFields]="['code', 'name']"
+    confirmField='code'
     (actionCreate)=createItem()
     (actionRead)=readItem($event)
     (actionUpdate)=updateItem($event)
@@ -31,6 +32,15 @@
   (visibleChange)='hideDialog()'
   [itemId]=idItem
 ></app-permission-update>
+
+<avs-table-dialog-delete
+  *ngIf='dialogAction == 4'
+  [(visible)]=dialogVisible
+  [itemInfo]=confirmValue
+  (visibleChange)='hideDialog()'
+  (clickCancel)='hideDialog()'
+  (clickConfirm)='confirmDelete()'
+></avs-table-dialog-delete>
 
 <!--<p-dialog-->
 <!--  [(visible)]=dialogVisible-->
