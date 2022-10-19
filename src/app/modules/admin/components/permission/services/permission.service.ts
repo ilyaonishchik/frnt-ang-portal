@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http'
-import {Observable} from 'rxjs'
+import {delay, Observable} from 'rxjs'
 
 import {environment} from 'src/environments/environment'
 import {IPermission} from 'src/app/shared/interfaces/permission.interface'
@@ -16,7 +16,7 @@ export class PermissionService {
   }
 
   getPermission(id: number): Observable<IPermission> {
-    return this.http.get<IPermission>(`${this.fullUrl}/${id}`)
+    return this.http.get<IPermission>(`${this.fullUrl}/${id}`).pipe(delay(5))
   }
 
   // createPermission(item: IPermissionSave): Observable<IPermission> {

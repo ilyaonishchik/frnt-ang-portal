@@ -16,15 +16,18 @@ import {IPermission} from 'src/app/shared/interfaces/permission.interface'
   templateUrl: './permissions.component.html',
   styleUrls: ['./permissions.component.scss'],
 })
-export class PermissionsComponent implements OnInit {
+export class PermissionsComponent implements OnInit, OnDestroy {
   columns: IColumn[]
   crudName: string
 
   isLoading$!: Observable<boolean>
   permissions$!: Observable<ITableItems<IPermission> | null>
 
+  dialogAction: number = 0
   dialogVisible: boolean = false
-  isReadOnly: boolean = false
+  // isReadOnly: boolean = false
+
+  idItem: number = 0
 
   // item: IPermission | null = null
 
@@ -73,11 +76,11 @@ export class PermissionsComponent implements OnInit {
     // this.itemDialog = true
   }
 
-  readItem(event: any): void {
-    console.log(event)
+  readItem(id: number): void {
+    this.idItem = id
     // this.item = item
     this.dialogVisible = true
-    // this.actionRead = true
+    this.dialogAction = 1
     // this.store.dispatch(readPermissionAction({item}))
   }
 
@@ -118,8 +121,9 @@ export class PermissionsComponent implements OnInit {
   // }
 
   hideDialog(): void {
+    this.dialogAction = 0
     this.dialogVisible = false
-    // this.item = null
+    this.idItem = 0
   }
 
   saveItem(): void {
@@ -152,4 +156,6 @@ export class PermissionsComponent implements OnInit {
     //   this.itemDialog = false
     //   this.item = {...this.clearItem}
   }
+
+  ngOnDestroy() {}
 }
