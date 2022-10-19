@@ -6,4 +6,8 @@ export enum ActionTypes {
   CREATE_PERMISSION = '[Permission] Create permission',
   CREATE_PERMISSION_SUCCESS = '[Permission] Create permission success',
   CREATE_PERMISSION_FAILURE = '[Permission] Create permission failure',
+
+  UPDATE_PERMISSION = '[Permission] Update permission',
+  UPDATE_PERMISSION_SUCCESS = '[Permission] Update permission success',
+  UPDATE_PERMISSION_FAILURE = '[Permission] Update permission failure',
 }

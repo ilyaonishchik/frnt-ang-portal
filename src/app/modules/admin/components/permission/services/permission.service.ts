@@ -26,9 +26,9 @@ export class PermissionService {
     return this.http.post<IPermission>(this.fullUrl, item)
   }
 
-  // updatePermission(id: number, item: IPermissionSave): Observable<IPermission> {
-  //   return this.http.put<IPermission>(`${this.fullUrl}/${id}`, item)
-  // }
+  updatePermission(id: number, item: IPermissionSave): Observable<IPermission> {
+    return this.http.put<IPermission>(`${this.fullUrl}/${id}`, item)
+  }
 
   // deletePermission(id: number): Observable<IDeleteResponse> {
   //   return this.http.delete<IDeleteResponse>(`${this.fullUrl}/${id}`)

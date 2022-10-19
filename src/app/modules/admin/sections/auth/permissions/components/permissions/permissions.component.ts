@@ -25,24 +25,8 @@ export class PermissionsComponent implements OnInit, OnDestroy {
 
   dialogAction: number = 0
   dialogVisible: boolean = false
-  // isReadOnly: boolean = false
 
   idItem: number = 0
-
-  // item: IPermission | null = null
-
-  // deleteVisible: boolean = false
-  // dialogVisible: boolean = false
-  // isActionRead: boolean = false
-  // submitted: boolean = false
-
-  // item$!: Observable<IPermission | null>
-  // items$!: Observable<IPermission[]>
-  // itemsCount$!: Observable<number>
-  // itemDialog$!: Observable<boolean>
-  // itemDialogView$!: Observable<boolean>
-  // itemDialogDelete$!: Observable<boolean>
-  // submitted$!: Observable<boolean>
 
   constructor(private store: Store) {
     this.columns = [
@@ -67,31 +51,20 @@ export class PermissionsComponent implements OnInit, OnDestroy {
   }
 
   createItem(): void {
-    // this.item = {id: 0, code: '', name: '', comment: null, status: 1}
-    // this.dialogVisible = true
-    // this.isActionRead = false
-    // this.store.dispatch(createPermissionAction())
-    // this.item = {...this.clearItem}
-    // this.submitted = false
-    // this.itemDialog = true
     this.dialogVisible = true
     this.dialogAction = 2
   }
 
   readItem(id: number): void {
     this.idItem = id
-    // this.item = item
     this.dialogVisible = true
     this.dialogAction = 1
-    // this.store.dispatch(readPermissionAction({item}))
   }
 
-  updateItem(event: any): void {
-    console.log(event)
-    // this.item = {...item}
-    // this.dialogVisible = true
-    // this.isActionRead = false
-    // this.store.dispatch(updatePermissionAction({item}))
+  updateItem(id: number): void {
+    this.idItem = id
+    this.dialogVisible = true
+    this.dialogAction = 3
   }
 
   deleteItem(event: any): void {

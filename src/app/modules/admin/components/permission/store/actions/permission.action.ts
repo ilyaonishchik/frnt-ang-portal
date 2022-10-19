@@ -33,3 +33,17 @@ export const createPermissionSuccessAction = createAction(
 export const createPermissionFailureAction = createAction(
   ActionTypes.CREATE_PERMISSION_FAILURE
 )
+
+export const updatePermissionAction = createAction(
+  ActionTypes.UPDATE_PERMISSION,
+  props<{id: number; permission: IPermissionSave}>()
+)
+
+export const updatePermissionSuccessAction = createAction(
+  ActionTypes.UPDATE_PERMISSION_SUCCESS,
+  props<{permission: IPermission}>()
+)
+
+export const updatePermissionFailureAction = createAction(
+  ActionTypes.UPDATE_PERMISSION_FAILURE
+)

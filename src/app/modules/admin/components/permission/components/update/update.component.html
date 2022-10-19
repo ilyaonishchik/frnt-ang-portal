@@ -1,0 +1,42 @@
+<p-dialog
+  [(visible)]=visible
+  (visibleChange)=onVisibleChange($event)
+  [style]="{width: '60%'}"
+  [modal]=true
+  class='p-fluid'
+  header='Изменение разрешения'
+>
+  <avs-loading *ngIf='isLoading$ | async'></avs-loading>
+  <ng-container *ngIf='!(isLoading$ | async)'>
+    <app-permission-form
+      [initialValues]=itemSave
+      (changeValues)=changeItem($event)
+      (formValid)=onValidate($event)
+    ></app-permission-form>
+  </ng-container>
+  <p-footer>
+    <div class='flex justify-content-between'>
+      <p-checkbox
+        class='align-content-start'
+        label='Активная'
+        [(ngModel)]='itemSave.status'
+        [binary]=true
+        [trueValue]=1
+        [falseValue]=0
+      ></p-checkbox>
+      <div>
+        <button
+          pButton label='Отмена' icon='pi pi-times'
+          class='p-button-text p-button-secondary'
+          (click)=onVisibleChange(false)
+        ></button>
+        <button
+          pButton label='Сохранить' icon='pi pi-check'
+          class='p-button-text p-button-success'
+          [disabled]=!formValid
+          (click)=saveItem()
+        ></button>
+      </div>
+    </div>
+  </p-footer>
+</p-dialog>

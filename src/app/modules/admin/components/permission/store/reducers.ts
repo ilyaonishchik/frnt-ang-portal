@@ -9,6 +9,9 @@ import {
   createPermissionAction,
   createPermissionSuccessAction,
   createPermissionFailureAction,
+  updatePermissionAction,
+  updatePermissionSuccessAction,
+  updatePermissionFailureAction,
 } from './actions/permission.action'
 
 const initialState: IPermissionState = {
@@ -59,7 +62,7 @@ const permissionReducer = createReducer(
     createPermissionSuccessAction,
     (state, action): IPermissionState => ({
       ...state,
-      isLoading: false,
+      isSubmitting: false,
       item: action.permission,
       itemSave: null,
     })
@@ -68,7 +71,32 @@ const permissionReducer = createReducer(
     createPermissionFailureAction,
     (state): IPermissionState => ({
       ...state,
-      isLoading: false,
+      isSubmitting: false,
+    })
+  ),
+  on(
+    updatePermissionAction,
+    (state, action): IPermissionState => ({
+      ...state,
+      isSubmitting: true,
+      item: null,
+      itemSave: action.permission,
+    })
+  ),
+  on(
+    updatePermissionSuccessAction,
+    (state, action): IPermissionState => ({
+      ...state,
+      isSubmitting: false,
+      item: action.permission,
+      itemSave: null,
+    })
+  ),
+  on(
+    updatePermissionFailureAction,
+    (state): IPermissionState => ({
+      ...state,
+      isSubmitting: false,
     })
   ),
   on(routerNavigationAction, (): IPermissionState => initialState)

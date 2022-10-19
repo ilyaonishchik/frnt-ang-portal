@@ -10,6 +10,11 @@ export const isLoadingSelector = createSelector(
   (permissionState: IPermissionState) => permissionState.isLoading
 )
 
+export const isSubmittingSelector = createSelector(
+  permissionFeatureSelector,
+  (permissionState: IPermissionState) => permissionState.isSubmitting
+)
+
 export const errorSelector = createSelector(
   permissionFeatureSelector,
   (permissionState: IPermissionState) => permissionState.validationError

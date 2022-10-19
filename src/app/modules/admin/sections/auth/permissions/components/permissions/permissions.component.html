@@ -25,6 +25,13 @@
   (visibleChange)='hideDialog()'
 ></app-permission-create>
 
+<app-permission-update
+  *ngIf='dialogAction == 3'
+  [(visible)]=dialogVisible
+  (visibleChange)='hideDialog()'
+  [itemId]=idItem
+></app-permission-update>
+
 <!--<p-dialog-->
 <!--  [(visible)]=dialogVisible-->
 <!--  [style]="{width: '60%'}"-->
