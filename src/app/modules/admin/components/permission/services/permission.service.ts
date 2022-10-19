@@ -7,6 +7,7 @@ import {
   IPermission,
   IPermissionSave,
 } from 'src/app/shared/interfaces/permission.interface'
+import {IDeleteResponse} from 'src/app/shared/interfaces/delete-response.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,7 @@ export class PermissionService {
     return this.http.put<IPermission>(`${this.fullUrl}/${id}`, item)
   }
 
-  // deletePermission(id: number): Observable<IDeleteResponse> {
-  //   return this.http.delete<IDeleteResponse>(`${this.fullUrl}/${id}`)
-  // }
+  deletePermission(id: number): Observable<IDeleteResponse> {
+    return this.http.delete<IDeleteResponse>(`${this.fullUrl}/${id}`)
+  }
 }
