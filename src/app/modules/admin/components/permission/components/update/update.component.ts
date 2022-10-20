@@ -1,4 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core'
 import {select, Store} from '@ngrx/store'
 import {Observable, Subscription} from 'rxjs'
 
@@ -10,24 +17,28 @@ import {
   getPermissionAction,
   updatePermissionAction,
 } from '../../store/actions/permission.action'
-import {isLoadingSelector, permissionSelector} from '../../store/selectors'
+import {
+  errorsSelector,
+  isLoadingSelector,
+  permissionSelector,
+} from '../../store/selectors'
+import {IBackendErrors} from '../../../../../../shared/interfaces/backend-errors.interface'
 
 @Component({
   selector: 'app-permission-update',
   templateUrl: './update.component.html',
   styleUrls: ['./update.component.scss'],
 })
-export class UpdateComponent implements OnInit {
+export class UpdateComponent implements OnInit, OnDestroy {
   @Input('visible') visible: boolean = false
-  @Output('visibleChange') visibleChange: EventEmitter<boolean> =
-    new EventEmitter<boolean>()
-
+  @Output('visibleChange') visibleChange = new EventEmitter<boolean>()
   @Input('itemId') itemId!: number
 
   itemSave!: IPermissionSave
   itemSubscription!: Subscription
 
   isLoading$!: Observable<boolean>
+  validationErrors$!: Observable<IBackendErrors | null>
   formValid: boolean = false
 
   constructor(private store: Store) {}
@@ -40,6 +51,7 @@ export class UpdateComponent implements OnInit {
 
   initializeValues(): void {
     this.isLoading$ = this.store.pipe(select(isLoadingSelector))
+    this.validationErrors$ = this.store.pipe(select(errorsSelector))
   }
 
   initializeListeners(): void {
@@ -66,7 +78,7 @@ export class UpdateComponent implements OnInit {
       this.store.dispatch(
         updatePermissionAction({id: this.itemId, permission: this.itemSave})
       )
-      this.onVisibleChange(false)
+      // this.onVisibleChange(false)
     }
   }
 
@@ -81,5 +93,11 @@ export class UpdateComponent implements OnInit {
 
   changeItem(values: IPermissionSave): void {
     this.itemSave = {...values}
+  }
+
+  ngOnDestroy() {
+    if (this.itemSubscription) {
+      this.itemSubscription.unsubscribe()
+    }
   }
 }

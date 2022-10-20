@@ -6,7 +6,11 @@
   class='p-fluid'
   header='Изменение разрешения'
 >
-  <avs-loading *ngIf='isLoading$ | async'></avs-loading>
+  <avs-loading *ngIf='(isLoading$ | async)'></avs-loading>
+  <avs-message-validate
+    *ngIf='validationErrors$ | async'
+    [errors]='validationErrors$ | async'
+  ></avs-message-validate>
   <ng-container *ngIf='!(isLoading$ | async)'>
     <app-permission-form
       [initialValues]=itemSave
@@ -15,16 +19,19 @@
     ></app-permission-form>
   </ng-container>
   <p-footer>
-    <div class='flex justify-content-between'>
+    <div
+      *ngIf='!(isLoading$ | async)'
+      class='flex justify-content-between'>
       <p-checkbox
-        class='align-content-start'
         label='Активная'
         [(ngModel)]='itemSave.status'
         [binary]=true
         [trueValue]=1
         [falseValue]=0
       ></p-checkbox>
-      <div>
+      <div
+        class='align-content-end'
+      >
         <button
           pButton label='Отмена' icon='pi pi-times'
           class='p-button-text p-button-secondary'
@@ -33,7 +40,6 @@
         <button
           pButton label='Сохранить' icon='pi pi-check'
           class='p-button-text p-button-success'
-          [disabled]=!formValid
           (click)=saveItem()
         ></button>
       </div>

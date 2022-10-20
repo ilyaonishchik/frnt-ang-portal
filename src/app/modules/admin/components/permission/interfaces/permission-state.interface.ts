@@ -2,13 +2,12 @@ import {
   IPermission,
   IPermissionSave,
 } from 'src/app/shared/interfaces/permission.interface'
-import {IBackendError} from 'src/app/shared/interfaces/backend-errors.interface'
+import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
 
 export interface IPermissionState {
   isLoading: boolean
-  isReadOnly: boolean
   isSubmitting: boolean
-  validationError: IBackendError | null
+  validationErrors: IBackendErrors | null
   item: IPermission | null
   itemSave: IPermissionSave | null
 }

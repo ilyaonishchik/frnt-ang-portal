@@ -20,12 +20,10 @@ import {getPermissionAction} from '../../store/actions/permission.action'
 })
 export class ReadComponent implements OnInit, OnDestroy {
   @Input('visible') visible: boolean = false
-  @Output('visibleChange') visibleChange: EventEmitter<boolean> =
-    new EventEmitter<boolean>()
-
+  @Output('visibleChange') visibleChange = new EventEmitter<boolean>()
   @Input('itemId') itemId!: number
 
-  item: IPermission | null = null
+  item!: IPermission
   itemSubscription!: Subscription
 
   isLoading$!: Observable<boolean>
@@ -46,7 +44,9 @@ export class ReadComponent implements OnInit, OnDestroy {
     this.itemSubscription = this.store
       .pipe(select(permissionSelector))
       .subscribe((permission: IPermission | null) => {
-        this.item = permission
+        if (permission) {
+          this.item = permission
+        }
       })
   }
 

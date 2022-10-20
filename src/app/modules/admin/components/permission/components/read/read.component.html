@@ -6,19 +6,22 @@
   class='p-fluid'
   header='Просмотр разрешения'
 >
-  <avs-loading *ngIf='isLoading$ | async'></avs-loading>
+  <avs-loading *ngIf='(isLoading$ | async)'></avs-loading>
   <ng-container *ngIf='!(isLoading$ | async)'>
     <app-permission-form
+      [initialValues]=item
       [readOnly]=true
-      [initialValues]=item!
     ></app-permission-form>
   </ng-container>
   <p-footer>
-    <div class='flex justify-content-between'>
+    <div
+      *ngIf='!(isLoading$ | async)'
+      class='flex justify-content-between'
+    >
       <p-checkbox
         class='align-content-start'
         label='Активная'
-        [ngModel]=item?.status
+        [ngModel]=item.status
         [binary]=true
         [trueValue]=1
         [falseValue]=0

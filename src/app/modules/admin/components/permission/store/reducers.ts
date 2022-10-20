@@ -16,9 +16,8 @@ import {
 
 const initialState: IPermissionState = {
   isLoading: false,
-  isReadOnly: true,
   isSubmitting: false,
-  validationError: null,
+  validationErrors: null,
   item: null,
   itemSave: null,
 }
@@ -32,6 +31,7 @@ const permissionReducer = createReducer(
       isLoading: true,
       item: null,
       itemSave: null,
+      validationErrors: null,
     })
   ),
   on(
@@ -56,6 +56,7 @@ const permissionReducer = createReducer(
       isSubmitting: true,
       item: null,
       itemSave: action.permission,
+      validationErrors: null,
     })
   ),
   on(
@@ -72,6 +73,7 @@ const permissionReducer = createReducer(
     (state): IPermissionState => ({
       ...state,
       isSubmitting: false,
+      // validationErrors: action.error,
     })
   ),
   on(
@@ -81,6 +83,7 @@ const permissionReducer = createReducer(
       isSubmitting: true,
       item: null,
       itemSave: action.permission,
+      validationErrors: null,
     })
   ),
   on(
@@ -94,9 +97,10 @@ const permissionReducer = createReducer(
   ),
   on(
     updatePermissionFailureAction,
-    (state): IPermissionState => ({
+    (state, action): IPermissionState => ({
       ...state,
       isSubmitting: false,
+      validationErrors: action.errors,
     })
   ),
   on(routerNavigationAction, (): IPermissionState => initialState)

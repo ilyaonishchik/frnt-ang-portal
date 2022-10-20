@@ -5,6 +5,8 @@ import {
   IPermission,
   IPermissionSave,
 } from 'src/app/shared/interfaces/permission.interface'
+import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
+import {IBackendErrorResponse} from 'src/app/shared/interfaces/backend-error-response.interface'
 
 export const getPermissionAction = createAction(
   ActionTypes.GET_PERMISSION,
@@ -31,7 +33,8 @@ export const createPermissionSuccessAction = createAction(
 )
 
 export const createPermissionFailureAction = createAction(
-  ActionTypes.CREATE_PERMISSION_FAILURE
+  ActionTypes.CREATE_PERMISSION_FAILURE,
+  props<{response: IBackendErrorResponse}>()
 )
 
 export const updatePermissionAction = createAction(
@@ -45,5 +48,6 @@ export const updatePermissionSuccessAction = createAction(
 )
 
 export const updatePermissionFailureAction = createAction(
-  ActionTypes.UPDATE_PERMISSION_FAILURE
+  ActionTypes.UPDATE_PERMISSION_FAILURE,
+  props<{errors: IBackendErrors}>()
 )

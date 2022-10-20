@@ -9,6 +9,7 @@ import {
   createPermissionSuccessAction,
 } from '../actions/permission.action'
 import {IPermission} from 'src/app/shared/interfaces/permission.interface'
+import {HttpErrorResponse} from '@angular/common/http'
 
 @Injectable()
 export class CreatePermissionEffect {
@@ -25,8 +26,16 @@ export class CreatePermissionEffect {
           map((permission: IPermission) => {
             return createPermissionSuccessAction({permission: permission})
           }),
-          catchError(() => {
-            return of(createPermissionFailureAction())
+          catchError((errorResponse: HttpErrorResponse) => {
+            return of(
+              createPermissionFailureAction({
+                response: {
+                  status: errorResponse.status,
+                  code: errorResponse.statusText,
+                  error: errorResponse.error,
+                },
+              })
+            )
           })
         )
       })

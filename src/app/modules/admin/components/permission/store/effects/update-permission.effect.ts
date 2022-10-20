@@ -9,6 +9,8 @@ import {
   updatePermissionSuccessAction,
 } from '../actions/permission.action'
 import {IPermission} from 'src/app/shared/interfaces/permission.interface'
+import {HttpErrorResponse} from '@angular/common/http'
+import {responseToErrors} from '../../../../../../shared/functions/error.function'
 
 @Injectable()
 export class UpdatePermissionEffect {
@@ -25,8 +27,12 @@ export class UpdatePermissionEffect {
           map((permission: IPermission) => {
             return updatePermissionSuccessAction({permission: permission})
           }),
-          catchError(() => {
-            return of(updatePermissionFailureAction())
+          catchError((errorResponse: HttpErrorResponse) => {
+            return of(
+              updatePermissionFailureAction({
+                errors: responseToErrors(errorResponse),
+              })
+            )
           })
         )
       })

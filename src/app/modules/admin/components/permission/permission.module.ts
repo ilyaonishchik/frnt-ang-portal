@@ -20,6 +20,7 @@ import {CreateComponent} from './components/create/create.component'
 import {CreatePermissionEffect} from './store/effects/create-permission.effect'
 import {UpdateComponent} from './components/update/update.component'
 import {UpdatePermissionEffect} from './store/effects/update-permission.effect'
+import {MessagesModule} from '../../../../shared/modules/messages/messages.module'
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {UpdatePermissionEffect} from './store/effects/update-permission.effect'
     ButtonModule,
     FormsModule,
     LoadingModule,
+    MessagesModule,
   ],
   exports: [
     ReadComponent,
