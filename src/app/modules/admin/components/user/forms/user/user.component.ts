@@ -1,7 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
-import {IUserInfo} from 'src/app/shared/interfaces/user.interface'
-import {IActionErrorResponse} from 'src/app/shared/interfaces/action-error-response.interface'
-import {FormBuilder, FormGroup} from '@angular/forms'
+import {Component, Input, OnInit} from '@angular/core'
+// import {FormBuilder} from '@angular/forms'
 import {IFormInitialValues} from 'src/app/shared/interfaces/form-initial-values.interface'
 
 @Component({
@@ -21,7 +19,7 @@ export class UserComponent implements IFormInitialValues, OnInit {
 
   // form!: FormGroup
 
-  constructor(private fb: FormBuilder) {}
+  constructor() {} // private fb: FormBuilder
 
   ngOnInit(): void {
     this.initializeForm()
