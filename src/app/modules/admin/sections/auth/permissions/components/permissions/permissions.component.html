@@ -36,10 +36,10 @@
 <avs-table-dialog-delete
   *ngIf='dialogAction == 4'
   [(visible)]=dialogVisible
-  [itemInfo]=confirmValue
   (visibleChange)='hideDialog()'
   (clickCancel)='hideDialog()'
   (clickConfirm)='confirmDelete()'
+  [itemInfo]=confirmValue
 ></avs-table-dialog-delete>
 
 <!--<p-dialog-->
