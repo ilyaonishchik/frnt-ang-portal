@@ -7,6 +7,7 @@ import {IColumn} from 'src/app/shared/interfaces/column.interface'
 import {environment} from 'src/environments/environment'
 import {IItemCRUD} from 'src/app/shared/interfaces/rbac.interface'
 import {RbacService} from 'src/app/shared/services/rbac.service'
+import {IDeleteEvent} from '../../../../interfaces/event.interface'
 
 @Component({
   selector: 'avs-table',
@@ -21,6 +22,7 @@ export class TableComponent implements OnInit {
   @Input('data') data: ITableItems<any> = {items: [], count: 0}
   @Input('columns') columns: IColumn[] = []
   @Input('loading') loading: boolean = false
+  @Input('loadingOnInit') loadingOnInit: boolean = false
   @Input('crudName') crudName: string | null = null
   @Input('filterFields') filterFields: string[] = []
   @Input('sortField') sortField: string = 'id'
@@ -35,7 +37,7 @@ export class TableComponent implements OnInit {
     new EventEmitter<number>()
   @Output('actionUpdate') onUpdate: EventEmitter<number> =
     new EventEmitter<number>()
-  @Output('actionDelete') onDelete: EventEmitter<any> = new EventEmitter<any>()
+  @Output('actionDelete') onDelete = new EventEmitter<IDeleteEvent>()
 
   constructor(private rbacService: RbacService) {}
 
@@ -60,7 +62,11 @@ export class TableComponent implements OnInit {
   }
 
   deleteItem(event: any): void {
-    this.onDelete.emit(event[this.confirmField])
+    const deleteEvent: IDeleteEvent = {
+      id: event[this.keyField],
+      confirm: event[this.confirmField],
+    }
+    this.onDelete.emit(deleteEvent)
   }
 
   onGlobalFilter(table: Table, event: Event) {
