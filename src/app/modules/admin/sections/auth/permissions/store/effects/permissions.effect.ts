@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core'
-import {catchError, map, of, switchMap} from 'rxjs'
+import {HttpErrorResponse} from '@angular/common/http'
+import {catchError, map, of, switchMap, tap} from 'rxjs'
 import {Actions, createEffect, ofType} from '@ngrx/effects'
+import {Store} from '@ngrx/store'
 
 import {PermissionsService} from '../../services/permissions.service'
 import {
@@ -10,32 +12,51 @@ import {
 } from '../actions/permissions.action'
 import {IResponseItems} from 'src/app/shared/interfaces/response-items.interface'
 import {IPermission} from 'src/app/shared/interfaces/permission.interface'
+import {dialogConfirmAction} from '../actions/dialogs.action'
+import {responseToErrors} from 'src/app/shared/functions/error.function'
 
 @Injectable()
 export class GetPermissionsEffect {
   constructor(
     private actions$: Actions,
-    private permissionsService: PermissionsService
+    private permissionsService: PermissionsService,
+    private store: Store
   ) {}
 
   getPermissions$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getPermissionsAction),
-      switchMap(({event}) => {
-        return this.permissionsService.getPermissions(event).pipe(
+      switchMap(({event, action}) => {
+        return this.permissionsService.getPermissions(event, action).pipe(
           map((response: IResponseItems<IPermission>) => {
             return getPermissionsSuccessAction({
               permissions: {
                 items: response.results,
                 count: response.records,
+                first: response.skip,
               },
             })
           }),
-          catchError(() => {
-            return of(getPermissionsFailureAction())
+          catchError((response: HttpErrorResponse) => {
+            return of(
+              getPermissionsFailureAction({errors: responseToErrors(response)})
+            )
           })
         )
       })
     )
+  )
+
+  afterDialogConfirm$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(dialogConfirmAction),
+        tap((value) => {
+          this.store.dispatch(
+            getPermissionsAction({event: null, action: value.action})
+          )
+        })
+      ),
+    {dispatch: false}
   )
 }

@@ -1,111 +1,51 @@
 <div class='card mb-0'>
   <avs-table
-    *ngIf='(permissions$ | async) as data'
     [columns]=columns
-    [data]=data
+    [data]='(permissions$ | async)!'
     (onLazyLoad)=loadItems($event)
+    [loading]='(isLoading$ | async)!'
     [filterFields]="['code', 'name']"
-    confirmField='code'
+    [confirmField]=confirmField
+    [crudName]=crudName
+    [keyField]=keyField
+    [sortField]=sortField
     (actionCreate)=createItem()
     (actionRead)=readItem($event)
     (actionUpdate)=updateItem($event)
     (actionDelete)=deleteItem($event)
-  ></avs-table>
+  >
+  </avs-table>
 </div>
 
-<app-permission-read
-  *ngIf='dialogAction == 1'
-  [(visible)]=dialogVisible
-  (visibleChange)='hideDialog()'
-  [itemId]=idItem
-></app-permission-read>
+<ng-container
+  *ngIf='(dialog$ | async) as dialog'
+>
+  <app-permission-create
+    *ngIf='dialog.action == 1'
+    [visible]=true
+    (visibleChange)='hideDialog()'
+  ></app-permission-create>
 
-<app-permission-create
-  *ngIf='dialogAction == 2'
-  [(visible)]=dialogVisible
-  (visibleChange)='hideDialog()'
-></app-permission-create>
+  <app-permission-read
+    *ngIf='dialog.action == 2'
+    [visible]=true
+    (visibleChange)='hideDialog()'
+    [itemId]=dialog.id!
+  ></app-permission-read>
 
-<app-permission-update
-  *ngIf='dialogAction == 3'
-  [(visible)]=dialogVisible
-  (visibleChange)='hideDialog()'
-  [itemId]=idItem
-></app-permission-update>
+  <app-permission-update
+    *ngIf='dialog.action == 3'
+    [visible]=true
+    (visibleChange)='hideDialog()'
+    [itemId]=dialog.id!
+  ></app-permission-update>
 
-<avs-table-dialog-delete
-  *ngIf='dialogAction == 4'
-  [(visible)]=dialogVisible
-  (visibleChange)='hideDialog()'
-  (clickCancel)='hideDialog()'
-  (clickConfirm)='confirmDelete()'
-  [itemInfo]=confirmValue
-></avs-table-dialog-delete>
-
-<!--<p-dialog-->
-<!--  [(visible)]=dialogVisible-->
-<!--  [style]="{width: '60%'}"-->
-<!--  [modal]=true-->
-<!--  class='p-fluid'-->
-<!--&gt;-->
-<!--  <app-permission-form></app-permission-form>-->
-<!--</p-dialog>-->
-
-
-<!--<avs-dialog-action-->
-<!--  *ngIf='item'-->
-<!--  [(visible)]=dialogVisible-->
-<!--  [(status)]=item.status-->
-<!--  [actionRead]=isActionRead-->
-<!--  header='Информация о разрешении'-->
-<!--  (clickConfirm)=saveItem()-->
-<!--  (clickCancel)=hideDialog()-->
-<!--&gt;-->
-<!--  <ng-container>-->
-<!--    <div class='field'>-->
-<!--      <label for='name'>Код</label>-->
-<!--      <input-->
-<!--        id='code'-->
-<!--        type='text'-->
-<!--        pInputText-->
-<!--        [(ngModel)]='item.code'-->
-<!--        [maxLength]=100-->
-<!--        [readonly]=isActionRead-->
-<!--        autofocus-->
-<!--        [ngClass]="{'ng-invalid ng-dirty': submitted && !item.code}">-->
-<!--      <small class='p-error block' *ngIf='submitted && !item.code'>Обязательное поле</small>-->
-<!--    </div>-->
-<!--    <div class='field'>-->
-<!--      <label for='name'>Наименование</label>-->
-<!--      <input-->
-<!--        id='name'-->
-<!--        type='text'-->
-<!--        pInputText-->
-<!--        [(ngModel)]='item.name'-->
-<!--        [maxLength]=150-->
-<!--        [readonly]=isActionRead-->
-<!--        [ngClass]="{'ng-invalid ng-dirty': submitted && !item.name}">-->
-<!--      <small class='p-error block' *ngIf='submitted && !item.name'>Обязательное поле</small>-->
-<!--    </div>-->
-<!--    <div class='field'>-->
-<!--      <label for='comment'>Описание</label>-->
-<!--      <textarea-->
-<!--        id='comment'-->
-<!--        pInputTextarea-->
-<!--        [(ngModel)]='item.comment'-->
-<!--        [maxLength]=200-->
-<!--        [readonly]=isActionRead-->
-<!--        rows='3'-->
-<!--        cols='20'>-->
-<!--          </textarea>-->
-<!--    </div>-->
-<!--  </ng-container>-->
-<!--</avs-dialog-action>-->
-
-<!--<avs-dialog-delete-->
-<!--  *ngIf='item'-->
-<!--  [(visible)]=deleteVisible-->
-<!--  itemInfo='{{item.name}} ({{item.code}})'-->
-<!--  (clickConfirm)='confirmDelete(item.id)'-->
-<!--  (clickCancel)='cancelDelete()'-->
-<!--&gt;</avs-dialog-delete>-->
+  <app-permission-delete
+    *ngIf='dialog.action == 4'
+    [visible]=true
+    (visibleChange)='hideDialog()'
+    (clickCancel)='hideDialog()'
+    [itemId]=dialog.id!
+    [itemInfo]=dialog.confirm!
+  ></app-permission-delete>
+</ng-container>

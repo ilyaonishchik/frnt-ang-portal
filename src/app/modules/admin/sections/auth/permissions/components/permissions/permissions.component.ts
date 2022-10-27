@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core'
+import {Component, OnInit} from '@angular/core'
 import {select, Store} from '@ngrx/store'
 import {Observable} from 'rxjs'
 
@@ -7,27 +7,38 @@ import {LazyLoadEvent} from 'primeng/api'
 import {IColumn} from 'src/app/shared/interfaces/column.interface'
 import {getPermissionsAction} from '../../store/actions/permissions.action'
 
-import {isLoadingSelector, permissionsSelector} from '../../store/selectors'
+import {
+  dialogActionSelector,
+  isLoadingSelector,
+  permissionsSelector,
+  tableStateSelector,
+} from '../../store/selectors'
 import {ITableItems} from 'src/app/shared/interfaces/table-items.interface'
 import {IPermission} from 'src/app/shared/interfaces/permission.interface'
+import {
+  dialogCancelAction,
+  dialogShowAction,
+} from '../../store/actions/dialogs.action'
+import {ICrudAction} from 'src/app/shared/interfaces/crud-action.interface'
+import {IDeleteEvent} from 'src/app/shared/interfaces/event.interface'
+import {TCrudAction} from 'src/app/shared/types/crud-action.type'
 
 @Component({
   selector: 'app-permissions',
   templateUrl: './permissions.component.html',
   styleUrls: ['./permissions.component.scss'],
 })
-export class PermissionsComponent implements OnInit, OnDestroy {
+export class PermissionsComponent implements OnInit {
   columns: IColumn[]
   crudName: string
+  keyField: string
+  sortField: string
+  confirmField: string
 
   isLoading$!: Observable<boolean>
   permissions$!: Observable<ITableItems<IPermission> | null>
-
-  dialogAction: number = 0
-  dialogVisible: boolean = false
-
-  idItem: number = 0
-  confirmValue: string = ''
+  dialog$!: Observable<ICrudAction | null>
+  tableState$!: Observable<LazyLoadEvent | null>
 
   constructor(private store: Store) {
     this.columns = [
@@ -36,49 +47,66 @@ export class PermissionsComponent implements OnInit, OnDestroy {
       {field: 'name', header: 'Наименование'},
     ]
     this.crudName = 'permission'
+    this.keyField = 'id'
+    this.sortField = 'id'
+    this.confirmField = 'code'
   }
 
   ngOnInit(): void {
     this.initializeValues()
+    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
   }
 
   initializeValues(): void {
     this.isLoading$ = this.store.pipe(select(isLoadingSelector))
     this.permissions$ = this.store.pipe(select(permissionsSelector))
+    this.dialog$ = this.store.pipe(select(dialogActionSelector))
+    this.tableState$ = this.store.pipe(select(tableStateSelector))
   }
 
-  loadItems(event: LazyLoadEvent): void {
-    this.store.dispatch(getPermissionsAction({event}))
+  loadItems(event: LazyLoadEvent | null, action?: number): void {
+    this.store.dispatch(
+      getPermissionsAction({
+        event: event,
+        action: action ? action : TCrudAction.NONE,
+      })
+    )
   }
 
   createItem(): void {
-    this.dialogVisible = true
-    this.dialogAction = 2
+    this.store.dispatch(
+      dialogShowAction({crud: {id: null, action: TCrudAction.CREATE}})
+    )
   }
 
   readItem(id: number): void {
-    this.idItem = id
-    this.dialogVisible = true
-    this.dialogAction = 1
+    this.store.dispatch(
+      dialogShowAction({crud: {id: id, action: TCrudAction.READ}})
+    )
   }
 
   updateItem(id: number): void {
-    this.idItem = id
-    this.dialogVisible = true
-    this.dialogAction = 3
+    this.store.dispatch(
+      dialogShowAction({crud: {id: id, action: TCrudAction.UPDATE}})
+    )
   }
 
-  deleteItem(event: any): void {
-    this.confirmValue = event
-    this.dialogVisible = true
-    this.dialogAction = 4
+  deleteItem(event: IDeleteEvent): void {
+    this.store.dispatch(
+      dialogShowAction({
+        crud: {
+          id: event.id,
+          action: TCrudAction.DELETE,
+          confirm: event.confirm,
+        },
+      })
+    )
   }
 
-  confirmDelete(): void {
-    //   this.store.dispatch(deletePermissionAction({id}))
+  confirmDelete(id: number): void {
+    // this.store.dispatch(deletePermissionAction({id: id}))
     //   this.item = null
     //   this.deleteVisible = false
-
     // this.store.dispatch(deletePermissionConfirmAction())
     // this.permissionsService.deletePermission(this.item).subscribe({
     //   next: (res) => {
@@ -89,9 +117,9 @@ export class PermissionsComponent implements OnInit, OnDestroy {
     //   },
     // })
     // this.item = {...this.clearItem}
-    this.idItem = 0
-    this.dialogVisible = false
-    this.dialogAction = 0
+    // this.idItem = 0
+    // this.dialogVisible = false
+    // this.dialogAction = 0
   }
 
   // cancelDelete(): void {
@@ -100,15 +128,13 @@ export class PermissionsComponent implements OnInit, OnDestroy {
   // }
 
   hideDialog(): void {
-    this.dialogAction = 0
-    this.dialogVisible = false
-    this.idItem = 0
+    this.store.dispatch(dialogCancelAction())
   }
 
   saveItem(): void {
     // console.log(this.item)
     // this.store.dispatch(savePermissionAction({item: this.item}))
-    this.dialogVisible = false
+    // this.dialogVisible = false
     // this.item = null
     // this.submitted = true
     // if (this.item.name?.trim()) {
@@ -135,6 +161,4 @@ export class PermissionsComponent implements OnInit, OnDestroy {
     //   this.itemDialog = false
     //   this.item = {...this.clearItem}
   }
-
-  ngOnDestroy() {}
 }

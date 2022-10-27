@@ -20,6 +20,16 @@ export const permissionsSelector = createSelector(
   (permissionsState: IPermissionsState) => permissionsState.data
 )
 
+export const dialogActionSelector = createSelector(
+  permissionsFeatureSelector,
+  (permissionsState: IPermissionsState) => permissionsState.crud
+)
+
+export const tableStateSelector = createSelector(
+  permissionsFeatureSelector,
+  (permissionsState: IPermissionsState) => permissionsState.tableState
+)
+
 // export const countSelector = createSelector(
 //   permissionsFeatureSelector,
 //   (permissionsState: IPermissionsState) => permissionsState.count

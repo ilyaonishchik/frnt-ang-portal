@@ -10,6 +10,7 @@ import {ButtonModule} from 'primeng/button'
 import {InputTextModule} from 'primeng/inputtext'
 import {TooltipModule} from 'primeng/tooltip'
 import {InputTextareaModule} from 'primeng/inputtextarea'
+import {DialogModule} from 'primeng/dialog'
 
 import {GetPermissionsEffect} from './store/effects/permissions.effect'
 import {PermissionsComponent} from './components/permissions/permissions.component'
@@ -18,7 +19,8 @@ import {PermissionsRoutingModule} from './permissions-routing.module'
 import {ColumnsModule} from 'src/app/shared/components/table/columns/columns.module'
 import {AvsTableModule} from 'src/app/shared/modules/table/table.module'
 import {PermissionModule} from '../../../components/permission/permission.module'
-import {DialogModule} from 'primeng/dialog'
+import {LoadingModule} from '../../../../../shared/modules/loading/loading.module'
+import {ProgressBarModule} from 'primeng/progressbar'
 
 @NgModule({
   imports: [
@@ -36,6 +38,8 @@ import {DialogModule} from 'primeng/dialog'
     AvsTableModule,
     PermissionModule,
     DialogModule,
+    LoadingModule,
+    ProgressBarModule,
   ],
   declarations: [PermissionsComponent],
 })

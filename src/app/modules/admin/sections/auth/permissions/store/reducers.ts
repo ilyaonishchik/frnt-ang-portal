@@ -6,21 +6,35 @@ import {
   getPermissionsSuccessAction,
 } from './actions/permissions.action'
 import {routerNavigationAction} from '@ngrx/router-store'
+import {
+  dialogCancelAction,
+  dialogConfirmAction,
+  dialogShowAction,
+} from './actions/dialogs.action'
 
 const initialState: IPermissionsState = {
   isLoading: false,
   error: null,
-  data: {items: [], count: 0},
+  data: {items: [], count: 0, first: 0},
+  crud: null,
+  tableState: null,
 }
 
 const permissionsReducer = createReducer(
   initialState,
   on(
     getPermissionsAction,
-    (state): IPermissionsState => ({
-      ...state,
-      isLoading: true,
-    })
+    (state, action): IPermissionsState =>
+      action.event
+        ? {
+            ...state,
+            isLoading: true,
+            tableState: action.event,
+          }
+        : {
+            ...state,
+            isLoading: true,
+          }
   ),
   on(
     getPermissionsSuccessAction,
@@ -35,6 +49,29 @@ const permissionsReducer = createReducer(
     (state): IPermissionsState => ({
       ...state,
       isLoading: false,
+      tableState: null,
+      // error: action.errors['_'].toString()
+    })
+  ),
+  on(
+    dialogShowAction,
+    (state, action): IPermissionsState => ({
+      ...state,
+      crud: action.crud,
+    })
+  ),
+  on(
+    dialogConfirmAction,
+    (state): IPermissionsState => ({
+      ...state,
+      crud: null,
+    })
+  ),
+  on(
+    dialogCancelAction,
+    (state): IPermissionsState => ({
+      ...state,
+      crud: null,
     })
   ),
   on(routerNavigationAction, (): IPermissionsState => initialState)
