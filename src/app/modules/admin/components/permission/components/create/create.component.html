@@ -6,8 +6,12 @@
   class='p-fluid'
   header='Создание разрешения'
 >
+  <avs-message-validate
+    *ngIf='validationErrors$ | async'
+    [errors]='validationErrors$ | async'
+  ></avs-message-validate>
   <app-permission-form
-    [initialValues]=item
+    [initialValues]=itemSave
     (changeValues)=changeItem($event)
     (formValid)=onValidate($event)
   ></app-permission-form>
@@ -16,7 +20,7 @@
       <p-checkbox
         class='align-content-start'
         label='Активная'
-        [(ngModel)]=item.status
+        [(ngModel)]=itemSave.status
         [binary]=true
         [trueValue]=1
         [falseValue]=0
@@ -24,12 +28,12 @@
       <div>
         <button
           pButton label='Отмена' icon='pi pi-times'
-          class='p-button-text p-button-secondary'
+          class='p-button-outlined p-button-secondary'
           (click)=onVisibleChange(false)
         ></button>
         <button
           pButton label='Сохранить' icon='pi pi-check'
-          class='p-button-text p-button-success'
+          class='p-button-outlined p-button-success'
           [disabled]=!formValid
           (click)=saveItem()
         ></button>

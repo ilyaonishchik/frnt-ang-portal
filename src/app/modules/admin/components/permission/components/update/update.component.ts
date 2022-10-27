@@ -22,7 +22,7 @@ import {
   isLoadingSelector,
   permissionSelector,
 } from '../../store/selectors'
-import {IBackendErrors} from '../../../../../../shared/interfaces/backend-errors.interface'
+import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
 
 @Component({
   selector: 'app-permission-update',
@@ -78,7 +78,6 @@ export class UpdateComponent implements OnInit, OnDestroy {
       this.store.dispatch(
         updatePermissionAction({id: this.itemId, permission: this.itemSave})
       )
-      // this.onVisibleChange(false)
     }
   }
 

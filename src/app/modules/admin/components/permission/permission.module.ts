@@ -21,6 +21,8 @@ import {CreatePermissionEffect} from './store/effects/create-permission.effect'
 import {UpdateComponent} from './components/update/update.component'
 import {UpdatePermissionEffect} from './store/effects/update-permission.effect'
 import {MessagesModule} from '../../../../shared/modules/messages/messages.module'
+import {DeleteComponent} from './components/delete/delete.component'
+import {DeletePermissionEffect} from './store/effects/delete-permission.effect'
 
 @NgModule({
   declarations: [
@@ -28,6 +30,7 @@ import {MessagesModule} from '../../../../shared/modules/messages/messages.modul
     PermissionComponent,
     CreateComponent,
     UpdateComponent,
+    DeleteComponent,
   ],
   imports: [
     CommonModule,
@@ -35,6 +38,7 @@ import {MessagesModule} from '../../../../shared/modules/messages/messages.modul
       GetPermissionEffect,
       CreatePermissionEffect,
       UpdatePermissionEffect,
+      DeletePermissionEffect,
     ]),
     StoreModule.forFeature('permission', reducers),
     InputTextModule,
@@ -52,6 +56,7 @@ import {MessagesModule} from '../../../../shared/modules/messages/messages.modul
     PermissionComponent,
     CreateComponent,
     UpdateComponent,
+    DeleteComponent,
   ],
 })
 export class PermissionModule {}

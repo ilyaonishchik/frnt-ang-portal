@@ -5,35 +5,35 @@ import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {Store} from '@ngrx/store'
 
 import {PermissionService} from '../../services/permission.service'
-import {
-  updatePermissionAction,
-  updatePermissionFailureAction,
-  updatePermissionSuccessAction,
-} from '../actions/permission.action'
-import {IPermission} from 'src/app/shared/interfaces/permission.interface'
 import {responseToErrors} from 'src/app/shared/functions/error.function'
+import {IDeleteResponse} from 'src/app/shared/interfaces/delete-response.interface'
+import {
+  deletePermissionAction,
+  deletePermissionFailureAction,
+  deletePermissionSuccessAction,
+} from '../actions/permission.action'
 import {dialogConfirmAction} from '../../../../sections/auth/permissions/store/actions/dialogs.action'
 import {TCrudAction} from '../../../../../../shared/types/crud-action.type'
 
 @Injectable()
-export class UpdatePermissionEffect {
+export class DeletePermissionEffect {
   constructor(
     private actions$: Actions,
     private permissionService: PermissionService,
     private store: Store
   ) {}
 
-  updatePermission$ = createEffect(() =>
+  deletePermission$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(updatePermissionAction),
-      switchMap(({id, permission}) => {
-        return this.permissionService.updatePermission(id, permission).pipe(
-          map((permission: IPermission) => {
-            return updatePermissionSuccessAction({permission: permission})
+      ofType(deletePermissionAction),
+      switchMap(({id}) => {
+        return this.permissionService.deletePermission(id).pipe(
+          map((response: IDeleteResponse) => {
+            return deletePermissionSuccessAction({response: response})
           }),
           catchError((errorResponse: HttpErrorResponse) => {
             return of(
-              updatePermissionFailureAction({
+              deletePermissionFailureAction({
                 errors: responseToErrors(errorResponse),
               })
             )
@@ -43,12 +43,12 @@ export class UpdatePermissionEffect {
     )
   )
 
-  afterUpdatePermission$ = createEffect(
+  afterDeletePermission$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(updatePermissionSuccessAction),
+        ofType(deletePermissionSuccessAction),
         tap(() => {
-          this.store.dispatch(dialogConfirmAction({action: TCrudAction.UPDATE}))
+          this.store.dispatch(dialogConfirmAction({action: TCrudAction.DELETE}))
         })
       ),
     {dispatch: false}

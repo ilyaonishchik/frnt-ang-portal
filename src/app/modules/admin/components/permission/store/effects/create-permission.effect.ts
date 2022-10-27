@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core'
-import {catchError, map, of, switchMap} from 'rxjs'
+import {HttpErrorResponse} from '@angular/common/http'
+import {catchError, map, of, switchMap, tap} from 'rxjs'
 import {Actions, createEffect, ofType} from '@ngrx/effects'
+import {Store} from '@ngrx/store'
 
 import {PermissionService} from '../../services/permission.service'
 import {
@@ -9,13 +11,16 @@ import {
   createPermissionSuccessAction,
 } from '../actions/permission.action'
 import {IPermission} from 'src/app/shared/interfaces/permission.interface'
-import {HttpErrorResponse} from '@angular/common/http'
+import {responseToErrors} from 'src/app/shared/functions/error.function'
+import {dialogConfirmAction} from '../../../../sections/auth/permissions/store/actions/dialogs.action'
+import {TCrudAction} from '../../../../../../shared/types/crud-action.type'
 
 @Injectable()
 export class CreatePermissionEffect {
   constructor(
     private actions$: Actions,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private store: Store
   ) {}
 
   createPermission$ = createEffect(() =>
@@ -29,16 +34,23 @@ export class CreatePermissionEffect {
           catchError((errorResponse: HttpErrorResponse) => {
             return of(
               createPermissionFailureAction({
-                response: {
-                  status: errorResponse.status,
-                  code: errorResponse.statusText,
-                  error: errorResponse.error,
-                },
+                errors: responseToErrors(errorResponse),
               })
             )
           })
         )
       })
     )
+  )
+
+  afterCreatePermission$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(createPermissionSuccessAction),
+        tap(() => {
+          this.store.dispatch(dialogConfirmAction({action: TCrudAction.CREATE}))
+        })
+      ),
+    {dispatch: false}
   )
 }

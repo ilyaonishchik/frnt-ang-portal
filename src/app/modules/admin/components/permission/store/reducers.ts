@@ -70,10 +70,10 @@ const permissionReducer = createReducer(
   ),
   on(
     createPermissionFailureAction,
-    (state): IPermissionState => ({
+    (state, action): IPermissionState => ({
       ...state,
       isSubmitting: false,
-      // validationErrors: action.error,
+      validationErrors: action.errors,
     })
   ),
   on(

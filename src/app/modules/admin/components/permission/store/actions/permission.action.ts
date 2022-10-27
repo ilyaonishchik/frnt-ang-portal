@@ -6,7 +6,7 @@ import {
   IPermissionSave,
 } from 'src/app/shared/interfaces/permission.interface'
 import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
-import {IBackendErrorResponse} from 'src/app/shared/interfaces/backend-error-response.interface'
+import {IDeleteResponse} from 'src/app/shared/interfaces/delete-response.interface'
 
 export const getPermissionAction = createAction(
   ActionTypes.GET_PERMISSION,
@@ -19,7 +19,8 @@ export const getPermissionSuccessAction = createAction(
 )
 
 export const getPermissionFailureAction = createAction(
-  ActionTypes.GET_PERMISSION_FAILURE
+  ActionTypes.GET_PERMISSION_FAILURE,
+  props<{errors: IBackendErrors}>()
 )
 
 export const createPermissionAction = createAction(
@@ -34,7 +35,7 @@ export const createPermissionSuccessAction = createAction(
 
 export const createPermissionFailureAction = createAction(
   ActionTypes.CREATE_PERMISSION_FAILURE,
-  props<{response: IBackendErrorResponse}>()
+  props<{errors: IBackendErrors}>()
 )
 
 export const updatePermissionAction = createAction(
@@ -49,5 +50,20 @@ export const updatePermissionSuccessAction = createAction(
 
 export const updatePermissionFailureAction = createAction(
   ActionTypes.UPDATE_PERMISSION_FAILURE,
+  props<{errors: IBackendErrors}>()
+)
+
+export const deletePermissionAction = createAction(
+  ActionTypes.DELETE_PERMISSION,
+  props<{id: number}>()
+)
+
+export const deletePermissionSuccessAction = createAction(
+  ActionTypes.DELETE_PERMISSION_SUCCESS,
+  props<{response: IDeleteResponse}>()
+)
+
+export const deletePermissionFailureAction = createAction(
+  ActionTypes.DELETE_PERMISSION_FAILURE,
   props<{errors: IBackendErrors}>()
 )
