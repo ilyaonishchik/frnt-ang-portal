@@ -11,7 +11,7 @@ import {routerNavigationAction} from '@ngrx/router-store'
 const initialState: IRolesState = {
   isLoading: false,
   error: null,
-  data: {items: [], count: 0},
+  data: {items: [], count: 0, first: 0},
 }
 
 const rolesReducer = createReducer(

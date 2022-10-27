@@ -6,9 +6,10 @@ import {select, Store} from '@ngrx/store'
 import {LazyLoadEvent} from 'primeng/api'
 
 import {IColumn} from 'src/app/shared/interfaces/column.interface'
-import {IRoles} from '../../interfaces/roles.interface'
 import {isLoadingSelector, rolesSelector} from '../../store/selectors'
 import {getRolesAction} from '../../store/actions/roles.action'
+import {ITableItems} from 'src/app/shared/interfaces/table-items.interface'
+import {IRole} from 'src/app/shared/interfaces/role.interface'
 
 @Component({
   selector: 'app-roles',
@@ -20,7 +21,7 @@ export class RolesComponent implements OnInit {
   crudName: string
 
   isLoading$!: Observable<boolean>
-  roles$!: Observable<IRoles | null>
+  roles$!: Observable<ITableItems<IRole> | null>
 
   dialogVisible: boolean = false
   isReadOnly: boolean = false

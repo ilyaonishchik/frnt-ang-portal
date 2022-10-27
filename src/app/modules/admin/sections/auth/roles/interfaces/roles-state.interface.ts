@@ -1,7 +1,8 @@
-import {IRoles} from './roles.interface'
+import {ITableItems} from '../../../../../../shared/interfaces/table-items.interface'
+import {IRole} from '../../../../../../shared/interfaces/role.interface'
 
 export interface IRolesState {
   isLoading: boolean
   error: string | null
-  data: IRoles | null
+  data: ITableItems<IRole> | null
 }

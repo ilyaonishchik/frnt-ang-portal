@@ -8,7 +8,8 @@ import {
   getRolesSuccessAction,
 } from '../actions/roles.action'
 import {RolesService} from '../../services/roles.service'
-import {IRolesResponse} from '../../interfaces/roles-response.interface'
+import {IResponseItems} from 'src/app/shared/interfaces/response-items.interface'
+import {IRole} from 'src/app/shared/interfaces/role.interface'
 
 @Injectable()
 export class GetRolesEffect {
@@ -19,11 +20,12 @@ export class GetRolesEffect {
       ofType(getRolesAction),
       switchMap(({event}) => {
         return this.rolesService.getRoles(event).pipe(
-          map((response: IRolesResponse) => {
+          map((response: IResponseItems<IRole>) => {
             return getRolesSuccessAction({
               roles: {
                 items: response.results,
                 count: response.records,
+                first: response.skip,
               },
             })
           }),
