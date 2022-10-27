@@ -12,6 +12,7 @@
   [lazyLoadOnInit]=loadingOnInit
   [totalRecords]=data.count
   [paginator]=true
+  [first]=data.first
   [rows]=rowsPerPageCount
   [rowsPerPageOptions]=rowsPerPageOptions
   [showCurrentPageReport]=true
@@ -32,22 +33,24 @@
         (click)='createItem()'
       >
       </button>
+      {{data.first}}
       <span
         class='p-input-icon-left'
-        [class.p-input-icon-right]='filter.value'>
-              <i class='pi pi-search'></i>
-              <input
-                #filter
-                pInputText
-                type='text'
-                (input)='onGlobalFilter(dt, $event)'
-                placeholder='Поиск...' />
-              <i
-                *ngIf='filter.value'
-                class='pi pi-times-circle'
-                style='cursor: pointer'
-                (click)="filter.value = ''; clearSearch(dt)"></i>
-            </span>
+        [class.p-input-icon-right]=filterValue
+      >
+        <i class='pi pi-search'></i>
+        <input
+          pInputText
+          type='text'
+          [value]=filterValue
+          (input)='onGlobalFilter($event)'
+          placeholder='Поиск...' />
+        <i
+          *ngIf=filterValue
+          class='pi pi-times-circle'
+          style='cursor: pointer'
+          (click)=clearSearch()></i>
+      </span>
     </div>
   </ng-template>
   <ng-template pTemplate='header' let-columns>
@@ -99,8 +102,7 @@
       icon='pi pi-refresh'
       styleClass='p-button-text'
       pTooltip='Обновить' tooltipPosition='right' [showDelay]=250
-      (click)=clearSearch(dt)>
+      (click)=refreshItems()>
     </p-button>
   </ng-template>
 </p-table>
-

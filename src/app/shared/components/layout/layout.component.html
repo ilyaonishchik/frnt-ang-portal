@@ -1,5 +1,11 @@
 <div class='layout-wrapper' [ngClass]='containerClass'>
   <app-topbar></app-topbar>
+  <p-progressBar
+    *ngIf='false'
+    mode="indeterminate"
+    [style]="{'height': '3px'}"
+  >
+  </p-progressBar>
   <div *ngIf='isSignedIn$ | async' class='layout-sidebar'>
     <app-sidebar [menuType]='menuType'></app-sidebar>
   </div>

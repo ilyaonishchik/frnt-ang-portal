@@ -1,4 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core'
 import {LazyLoadEvent} from 'primeng/api'
 import {Table} from 'primeng/table'
 
@@ -7,7 +14,7 @@ import {IColumn} from 'src/app/shared/interfaces/column.interface'
 import {environment} from 'src/environments/environment'
 import {IItemCRUD} from 'src/app/shared/interfaces/rbac.interface'
 import {RbacService} from 'src/app/shared/services/rbac.service'
-import {IDeleteEvent} from '../../../../interfaces/event.interface'
+import {IDeleteEvent} from 'src/app/shared/interfaces/event.interface'
 
 @Component({
   selector: 'avs-table',
@@ -17,9 +24,13 @@ import {IDeleteEvent} from '../../../../interfaces/event.interface'
 export class TableComponent implements OnInit {
   rowsPerPageCount: number = environment.rowsPerPageCount
   rowsPerPageOptions: number[] = environment.rowsPerPageOptions
-  userCRUD!: IItemCRUD
 
-  @Input('data') data: ITableItems<any> = {items: [], count: 0}
+  userCRUD!: IItemCRUD
+  filterValue: string | null = null
+
+  @ViewChild('dt') table!: Table
+
+  @Input('data') data: ITableItems<any> = {items: [], count: 0, first: 0}
   @Input('columns') columns: IColumn[] = []
   @Input('loading') loading: boolean = false
   @Input('loadingOnInit') loadingOnInit: boolean = false
@@ -29,14 +40,10 @@ export class TableComponent implements OnInit {
   @Input('keyField') keyField: string = 'id'
   @Input('confirmField') confirmField: string = 'id'
 
-  @Output('onLazyLoad') onLazyLoad: EventEmitter<LazyLoadEvent> =
-    new EventEmitter<LazyLoadEvent>()
-
-  @Output('actionCreate') onCreate: EventEmitter<any> = new EventEmitter<any>()
-  @Output('actionRead') onRead: EventEmitter<number> =
-    new EventEmitter<number>()
-  @Output('actionUpdate') onUpdate: EventEmitter<number> =
-    new EventEmitter<number>()
+  @Output('onLazyLoad') onLazyLoad = new EventEmitter<LazyLoadEvent>()
+  @Output('actionCreate') onCreate = new EventEmitter<any>()
+  @Output('actionRead') onRead = new EventEmitter<number>()
+  @Output('actionUpdate') onUpdate = new EventEmitter<number>()
   @Output('actionDelete') onDelete = new EventEmitter<IDeleteEvent>()
 
   constructor(private rbacService: RbacService) {}
@@ -69,11 +76,19 @@ export class TableComponent implements OnInit {
     this.onDelete.emit(deleteEvent)
   }
 
-  onGlobalFilter(table: Table, event: Event) {
-    table.filterGlobal((event.target as HTMLInputElement).value, 'contains')
+  onGlobalFilter(event: Event): void {
+    this.filterValue = (event.target as HTMLInputElement).value
+    this.table.filterGlobal(this.filterValue, 'contains')
   }
 
-  clearSearch(table: Table) {
-    table.filterGlobal(null, 'contains')
+  clearSearch(): void {
+    this.filterValue = null
+    this.table.filterGlobal(this.filterValue, null)
+  }
+
+  refreshItems(): void {
+    this.table.filterDelay = 0
+    this.table.filterGlobal(this.filterValue, 'contains')
+    this.table.filterDelay = 1000
   }
 }

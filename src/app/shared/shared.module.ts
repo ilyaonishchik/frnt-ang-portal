@@ -25,6 +25,7 @@ import {GetCurrentUserEffect} from '../modules/auth/store/effects/get-current-us
 import {SignoutEffect} from '../modules/auth/store/effects/signout.effect'
 import {GetAllRolesEffect} from '../modules/auth/store/effects/get-all-roles.effect'
 import {GetAllPermissionsEffect} from '../modules/auth/store/effects/get-all-permissions.effect'
+import {ProgressBarModule} from 'primeng/progressbar'
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import {GetAllPermissionsEffect} from '../modules/auth/store/effects/get-all-per
       GetAllRolesEffect,
       GetAllPermissionsEffect,
     ]),
+    ProgressBarModule,
   ],
   exports: [TopbarComponent],
 })

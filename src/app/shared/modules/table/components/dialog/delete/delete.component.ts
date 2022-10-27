@@ -9,11 +9,9 @@ export class DeleteComponent implements OnInit {
   @Input('visible') visible: boolean = false
   @Output('visibleChange') visibleChange: EventEmitter<boolean> =
     new EventEmitter<boolean>()
-  @Input('itemInfo') itemInfo: string | null | undefined = undefined
-  @Output('clickConfirm') onClickConfirm: EventEmitter<any> =
-    new EventEmitter<any>()
-  @Output('clickCancel') onClickCancel: EventEmitter<any> =
-    new EventEmitter<any>()
+  @Input('itemInfo') itemInfo: string | number | undefined = undefined
+  @Output('clickConfirm') onClickConfirm = new EventEmitter<any>()
+  @Output('clickCancel') onClickCancel = new EventEmitter<any>()
 
   constructor() {}
 
