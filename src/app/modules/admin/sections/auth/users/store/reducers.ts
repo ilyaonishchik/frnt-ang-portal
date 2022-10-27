@@ -11,7 +11,7 @@ import {
 const initialState: IUsersState = {
   isLoading: false,
   error: null,
-  data: {items: [], count: 0},
+  data: {items: [], count: 0, first: 0},
 }
 
 const usersReducer = createReducer(

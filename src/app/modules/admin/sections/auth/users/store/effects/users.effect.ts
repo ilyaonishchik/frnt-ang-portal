@@ -25,6 +25,7 @@ export class GetUsersEffect {
               users: {
                 items: response.results,
                 count: response.records,
+                first: response.skip,
               },
             })
           }),
