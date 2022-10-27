@@ -8,16 +8,16 @@ import {DashboardComponent} from './components/dashboard/dashboard.component'
 const routes: Routes = [
   {path: '', component: MainComponent},
   {path: 'dashboard', component: DashboardComponent},
-  {
-    path: 'users',
-    loadChildren: () =>
-      import('./sections/auth/users/users.module').then((m) => m.UsersModule),
-  },
-  {
-    path: 'roles',
-    loadChildren: () =>
-      import('./sections/auth/roles/roles.module').then((m) => m.RolesModule),
-  },
+  // {
+  //   path: 'users',
+  //   loadChildren: () =>
+  //     import('./sections/auth/users/users.module').then((m) => m.UsersModule),
+  // },
+  // {
+  //   path: 'roles',
+  //   loadChildren: () =>
+  //     import('./sections/auth/roles/roles.module').then((m) => m.RolesModule),
+  // },
   {
     path: 'permissions',
     // canLoad: [RoleGuard],
