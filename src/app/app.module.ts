@@ -3,6 +3,7 @@ import {BrowserModule} from '@angular/platform-browser'
 
 import {StoreModule} from '@ngrx/store'
 import {EffectsModule} from '@ngrx/effects'
+import {EntityDataModule} from '@ngrx/data'
 import {StoreDevtoolsModule} from '@ngrx/store-devtools'
 
 import {ToastModule} from 'primeng/toast'
@@ -16,6 +17,12 @@ import {httpInterceptorProviders} from './interceptors/http.interceptor'
 
 import {environment} from '../environments/environment'
 import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store'
+import {entityConfig} from './entity-metadata'
+
+// const defaultDataServiceConfig: DefaultDataServiceConfig = {
+//   root: 'https://my-api-domain.com:8000/api/v1',
+//   timeout: 3000, // request timeout,
+// }
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,6 +46,7 @@ import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store'
       logOnly: environment.production,
     }),
     StoreRouterConnectingModule.forRoot(),
+    EntityDataModule.forRoot(entityConfig),
   ],
   providers: [MessageService, httpInterceptorProviders],
   bootstrap: [AppComponent],
