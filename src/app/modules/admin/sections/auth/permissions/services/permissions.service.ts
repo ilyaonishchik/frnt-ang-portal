@@ -23,12 +23,12 @@ export class PermissionsService {
 
   getPermissions(
     event: LazyLoadEvent | null,
-    action: number
+    previousAction: number
   ): Observable<IResponseItems<IPermission>> {
     if (event) {
       this.previousEvent = event
     }
-    switch (action) {
+    switch (previousAction) {
       case TCrudAction.CREATE: {
         if (this.previousEvent) {
           this.previousEvent.first = 0

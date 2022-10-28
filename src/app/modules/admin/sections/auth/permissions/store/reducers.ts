@@ -17,24 +17,16 @@ const initialState: IPermissionsState = {
   error: null,
   data: {items: [], count: 0, first: 0},
   crud: null,
-  tableState: null,
 }
 
 const permissionsReducer = createReducer(
   initialState,
   on(
     getPermissionsAction,
-    (state, action): IPermissionsState =>
-      action.event
-        ? {
-            ...state,
-            isLoading: true,
-            tableState: action.event,
-          }
-        : {
-            ...state,
-            isLoading: true,
-          }
+    (state): IPermissionsState => ({
+      ...state,
+      isLoading: true,
+    })
   ),
   on(
     getPermissionsSuccessAction,
@@ -49,8 +41,6 @@ const permissionsReducer = createReducer(
     (state): IPermissionsState => ({
       ...state,
       isLoading: false,
-      tableState: null,
-      // error: action.errors['_'].toString()
     })
   ),
   on(
