@@ -8,18 +8,42 @@ import {environment} from 'src/environments/environment'
 import {eventToParams} from 'src/app/shared/functions/event.function'
 import {IResponseItems} from 'src/app/shared/interfaces/response-items.interface'
 import {IRole} from 'src/app/shared/interfaces/role.interface'
+import {TCrudAction} from 'src/app/shared/types/crud-action.type'
 
 @Injectable({
   providedIn: 'root',
 })
 export class RolesService {
-  constructor(private http: HttpClient) {}
+  private readonly fullUrl: string
+  previousEvent: LazyLoadEvent = {first: 0}
 
-  getRoles(event: LazyLoadEvent): Observable<IResponseItems<IRole>> {
-    const fullUrl = `${environment.urlApi}/auth/roles`
+  constructor(private http: HttpClient) {
+    this.fullUrl = `${environment.urlApi}/auth/roles`
+  }
 
-    return this.http.get<IResponseItems<IRole>>(fullUrl, {
-      params: eventToParams(event),
+  getRoles(
+    event: LazyLoadEvent | null,
+    previousAction: number
+  ): Observable<IResponseItems<IRole>> {
+    if (event) {
+      this.previousEvent = event
+    }
+    switch (previousAction) {
+      case TCrudAction.CREATE: {
+        if (this.previousEvent) {
+          this.previousEvent.first = 0
+        }
+        break
+      }
+      case TCrudAction.DELETE: {
+        if (this.previousEvent) {
+          this.previousEvent.first = 0
+        }
+        break
+      }
+    }
+    return this.http.get<IResponseItems<IRole>>(this.fullUrl, {
+      params: eventToParams(this.previousEvent),
     })
   }
 }

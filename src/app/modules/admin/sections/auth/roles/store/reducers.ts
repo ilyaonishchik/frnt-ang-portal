@@ -7,11 +7,17 @@ import {
   getRolesSuccessAction,
 } from './actions/roles.action'
 import {routerNavigationAction} from '@ngrx/router-store'
+import {
+  dialogCancelAction,
+  dialogConfirmAction,
+  dialogShowAction,
+} from 'src/app/shared/store/actions/dialogs.action'
 
 const initialState: IRolesState = {
   isLoading: false,
   error: null,
   data: {items: [], count: 0, first: 0},
+  crud: null,
 }
 
 const rolesReducer = createReducer(
@@ -36,6 +42,27 @@ const rolesReducer = createReducer(
     (state): IRolesState => ({
       ...state,
       isLoading: false,
+    })
+  ),
+  on(
+    dialogShowAction,
+    (state, action): IRolesState => ({
+      ...state,
+      crud: action.crud,
+    })
+  ),
+  on(
+    dialogConfirmAction,
+    (state): IRolesState => ({
+      ...state,
+      crud: null,
+    })
+  ),
+  on(
+    dialogCancelAction,
+    (state): IRolesState => ({
+      ...state,
+      crud: null,
     })
   ),
   on(routerNavigationAction, (): IRolesState => initialState)

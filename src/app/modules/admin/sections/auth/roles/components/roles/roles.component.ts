@@ -6,10 +6,21 @@ import {select, Store} from '@ngrx/store'
 import {LazyLoadEvent} from 'primeng/api'
 
 import {IColumn} from 'src/app/shared/interfaces/column.interface'
-import {isLoadingSelector, rolesSelector} from '../../store/selectors'
+import {
+  dialogActionSelector,
+  isLoadingSelector,
+  rolesSelector,
+} from '../../store/selectors'
 import {getRolesAction} from '../../store/actions/roles.action'
 import {ITableItems} from 'src/app/shared/interfaces/table-items.interface'
 import {IRole} from 'src/app/shared/interfaces/role.interface'
+import {ICrudAction} from 'src/app/shared/interfaces/crud-action.interface'
+import {TCrudAction} from 'src/app/shared/types/crud-action.type'
+import {
+  dialogCancelAction,
+  dialogShowAction,
+} from 'src/app/shared/store/actions/dialogs.action'
+import {IDeleteEvent} from 'src/app/shared/interfaces/event.interface'
 
 @Component({
   selector: 'app-roles',
@@ -19,19 +30,13 @@ import {IRole} from 'src/app/shared/interfaces/role.interface'
 export class RolesComponent implements OnInit {
   columns: IColumn[]
   crudName: string
+  keyField: string
+  sortField: string
+  confirmField: string
 
   isLoading$!: Observable<boolean>
   roles$!: Observable<ITableItems<IRole> | null>
-
-  dialogVisible: boolean = false
-  isReadOnly: boolean = false
-
-  // item: IRole | null = null
-
-  // deleteVisible: boolean = false
-  // dialogVisible: boolean = false
-  // isActionRead: boolean = false
-  // submitted: boolean = false
+  dialog$!: Observable<ICrudAction | null>
 
   constructor(private store: Store) {
     this.columns = [
@@ -40,71 +45,61 @@ export class RolesComponent implements OnInit {
       {field: 'name', header: 'Наименование'},
     ]
     this.crudName = 'role'
+    this.keyField = 'id'
+    this.sortField = 'id'
+    this.confirmField = 'code'
   }
 
   ngOnInit(): void {
     this.initializeValues()
+    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
   }
 
   initializeValues(): void {
     this.isLoading$ = this.store.pipe(select(isLoadingSelector))
     this.roles$ = this.store.pipe(select(rolesSelector))
+    this.dialog$ = this.store.pipe(select(dialogActionSelector))
   }
 
-  loadItems(event: LazyLoadEvent): void {
-    this.store.dispatch(getRolesAction({event}))
+  loadItems(
+    event: LazyLoadEvent | null,
+    action: number = TCrudAction.NONE
+  ): void {
+    this.store.dispatch(getRolesAction({event: event, action: action}))
   }
 
   createItem(): void {
-    // this.item = {id: 0, code: '', name: '', comment: null, status: 1}
-    // this.dialogVisible = true
-    // this.isActionRead = false
-    // this.store.dispatch(createPermissionAction())
-    // this.item = {...this.clearItem}
-    // this.submitted = false
-    // this.itemDialog = true
+    this.store.dispatch(
+      dialogShowAction({crud: {id: null, action: TCrudAction.CREATE}})
+    )
   }
 
-  readItem(event: any): void {
-    console.log(event)
-    // this.item = item
-    // this.dialogVisible = true
-    // this.actionRead = true
-    // this.store.dispatch(readPermissionAction({item}))
+  readItem(id: number): void {
+    console.log('readItem', id)
+    this.store.dispatch(
+      dialogShowAction({crud: {id: id, action: TCrudAction.READ}})
+    )
   }
 
-  updateItem(event: any): void {
-    console.log(event)
-    // this.item = {...item}
-    // this.dialogVisible = true
-    // this.isActionRead = false
-    // this.store.dispatch(updatePermissionAction({item}))
+  updateItem(id: number): void {
+    this.store.dispatch(
+      dialogShowAction({crud: {id: id, action: TCrudAction.UPDATE}})
+    )
   }
 
-  deleteItem(event: any): void {
-    console.log(event)
-    // this.item = {...item}
-    // this.deleteVisible = true
+  deleteItem(event: IDeleteEvent): void {
+    this.store.dispatch(
+      dialogShowAction({
+        crud: {
+          id: event.id,
+          action: TCrudAction.DELETE,
+          confirm: event.confirm,
+        },
+      })
+    )
   }
 
-  confirmDelete(id: number): void {
-    // this.store.dispatch(deletePermissionAction({id}))
-    // this.item = null
-    // this.deleteVisible = false
-    // this.store.dispatch(deletePermissionConfirmAction())
-    // this.permissionsService.deletePermission(this.item).subscribe({
-    //   next: (res) => {
-    //     this.items = this.items.filter((val) => val.id !== res.record_id)
-    //   },
-    //   error: (err) => {
-    //     console.log(err)
-    //   },
-    // })
-    // this.item = {...this.clearItem}
-  }
-
-  cancelDelete(): void {
-    // this.item = null
-    // this.deleteVisible = false
+  hideDialog(): void {
+    this.store.dispatch(dialogCancelAction())
   }
 }

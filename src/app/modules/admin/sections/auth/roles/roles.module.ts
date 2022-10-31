@@ -14,8 +14,8 @@ import {RolesComponent} from './components/roles/roles.component'
 import {ColumnsModule} from 'src/app/shared/components/table/columns/columns.module'
 import {GetRolesEffect} from './store/effects/roles.effect'
 import {reducers} from './store/reducers'
-// import {AvsDialogModule} from '../../../../../shared/components/dialog/dialog.module'
 import {AvsTableModule} from 'src/app/shared/modules/table/table.module'
+import {RoleModule} from '../../../components/role/role.module'
 
 @NgModule({
   declarations: [RolesComponent],
@@ -29,8 +29,8 @@ import {AvsTableModule} from 'src/app/shared/modules/table/table.module'
     InputTextModule,
     ColumnsModule,
     TooltipModule,
-    // AvsDialogModule,
     AvsTableModule,
+    RoleModule,
   ],
 })
 export class RolesModule {}

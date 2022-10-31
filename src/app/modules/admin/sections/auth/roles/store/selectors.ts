@@ -1,4 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store'
+
 import {IRolesState} from '../interfaces/roles-state.interface'
 
 export const rolesFeatureSelector = createFeatureSelector<IRolesState>('roles')
@@ -16,4 +17,9 @@ export const errorSelector = createSelector(
 export const rolesSelector = createSelector(
   rolesFeatureSelector,
   (rolesState: IRolesState) => rolesState.data
+)
+
+export const dialogActionSelector = createSelector(
+  rolesFeatureSelector,
+  (rolesState: IRolesState) => rolesState.crud
 )
