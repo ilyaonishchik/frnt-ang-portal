@@ -12,8 +12,8 @@ import {
   deletePermissionFailureAction,
   deletePermissionSuccessAction,
 } from '../actions/permission.action'
-import {dialogConfirmAction} from '../../../../sections/auth/permissions/store/actions/dialogs.action'
-import {TCrudAction} from '../../../../../../shared/types/crud-action.type'
+import {TCrudAction} from 'src/app/shared/types/crud-action.type'
+import {dialogConfirmAction} from 'src/app/shared/store/actions/dialogs.action'
 
 @Injectable()
 export class DeletePermissionEffect {
