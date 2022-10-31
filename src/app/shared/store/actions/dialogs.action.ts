@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store'
 
-import {ActionTypes} from '../actionTypes'
 import {ICrudAction} from 'src/app/shared/interfaces/crud-action.interface'
+import {ActionTypes} from '../../types/dialog-action.type'
 
 export const dialogShowAction = createAction(
   ActionTypes.DIALOG_SHOW,
