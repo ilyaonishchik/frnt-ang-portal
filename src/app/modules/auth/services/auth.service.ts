@@ -12,7 +12,6 @@ import {IToken} from '../interfaces/token.interface'
 import {IVerifyResponse} from '../interfaces/verify-response.interface'
 import {IPermission} from '../../../shared/interfaces/permission.interface'
 import {IRole} from '../../../shared/interfaces/role.interface'
-import {IRolesResponse} from '../../admin/sections/auth/roles/interfaces/roles-response.interface'
 import {IUserReset} from '../../../shared/interfaces/user.interface'
 import {IResponseItems} from '../../../shared/interfaces/response-items.interface'
 
@@ -55,8 +54,8 @@ export class AuthService {
 
   getRoles(): Observable<IRole[]> {
     return this.http
-      .get<IRolesResponse>(`${this.apiUrl}roles`)
-      .pipe(map((response: IRolesResponse) => response.results))
+      .get<IResponseItems<IRole>>(`${this.apiUrl}roles`)
+      .pipe(map((response: IResponseItems<IRole>) => response.results))
   }
 
   getPermissions(): Observable<IPermission[]> {

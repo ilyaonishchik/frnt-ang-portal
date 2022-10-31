@@ -1,4 +1,4 @@
-import {IPermission} from './permission.interface'
+// import {IPermission} from './permission.interface'
 
 export interface IRole {
   id: number
@@ -6,7 +6,7 @@ export interface IRole {
   name: string
   comment: string | null
   status: number
-  permissions: IPermission[]
+  // permissions: IPermission[]
 }
 
 export interface IRoleSave {
@@ -14,5 +14,5 @@ export interface IRoleSave {
   name: string
   comment: string | null
   status: number
-  permissions: number[]
+  // permissions: number[]
 }
