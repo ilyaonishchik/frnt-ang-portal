@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initializeConfig(): void {
-    document.documentElement.style.fontSize = '15px'
+    document.documentElement.style.fontSize = '14px'
     this.primeConfig.ripple = false
     this.primeConfig.setTranslation({
       passwordPrompt: 'Введите пароль',
