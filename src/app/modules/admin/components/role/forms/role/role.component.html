@@ -1,0 +1,48 @@
+<form [formGroup]=formRole
+      (change)='onChangeValues()'>
+  <div class='field'>
+    <label for='code'>Код</label>
+    <input
+      id='code'
+      type='text'
+      pInputText
+      formControlName='code'
+      autofocus
+      [readonly]=readOnlyProps
+    >
+    <ng-container
+      *ngIf="(f['code'].dirty || f['code'].touched) && f['code'].invalid">
+      <small *ngIf="f['code'].errors?.['required']" class='p-error block'>
+        Обязательно для заполнения
+      </small>
+    </ng-container>
+  </div>
+  <div class='field'>
+    <label for='name'>Наименование</label>
+    <input
+      id='name'
+      type='text'
+      pInputText
+      formControlName='name'
+      [readonly]=readOnlyProps
+    >
+    <ng-container
+      *ngIf="(f['name'].dirty || f['name'].touched) && f['name'].invalid">
+      <small *ngIf="f['name'].errors?.['required']" class='p-error block'>
+        Обязательно для заполнения
+      </small>
+    </ng-container>
+  </div>
+  <div class='field'>
+    <label for='comment'>Описание</label>
+    <textarea
+      id='comment'
+      pInputTextarea
+      rows='3'
+      cols='20'
+      formControlName='comment'
+      [readonly]=readOnlyProps
+    >
+  </textarea>
+  </div>
+</form>
