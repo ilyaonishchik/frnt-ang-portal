@@ -19,8 +19,6 @@ import {PermissionsRoutingModule} from './permissions-routing.module'
 import {ColumnsModule} from 'src/app/shared/components/table/columns/columns.module'
 import {AvsTableModule} from 'src/app/shared/modules/table/table.module'
 import {PermissionModule} from '../../../components/permission/permission.module'
-import {LoadingModule} from '../../../../../shared/modules/loading/loading.module'
-import {ProgressBarModule} from 'primeng/progressbar'
 
 @NgModule({
   imports: [
@@ -38,8 +36,6 @@ import {ProgressBarModule} from 'primeng/progressbar'
     AvsTableModule,
     PermissionModule,
     DialogModule,
-    LoadingModule,
-    ProgressBarModule,
   ],
   declarations: [PermissionsComponent],
 })

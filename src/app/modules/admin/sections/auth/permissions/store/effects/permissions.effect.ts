@@ -12,7 +12,7 @@ import {
 } from '../actions/permissions.action'
 import {IResponseItems} from 'src/app/shared/interfaces/response-items.interface'
 import {IPermission} from 'src/app/shared/interfaces/permission.interface'
-import {dialogConfirmAction} from '../actions/dialogs.action'
+import {dialogConfirmAction} from 'src/app/shared/store/actions/dialogs.action'
 import {responseToErrors} from 'src/app/shared/functions/error.function'
 
 @Injectable()

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core'
-import {select, Store} from '@ngrx/store'
 import {Observable} from 'rxjs'
+
+import {select, Store} from '@ngrx/store'
 
 import {LazyLoadEvent} from 'primeng/api'
 
@@ -17,7 +18,7 @@ import {IPermission} from 'src/app/shared/interfaces/permission.interface'
 import {
   dialogCancelAction,
   dialogShowAction,
-} from '../../store/actions/dialogs.action'
+} from 'src/app/shared/store/actions/dialogs.action'
 import {ICrudAction} from 'src/app/shared/interfaces/crud-action.interface'
 import {IDeleteEvent} from 'src/app/shared/interfaces/event.interface'
 import {TCrudAction} from 'src/app/shared/types/crud-action.type'

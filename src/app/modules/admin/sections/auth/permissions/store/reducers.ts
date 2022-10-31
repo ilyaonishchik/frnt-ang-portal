@@ -10,7 +10,7 @@ import {
   dialogCancelAction,
   dialogConfirmAction,
   dialogShowAction,
-} from './actions/dialogs.action'
+} from 'src/app/shared/store/actions/dialogs.action'
 
 const initialState: IPermissionsState = {
   isLoading: false,

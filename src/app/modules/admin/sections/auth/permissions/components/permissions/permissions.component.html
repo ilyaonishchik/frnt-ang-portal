@@ -15,37 +15,39 @@
     (actionDelete)=deleteItem($event)
   >
   </avs-table>
+
+  <ng-container
+    *ngIf='(dialog$ | async) as dialog'
+  >
+    <app-permission-create
+      *ngIf='dialog.action == 1'
+      [visible]=true
+      (visibleChange)='hideDialog()'
+    ></app-permission-create>
+
+    <app-permission-read
+      *ngIf='dialog.action == 2'
+      [visible]=true
+      (visibleChange)='hideDialog()'
+      [itemId]=dialog.id!
+    ></app-permission-read>
+
+    <app-permission-update
+      *ngIf='dialog.action == 3'
+      [visible]=true
+      (visibleChange)='hideDialog()'
+      [itemId]=dialog.id!
+    ></app-permission-update>
+
+    <app-permission-delete
+      *ngIf='dialog.action == 4'
+      [visible]=true
+      (visibleChange)='hideDialog()'
+      (clickCancel)='hideDialog()'
+      [itemId]=dialog.id!
+      [itemInfo]=dialog.confirm!
+    ></app-permission-delete>
+  </ng-container>
+
 </div>
 
-<ng-container
-  *ngIf='(dialog$ | async) as dialog'
->
-  <app-permission-create
-    *ngIf='dialog.action == 1'
-    [visible]=true
-    (visibleChange)='hideDialog()'
-  ></app-permission-create>
-
-  <app-permission-read
-    *ngIf='dialog.action == 2'
-    [visible]=true
-    (visibleChange)='hideDialog()'
-    [itemId]=dialog.id!
-  ></app-permission-read>
-
-  <app-permission-update
-    *ngIf='dialog.action == 3'
-    [visible]=true
-    (visibleChange)='hideDialog()'
-    [itemId]=dialog.id!
-  ></app-permission-update>
-
-  <app-permission-delete
-    *ngIf='dialog.action == 4'
-    [visible]=true
-    (visibleChange)='hideDialog()'
-    (clickCancel)='hideDialog()'
-    [itemId]=dialog.id!
-    [itemInfo]=dialog.confirm!
-  ></app-permission-delete>
-</ng-container>
