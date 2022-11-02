@@ -14,8 +14,7 @@ import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface
 })
 export class CreateComponent implements OnInit {
   @Input('visible') visible: boolean = false
-  @Output('visibleChange') visibleChange: EventEmitter<boolean> =
-    new EventEmitter<boolean>()
+  @Output('visibleChange') visibleChange = new EventEmitter<boolean>()
 
   itemSave!: IPermissionSave
   validationErrors$!: Observable<IBackendErrors | null>
