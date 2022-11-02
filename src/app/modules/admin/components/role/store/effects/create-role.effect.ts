@@ -27,6 +27,7 @@ export class CreateRoleEffect {
     this.actions$.pipe(
       ofType(createRoleAction),
       switchMap(({role}) => {
+        console.log(role)
         return this.roleService.createRole(role).pipe(
           map((role: IRole) => {
             return createRoleSuccessAction({role: role})

@@ -13,12 +13,17 @@ import {EffectsModule} from '@ngrx/effects'
 import {GetRoleEffect} from './store/effects/get-role.effect'
 import {StoreModule} from '@ngrx/store'
 import {reducers} from './store/reducers'
+import {TabViewModule} from 'primeng/tabview'
+import {PickListModule} from 'primeng/picklist'
+import {CreateComponent} from './components/create/create.component'
+import {MessagesModule} from '../../../../shared/modules/messages/messages.module'
+import {CreateRoleEffect} from './store/effects/create-role.effect'
 
 @NgModule({
-  declarations: [RoleComponent, ReadComponent],
+  declarations: [RoleComponent, ReadComponent, CreateComponent],
   imports: [
     CommonModule,
-    EffectsModule.forFeature([GetRoleEffect]),
+    EffectsModule.forFeature([GetRoleEffect, CreateRoleEffect]),
     StoreModule.forFeature('role', reducers),
     DialogModule,
     LoadingModule,
@@ -28,7 +33,10 @@ import {reducers} from './store/reducers'
     ReactiveFormsModule,
     InputTextModule,
     InputTextareaModule,
+    TabViewModule,
+    PickListModule,
+    MessagesModule,
   ],
-  exports: [ReadComponent],
+  exports: [ReadComponent, CreateComponent],
 })
 export class RoleModule {}

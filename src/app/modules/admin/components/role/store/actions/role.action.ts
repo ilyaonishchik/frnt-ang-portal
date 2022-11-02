@@ -22,7 +22,7 @@ export const getRoleFailureAction = createAction(
 
 export const createRoleAction = createAction(
   ActionTypes.CREATE_ROLE,
-  props<{role: IRoleSave}>()
+  props<{role: IRole}>()
 )
 
 export const createRoleSuccessAction = createAction(

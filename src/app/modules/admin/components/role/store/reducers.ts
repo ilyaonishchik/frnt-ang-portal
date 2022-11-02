@@ -18,7 +18,7 @@ const initialState: IRoleState = {
   isSubmitting: false,
   validationErrors: null,
   item: null,
-  itemSave: null,
+  // itemSave: null,
 }
 
 const roleReducer = createReducer(
@@ -29,7 +29,7 @@ const roleReducer = createReducer(
       ...state,
       isLoading: true,
       item: null,
-      itemSave: null,
+      // itemSave: null,
       validationErrors: null,
     })
   ),
@@ -54,7 +54,7 @@ const roleReducer = createReducer(
       ...state,
       isSubmitting: true,
       item: null,
-      itemSave: action.role,
+      // itemSave: action.role,
       validationErrors: null,
     })
   ),
@@ -64,7 +64,7 @@ const roleReducer = createReducer(
       ...state,
       isSubmitting: false,
       item: action.role,
-      itemSave: null,
+      // itemSave: null,
     })
   ),
   on(
@@ -81,7 +81,7 @@ const roleReducer = createReducer(
       ...state,
       isSubmitting: true,
       item: null,
-      itemSave: action.role,
+      // itemSave: action.role,
       validationErrors: null,
     })
   ),
@@ -91,7 +91,7 @@ const roleReducer = createReducer(
       ...state,
       isSubmitting: false,
       item: action.role,
-      itemSave: null,
+      // itemSave: null,
     })
   ),
   on(

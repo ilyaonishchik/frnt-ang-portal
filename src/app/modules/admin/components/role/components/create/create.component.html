@@ -1,0 +1,43 @@
+<p-dialog
+  [(visible)]=visible
+  (visibleChange)=onVisibleChange($event)
+  [style]="{width: '60%'}"
+  [modal]=true
+  class='p-fluid'
+  header='Создание роли'
+>
+  <avs-message-validate
+    *ngIf='validationErrors$ | async'
+    [errors]='validationErrors$ | async'
+  ></avs-message-validate>
+  <app-role-form
+    [initialValues]=item
+    (changeValues)=changeItem($event)
+    (formValid)=onValidate($event)
+  ></app-role-form>
+  <p-footer>
+    <div class='flex justify-content-between'>
+      <p-checkbox
+        class='align-content-start'
+        label='Активная'
+        [(ngModel)]=item.status
+        [binary]=true
+        [trueValue]=1
+        [falseValue]=0
+      ></p-checkbox>
+      <div>
+        <button
+          pButton label='Отмена' icon='pi pi-times'
+          class='p-button-outlined p-button-secondary'
+          (click)=onVisibleChange(false)
+        ></button>
+        <button
+          pButton label='Сохранить' icon='pi pi-check'
+          class='p-button-outlined p-button-success'
+          [disabled]=!formValid
+          (click)=saveItem()
+        ></button>
+      </div>
+    </div>
+  </p-footer>
+</p-dialog>
