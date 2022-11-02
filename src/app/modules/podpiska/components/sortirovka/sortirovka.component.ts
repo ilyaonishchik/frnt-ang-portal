@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core'
 
 import {SortingService} from '../../services/sorting.service'
 import {IIncoming, IOutgoing} from './interfaces/invoices.interface'
-import {SerialService} from '../../../../shared/services/serial.service'
+import {SerialService} from 'src/app/shared/services/serial.service'
 
 @Component({
   selector: 'app-sortirovka',
@@ -135,5 +135,14 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.clearDigits()
+  }
+
+  testCells() {
+    //;1-888
+    let text: string[] = []
+    for (let _i = 1; _i < 40; _i++) {
+      text.push(`;${_i}-888`)
+    }
+    this.sendDataToPort(text)
   }
 }

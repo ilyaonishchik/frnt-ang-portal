@@ -1,7 +1,7 @@
 <div class='card'>
   <div class='grid align-items-center'>
     <div class='col text-lg'>Сортировка изданий принятых по подписке согласно ДУ.</div>
-    <div *ngIf='digitsExist' class='col-fixed text-600 text-sm'>Табло</div>
+    <div *ngIf='digitsExist' class='col-fixed text-600 text-sm' (click)='testCells()'>Табло</div>
   </div>
   <div class='grid'>
     <div class='col-fixed w-10rem'>
