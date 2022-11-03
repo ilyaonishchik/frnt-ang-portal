@@ -100,7 +100,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.isAnonymous$ = this.store.pipe(select(isAnonymousSelector))
   }
 
-  hideMenu() {
+  hideMenu(): void {
     this.layoutService.state.overlayMenuActive = false
     this.layoutService.state.staticMenuMobileActive = false
     this.layoutService.state.menuHoverActive = false
@@ -111,7 +111,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.unblockBodyScroll()
   }
 
-  hideProfileMenu() {
+  hideProfileMenu(): void {
     this.layoutService.state.profileSidebarVisible = false
     if (this.profileMenuOutsideClickListener) {
       this.profileMenuOutsideClickListener()
@@ -167,7 +167,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.overlayMenuOpenSubscription) {
       this.overlayMenuOpenSubscription.unsubscribe()
     }

@@ -103,7 +103,7 @@ export class MenuitemComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateActiveStateFromRoute() {
+  updateActiveStateFromRoute(): void {
     let activeRoute = this.router.isActive(this.item.routerLink[0], {
       paths: 'exact',
       queryParams: 'ignored',
@@ -140,7 +140,7 @@ export class MenuitemComponent implements OnInit, OnDestroy {
     return this.root ? 'expanded' : this.active ? 'expanded' : 'collapsed'
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.menuSourceSubscription) {
       this.menuSourceSubscription.unsubscribe()
     }

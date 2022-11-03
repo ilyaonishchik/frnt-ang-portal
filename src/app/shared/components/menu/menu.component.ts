@@ -17,7 +17,7 @@ export class MenuComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {}
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     console.log('MenuComponent ngOnChanges')
     this.menuItems$ = this.menuService.getItems(this.menuType)
   }
