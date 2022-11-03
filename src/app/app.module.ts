@@ -3,8 +3,9 @@ import {BrowserModule} from '@angular/platform-browser'
 
 import {StoreModule} from '@ngrx/store'
 import {EffectsModule} from '@ngrx/effects'
-import {EntityDataModule} from '@ngrx/data'
+// import {EntityDataModule} from '@ngrx/data'
 import {StoreDevtoolsModule} from '@ngrx/store-devtools'
+import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store'
 
 import {ToastModule} from 'primeng/toast'
 import {MessageService} from 'primeng/api'
@@ -16,8 +17,7 @@ import {AppComponent} from './app.component'
 import {httpInterceptorProviders} from './interceptors/http.interceptor'
 
 import {environment} from '../environments/environment'
-import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store'
-import {entityConfig} from './entity-metadata'
+// import {entityConfig} from './entity-metadata'
 
 // const defaultDataServiceConfig: DefaultDataServiceConfig = {
 //   root: 'https://my-api-domain.com:8000/api/v1',
@@ -46,7 +46,7 @@ import {entityConfig} from './entity-metadata'
       logOnly: environment.production,
     }),
     StoreRouterConnectingModule.forRoot(),
-    EntityDataModule.forRoot(entityConfig),
+    // EntityDataModule.forRoot(entityConfig),
   ],
   providers: [MessageService, httpInterceptorProviders],
   bootstrap: [AppComponent],
