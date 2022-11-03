@@ -14,6 +14,7 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
   cells: IOutgoing[] = []
   selectedItem: IIncoming | null = null
   selectedDate: Date
+  currentDate: Date
   selectedBarcode: string | null = null
   barcodeNotFound: boolean = false
   digitsExist: boolean = false
@@ -25,6 +26,7 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
     private serialService: SerialService
   ) {
     this.selectedDate = new Date()
+    this.currentDate = new Date()
   }
 
   ngOnInit(): void {
@@ -35,14 +37,15 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
     this.serialService.getPorts(filters, this.digitsRequest).then((ports) => {
       this.digitsExist = ports.length > 0
       this.serialService.setCurrentPort(ports.pop())
+      this.clearDigits()
     })
-    this.selectedDate.setDate(this.selectedDate.getDate() - 1)
+    this.selectedDate.setDate(this.currentDate.getDate() - 1)
     this.changeInvoiceDate()
   }
 
   changeCurrentItem(): void {
     this.barcodeNotFound = false
-    console.log('changeCurrentItem')
+    // console.log('changeCurrentItem')
     if (this.selectedItem?.id_rec) {
       this.sortingService
         .getOutgoingInvoices(this.selectedItem.id_rec)
@@ -57,14 +60,14 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
   }
 
   clearCurrentItem(): void {
-    console.log('clearCurrentItem')
+    // console.log('clearCurrentItem')
     this.selectedItem = null
     this.selectedBarcode = null
     this.updateCells([])
   }
 
   changeBarcode(): void {
-    console.log('changeBarcode')
+    // console.log('changeBarcode')
     this.selectedItem = null
     let filteredItems: IIncoming[] = this.items.filter(
       (item) => item.barcode === this.selectedBarcode
@@ -81,7 +84,6 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
   }
 
   changeInvoiceDate(): void {
-    console.log('changeInvoiceDate')
     this.barcodeNotFound = false
     this.updateCells([])
     if (this.selectedDate) {
@@ -101,7 +103,7 @@ export class SortirovkaComponent implements OnInit, OnDestroy {
   }
 
   updateCells(cells: IOutgoing[]): void {
-    console.log('updateCells')
+    // console.log('updateCells', cells)
     this.cells = cells
     if (cells) {
       let lines: string[] = []

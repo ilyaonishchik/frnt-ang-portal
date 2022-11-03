@@ -1,16 +1,17 @@
-<div class='card'>
+<div class='card mb-2'>
   <div class='grid align-items-center'>
     <div class='col text-lg'>Сортировка изданий принятых по подписке согласно ДУ.</div>
-    <div *ngIf='digitsExist' class='col-fixed text-600 text-sm' (click)='testCells()'>Табло</div>
+    <div *ngIf=digitsExist class='col-fixed text-600 text-sm' (click)=testCells()>Табло</div>
   </div>
   <div class='grid'>
     <div class='col-fixed w-10rem'>
       <p-calendar
-        [(ngModel)]='selectedDate'
-        [showIcon]='true'
-        [showButtonBar]='true'
-        [selectOtherMonths]='true'
-        (onClose)='changeInvoiceDate()'
+        [(ngModel)]=selectedDate
+        [showIcon]=true
+        [showButtonBar]=true
+        [selectOtherMonths]=true
+        [maxDate]=currentDate
+        (onClose)=changeInvoiceDate()
       ></p-calendar>
     </div>
     <div class='col-fixed'>
@@ -20,9 +21,9 @@
         pInputText
         placeholder='Штрихкод издания'
         autofocus
-        [(ngModel)]='selectedBarcode'
+        [(ngModel)]=selectedBarcode
         [disabled]='items.length == 0'
-        (change)='changeBarcode()'>
+        (change)=changeBarcode()>
     </div>
     <div class='col'>
       <p-dropdown
@@ -57,15 +58,45 @@
     </div>
   </div>
   <div
-    *ngIf='selectedItem'
+    *ngIf=selectedItem
     class='py-2 info-line font-medium text-2xl'
   >{{selectedItem.indizd}} - {{selectedItem.naimen}} №{{selectedItem.nom_izd}}, поступило: {{selectedItem.nom_count}}
   </div>
-  <div class='mt-2 p-3 border-round border-bluegray-700 border-1'>
+</div>
+
+<p-messages *ngIf='!selectedItem && items.length > 0' severity="info">
+  <ng-template pTemplate=''>
+    <div class="ml-0">
+      Для начала сортировки введите или отсканируйте штрихкод издания в соответствующем поле.
+      При его отсутствии выберите издание самостоятельно по индексу или наименованию издания.
+    </div>
+  </ng-template>
+</p-messages>
+
+<p-messages *ngIf=barcodeNotFound severity="error">
+  <ng-template pTemplate=''>
+    <div class="ml-0">Издание с таким штрихкодом не найдено. Попробуйте выбрать его самостоятельно.</div>
+  </ng-template>
+</p-messages>
+
+<p-messages *ngIf='items.length == 0' severity="error">
+  <ng-template pTemplate=''>
+    <div class="ml-0">За указанную дату изданий не найдено. Попробуйте выбрать другую дату.</div>
+  </ng-template>
+</p-messages>
+
+<p-messages *ngIf='selectedItem && cells.length == 0' severity="error">
+  <ng-template pTemplate=''>
+    <div class="ml-0">По указанному изданию нет данных для сортировки.</div>
+  </ng-template>
+</p-messages>
+
+<div
+  *ngIf='cells.length > 0'
+  class='card'
+>
+<!--  <div class='mt-2 p-3 border-round border-bluegray-700 border-1'>-->
     <div class='flex flex-row flex-wrap justify-content-center card-container gap-3'>
-      <div *ngIf='barcodeNotFound' class='text-pink-900'>Издание с таким штрихкодом не найдено. Попробуйте выбрать его самостоятельно.</div>
-      <div *ngIf='items.length == 0' class='text-pink-900'>За указанную дату изданий не найдено. Попробуйте выбрать другую дату.</div>
-      <div *ngIf='selectedItem && cells.length == 0' class='text-pink-900'>По указанному изданию нет данных для сортировки.</div>
       <div *ngFor='let cell of cells' class='surface-card shadow-2 p-3 border-round'>
         <div class='flex justify-content-between'>
           <div>
@@ -80,5 +111,5 @@
         </div>
       </div>
     </div>
-  </div>
+<!--  </div>-->
 </div>
