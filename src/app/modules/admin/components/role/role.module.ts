@@ -16,12 +16,13 @@ import {reducers} from './store/reducers'
 import {TabViewModule} from 'primeng/tabview'
 import {PickListModule} from 'primeng/picklist'
 import {CreateComponent} from './components/create/create.component'
-import {MessagesModule} from '../../../../shared/modules/messages/messages.module'
+import {MessagesModule} from 'src/app/shared/modules/messages/messages.module'
 import {CreateRoleEffect} from './store/effects/create-role.effect'
 import {UpdateComponent} from './components/update/update.component'
 import {DeleteComponent} from './components/delete/delete.component'
 import {UpdateRoleEffect} from './store/effects/update-role.effect'
 import {DeleteRoleEffect} from './store/effects/delete-role.effect'
+import {ErrorsModule} from 'src/app/shared/modules/errors/errors.module'
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import {DeleteRoleEffect} from './store/effects/delete-role.effect'
     TabViewModule,
     PickListModule,
     MessagesModule,
+    ErrorsModule,
   ],
   exports: [ReadComponent, CreateComponent, UpdateComponent, DeleteComponent],
 })
