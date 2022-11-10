@@ -18,12 +18,27 @@ import {PickListModule} from 'primeng/picklist'
 import {CreateComponent} from './components/create/create.component'
 import {MessagesModule} from '../../../../shared/modules/messages/messages.module'
 import {CreateRoleEffect} from './store/effects/create-role.effect'
+import {UpdateComponent} from './components/update/update.component'
+import {DeleteComponent} from './components/delete/delete.component'
+import {UpdateRoleEffect} from './store/effects/update-role.effect'
+import {DeleteRoleEffect} from './store/effects/delete-role.effect'
 
 @NgModule({
-  declarations: [RoleComponent, ReadComponent, CreateComponent],
+  declarations: [
+    RoleComponent,
+    ReadComponent,
+    CreateComponent,
+    UpdateComponent,
+    DeleteComponent,
+  ],
   imports: [
     CommonModule,
-    EffectsModule.forFeature([GetRoleEffect, CreateRoleEffect]),
+    EffectsModule.forFeature([
+      GetRoleEffect,
+      CreateRoleEffect,
+      UpdateRoleEffect,
+      DeleteRoleEffect,
+    ]),
     StoreModule.forFeature('role', reducers),
     DialogModule,
     LoadingModule,
@@ -37,6 +52,6 @@ import {CreateRoleEffect} from './store/effects/create-role.effect'
     PickListModule,
     MessagesModule,
   ],
-  exports: [ReadComponent, CreateComponent],
+  exports: [ReadComponent, CreateComponent, UpdateComponent, DeleteComponent],
 })
 export class RoleModule {}

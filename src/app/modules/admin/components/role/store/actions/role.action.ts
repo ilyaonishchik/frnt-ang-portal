@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store'
 
 import {ActionTypes} from '../actionTypes'
-import {IRole, IRoleSave} from 'src/app/shared/interfaces/role.interface'
+import {IRole} from 'src/app/shared/interfaces/role.interface'
 import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
 import {IDeleteResponse} from 'src/app/shared/interfaces/delete-response.interface'
 
@@ -37,7 +37,7 @@ export const createRoleFailureAction = createAction(
 
 export const updateRoleAction = createAction(
   ActionTypes.UPDATE_ROLE,
-  props<{id: number; role: IRoleSave}>()
+  props<{id: number; role: IRole}>()
 )
 
 export const updateRoleSuccessAction = createAction(

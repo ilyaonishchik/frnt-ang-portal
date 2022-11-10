@@ -33,7 +33,6 @@ export class RoleService {
   }
 
   private itemToSave(item: IRole): IRoleSave {
-    console.log(item.permissions)
     return {
       code: item.code,
       name: item.name,

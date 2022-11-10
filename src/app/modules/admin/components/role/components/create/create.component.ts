@@ -40,7 +40,6 @@ export class CreateComponent implements OnInit {
   }
 
   saveItem(): void {
-    console.log(this.item)
     if (this.formValid) {
       this.store.dispatch(createRoleAction({role: this.item}))
     }
@@ -56,7 +55,6 @@ export class CreateComponent implements OnInit {
   }
 
   changeItem(values: IRole): void {
-    console.log(values)
     this.item = {...values}
   }
 }

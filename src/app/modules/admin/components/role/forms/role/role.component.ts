@@ -53,7 +53,6 @@ export class RoleComponent implements OnInit, OnDestroy {
   onChangeValues(): void {
     this.onValidateForm()
     this.changePermissions()
-    console.log(this.formRole.value)
     this.changeValuesEvent.emit(this.formRole.value)
   }
 
@@ -65,25 +64,25 @@ export class RoleComponent implements OnInit, OnDestroy {
     return this.formRole.controls
   }
 
-  private initializeValues() {
+  initializeValues(): void {
     this.itemSubscription = this.store
       .pipe(select(allPermissionsSelector))
       .subscribe((items: IPermission[]) => {
         if (items) {
+          //TODO Отсеять уже выбранные элементы
           this.sourcePermissions.push(...items)
         }
       })
     this.targetPermissions.push(...this.initialValuesProps.permissions)
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.itemSubscription) {
       this.itemSubscription.unsubscribe()
     }
   }
 
-  changePermissions() {
-    this.formRole.value['permissions'] = {...this.targetPermissions}
-    console.log(this.formRole.value['permissions'])
+  changePermissions(): void {
+    this.formRole.value['permissions'] = this.targetPermissions
   }
 }
