@@ -12,9 +12,7 @@
     >
     <ng-container
       *ngIf="(f['code'].dirty || f['code'].touched) && f['code'].invalid">
-      <small *ngIf="f['code'].errors?.['required']" class='p-error block'>
-        Обязательно для заполнения
-      </small>
+      <avs-input-validate [errors]="f['code'].errors"></avs-input-validate>
     </ng-container>
   </div>
   <div class='field'>
@@ -28,9 +26,7 @@
     >
     <ng-container
       *ngIf="(f['name'].dirty || f['name'].touched) && f['name'].invalid">
-      <small *ngIf="f['name'].errors?.['required']" class='p-error block'>
-        Обязательно для заполнения
-      </small>
+      <avs-input-validate [errors]="f['name'].errors"></avs-input-validate>
     </ng-container>
   </div>
   <div class='field'>
@@ -41,8 +37,11 @@
       rows='3'
       cols='20'
       formControlName='comment'
-      [readonly]=readOnlyProps
-    >
-  </textarea>
+      [readonly]=readOnlyProps>
+    </textarea>
+    <ng-container
+      *ngIf="(f['comment'].dirty || f['comment'].touched) && f['comment'].invalid">
+      <avs-input-validate [errors]="f['comment'].errors"></avs-input-validate>
+    </ng-container>
   </div>
 </form>

@@ -25,9 +25,19 @@ export class PermissionComponent implements OnInit {
 
   initializeForm(): void {
     this.formPermission = this.fb.group({
-      code: [this.initialValuesProps.code, [Validators.required]],
-      name: [this.initialValuesProps.name, [Validators.required]],
-      comment: [this.initialValuesProps.comment],
+      code: [
+        this.initialValuesProps.code,
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100),
+        ],
+      ],
+      name: [
+        this.initialValuesProps.name,
+        [Validators.required, Validators.maxLength(150)],
+      ],
+      comment: [this.initialValuesProps.comment, [Validators.maxLength(200)]],
       status: [this.initialValuesProps.status],
     })
     this.onChangeValues()

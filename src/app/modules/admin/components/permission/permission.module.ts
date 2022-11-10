@@ -20,9 +20,10 @@ import {CreateComponent} from './components/create/create.component'
 import {CreatePermissionEffect} from './store/effects/create-permission.effect'
 import {UpdateComponent} from './components/update/update.component'
 import {UpdatePermissionEffect} from './store/effects/update-permission.effect'
-import {MessagesModule} from '../../../../shared/modules/messages/messages.module'
+import {MessagesModule} from 'src/app/shared/modules/messages/messages.module'
 import {DeleteComponent} from './components/delete/delete.component'
 import {DeletePermissionEffect} from './store/effects/delete-permission.effect'
+import {ErrorsModule} from 'src/app/shared/modules/errors/errors.module'
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import {DeletePermissionEffect} from './store/effects/delete-permission.effect'
     FormsModule,
     LoadingModule,
     MessagesModule,
+    ErrorsModule,
   ],
   exports: [
     ReadComponent,
