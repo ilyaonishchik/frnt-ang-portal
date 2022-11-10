@@ -14,21 +14,35 @@
     (actionUpdate)=updateItem($event)
     (actionDelete)=deleteItem($event)
   ></avs-table>
+
+  <ng-container *ngIf='(dialog$ | async) as dialog'>
+    <app-role-create
+      *ngIf='dialog.action == 1'
+      [visible]=true
+      (visibleChange)='hideDialog()'
+    ></app-role-create>
+
+    <app-role-read
+      *ngIf='dialog.action == 2'
+      [visible]=true
+      (visibleChange)='hideDialog()'
+      [itemId]=dialog.id!
+    ></app-role-read>
+
+    <app-role-update
+      *ngIf='dialog.action == 3'
+      [visible]=true
+      (visibleChange)='hideDialog()'
+      [itemId]=dialog.id!
+    ></app-role-update>
+
+    <app-role-delete
+      *ngIf='dialog.action == 4'
+      [visible]=true
+      (visibleChange)='hideDialog()'
+      (clickCancel)='hideDialog()'
+      [itemId]=dialog.id!
+      [itemInfo]=dialog.confirm!
+    ></app-role-delete>
+  </ng-container>
 </div>
-
-<ng-container
-  *ngIf='(dialog$ | async) as dialog'>
-
-  <app-role-create
-    *ngIf='dialog.action == 1'
-    [visible]=true
-    (visibleChange)='hideDialog()'
-  ></app-role-create>
-
-  <app-role-read
-    *ngIf='dialog.action == 2'
-    [visible]=true
-    (visibleChange)='hideDialog()'
-    [itemId]=dialog.id!
-  ></app-role-read>
-</ng-container>

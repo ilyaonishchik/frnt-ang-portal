@@ -75,7 +75,6 @@ export class RolesComponent implements OnInit {
   }
 
   readItem(id: number): void {
-    console.log('readItem', id)
     this.store.dispatch(
       dialogShowAction({crud: {id: id, action: TCrudAction.READ}})
     )
