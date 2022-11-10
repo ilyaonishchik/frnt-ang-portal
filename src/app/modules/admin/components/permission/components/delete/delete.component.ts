@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {select, Store} from '@ngrx/store'
-import {deletePermissionAction} from '../../store/actions/permission.action'
 import {Observable} from 'rxjs'
+
 import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
+import {deletePermissionAction} from '../../store/actions/permission.action'
 import {errorsSelector} from '../../store/selectors'
 
 @Component({
@@ -29,6 +30,7 @@ export class DeleteComponent implements OnInit {
   initializeValues(): void {
     this.validationErrors$ = this.store.pipe(select(errorsSelector))
   }
+
   onVisibleChange(value: boolean): void {
     this.visible = value
     this.visibleChange.emit(value)

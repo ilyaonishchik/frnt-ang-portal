@@ -13,12 +13,9 @@
     (actionRead)=readItem($event)
     (actionUpdate)=updateItem($event)
     (actionDelete)=deleteItem($event)
-  >
-  </avs-table>
+  ></avs-table>
 
-  <ng-container
-    *ngIf='(dialog$ | async) as dialog'
-  >
+  <ng-container *ngIf='(dialog$ | async) as dialog'>
     <app-permission-create
       *ngIf='dialog.action == 1'
       [visible]=true
@@ -48,6 +45,4 @@
       [itemInfo]=dialog.confirm!
     ></app-permission-delete>
   </ng-container>
-
 </div>
-
