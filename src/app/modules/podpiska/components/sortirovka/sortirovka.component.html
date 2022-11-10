@@ -1,93 +1,102 @@
 <div class='card mb-2'>
-  <div class='grid align-items-center'>
-    <div class='col text-lg'>Сортировка изданий принятых по подписке согласно ДУ.</div>
-    <div *ngIf=digitsExist class='col-fixed text-600 text-sm' (click)=testCells()>Табло</div>
-  </div>
   <div class='grid'>
-    <div class='col-fixed w-10rem'>
-      <p-calendar
-        [(ngModel)]=selectedDate
-        [showIcon]=true
-        [showButtonBar]=true
-        [selectOtherMonths]=true
-        [maxDate]=currentDate
-        (onClose)=changeInvoiceDate()
-      ></p-calendar>
-    </div>
-    <div class='col-fixed'>
-      <input
-        #barcode
-        type='text'
-        pInputText
-        placeholder='Штрихкод издания'
-        autofocus
-        [(ngModel)]=selectedBarcode
-        [disabled]='items.length == 0'
-        (change)=changeBarcode()>
-    </div>
     <div class='col'>
-      <p-dropdown
-        [style]="{'width': '23rem', overflow: 'visible' }"
-        [ngStyle]="{width: 'min-content'}"
-        [panelStyle]="{width: '22rem'}"
-        [options]='items'
-        [(ngModel)]='selectedItem'
-        [filter]='true'
-        filterBy='indizd,naimen'
-        [resetFilterOnHide]='true'
-        placeholder='Выберите издание самостоятельно'
-        [showClear]='true'
-        [disabled]='items.length == 0'
-        (onHide)='changeCurrentItem()'
-        (onClear)='clearCurrentItem(); barcode.focus()'
-      >
-        <ng-template pTemplate='selectedItem'>
-          <div *ngIf='selectedItem'>
-            <div>{{selectedItem.indizd}} - №{{selectedItem.nom_izd}} ({{selectedItem.barcode}})</div>
-          </div>
-        </ng-template>
-        <ng-template let-prihod pTemplate='item'>
-          <div class='font-medium'>{{prihod.naimen}}</div>
-          <div class='text-500'>
-            Индекс: <span class='text-green-400'>{{prihod.indizd}}</span>
-            Номер: <span class='text-indigo-400'>{{prihod.nom_izd}}</span>
-            Количество: <span class='text-blue-400'>{{prihod.nom_count}}</span>
-          </div>
-        </ng-template>
-      </p-dropdown>
+      <div class='grid'>
+        <div class='col-12 text-lg'>
+          Сортировка изданий принятых по подписке согласно ДУ.
+        </div>
+        <div class='col-fixed w-10rem'>
+          <p-calendar
+            [(ngModel)]=selectedDate
+            [showIcon]=true
+            [showButtonBar]=true
+            [selectOtherMonths]=true
+            [maxDate]=currentDate
+            (onClose)=changeInvoiceDate()
+          ></p-calendar>
+        </div>
+        <div class='col-fixed'>
+          <input
+            #barcode
+            type='text'
+            pInputText
+            placeholder='Штрихкод издания'
+            autofocus
+            [(ngModel)]=selectedBarcode
+            [disabled]='items.length == 0'
+            (change)=changeBarcode()>
+        </div>
+        <div class='col'>
+          <p-dropdown
+            [style]="{'width': '23rem', overflow: 'visible' }"
+            [ngStyle]="{width: 'min-content'}"
+            [panelStyle]="{width: '22rem'}"
+            [options]='items'
+            [(ngModel)]='selectedItem'
+            [filter]='true'
+            filterBy='indizd,naimen'
+            [resetFilterOnHide]='true'
+            placeholder='Выберите издание самостоятельно'
+            [showClear]='true'
+            [disabled]='items.length == 0'
+            (onHide)='changeCurrentItem()'
+            (onClear)='clearCurrentItem(); barcode.focus()'
+          >
+            <ng-template pTemplate='selectedItem'>
+              <div *ngIf='selectedItem'>
+                <div>{{selectedItem.indizd}} - №{{selectedItem.nom_izd}} ({{selectedItem.barcode}})</div>
+              </div>
+            </ng-template>
+            <ng-template let-prihod pTemplate='item'>
+              <div class='font-medium'>{{prihod.naimen}}</div>
+              <div class='text-500'>
+                Индекс: <span class='text-green-400'>{{prihod.indizd}}</span>
+                Номер: <span class='text-indigo-400'>{{prihod.nom_izd}}</span>
+                Количество: <span class='text-blue-400'>{{prihod.nom_count}}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+      </div>
     </div>
-  </div>
-  <div
-    *ngIf=selectedItem
-    class='py-2 info-line font-medium text-2xl'
-  >{{selectedItem.indizd}} - {{selectedItem.naimen}} №{{selectedItem.nom_izd}}, поступило: {{selectedItem.nom_count}}
+    <div
+      *ngIf=selectedItem
+      class='col-fixed text-center max-h-6rem bg-green-100 border-round'>
+      <div class='text-sm'>Поступило:</div>
+      <div class='text-6xl font-medium'>{{selectedItem.nom_count}}</div>
+    </div>
+    <div
+      *ngIf=selectedItem
+      class='col-12 font-medium text-2xl'>
+      {{selectedItem.indizd}} - {{selectedItem.naimen}} №{{selectedItem.nom_izd}}
+    </div>
   </div>
 </div>
 
-<p-messages *ngIf='!selectedItem && items.length > 0' severity="info">
+<p-messages *ngIf='!selectedItem && items.length > 0' severity='info'>
   <ng-template pTemplate=''>
-    <div class="ml-0">
+    <div class='ml-0'>
       Для начала сортировки введите или отсканируйте штрихкод издания в соответствующем поле.
       При его отсутствии выберите издание самостоятельно по индексу или наименованию издания.
     </div>
   </ng-template>
 </p-messages>
 
-<p-messages *ngIf=barcodeNotFound severity="error">
+<p-messages *ngIf=barcodeNotFound severity='error'>
   <ng-template pTemplate=''>
-    <div class="ml-0">Издание с таким штрихкодом не найдено. Попробуйте выбрать его самостоятельно.</div>
+    <div class='ml-0'>Издание с таким штрихкодом не найдено. Попробуйте выбрать его самостоятельно.</div>
   </ng-template>
 </p-messages>
 
-<p-messages *ngIf='items.length == 0' severity="error">
+<p-messages *ngIf='items.length == 0' severity='error'>
   <ng-template pTemplate=''>
-    <div class="ml-0">За указанную дату изданий не найдено. Попробуйте выбрать другую дату.</div>
+    <div class='ml-0'>За указанную дату изданий не найдено. Попробуйте выбрать другую дату.</div>
   </ng-template>
 </p-messages>
 
-<p-messages *ngIf='selectedItem && cells.length == 0' severity="error">
+<p-messages *ngIf='selectedItem && cells.length == 0' severity='error'>
   <ng-template pTemplate=''>
-    <div class="ml-0">По указанному изданию нет данных для сортировки.</div>
+    <div class='ml-0'>По указанному изданию нет данных для сортировки.</div>
   </ng-template>
 </p-messages>
 
@@ -95,21 +104,21 @@
   *ngIf='cells.length > 0'
   class='card'
 >
-<!--  <div class='mt-2 p-3 border-round border-bluegray-700 border-1'>-->
-    <div class='flex flex-row flex-wrap justify-content-center card-container gap-3'>
-      <div *ngFor='let cell of cells' class='surface-card shadow-2 p-3 border-round'>
-        <div class='flex justify-content-between'>
-          <div>
-            <span class='block text-900 font-medium mb-1'>{{cell.zipcode}}</span>
-            <span class='block text-600 mb-2'>{{cell.naim_ops}}</span>
-            <span class='text-500'>Ячейка №:</span>
-            <span class='text-green-500 font-medium ml-1'>{{cell.cell}}</span>
-          </div>
-          <div class='flex align-items-center justify-content-center bg-blue-100 border-round ml-2'>
-            <span class='text-5xl font-medium px-4'>{{cell.nom_count}}</span>
-          </div>
+  <!--  <div class='mt-2 p-3 border-round border-bluegray-700 border-1'>-->
+  <div class='flex flex-row flex-wrap justify-content-center card-container gap-3'>
+    <div *ngFor='let cell of cells' class='surface-card shadow-2 p-3 border-round'>
+      <div class='flex justify-content-between'>
+        <div>
+          <span class='block text-900 font-medium mb-1'>{{cell.zipcode}}</span>
+          <span class='block text-600 mb-2'>{{cell.naim_ops}}</span>
+          <span class='text-500'>Ячейка №:</span>
+          <span class='text-green-500 font-medium ml-1'>{{cell.cell}}</span>
+        </div>
+        <div class='flex align-items-center justify-content-center bg-blue-100 border-round ml-2'>
+          <span class='text-5xl font-medium px-4'>{{cell.nom_count}}</span>
         </div>
       </div>
     </div>
-<!--  </div>-->
+  </div>
+  <!--  </div>-->
 </div>
