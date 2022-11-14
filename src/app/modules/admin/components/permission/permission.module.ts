@@ -11,7 +11,7 @@ import {DialogModule} from 'primeng/dialog'
 import {CheckboxModule} from 'primeng/checkbox'
 import {ButtonModule} from 'primeng/button'
 
-import {GetPermissionEffect} from './store/effects/get-permission.effect'
+import {GetPermissionEffect} from './store/effects/read-permission.effect'
 import {ReadComponent} from './components/read/read.component'
 import {PermissionComponent} from './forms/permission/permission.component'
 import {reducers} from './store/reducers'

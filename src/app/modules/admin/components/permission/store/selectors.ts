@@ -17,7 +17,7 @@ export const isSubmittingSelector = createSelector(
 
 export const errorsSelector = createSelector(
   permissionFeatureSelector,
-  (permissionState: IPermissionState) => permissionState.validationErrors
+  (permissionState: IPermissionState) => permissionState.backendErrors
 )
 
 export const permissionSelector = createSelector(

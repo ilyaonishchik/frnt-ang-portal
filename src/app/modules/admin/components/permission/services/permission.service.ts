@@ -23,15 +23,27 @@ export class PermissionService {
     return this.http.get<IPermission>(`${this.fullUrl}/${id}`).pipe(delay(5))
   }
 
-  createPermission(item: IPermissionSave): Observable<IPermission> {
-    return this.http.post<IPermission>(this.fullUrl, item)
+  createPermission(item: IPermission): Observable<IPermission> {
+    return this.http.post<IPermission>(this.fullUrl, this.itemToSave(item))
   }
 
-  updatePermission(id: number, item: IPermissionSave): Observable<IPermission> {
-    return this.http.put<IPermission>(`${this.fullUrl}/${id}`, item)
+  updatePermission(id: number, item: IPermission): Observable<IPermission> {
+    return this.http.put<IPermission>(
+      `${this.fullUrl}/${id}`,
+      this.itemToSave(item)
+    )
   }
 
   deletePermission(id: number): Observable<IDeleteResponse> {
     return this.http.delete<IDeleteResponse>(`${this.fullUrl}/${id}`)
+  }
+
+  itemToSave(item: IPermission): IPermissionSave {
+    return {
+      code: item.code,
+      name: item.name,
+      comment: item.comment,
+      status: item.status,
+    }
   }
 }

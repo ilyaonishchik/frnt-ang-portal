@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 
-import {IPermissionSave} from 'src/app/shared/interfaces/permission.interface'
+import {IPermission} from 'src/app/shared/interfaces/permission.interface'
 
 @Component({
   selector: 'app-permission-form',
@@ -10,10 +10,9 @@ import {IPermissionSave} from 'src/app/shared/interfaces/permission.interface'
 })
 export class PermissionComponent implements OnInit {
   @Input('readOnly') readOnlyProps: boolean = false
-  @Input('initialValues') initialValuesProps!: IPermissionSave
+  @Input('initialValues') initialValuesProps!: IPermission
 
-  @Output('changeValues') changeValuesEvent =
-    new EventEmitter<IPermissionSave>()
+  @Output('changeValues') changeValuesEvent = new EventEmitter<IPermission>()
   @Output('formValid') formValidEvent = new EventEmitter<boolean>()
 
   formPermission!: FormGroup

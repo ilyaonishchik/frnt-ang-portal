@@ -1,7 +1,7 @@
-import {IPermissionState} from '../interfaces/permission-state.interface'
 import {Action, createReducer, on} from '@ngrx/store'
 import {routerNavigationAction} from '@ngrx/router-store'
 
+import {IPermissionState} from '../interfaces/permission-state.interface'
 import {
   getPermissionAction,
   getPermissionSuccessAction,
@@ -17,9 +17,8 @@ import {
 const initialState: IPermissionState = {
   isLoading: false,
   isSubmitting: false,
-  validationErrors: null,
+  backendErrors: null,
   item: null,
-  itemSave: null,
 }
 
 const permissionReducer = createReducer(
@@ -30,8 +29,7 @@ const permissionReducer = createReducer(
       ...state,
       isLoading: true,
       item: null,
-      itemSave: null,
-      validationErrors: null,
+      backendErrors: null,
     })
   ),
   on(
@@ -54,9 +52,8 @@ const permissionReducer = createReducer(
     (state, action): IPermissionState => ({
       ...state,
       isSubmitting: true,
-      item: null,
-      itemSave: action.permission,
-      validationErrors: null,
+      item: action.permission,
+      backendErrors: null,
     })
   ),
   on(
@@ -65,7 +62,6 @@ const permissionReducer = createReducer(
       ...state,
       isSubmitting: false,
       item: action.permission,
-      itemSave: null,
     })
   ),
   on(
@@ -73,7 +69,7 @@ const permissionReducer = createReducer(
     (state, action): IPermissionState => ({
       ...state,
       isSubmitting: false,
-      validationErrors: action.errors,
+      backendErrors: action.errors,
     })
   ),
   on(
@@ -81,9 +77,8 @@ const permissionReducer = createReducer(
     (state, action): IPermissionState => ({
       ...state,
       isSubmitting: true,
-      item: null,
-      itemSave: action.permission,
-      validationErrors: null,
+      item: action.permission,
+      backendErrors: null,
     })
   ),
   on(
@@ -92,7 +87,6 @@ const permissionReducer = createReducer(
       ...state,
       isSubmitting: false,
       item: action.permission,
-      itemSave: null,
     })
   ),
   on(
@@ -100,7 +94,7 @@ const permissionReducer = createReducer(
     (state, action): IPermissionState => ({
       ...state,
       isSubmitting: false,
-      validationErrors: action.errors,
+      backendErrors: action.errors,
     })
   ),
   on(routerNavigationAction, (): IPermissionState => initialState)

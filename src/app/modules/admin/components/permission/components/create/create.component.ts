@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {Observable} from 'rxjs'
 import {select, Store} from '@ngrx/store'
 
-import {IPermissionSave} from 'src/app/shared/interfaces/permission.interface'
+import {IPermission} from 'src/app/shared/interfaces/permission.interface'
 import {createPermissionAction} from '../../store/actions/permission.action'
 import {errorsSelector} from '../../store/selectors'
 import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
@@ -16,12 +16,13 @@ export class CreateComponent implements OnInit {
   @Input('visible') visible: boolean = false
   @Output('visibleChange') visibleChange = new EventEmitter<boolean>()
 
-  itemSave!: IPermissionSave
+  item!: IPermission
   validationErrors$!: Observable<IBackendErrors | null>
   formValid: boolean = false
 
   constructor(private store: Store) {
-    this.itemSave = {
+    this.item = {
+      id: 0,
       code: '',
       name: '',
       comment: null,
@@ -39,7 +40,7 @@ export class CreateComponent implements OnInit {
 
   saveItem(): void {
     if (this.formValid) {
-      this.store.dispatch(createPermissionAction({permission: this.itemSave}))
+      this.store.dispatch(createPermissionAction({permission: this.item}))
     }
   }
 
@@ -52,7 +53,7 @@ export class CreateComponent implements OnInit {
     this.formValid = valid
   }
 
-  changeItem(values: IPermissionSave): void {
-    this.itemSave = {...values}
+  changeItem(value: IPermission): void {
+    this.item = {...value}
   }
 }

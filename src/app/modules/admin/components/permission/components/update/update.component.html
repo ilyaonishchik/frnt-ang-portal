@@ -13,7 +13,7 @@
   ></avs-message-validate>
   <ng-container *ngIf='!(isLoading$ | async)'>
     <app-permission-form
-      [initialValues]=itemSave
+      [initialValues]=item
       (changeValues)=changeItem($event)
       (formValid)=onValidate($event)
     ></app-permission-form>
@@ -24,7 +24,7 @@
       class='flex justify-content-between'>
       <p-checkbox
         label='Активная'
-        [(ngModel)]='itemSave.status'
+        [(ngModel)]='item.status'
         [binary]=true
         [trueValue]=1
         [falseValue]=0

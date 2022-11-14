@@ -9,10 +9,7 @@ import {
 import {select, Store} from '@ngrx/store'
 import {Observable, Subscription} from 'rxjs'
 
-import {
-  IPermission,
-  IPermissionSave,
-} from 'src/app/shared/interfaces/permission.interface'
+import {IPermission} from 'src/app/shared/interfaces/permission.interface'
 import {
   getPermissionAction,
   updatePermissionAction,
@@ -34,7 +31,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
   @Output('visibleChange') visibleChange = new EventEmitter<boolean>()
   @Input('itemId') itemId!: number
 
-  itemSave!: IPermissionSave
+  item!: IPermission
   itemSubscription!: Subscription
 
   isLoading$!: Observable<boolean>
@@ -59,12 +56,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
       .pipe(select(permissionSelector))
       .subscribe((permission: IPermission | null) => {
         if (permission) {
-          this.itemSave = {
-            code: permission.code,
-            name: permission.name,
-            comment: permission.comment,
-            status: permission.status,
-          }
+          this.item = {...permission}
         }
       })
   }
@@ -76,7 +68,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
   saveItem(): void {
     if (this.formValid) {
       this.store.dispatch(
-        updatePermissionAction({id: this.itemId, permission: this.itemSave})
+        updatePermissionAction({id: this.itemId, permission: this.item})
       )
     }
   }
@@ -90,8 +82,8 @@ export class UpdateComponent implements OnInit, OnDestroy {
     this.formValid = valid
   }
 
-  changeItem(values: IPermissionSave): void {
-    this.itemSave = {...values}
+  changeItem(value: IPermission): void {
+    this.item = {...value}
   }
 
   ngOnDestroy() {
