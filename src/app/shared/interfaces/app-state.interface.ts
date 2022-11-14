@@ -4,6 +4,7 @@ import {IPermissionState} from '../../modules/admin/components/permission/interf
 import {IRolesState} from '../../modules/admin/sections/auth/roles/interfaces/roles-state.interface'
 import {IUserState} from '../../modules/admin/components/user/interfaces/user-state.interface'
 import {IRoleState} from '../../modules/admin/components/role/interfaces/role-state.interface'
+import {IUsersState} from '../../modules/admin/sections/auth/users/interfaces/users-state.interface'
 
 export interface IAppState {
   auth: IAuthState
@@ -11,6 +12,6 @@ export interface IAppState {
   permission: IPermissionState
   roles: IRolesState
   role: IRoleState
-  // users: IUsersState
+  users: IUsersState
   user: IUserState
 }
