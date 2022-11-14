@@ -35,7 +35,7 @@ export class CreateComponent implements OnInit {
     this.initializeValues()
   }
 
-  initializeValues() {
+  initializeValues(): void {
     this.validationErrors$ = this.store.pipe(select(errorsSelector))
   }
 
@@ -54,7 +54,7 @@ export class CreateComponent implements OnInit {
     this.formValid = valid
   }
 
-  changeItem(values: IRole): void {
-    this.item = {...values}
+  changeItem(value: IRole): void {
+    this.item = {...value}
   }
 }

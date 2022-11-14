@@ -1,5 +1,6 @@
 import {Action, createReducer, on} from '@ngrx/store'
 import {routerNavigationAction} from '@ngrx/router-store'
+
 import {IRoleState} from '../interfaces/role-state.interface'
 import {
   createRoleAction,
@@ -16,9 +17,8 @@ import {
 const initialState: IRoleState = {
   isLoading: false,
   isSubmitting: false,
-  validationErrors: null,
+  backendErrors: null,
   item: null,
-  // itemSave: null,
 }
 
 const roleReducer = createReducer(
@@ -29,8 +29,7 @@ const roleReducer = createReducer(
       ...state,
       isLoading: true,
       item: null,
-      // itemSave: null,
-      validationErrors: null,
+      backendErrors: null,
     })
   ),
   on(
@@ -43,9 +42,10 @@ const roleReducer = createReducer(
   ),
   on(
     getRoleFailureAction,
-    (state): IRoleState => ({
+    (state, action): IRoleState => ({
       ...state,
       isLoading: false,
+      backendErrors: action.errors,
     })
   ),
   on(
@@ -53,9 +53,8 @@ const roleReducer = createReducer(
     (state, action): IRoleState => ({
       ...state,
       isSubmitting: true,
-      item: null,
-      // itemSave: action.role,
-      validationErrors: null,
+      item: action.role,
+      backendErrors: null,
     })
   ),
   on(
@@ -64,7 +63,6 @@ const roleReducer = createReducer(
       ...state,
       isSubmitting: false,
       item: action.role,
-      // itemSave: null,
     })
   ),
   on(
@@ -72,7 +70,7 @@ const roleReducer = createReducer(
     (state, action): IRoleState => ({
       ...state,
       isSubmitting: false,
-      validationErrors: action.errors,
+      backendErrors: action.errors,
     })
   ),
   on(
@@ -80,9 +78,8 @@ const roleReducer = createReducer(
     (state, action): IRoleState => ({
       ...state,
       isSubmitting: true,
-      item: null,
-      // itemSave: action.role,
-      validationErrors: null,
+      item: action.role,
+      backendErrors: null,
     })
   ),
   on(
@@ -91,7 +88,6 @@ const roleReducer = createReducer(
       ...state,
       isSubmitting: false,
       item: action.role,
-      // itemSave: null,
     })
   ),
   on(
@@ -99,7 +95,7 @@ const roleReducer = createReducer(
     (state, action): IRoleState => ({
       ...state,
       isSubmitting: false,
-      validationErrors: action.errors,
+      backendErrors: action.errors,
     })
   ),
   on(routerNavigationAction, (): IRoleState => initialState)

@@ -43,22 +43,16 @@ export class UpdateComponent implements OnInit, OnDestroy {
     this.initializeListeners()
   }
 
-  ngOnDestroy(): void {
-    if (this.itemSubscription) {
-      this.itemSubscription.unsubscribe()
-    }
-  }
-
-  private initializeValues(): void {
+  initializeValues(): void {
     this.isLoading$ = this.store.pipe(select(isLoadingSelector))
     this.validationErrors$ = this.store.pipe(select(errorsSelector))
   }
 
-  private fetchData(): void {
+  fetchData(): void {
     this.store.dispatch(getRoleAction({id: this.itemId}))
   }
 
-  private initializeListeners(): void {
+  initializeListeners(): void {
     this.itemSubscription = this.store
       .pipe(select(roleSelector))
       .subscribe((role: IRole | null) => {
@@ -84,6 +78,12 @@ export class UpdateComponent implements OnInit, OnDestroy {
   saveItem(): void {
     if (this.formValid) {
       this.store.dispatch(updateRoleAction({id: this.itemId, role: this.item}))
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.itemSubscription) {
+      this.itemSubscription.unsubscribe()
     }
   }
 }

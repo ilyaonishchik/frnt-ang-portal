@@ -36,15 +36,15 @@ export class ReadComponent implements OnInit, OnDestroy {
     this.initializeListeners()
   }
 
-  private initializeValues(): void {
+  initializeValues(): void {
     this.isLoading$ = this.store.pipe(select(isLoadingSelector))
   }
 
-  private fetchData(): void {
+  fetchData(): void {
     this.store.dispatch(getRoleAction({id: this.itemId}))
   }
 
-  private initializeListeners() {
+  initializeListeners(): void {
     this.itemSubscription = this.store
       .pipe(select(roleSelector))
       .subscribe((role: IRole | null) => {
@@ -59,7 +59,7 @@ export class ReadComponent implements OnInit, OnDestroy {
     this.visibleChange.emit(value)
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.itemSubscription) {
       this.itemSubscription.unsubscribe()
     }

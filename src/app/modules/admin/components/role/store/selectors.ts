@@ -1,4 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store'
+
 import {IRoleState} from '../interfaces/role-state.interface'
 
 export const roleFeatureSelector = createFeatureSelector<IRoleState>('role')
@@ -15,7 +16,7 @@ export const isSubmittingSelector = createSelector(
 
 export const errorsSelector = createSelector(
   roleFeatureSelector,
-  (roleState: IRoleState) => roleState.validationErrors
+  (roleState: IRoleState) => roleState.backendErrors
 )
 
 export const roleSelector = createSelector(

@@ -39,7 +39,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     this.initializeForm()
   }
 
-  private initializeForm(): void {
+  initializeForm(): void {
     this.formRole = this.fb.group({
       code: [
         this.initialValuesProps.code,
@@ -66,7 +66,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     this.changeValuesEvent.emit(this.formRole.value)
   }
 
-  private onValidateForm(): void {
+  onValidateForm(): void {
     this.formValidEvent.emit(this.formRole.valid)
   }
 
@@ -75,15 +75,16 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   initializeValues(): void {
+    this.targetPermissions.push(...this.initialValuesProps.permissions)
     this.itemSubscription = this.store
       .pipe(select(allPermissionsSelector))
       .subscribe((items: IPermission[]) => {
         if (items) {
-          //TODO Отсеять уже выбранные элементы
-          this.sourcePermissions.push(...items)
+          this.sourcePermissions = items.filter(
+            (item) => !this.targetPermissions.find((tp) => tp.id == item.id)
+          )
         }
       })
-    this.targetPermissions.push(...this.initialValuesProps.permissions)
   }
 
   ngOnDestroy(): void {
