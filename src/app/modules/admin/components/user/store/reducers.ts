@@ -3,16 +3,21 @@ import {Action, createReducer, on} from '@ngrx/store'
 import {routerNavigationAction} from '@ngrx/router-store'
 
 import {
+  createUserAction,
+  createUserFailureAction,
+  createUserSuccessAction,
   getUserAction,
   getUserFailureAction,
   getUserSuccessAction,
+  updateUserAction,
+  updateUserFailureAction,
+  updateUserSuccessAction,
 } from './actions/user.action'
 
 const initialState: IUserState = {
   isLoading: false,
-  isReadOnly: true,
   isSubmitting: false,
-  validationError: null,
+  backendErrors: null,
   item: null,
 }
 
@@ -23,6 +28,8 @@ const userReducer = createReducer(
     (state): IUserState => ({
       ...state,
       isLoading: true,
+      item: null,
+      backendErrors: null,
     })
   ),
   on(
@@ -35,9 +42,60 @@ const userReducer = createReducer(
   ),
   on(
     getUserFailureAction,
-    (state): IUserState => ({
+    (state, action): IUserState => ({
       ...state,
       isLoading: false,
+      backendErrors: action.errors,
+    })
+  ),
+  on(
+    createUserAction,
+    (state, action): IUserState => ({
+      ...state,
+      isSubmitting: true,
+      item: action.user,
+      backendErrors: null,
+    })
+  ),
+  on(
+    createUserSuccessAction,
+    (state, action): IUserState => ({
+      ...state,
+      isSubmitting: false,
+      item: action.user,
+    })
+  ),
+  on(
+    createUserFailureAction,
+    (state, action): IUserState => ({
+      ...state,
+      isSubmitting: false,
+      backendErrors: action.errors,
+    })
+  ),
+  on(
+    updateUserAction,
+    (state): IUserState => ({
+      ...state,
+      isSubmitting: true,
+      item: null,
+      backendErrors: null,
+    })
+  ),
+  on(
+    updateUserSuccessAction,
+    (state, action): IUserState => ({
+      ...state,
+      isSubmitting: false,
+      item: action.user,
+    })
+  ),
+  on(
+    updateUserFailureAction,
+    (state, action): IUserState => ({
+      ...state,
+      isSubmitting: false,
+      backendErrors: action.errors,
     })
   ),
   on(routerNavigationAction, (): IUserState => initialState)

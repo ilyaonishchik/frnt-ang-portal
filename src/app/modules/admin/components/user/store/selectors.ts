@@ -9,9 +9,14 @@ export const isLoadingSelector = createSelector(
   (userState: IUserState) => userState.isLoading
 )
 
-export const errorSelector = createSelector(
+export const isSubmittingSelector = createSelector(
   userFeatureSelector,
-  (userState: IUserState) => userState.validationError
+  (userState: IUserState) => userState.isSubmitting
+)
+
+export const errorsSelector = createSelector(
+  userFeatureSelector,
+  (userState: IUserState) => userState.backendErrors
 )
 
 export const userSelector = createSelector(

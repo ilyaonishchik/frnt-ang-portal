@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core'
+import {HttpErrorResponse} from '@angular/common/http'
 import {catchError, map, of, switchMap} from 'rxjs'
 import {Actions, createEffect, ofType} from '@ngrx/effects'
 
@@ -8,7 +9,8 @@ import {
   getUserFailureAction,
   getUserSuccessAction,
 } from '../actions/user.action'
-import {IUserInfo} from 'src/app/shared/interfaces/user.interface'
+import {IUser} from 'src/app/shared/interfaces/user.interface'
+import {responseToErrors} from 'src/app/shared/functions/error.function'
 
 @Injectable()
 export class GetUserEffect {
@@ -19,11 +21,13 @@ export class GetUserEffect {
       ofType(getUserAction),
       switchMap(({id}) => {
         return this.userService.getUser(id).pipe(
-          map((response: IUserInfo) => {
+          map((response: IUser) => {
             return getUserSuccessAction({user: response})
           }),
-          catchError(() => {
-            return of(getUserFailureAction)
+          catchError((response: HttpErrorResponse) => {
+            return of(
+              getUserFailureAction({errors: responseToErrors(response)})
+            )
           })
         )
       })

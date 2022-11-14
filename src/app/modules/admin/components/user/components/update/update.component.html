@@ -1,0 +1,48 @@
+<p-dialog
+  [(visible)]=visible
+  (visibleChange)=onVisibleChange($event)
+  [style]="{width: '60%'}"
+  [modal]=true
+  class='p-fluid'
+  header='Изменение пользователя'
+>
+  <avs-loading *ngIf='(isLoading$ | async)'></avs-loading>
+  <avs-message-validate
+    *ngIf='validationErrors$ | async'
+    [errors]='validationErrors$ | async'
+  ></avs-message-validate>
+  <ng-container *ngIf='!(isLoading$ | async)'>
+    <app-user-form
+      [initialValues]=item
+      (changeValues)=changeItem($event)
+      (formValid)=onValidate($event)
+    ></app-user-form>
+  </ng-container>
+  <p-footer>
+    <div
+      *ngIf='!(isLoading$ | async)'
+      class='flex justify-content-between'>
+      <p-checkbox
+        label='Активная'
+        [(ngModel)]='item.status'
+        [binary]=true
+        [trueValue]=1
+        [falseValue]=0
+      ></p-checkbox>
+      <div
+        class='align-content-end'
+      >
+        <button
+          pButton label='Отмена' icon='pi pi-times'
+          class='p-button-outlined p-button-secondary'
+          (click)=onVisibleChange(false)
+        ></button>
+        <button
+          pButton label='Сохранить' icon='pi pi-check'
+          class='p-button-outlined p-button-success'
+          (click)=saveItem()
+        ></button>
+      </div>
+    </div>
+  </p-footer>
+</p-dialog>

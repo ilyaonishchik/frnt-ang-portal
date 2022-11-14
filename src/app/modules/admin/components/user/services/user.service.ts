@@ -3,7 +3,8 @@ import {HttpClient} from '@angular/common/http'
 import {Observable} from 'rxjs'
 
 import {environment} from 'src/environments/environment'
-import {IUserInfo} from 'src/app/shared/interfaces/user.interface'
+import {IUser, IUserSave} from 'src/app/shared/interfaces/user.interface'
+import {IDeleteResponse} from 'src/app/shared/interfaces/delete-response.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +16,32 @@ export class UserService {
     this.fullUrl = `${environment.urlApi}/auth/users`
   }
 
-  getUser(id: number): Observable<IUserInfo> {
-    console.log('getUser', id)
-    return this.http.get<IUserInfo>(`${this.fullUrl}/${id}`)
+  getUser(id: number): Observable<IUser> {
+    return this.http.get<IUser>(`${this.fullUrl}/${id}`)
+  }
+
+  createUser(item: IUser): Observable<IUser> {
+    return this.http.post<IUser>(this.fullUrl, this.itemToSave(item))
+  }
+
+  updateUser(id: number, item: IUser): Observable<IUser> {
+    return this.http.put<IUser>(`${this.fullUrl}/${id}`, this.itemToSave(item))
+  }
+
+  deleteUser(id: number): Observable<IDeleteResponse> {
+    return this.http.delete<IDeleteResponse>(`${this.fullUrl}/${id}`)
+  }
+
+  itemToSave(item: IUser): IUserSave {
+    return {
+      username: item.username,
+      email: item.email ? item.email : null,
+      comment: item.comment,
+      avatar: item.avatar,
+      sd_id: item.sd_id,
+      status: item.status,
+      roles: [...item.roles.map((value) => value.id)],
+      permissions: [...item.permissions.map((value) => value.id)],
+    }
   }
 }
