@@ -1,11 +1,12 @@
 import {IPermissionsState} from '../interfaces/permissions-state.interface'
 import {Action, createReducer, on} from '@ngrx/store'
+import {routerNavigationAction} from '@ngrx/router-store'
+
 import {
   getPermissionsAction,
   getPermissionsFailureAction,
   getPermissionsSuccessAction,
 } from './actions/permissions.action'
-import {routerNavigationAction} from '@ngrx/router-store'
 import {
   dialogCancelAction,
   dialogConfirmAction,
