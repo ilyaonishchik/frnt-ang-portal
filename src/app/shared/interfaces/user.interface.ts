@@ -17,7 +17,7 @@ export interface IUser {
 
 export interface IUserSave {
   username: string
-  email: string
+  email: string | null
   comment: string | null
   avatar: string | null
   sd_id: number | null
