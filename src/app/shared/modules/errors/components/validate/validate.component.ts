@@ -23,9 +23,21 @@ export class ValidateComponent implements OnInit, OnChanges {
             this.errorMessages.push('Обязательно для заполнения')
             break
           }
+          case 'min': {
+            this.errorMessages.push(
+              `Значение должно быть больше или равно: ${this.errorsProps[errorsPropsKey]['min']}`
+            )
+            break
+          }
           case 'minlength': {
             this.errorMessages.push(
               `Введено символов: ${this.errorsProps[errorsPropsKey]['actualLength']} из минимально необходимых: ${this.errorsProps[errorsPropsKey]['requiredLength']}`
+            )
+            break
+          }
+          case 'max': {
+            this.errorMessages.push(
+              `Значение должно быть меньше или равно: ${this.errorsProps[errorsPropsKey]['max']}`
             )
             break
           }
@@ -35,8 +47,14 @@ export class ValidateComponent implements OnInit, OnChanges {
             )
             break
           }
+          case 'email': {
+            this.errorMessages.push(
+              'Введите корректный адрес электронной почты'
+            )
+            break
+          }
           default: {
-            this.errorMessages.push('Неизвестная ошибка')
+            this.errorMessages.push(`Неизвестная ошибка: ${errorsPropsKey}`)
           }
         }
       }
