@@ -1,0 +1,48 @@
+<div class='card mb-0'>
+  <avs-table
+    [columns]=columns
+    [data]='(users$ | async)!'
+    (onLazyLoad)=loadItems($event)
+    [loading]='(isLoading$ | async)!'
+    [filterFields]="['username', 'email']"
+    [confirmField]=confirmField
+    [crudName]=crudName
+    keyField='id'
+    [sortField]=sortField
+    (actionCreate)=createItem()
+    (actionRead)=readItem($event)
+    (actionUpdate)=updateItem($event)
+    (actionDelete)=deleteItem($event)
+  ></avs-table>
+
+  <ng-container *ngIf='(dialog$ | async) as dialog'>
+    <app-user-create
+      *ngIf='dialog.action == 1'
+      [visible]=true
+      (visibleChange)='hideDialog()'
+    ></app-user-create>
+
+    <app-user-read
+      *ngIf='dialog.action == 2'
+      [visible]=true
+      (visibleChange)='hideDialog()'
+      [itemId]=dialog.id!
+    ></app-user-read>
+
+    <app-user-update
+      *ngIf='dialog.action == 3'
+      [visible]=true
+      (visibleChange)='hideDialog()'
+      [itemId]=dialog.id!
+    ></app-user-update>
+
+    <app-user-delete
+      *ngIf='dialog.action == 4'
+      [visible]=true
+      (visibleChange)='hideDialog()'
+      (clickCancel)='hideDialog()'
+      [itemId]=dialog.id!
+      [itemInfo]=dialog.confirm!
+    ></app-user-delete>
+  </ng-container>
+</div>
