@@ -1,4 +1,13 @@
 <avs-table
+  [columns]=columns
+  [data]=items!
+  (onLazyLoad)=loadItems($event)
+  [loading]=isLoading
+  [filterFields]=filterFields
+  [confirmField]=confirmField
+  [crudName]=crudName
+  [keyField]=keyField
+  [sortField]=sortField
   (actionCreate)=createItem()
   (actionRead)=readItem($event)
   (actionUpdate)=updateItem($event)

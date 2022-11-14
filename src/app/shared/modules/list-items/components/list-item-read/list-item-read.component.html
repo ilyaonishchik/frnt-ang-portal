@@ -1,0 +1,37 @@
+<p-dialog
+  [(visible)]=visible
+  (visibleChange)=onVisibleChange($event)
+  [style]="{width: '60%'}"
+  [modal]=true
+  class='p-fluid'
+  header='Просмотр роли'
+>
+  <avs-loading *ngIf=isLoading></avs-loading>
+  <ng-container *ngIf=!isLoading>
+    <div>
+      Форма объекта
+    </div>
+  </ng-container>
+  <p-footer>
+    <div
+      *ngIf=!isLoading
+      class='flex justify-content-between'
+    >
+      <p-checkbox
+        class='align-content-start'
+        label='Активная'
+        [binary]=true
+        [trueValue]=1
+        [falseValue]=0
+        [readonly]=true
+      ></p-checkbox>
+      <div>
+        <button
+          pButton label='Закрыть' icon='pi pi-times'
+          class='p-button-outlined p-button-secondary'
+          (click)=onVisibleChange(false)
+        ></button>
+      </div>
+    </div>
+  </p-footer>
+</p-dialog>

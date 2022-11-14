@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core'
-
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {Store} from '@ngrx/store'
+import {LazyLoadEvent} from 'primeng/api'
 
 import {
   dialogCancelAction,
@@ -8,6 +8,9 @@ import {
 } from '../../../../store/actions/dialogs.action'
 import {TCrudAction} from '../../../../types/crud-action.type'
 import {IDeleteEvent} from '../../../../interfaces/event.interface'
+import {IColumn} from '../../../../interfaces/column.interface'
+import {ICrudAction} from '../../../../interfaces/crud-action.interface'
+import {ITableItems} from '../../../../interfaces/table-items.interface'
 
 @Component({
   selector: 'avs-list-items',
@@ -15,6 +18,19 @@ import {IDeleteEvent} from '../../../../interfaces/event.interface'
   styleUrls: ['./list-items.component.scss'],
 })
 export class ListItemsComponent implements OnInit {
+  @Input('columns') columns: IColumn[] = []
+  @Input('crudName') crudName: string | null = null
+  @Input('keyField') keyField: string = 'id'
+  @Input('sortField') sortField: string = 'id'
+  @Input('confirmField') confirmField: string = 'id'
+  @Input('filterFields') filterFields: string[] = []
+
+  @Input('isLoading') isLoading: boolean = false
+  @Input('dialog') dialog: ICrudAction | null = null
+  @Input('items') items: ITableItems<any> | null = null
+
+  @Output('onLazyLoad') onLazyLoad = new EventEmitter<LazyLoadEvent>()
+
   constructor(private store: Store) {}
 
   ngOnInit(): void {}
@@ -51,5 +67,9 @@ export class ListItemsComponent implements OnInit {
 
   hideDialog(): void {
     this.store.dispatch(dialogCancelAction())
+  }
+
+  loadItems(event: LazyLoadEvent): void {
+    this.onLazyLoad.emit(event)
   }
 }
