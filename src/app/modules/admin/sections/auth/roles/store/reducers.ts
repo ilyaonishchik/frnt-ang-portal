@@ -1,12 +1,12 @@
 import {IRolesState} from '../interfaces/roles-state.interface'
 import {Action, createReducer, on} from '@ngrx/store'
+import {routerNavigationAction} from '@ngrx/router-store'
 
 import {
   getRolesAction,
   getRolesFailureAction,
   getRolesSuccessAction,
 } from './actions/roles.action'
-import {routerNavigationAction} from '@ngrx/router-store'
 import {
   dialogCancelAction,
   dialogConfirmAction,
