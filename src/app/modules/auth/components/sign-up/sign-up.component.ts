@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
-import {select, Store} from '@ngrx/store'
+import {Store} from '@ngrx/store'
 import {Observable} from 'rxjs'
 
-import {AppService} from '../../../../shared/services/app.service'
-import {CustomValidators} from '../../../../shared/validators'
 import {signupAction} from '../../store/actions/signup.action'
 import {isSubmittingSelector} from '../../store/selectors'
 import {AuthService} from '../../services/auth.service'
 import {ISignupRequest} from '../../interfaces/signup-request.interface'
+import {environment} from 'environments/environment'
+import {CustomValidators} from '@shared/validators/custom'
 
 @Component({
   selector: 'app-sign-up',
@@ -16,12 +16,12 @@ import {ISignupRequest} from '../../interfaces/signup-request.interface'
   styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent implements OnInit {
+  projectTitle: string = environment.title
   signUpForm!: FormGroup
   isSubmitting$!: Observable<boolean>
 
   constructor(
     private store: Store,
-    public appService: AppService,
     public authService: AuthService,
     private formBuilder: FormBuilder
   ) {}
@@ -31,7 +31,7 @@ export class SignUpComponent implements OnInit {
     this.initializeValues()
   }
 
-  initializeForm(): void {
+  private initializeForm(): void {
     this.signUpForm = this.formBuilder.group(
       {
         username: [
@@ -42,7 +42,7 @@ export class SignUpComponent implements OnInit {
             Validators.maxLength(50),
           ],
         ],
-        email: [null, [Validators.required, Validators.email]],
+        email: [null, [Validators.email]],
         password: [
           null,
           [
@@ -59,20 +59,20 @@ export class SignUpComponent implements OnInit {
     )
   }
 
-  initializeValues(): void {
-    this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector))
+  private initializeValues(): void {
+    this.isSubmitting$ = this.store.select(isSubmittingSelector)
   }
 
   get f() {
     return this.signUpForm.controls
   }
 
-  submitSignUp() {
+  submitSignUp(): void {
     const request: ISignupRequest = this.signUpForm.value
-    this.store.dispatch(signupAction({request}))
+    this.store.dispatch(signupAction({request: request}))
   }
 
-  resetForm() {
+  resetForm(): void {
     this.signUpForm.reset()
   }
 }

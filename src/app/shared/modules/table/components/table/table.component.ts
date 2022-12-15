@@ -9,12 +9,13 @@ import {
 import {LazyLoadEvent} from 'primeng/api'
 import {Table} from 'primeng/table'
 
-import {ITableItems} from 'src/app/shared/interfaces/table-items.interface'
-import {IColumn} from 'src/app/shared/interfaces/column.interface'
-import {environment} from 'src/environments/environment'
-import {IItemCRUD} from 'src/app/shared/interfaces/rbac.interface'
-import {RbacService} from 'src/app/shared/services/rbac.service'
-import {IDeleteEvent} from 'src/app/shared/interfaces/event.interface'
+import {ITableItems} from '@shared/interfaces/table-items.interface'
+import {IColumn} from '@shared/interfaces/column.interface'
+import {environment} from 'environments/environment'
+import {IItemCRUD} from '@shared/interfaces/rbac.interface'
+import {RbacService} from '@shared/services/rbac.service'
+import {IDeleteEvent} from '@shared/interfaces/event.interface'
+import {ToastService} from '@shared/services/toast.service'
 
 @Component({
   selector: 'avs-table',
@@ -22,73 +23,106 @@ import {IDeleteEvent} from 'src/app/shared/interfaces/event.interface'
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit {
+  notPermission = 'У Вас нет прав для выполнения данной операции.'
   rowsPerPageCount: number = environment.rowsPerPageCount
   rowsPerPageOptions: number[] = environment.rowsPerPageOptions
 
-  userCRUD!: IItemCRUD
+  crud!: IItemCRUD
   filterValue: string | null = null
 
   @ViewChild('dt') table!: Table
 
-  @Input('data') data: ITableItems<any> = {items: [], count: 0, first: 0}
-  @Input('columns') columns: IColumn[] = []
-  @Input('loading') loading: boolean = false
-  @Input('loadingOnInit') loadingOnInit: boolean = false
-  @Input('crudName') crudName: string | null = null
-  @Input('filterFields') filterFields: string[] = []
-  @Input('sortField') sortField: string = 'id'
-  @Input('keyField') keyField: string = 'id'
-  @Input('confirmField') confirmField: string = 'id'
+  @Input() data: ITableItems<any> = {items: [], count: 0, first: 0}
+  @Input() columns: IColumn[] = []
+  @Input() loading = false
+  @Input() loadingOnInit = false
+  @Input() crudName: string | null = null
+  @Input() filterFields: string[] = []
+  @Input() sortField = 'id'
+  @Input() keyField = 'id'
+  @Input() confirmField = 'id'
 
-  @Output('onLazyLoad') onLazyLoad = new EventEmitter<LazyLoadEvent>()
-  @Output('actionCreate') onCreate = new EventEmitter<any>()
-  @Output('actionRead') onRead = new EventEmitter<number>()
-  @Output('actionUpdate') onUpdate = new EventEmitter<number>()
-  @Output('actionDelete') onDelete = new EventEmitter<IDeleteEvent>()
+  @Output() lazyLoad = new EventEmitter<LazyLoadEvent>()
+  @Output() actionCreate = new EventEmitter()
+  @Output() actionRead = new EventEmitter<number>()
+  @Output() actionUpdate = new EventEmitter<number>()
+  @Output() actionDelete = new EventEmitter<IDeleteEvent>()
 
-  constructor(private rbacService: RbacService) {}
+  constructor(
+    private rbacService: RbacService,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
-    this.userCRUD = this.rbacService.getItemCRUD(this.crudName)
+    this.crud = this.rbacService.getItemCRUD(this.crudName)
   }
 
   loadItems(event: LazyLoadEvent): void {
-    this.onLazyLoad.emit(event)
+    this.lazyLoad.emit(event)
   }
 
   createItem(): void {
-    this.onCreate.emit()
+    if (this.crud.create) {
+      this.actionCreate.emit()
+    } else {
+      this.toastService.showWarn(this.notPermission)
+    }
   }
 
   readItem(id: number): void {
-    this.onRead.emit(id)
+    if (this.crud.read) {
+      this.actionRead.emit(id)
+    } else {
+      this.toastService.showWarn(this.notPermission)
+    }
   }
 
   updateItem(id: number): void {
-    this.onUpdate.emit(id)
+    if (this.crud.update) {
+      this.actionUpdate.emit(id)
+    } else {
+      this.toastService.showWarn(this.notPermission)
+    }
   }
 
   deleteItem(event: any): void {
-    const deleteEvent: IDeleteEvent = {
-      id: event[this.keyField],
-      confirm: event[this.confirmField],
+    if (this.crud.delete) {
+      const deleteEvent: IDeleteEvent = {
+        id: event[this.keyField],
+        confirm: event[this.confirmField],
+      }
+      this.actionDelete.emit(deleteEvent)
+    } else {
+      this.toastService.showWarn(this.notPermission)
     }
-    this.onDelete.emit(deleteEvent)
   }
 
   onGlobalFilter(event: Event): void {
     this.filterValue = (event.target as HTMLInputElement).value
-    this.table.filterGlobal(this.filterValue, 'contains')
+    this.table.filters = {}
+    if (this.filterValue) {
+      for (const field in this.table.globalFilterFields) {
+        this.table.filter(
+          this.filterValue,
+          this.table.globalFilterFields[field],
+          'contains'
+        )
+      }
+      if (!this.table.hasFilter()) {
+        this.table.filter(this.filterValue, '_', 'contains')
+      }
+    } else {
+      this.refreshItems()
+    }
   }
 
   clearSearch(): void {
     this.filterValue = null
-    this.table.filterGlobal(this.filterValue, null)
+    this.table.filters = {}
+    this.table.clear()
   }
 
   refreshItems(): void {
-    this.table.filterDelay = 0
-    this.table.filterGlobal(this.filterValue, 'contains')
-    this.table.filterDelay = 1000
+    this.table._filter()
   }
 }

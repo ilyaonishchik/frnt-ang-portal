@@ -9,11 +9,11 @@ import {
   getUsersSuccessAction,
   getUsersFailureAction,
 } from '../actions/users.action'
-import {IResponseItems} from 'src/app/shared/interfaces/response-items.interface'
-import {responseToErrors} from 'src/app/shared/functions/error.function'
-import {dialogConfirmAction} from 'src/app/shared/store/actions/dialogs.action'
+import {IResponseItems} from '@shared/interfaces/response-items.interface'
+import {responseToErrors} from '@shared/functions/error.function'
+import {dialogConfirmAction} from '@shared/store/actions/dialog.action'
 import {UsersService} from '../../services/users.service'
-import {IUser} from 'src/app/shared/interfaces/user.interface'
+import {IUser} from '@shared/interfaces/user.interface'
 
 @Injectable()
 export class GetUsersEffect {

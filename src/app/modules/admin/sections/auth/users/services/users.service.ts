@@ -3,11 +3,10 @@ import {HttpClient} from '@angular/common/http'
 import {Observable} from 'rxjs'
 import {LazyLoadEvent} from 'primeng/api'
 
-import {environment} from 'src/environments/environment'
-import {IResponseItems} from 'src/app/shared/interfaces/response-items.interface'
-import {TCrudAction} from 'src/app/shared/types/crud-action.type'
-import {eventToParams} from 'src/app/shared/functions/event.function'
-import {IUser} from 'src/app/shared/interfaces/user.interface'
+import {environment} from 'environments/environment'
+import {IResponseItems} from '@shared/interfaces/response-items.interface'
+import {eventAction, eventToParams} from '@shared/functions/event.function'
+import {IUser} from '@shared/interfaces/user.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -24,23 +23,8 @@ export class UsersService {
     event: LazyLoadEvent | null,
     previousAction: number
   ): Observable<IResponseItems<IUser>> {
-    if (event) {
-      this.previousEvent = event
-    }
-    switch (previousAction) {
-      case TCrudAction.CREATE: {
-        if (this.previousEvent) {
-          this.previousEvent.first = 0
-        }
-        break
-      }
-      case TCrudAction.DELETE: {
-        if (this.previousEvent) {
-          this.previousEvent.first = 0
-        }
-        break
-      }
-    }
+    this.previousEvent = eventAction(event, this.previousEvent, previousAction)
+
     return this.http.get<IResponseItems<IUser>>(this.fullUrl, {
       params: eventToParams(this.previousEvent),
     })

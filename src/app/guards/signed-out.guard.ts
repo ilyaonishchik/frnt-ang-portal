@@ -1,19 +1,11 @@
 import {Injectable} from '@angular/core'
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanLoad,
-  Route,
-  RouterStateSnapshot,
-  UrlSegment,
-  UrlTree,
-} from '@angular/router'
+import {CanActivate, CanLoad, UrlTree} from '@angular/router'
 import {Location} from '@angular/common'
 import {map, Observable} from 'rxjs'
 import {Store} from '@ngrx/store'
 
-import {isAnonymousSelector} from '../modules/auth/store/selectors'
-import {IAuthState} from '../modules/auth/interfaces/auth-state.interface'
+import {isAnonymousSelector} from '@modules/auth/store/selectors'
+import {IAuthState} from '@modules/auth/interfaces/auth-state.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -21,10 +13,7 @@ import {IAuthState} from '../modules/auth/interfaces/auth-state.interface'
 export class SignedOutGuard implements CanActivate, CanLoad {
   constructor(private store: Store<IAuthState>, private location: Location) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ):
+  canActivate():
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean
@@ -36,10 +25,7 @@ export class SignedOutGuard implements CanActivate, CanLoad {
     )
   }
 
-  canLoad(
-    route: Route,
-    segments: UrlSegment[]
-  ):
+  canLoad():
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean

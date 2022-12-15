@@ -1,30 +1,26 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
-import {IItemCRUD} from '../../../../../interfaces/rbac.interface'
+import {Component, EventEmitter, Input, Output} from '@angular/core'
+import {IItemCRUD} from '@shared/interfaces/rbac.interface'
 
 @Component({
   selector: 'avs-table-columns-actions',
   templateUrl: './actions.component.html',
   styleUrls: ['./actions.component.scss'],
 })
-export class ActionsComponent implements OnInit {
-  @Input('userCRUD') crud: IItemCRUD | null = null
-  @Output('clickRead') onClickRead = new EventEmitter<any>()
-  @Output('clickUpdate') onClickEdit = new EventEmitter<any>()
-  @Output('clickDelete') onClickDelete = new EventEmitter<any>()
+export class ActionsComponent {
+  @Input() crud: IItemCRUD | null = null
+  @Output() clickRead = new EventEmitter<MouseEvent>()
+  @Output() clickUpdate = new EventEmitter<MouseEvent>()
+  @Output() clickDelete = new EventEmitter<MouseEvent>()
 
-  constructor() {}
-
-  ngOnInit(): void {}
-
-  clickRead(event: any) {
-    this.onClickRead.emit(event)
+  onClickRead(event: MouseEvent) {
+    this.clickRead.emit(event)
   }
 
-  clickEdit(event: any) {
-    this.onClickEdit.emit(event)
+  onClickUpdate(event: MouseEvent) {
+    this.clickUpdate.emit(event)
   }
 
-  clickDelete(event: any) {
-    this.onClickDelete.emit(event)
+  onClickDelete(event: MouseEvent) {
+    this.clickDelete.emit(event)
   }
 }

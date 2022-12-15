@@ -10,12 +10,11 @@ import {
   signinFailureAction,
   signinSuccessAction,
 } from './actions/signin.action'
-import {
-  getCurrentUserAction,
-  getCurrentUserFailureAction,
-  getCurrentUserSuccessAction,
-} from './actions/get-current-user.action'
-
+// import {
+//   getCurrentUserAction,
+//   getCurrentUserFailureAction,
+//   getCurrentUserSuccessAction,
+// } from './actions/get-current-user.action'
 import {
   signoutAction,
   signoutFailureAction,
@@ -23,24 +22,19 @@ import {
 } from './actions/signout.action'
 import {redirectAction} from './actions/redirect.action'
 import {
-  getAllRolesAction,
-  getAllRolesFailureAction,
-  getAllRolesSuccessAction,
-} from './actions/get-all-roles.action'
-import {
-  getAllPermissionsAction,
-  getAllPermissionsFailureAction,
-  getAllPermissionsSuccessAction,
-} from './actions/get-all-permissions.action'
+  getCurrentUserAction,
+  getCurrentUserFailureAction,
+  getCurrentUserSuccessAction,
+} from './actions/get-current-user.action'
+
+export const authFeatureKey = 'auth'
 
 const initialState: IAuthState = {
   isSubmitting: false,
   isLoading: false,
+  isSignedIn: false,
   currentUser: null,
-  allRoles: [],
-  allPermissions: [],
-  isSignedIn: null,
-  validationError: null,
+  backendErrors: null,
   redirectUrl: '/',
 }
 
@@ -58,7 +52,7 @@ const authReducer = createReducer(
     (state): IAuthState => ({
       ...state,
       isSubmitting: true,
-      validationError: null,
+      backendErrors: null,
     })
   ),
   on(
@@ -74,7 +68,7 @@ const authReducer = createReducer(
     (state, action): IAuthState => ({
       ...state,
       isSubmitting: false,
-      validationError: action.error,
+      backendErrors: action.errors,
     })
   ),
   on(
@@ -82,7 +76,8 @@ const authReducer = createReducer(
     (state): IAuthState => ({
       ...state,
       isSubmitting: true,
-      validationError: null,
+      currentUser: null,
+      backendErrors: null,
     })
   ),
   on(
@@ -99,7 +94,7 @@ const authReducer = createReducer(
     (state, action): IAuthState => ({
       ...state,
       isSubmitting: false,
-      validationError: action.error,
+      backendErrors: action.errors,
     })
   ),
   on(
@@ -116,8 +111,6 @@ const authReducer = createReducer(
       isSubmitting: false,
       isSignedIn: false,
       currentUser: null,
-      allRoles: [],
-      allPermissions: [],
       redirectUrl: action.url,
     })
   ),
@@ -126,12 +119,16 @@ const authReducer = createReducer(
     (state, action): IAuthState => ({
       ...state,
       isSubmitting: false,
-      validationError: action.error,
+      backendErrors: action.errors,
     })
   ),
   on(
     getCurrentUserAction,
-    (state): IAuthState => ({...state, isLoading: true})
+    (state): IAuthState => ({
+      ...state,
+      isLoading: true,
+      isSignedIn: false,
+    })
   ),
   on(
     getCurrentUserSuccessAction,
@@ -144,54 +141,53 @@ const authReducer = createReducer(
   ),
   on(
     getCurrentUserFailureAction,
-    (state): IAuthState => ({
+    (state, action): IAuthState => ({
       ...state,
       isLoading: false,
       isSignedIn: false,
       currentUser: null,
-      allRoles: [],
-      allPermissions: [],
-    })
-  ),
-  on(getAllRolesAction, (state): IAuthState => ({...state, isLoading: true})),
-  on(
-    getAllRolesSuccessAction,
-    (state, action): IAuthState => ({
-      ...state,
-      isLoading: false,
-      allRoles: action.roles,
-    })
-  ),
-  on(
-    getAllRolesFailureAction,
-    (state): IAuthState => ({
-      ...state,
-      isLoading: false,
-      allRoles: [],
-    })
-  ),
-  on(
-    getAllPermissionsAction,
-    (state): IAuthState => ({...state, isLoading: true})
-  ),
-  on(
-    getAllPermissionsSuccessAction,
-    (state, action): IAuthState => ({
-      ...state,
-      isLoading: false,
-      allPermissions: action.permissions,
-    })
-  ),
-  on(
-    getAllPermissionsFailureAction,
-    (state): IAuthState => ({
-      ...state,
-      isLoading: false,
-      allPermissions: [],
+      backendErrors: action.errors,
     })
   )
+  // on(getAllRolesAction, (state): IAuthState => ({...state, isLoading: true})),
+  // on(
+  //   getAllRolesSuccessAction,
+  //   (state, action): IAuthState => ({
+  //     ...state,
+  //     isLoading: false,
+  //     allRoles: action.roles,
+  //   })
+  // ),
+  // on(
+  //   getAllRolesFailureAction,
+  //   (state): IAuthState => ({
+  //     ...state,
+  //     isLoading: false,
+  //     allRoles: [],
+  //   })
+  // ),
+  // on(
+  //   getAllPermissionsAction,
+  //   (state): IAuthState => ({...state, isLoading: true})
+  // ),
+  // on(
+  //   getAllPermissionsSuccessAction,
+  //   (state, action): IAuthState => ({
+  //     ...state,
+  //     isLoading: false,
+  //     allPermissions: action.permissions,
+  //   })
+  // ),
+  // on(
+  //   getAllPermissionsFailureAction,
+  //   (state): IAuthState => ({
+  //     ...state,
+  //     isLoading: false,
+  //     allPermissions: [],
+  //   })
+  // )
 )
 
-export function reducer(state: IAuthState, action: Action) {
+export function reducerAuth(state: IAuthState, action: Action) {
   return authReducer(state, action)
 }

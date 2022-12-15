@@ -14,8 +14,19 @@
     "secure": false,
     "logLevel": "info"
   },
-  "/api/v3/users/*": {
+  "/api/v2/core/*": {
     "target": "http://127.0.0.1:8000",
     "secure": false,
     "logLevel": "info"
-  }}
+  },
+  "/api/v1/core/*": {
+    "target": "http://172.16.190.221:8003",
+    "secure": false,
+    "logLevel": "info"
+  },
+  "/api/v1/storage/*": {
+    "target": "http://172.16.190.221:8020",
+    "secure": false,
+    "logLevel": "info"
+  }
+}

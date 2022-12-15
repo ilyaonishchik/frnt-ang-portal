@@ -13,18 +13,19 @@ import {RippleModule} from 'primeng/ripple'
 import {ToastModule} from 'primeng/toast'
 
 import {AuthRoutingModule} from './auth-routing.module'
+import {ValidateModule} from '@shared/modules/validate/validate.module'
+
+import {AuthService} from './services/auth.service'
+import {PersistenceService} from '@shared/services/persistence.service'
+
 import {SignInComponent} from './components/sign-in/sign-in.component'
 import {SignUpComponent} from './components/sign-up/sign-up.component'
 import {PasswordResetComponent} from './components/password-reset/password-reset.component'
 import {VerifyComponent} from './components/verify/verify.component'
-import {reducer} from './store/reducers'
-import {AuthService} from './services/auth.service'
+
+import {authFeatureKey, reducerAuth} from './store/reducers'
 import {SignupEffect} from './store/effects/signup.effect'
-import {PersistenceService} from 'src/app/shared/services/persistence.service'
 import {SigninEffect} from './store/effects/signin.effect'
-import {GetCurrentUserEffect} from './store/effects/get-current-user.effect'
-import {GetAllRolesEffect} from './store/effects/get-all-roles.effect'
-import {GetAllPermissionsEffect} from './store/effects/get-all-permissions.effect'
 
 @NgModule({
   declarations: [
@@ -35,6 +36,8 @@ import {GetAllPermissionsEffect} from './store/effects/get-all-permissions.effec
   ],
   imports: [
     CommonModule,
+    StoreModule.forFeature(authFeatureKey, reducerAuth),
+    EffectsModule.forFeature([SignupEffect, SigninEffect]),
     AuthRoutingModule,
     PasswordModule,
     CheckboxModule,
@@ -44,14 +47,7 @@ import {GetAllPermissionsEffect} from './store/effects/get-all-permissions.effec
     FormsModule,
     ToastModule,
     ReactiveFormsModule,
-    StoreModule.forFeature('auth', reducer),
-    EffectsModule.forFeature([
-      SignupEffect,
-      SigninEffect,
-      GetCurrentUserEffect,
-      GetAllRolesEffect,
-      GetAllPermissionsEffect,
-    ]),
+    ValidateModule,
   ],
   providers: [AuthService, PersistenceService],
 })

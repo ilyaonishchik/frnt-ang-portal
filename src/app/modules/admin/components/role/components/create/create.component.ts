@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {Observable} from 'rxjs'
-import {select, Store} from '@ngrx/store'
+import {Store} from '@ngrx/store'
 
-import {IRole} from 'src/app/shared/interfaces/role.interface'
-import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
+import {IRole} from '@shared/interfaces/role.interface'
+import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 import {errorsSelector} from '../../store/selectors'
 import {createRoleAction} from '../../store/actions/role.action'
 
@@ -13,12 +13,13 @@ import {createRoleAction} from '../../store/actions/role.action'
   styleUrls: ['./create.component.scss'],
 })
 export class CreateComponent implements OnInit {
-  @Input('visible') visible: boolean = false
-  @Output('visibleChange') visibleChange = new EventEmitter<boolean>()
+  @Input() visible = false
+  @Output() visibleChange = new EventEmitter<boolean>()
 
   item!: IRole
   validationErrors$!: Observable<IBackendErrors | null>
-  formValid: boolean = false
+  formValid = false
+  statusItem = 1
 
   constructor(private store: Store) {
     this.item = {
@@ -35,8 +36,8 @@ export class CreateComponent implements OnInit {
     this.initializeValues()
   }
 
-  initializeValues(): void {
-    this.validationErrors$ = this.store.pipe(select(errorsSelector))
+  private initializeValues(): void {
+    this.validationErrors$ = this.store.select(errorsSelector)
   }
 
   saveItem(): void {
@@ -55,6 +56,10 @@ export class CreateComponent implements OnInit {
   }
 
   changeItem(value: IRole): void {
-    this.item = {...value}
+    this.item = {...value, status: this.statusItem}
+  }
+
+  changeStatus(event: number): void {
+    this.statusItem = event
   }
 }

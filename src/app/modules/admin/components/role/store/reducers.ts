@@ -6,6 +6,8 @@ import {
   createRoleAction,
   createRoleFailureAction,
   createRoleSuccessAction,
+  deleteRoleAction,
+  deleteRoleFailureAction,
   getRoleAction,
   getRoleFailureAction,
   getRoleSuccessAction,
@@ -13,6 +15,9 @@ import {
   updateRoleFailureAction,
   updateRoleSuccessAction,
 } from './actions/role.action'
+import {dialogCancelAction} from '@shared/store/actions/dialog.action'
+
+export const roleFeatureKey = 'role'
 
 const initialState: IRoleState = {
   isLoading: false,
@@ -98,9 +103,33 @@ const roleReducer = createReducer(
       backendErrors: action.errors,
     })
   ),
+  on(
+    deleteRoleAction,
+    (state): IRoleState => ({
+      ...state,
+      isSubmitting: true,
+      backendErrors: null,
+    })
+  ),
+  on(
+    deleteRoleFailureAction,
+    (state, action): IRoleState => ({
+      ...state,
+      isSubmitting: false,
+      backendErrors: action.errors,
+    })
+  ),
+  on(
+    dialogCancelAction,
+    (state): IRoleState => ({
+      ...state,
+      item: null,
+      backendErrors: null,
+    })
+  ),
   on(routerNavigationAction, (): IRoleState => initialState)
 )
 
-export function reducers(state: IRoleState, action: Action) {
+export function reducerRole(state: IRoleState, action: Action) {
   return roleReducer(state, action)
 }

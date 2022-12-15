@@ -1,17 +1,19 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store'
 
 import {IUsersState} from '../interfaces/users-state.interface'
+import {usersFeatureKey} from './reducers'
 
-export const usersFeatureSelector = createFeatureSelector<IUsersState>('users')
+export const usersFeatureSelector =
+  createFeatureSelector<IUsersState>(usersFeatureKey)
 
 export const isLoadingSelector = createSelector(
   usersFeatureSelector,
   (usersState: IUsersState) => usersState.isLoading
 )
 
-export const errorSelector = createSelector(
+export const errorsSelector = createSelector(
   usersFeatureSelector,
-  (usersState: IUsersState) => usersState.error
+  (usersState: IUsersState) => usersState.backendErrors
 )
 
 export const usersSelector = createSelector(

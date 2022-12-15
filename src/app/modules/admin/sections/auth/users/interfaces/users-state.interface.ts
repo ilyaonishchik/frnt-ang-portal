@@ -1,10 +1,11 @@
-import {ITableItems} from 'src/app/shared/interfaces/table-items.interface'
-import {ICrudAction} from 'src/app/shared/interfaces/crud-action.interface'
-import {IUser} from 'src/app/shared/interfaces/user.interface'
+import {ITableItems} from '@shared/interfaces/table-items.interface'
+import {ICrudAction} from '@shared/interfaces/crud-action.interface'
+import {IUser} from '@shared/interfaces/user.interface'
+import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 
 export interface IUsersState {
   isLoading: boolean
-  error: string | null
+  backendErrors: IBackendErrors | null
   data: ITableItems<IUser> | null
   crud: ICrudAction | null
 }

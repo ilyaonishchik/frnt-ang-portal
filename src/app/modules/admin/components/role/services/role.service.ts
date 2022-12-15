@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http'
 import {Observable} from 'rxjs'
 
-import {environment} from 'src/environments/environment'
-import {IRole, IRoleSave} from 'src/app/shared/interfaces/role.interface'
-import {IDeleteResponse} from 'src/app/shared/interfaces/delete-response.interface'
+import {environment} from 'environments/environment'
+import {IRole, IRoleSave} from '@shared/interfaces/role.interface'
+import {IDeleteResponse} from '@shared/interfaces/delete-response.interface'
 
 @Injectable({
   providedIn: 'root',

@@ -9,11 +9,11 @@ import {
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 
 import {Subscription} from 'rxjs'
-import {select, Store} from '@ngrx/store'
+import {Store} from '@ngrx/store'
 
-import {IRole} from 'src/app/shared/interfaces/role.interface'
-import {IPermission} from 'src/app/shared/interfaces/permission.interface'
-import {allPermissionsSelector} from '../../../../../auth/store/selectors'
+import {IRole} from '@shared/interfaces/role.interface'
+import {IPermission} from '@shared/interfaces/permission.interface'
+import {allPermissionsSelector} from '@shared/store/selectors/session.selectors'
 
 @Component({
   selector: 'app-role-form',
@@ -21,7 +21,7 @@ import {allPermissionsSelector} from '../../../../../auth/store/selectors'
   styleUrls: ['./role.component.scss'],
 })
 export class RoleComponent implements OnInit, OnDestroy {
-  @Input('readOnly') readOnlyProps: boolean = false
+  @Input('readOnly') readOnlyProps = false
   @Input('initialValues') initialValuesProps!: IRole
 
   @Output('changeValues') changeValuesEvent = new EventEmitter<IRole>()
@@ -39,7 +39,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     this.initializeForm()
   }
 
-  initializeForm(): void {
+  private initializeForm(): void {
     this.formRole = this.fb.group({
       code: [
         this.initialValuesProps.code,
@@ -74,11 +74,11 @@ export class RoleComponent implements OnInit, OnDestroy {
     return this.formRole.controls
   }
 
-  initializeValues(): void {
+  private initializeValues(): void {
     this.targetPermissions.push(...this.initialValuesProps.permissions)
     this.itemSubscription = this.store
-      .pipe(select(allPermissionsSelector))
-      .subscribe((items: IPermission[]) => {
+      .select(allPermissionsSelector)
+      .subscribe((items: IPermission[] | null) => {
         if (items) {
           this.sourcePermissions = items.filter(
             (item) => !this.targetPermissions.find((tp) => tp.id == item.id)

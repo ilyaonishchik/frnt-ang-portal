@@ -1,8 +1,10 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store'
 
 import {IAuthState} from '../interfaces/auth-state.interface'
+import {authFeatureKey} from './reducers'
 
-export const authFeatureSelector = createFeatureSelector<IAuthState>('auth')
+export const authFeatureSelector =
+  createFeatureSelector<IAuthState>(authFeatureKey)
 
 export const isSubmittingSelector = createSelector(
   authFeatureSelector,
@@ -16,27 +18,17 @@ export const isSignedInSelector = createSelector(
 
 export const isAnonymousSelector = createSelector(
   authFeatureSelector,
-  (authState: IAuthState) => authState.isSignedIn === false
+  (authState: IAuthState) => !authState.isSignedIn
 )
 
-export const validationErrorSelector = createSelector(
-  authFeatureSelector,
-  (authState: IAuthState) => authState.validationError
-)
+// export const validationErrorSelector = createSelector(
+//   authFeatureSelector,
+//   (authState: IAuthState) => authState.backendErrors
+// )
 
 export const currentUserSelector = createSelector(
   authFeatureSelector,
   (authState: IAuthState) => authState.currentUser
-)
-
-export const allRolesSelector = createSelector(
-  authFeatureSelector,
-  (authState: IAuthState) => authState.allRoles
-)
-
-export const allPermissionsSelector = createSelector(
-  authFeatureSelector,
-  (authState: IAuthState) => authState.allPermissions
 )
 
 export const redirectUrlSelector = createSelector(

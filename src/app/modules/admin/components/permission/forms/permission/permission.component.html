@@ -12,7 +12,7 @@
     >
     <ng-container
       *ngIf="(f['code'].dirty || f['code'].touched) && f['code'].invalid">
-      <avs-input-validate [errors]="f['code'].errors"></avs-input-validate>
+      <avs-validate-input [errors]="f['code'].errors"></avs-validate-input>
     </ng-container>
   </div>
   <div class='field'>
@@ -26,7 +26,7 @@
     >
     <ng-container
       *ngIf="(f['name'].dirty || f['name'].touched) && f['name'].invalid">
-      <avs-input-validate [errors]="f['name'].errors"></avs-input-validate>
+      <avs-validate-input [errors]="f['name'].errors"></avs-validate-input>
     </ng-container>
   </div>
   <div class='field'>
@@ -41,7 +41,7 @@
     </textarea>
     <ng-container
       *ngIf="(f['comment'].dirty || f['comment'].touched) && f['comment'].invalid">
-      <avs-input-validate [errors]="f['comment'].errors"></avs-input-validate>
+      <avs-validate-input [errors]="f['comment'].errors"></avs-validate-input>
     </ng-container>
   </div>
 </form>

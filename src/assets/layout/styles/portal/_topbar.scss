@@ -1,0 +1,35 @@
+.layout-topbar {
+  height: 4rem;
+
+  .layout-topbar-button {
+    i {
+      span {
+        display: inline-block;
+        font-size: 0.75rem;
+      }
+    }
+
+    span {
+      font-size: 1.25rem;
+    }
+  }
+
+  .layout-menu-button {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 991px) {
+  .layout-topbar {
+    .layout-topbar-menu {
+      .layout-topbar-button {
+        i {
+          font-size: 1.25rem;
+          margin-right: 1rem;
+        }
+      }
+    }
+  }
+}
+
+

@@ -1,8 +1,8 @@
 <div class='card mb-0'>
   <avs-table
     [columns]=columns
-    [data]='(roles$ | async)!'
-    (onLazyLoad)=loadItems($event)
+    [data]='(items$ | async)!'
+    (lazyLoad)=loadItems($event)
     [loading]='(isLoading$ | async)!'
     [filterFields]="['code', 'name']"
     [confirmField]=confirmField
@@ -17,27 +17,27 @@
 
   <ng-container *ngIf='(dialog$ | async) as dialog'>
     <app-role-create
-      *ngIf='dialog.action == 1'
+      *ngIf='dialog.action === 1'
       [visible]=true
       (visibleChange)='hideDialog()'
     ></app-role-create>
 
     <app-role-read
-      *ngIf='dialog.action == 2'
+      *ngIf='dialog.action === 2'
       [visible]=true
       (visibleChange)='hideDialog()'
       [itemId]=dialog.id!
     ></app-role-read>
 
     <app-role-update
-      *ngIf='dialog.action == 3'
+      *ngIf='dialog.action === 3'
       [visible]=true
       (visibleChange)='hideDialog()'
       [itemId]=dialog.id!
     ></app-role-update>
 
     <app-role-delete
-      *ngIf='dialog.action == 4'
+      *ngIf='dialog.action === 4'
       [visible]=true
       (visibleChange)='hideDialog()'
       (clickCancel)='hideDialog()'

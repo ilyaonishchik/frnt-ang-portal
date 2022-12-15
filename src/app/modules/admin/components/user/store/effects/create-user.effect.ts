@@ -4,16 +4,16 @@ import {catchError, map, of, switchMap, tap} from 'rxjs'
 import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {Store} from '@ngrx/store'
 
-import {responseToErrors} from 'src/app/shared/functions/error.function'
-import {TCrudAction} from 'src/app/shared/types/crud-action.type'
-import {dialogConfirmAction} from 'src/app/shared/store/actions/dialogs.action'
+import {responseToErrors} from '@shared/functions/error.function'
+import {TCrudAction} from '@shared/types/crud-action.type'
+import {dialogConfirmAction} from '@shared/store/actions/dialog.action'
 import {UserService} from '../../services/user.service'
 import {
   createUserAction,
   createUserFailureAction,
   createUserSuccessAction,
 } from '../actions/user.action'
-import {IUser} from 'src/app/shared/interfaces/user.interface'
+import {IUser} from '@shared/interfaces/user.interface'
 
 @Injectable()
 export class CreateUserEffect {

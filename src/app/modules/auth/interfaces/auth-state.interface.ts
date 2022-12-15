@@ -1,15 +1,11 @@
-import {ICurrentUser} from 'src/app/shared/interfaces/current-user.interface'
-import {IBackendError} from 'src/app/shared/interfaces/backend-errors.interface'
-import {IRole} from 'src/app/shared/interfaces/role.interface'
-import {IPermission} from 'src/app/shared/interfaces/permission.interface'
+import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
+import {IUser} from '@shared/interfaces/user.interface'
 
 export interface IAuthState {
-  isSubmitting: boolean
   isLoading: boolean
-  currentUser: ICurrentUser | null
-  allRoles: IRole[]
-  allPermissions: IPermission[]
-  isSignedIn: boolean | null
-  validationError: IBackendError | null
+  isSubmitting: boolean
+  isSignedIn: boolean
+  currentUser: IUser | null
+  backendErrors: IBackendErrors | null
   redirectUrl: string
 }

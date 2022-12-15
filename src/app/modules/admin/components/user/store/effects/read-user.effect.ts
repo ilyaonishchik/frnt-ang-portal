@@ -9,11 +9,11 @@ import {
   getUserFailureAction,
   getUserSuccessAction,
 } from '../actions/user.action'
-import {IUser} from 'src/app/shared/interfaces/user.interface'
-import {responseToErrors} from 'src/app/shared/functions/error.function'
+import {IUser} from '@shared/interfaces/user.interface'
+import {responseToErrors} from '@shared/functions/error.function'
 
 @Injectable()
-export class GetUserEffect {
+export class ReadUserEffect {
   constructor(private actions$: Actions, private userService: UserService) {}
 
   getUser$ = createEffect(() =>

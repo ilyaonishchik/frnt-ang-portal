@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core'
 import {Observable} from 'rxjs'
 
-import {select, Store} from '@ngrx/store'
+import {Store} from '@ngrx/store'
 
 import {LazyLoadEvent} from 'primeng/api'
 
-import {IColumn} from 'src/app/shared/interfaces/column.interface'
+import {IColumn} from '@shared/interfaces/column.interface'
 import {getPermissionsAction} from '../../store/actions/permissions.action'
 
 import {
@@ -13,15 +13,15 @@ import {
   isLoadingSelector,
   permissionsSelector,
 } from '../../store/selectors'
-import {ITableItems} from 'src/app/shared/interfaces/table-items.interface'
-import {IPermission} from 'src/app/shared/interfaces/permission.interface'
+import {ITableItems} from '@shared/interfaces/table-items.interface'
+import {IPermission} from '@shared/interfaces/permission.interface'
 import {
   dialogCancelAction,
   dialogShowAction,
-} from 'src/app/shared/store/actions/dialogs.action'
-import {ICrudAction} from 'src/app/shared/interfaces/crud-action.interface'
-import {IDeleteEvent} from 'src/app/shared/interfaces/event.interface'
-import {TCrudAction} from 'src/app/shared/types/crud-action.type'
+} from '@shared/store/actions/dialog.action'
+import {ICrudAction} from '@shared/interfaces/crud-action.interface'
+import {IDeleteEvent} from '@shared/interfaces/event.interface'
+import {TCrudAction} from '@shared/types/crud-action.type'
 
 @Component({
   selector: 'app-permissions',
@@ -36,7 +36,7 @@ export class PermissionsComponent implements OnInit {
   confirmField: string
 
   isLoading$!: Observable<boolean>
-  permissions$!: Observable<ITableItems<IPermission> | null>
+  items$!: Observable<ITableItems<IPermission> | null>
   dialog$!: Observable<ICrudAction | null>
 
   constructor(private store: Store) {
@@ -56,10 +56,10 @@ export class PermissionsComponent implements OnInit {
     this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
   }
 
-  initializeValues(): void {
-    this.isLoading$ = this.store.pipe(select(isLoadingSelector))
-    this.permissions$ = this.store.pipe(select(permissionsSelector))
-    this.dialog$ = this.store.pipe(select(dialogActionSelector))
+  private initializeValues(): void {
+    this.isLoading$ = this.store.select(isLoadingSelector)
+    this.items$ = this.store.select(permissionsSelector)
+    this.dialog$ = this.store.select(dialogActionSelector)
   }
 
   loadItems(

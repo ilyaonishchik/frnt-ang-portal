@@ -4,21 +4,15 @@ import {Router} from '@angular/router'
 import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {of, switchMap, tap} from 'rxjs'
 
-import {AuthService} from '../../services/auth.service'
+import {PersistenceService} from '@shared/services/persistence.service'
+import {LayoutService} from '@shared/modules/layout/services/layout.service'
 
-import {PersistenceService} from '../../../../shared/services/persistence.service'
-import {LayoutService} from '../../../../shared/services/layout.service'
-import {
-  signoutAction,
-  // signoutRedirectAction,
-  signoutSuccessAction,
-} from '../actions/signout.action'
+import {signoutAction, signoutSuccessAction} from '../actions/signout.action'
 
 @Injectable()
 export class SignoutEffect {
   constructor(
     private actions$: Actions,
-    private authService: AuthService,
     private persistenceService: PersistenceService,
     private layoutService: LayoutService,
     private router: Router
@@ -28,7 +22,8 @@ export class SignoutEffect {
     this.actions$.pipe(
       ofType(signoutAction),
       switchMap(() => {
-        this.persistenceService.clear()
+        this.persistenceService.clearTokens()
+        this.persistenceService.clear(true)
         this.layoutService.config.menuMode = 'overlay'
         return of(signoutSuccessAction({url: '/welcome'}))
       })
@@ -40,7 +35,7 @@ export class SignoutEffect {
       this.actions$.pipe(
         ofType(signoutSuccessAction),
         tap((value) => {
-          this.router.navigateByUrl(value.url).then((_) => {})
+          this.router.navigateByUrl(value.url).then()
         })
       ),
     {dispatch: false}

@@ -4,23 +4,20 @@ import {
   CanActivate,
   CanActivateChild,
   CanLoad,
-  Route,
   Router,
   RouterStateSnapshot,
-  UrlSegment,
   UrlTree,
 } from '@angular/router'
 import {map, Observable} from 'rxjs'
 import {Store} from '@ngrx/store'
 
-import {IAuthState} from '../modules/auth/interfaces/auth-state.interface'
-import {isSignedInSelector} from '../modules/auth/store/selectors'
+import {isSignedInSelector} from '@modules/auth/store/selectors'
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
-  constructor(private store: Store<IAuthState>, private router: Router) {}
+  constructor(private store: Store, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -32,7 +29,7 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
     | UrlTree {
     return this.store.select(isSignedInSelector).pipe(
       map((value) => {
-        if (value === true) {
+        if (value) {
           return true
         } else {
           return this.checkUrl(state.url)
@@ -41,35 +38,29 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
     )
   }
 
-  canActivateChild(
-    childRoute: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ):
+  canActivateChild():
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
     return this.store.select(isSignedInSelector).pipe(
       map((value) => {
-        return value === true
+        return value
       })
     )
   }
 
-  canLoad(
-    route: Route,
-    segments: UrlSegment[]
-  ):
+  canLoad():
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
     return this.store.select(isSignedInSelector).pipe(
       map((value) => {
-        if (value === true) {
+        if (value) {
           return true
         } else {
-          this.router.navigateByUrl('/welcome').then((_) => {})
+          this.router.navigateByUrl('/welcome').then()
           return false
         }
       })
@@ -78,7 +69,7 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
 
   checkUrl(url: string): boolean {
     if (url === '/') {
-      this.router.navigateByUrl('/welcome').then((_) => {})
+      this.router.navigateByUrl('/welcome').then()
       return false
     }
     return true

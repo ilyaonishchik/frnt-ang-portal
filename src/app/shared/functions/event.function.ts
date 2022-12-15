@@ -1,6 +1,7 @@
 import {HttpParams} from '@angular/common/http'
 
 import {LazyLoadEvent} from 'primeng/api'
+import {TCrudAction} from '../types/crud-action.type'
 
 export function eventToParams(event: LazyLoadEvent | null): HttpParams {
   let params = new HttpParams()
@@ -27,9 +28,37 @@ export function eventToParams(event: LazyLoadEvent | null): HttpParams {
     if (event.globalFilter) {
       params = params.append('search', event.globalFilter)
     }
+
+    if (event.filters) {
+      for (const field in event.filters) {
+        params = params.set('search', event.filters[field].value)
+      }
+    }
   } else {
     params = params.append('skip', 0)
   }
 
   return params
+}
+
+export function eventAction(
+  eventNew: LazyLoadEvent | null,
+  eventOld: LazyLoadEvent,
+  action: number
+): LazyLoadEvent {
+  let eventTemp: LazyLoadEvent
+
+  if (eventNew) {
+    eventTemp = {...eventNew}
+  } else {
+    eventTemp = {...eventOld}
+  }
+
+  switch (action) {
+    case TCrudAction.CREATE | TCrudAction.DELETE: {
+      eventTemp.first = 0
+    }
+  }
+
+  return eventTemp
 }

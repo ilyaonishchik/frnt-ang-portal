@@ -4,16 +4,16 @@ import {catchError, map, of, switchMap, tap} from 'rxjs'
 import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {Store} from '@ngrx/store'
 
-import {responseToErrors} from 'src/app/shared/functions/error.function'
-import {TCrudAction} from 'src/app/shared/types/crud-action.type'
-import {dialogConfirmAction} from 'src/app/shared/store/actions/dialogs.action'
+import {responseToErrors} from '@shared/functions/error.function'
+import {TCrudAction} from '@shared/types/crud-action.type'
+import {dialogConfirmAction} from '@shared/store/actions/dialog.action'
 import {RoleService} from '../../services/role.service'
 import {
   updateRoleAction,
   updateRoleFailureAction,
   updateRoleSuccessAction,
 } from '../actions/role.action'
-import {IRole} from 'src/app/shared/interfaces/role.interface'
+import {IRole} from '@shared/interfaces/role.interface'
 
 @Injectable()
 export class UpdateRoleEffect {

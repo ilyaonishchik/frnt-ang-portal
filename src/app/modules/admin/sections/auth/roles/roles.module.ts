@@ -9,25 +9,24 @@ import {ButtonModule} from 'primeng/button'
 import {InputTextModule} from 'primeng/inputtext'
 import {TooltipModule} from 'primeng/tooltip'
 
-import {RolesRoutingModule} from './roles-routing.module'
-import {RolesComponent} from './components/roles/roles.component'
-import {ColumnsModule} from 'src/app/shared/components/table/columns/columns.module'
-import {GetRolesEffect} from './store/effects/roles.effect'
-import {reducers} from './store/reducers'
-import {AvsTableModule} from 'src/app/shared/modules/table/table.module'
+import {AvsTableModule} from '@shared/modules/table/table.module'
 import {RoleModule} from '../../../components/role/role.module'
+import {RolesRoutingModule} from './roles-routing.module'
+
+import {RolesComponent} from './components/roles/roles.component'
+import {GetRolesEffect} from './store/effects/roles.effect'
+import {reducerRoles, rolesFeatureKey} from './store/reducers'
 
 @NgModule({
   declarations: [RolesComponent],
   imports: [
     CommonModule,
     RolesRoutingModule,
+    StoreModule.forFeature(rolesFeatureKey, reducerRoles),
     EffectsModule.forFeature([GetRolesEffect]),
-    StoreModule.forFeature('roles', reducers),
     TableModule,
     ButtonModule,
     InputTextModule,
-    ColumnsModule,
     TooltipModule,
     AvsTableModule,
     RoleModule,

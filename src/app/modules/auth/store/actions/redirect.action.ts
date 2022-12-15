@@ -1,7 +1,8 @@
 import {createAction, props} from '@ngrx/store'
-import {ActionTypes} from '../actionTypes'
+
+import {AuthActionTypes} from '../actionTypes'
 
 export const redirectAction = createAction(
-  ActionTypes.REDIRECT,
+  AuthActionTypes.REDIRECT,
   props<{url: string}>()
 )

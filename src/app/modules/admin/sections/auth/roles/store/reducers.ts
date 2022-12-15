@@ -11,11 +11,13 @@ import {
   dialogCancelAction,
   dialogConfirmAction,
   dialogShowAction,
-} from 'src/app/shared/store/actions/dialogs.action'
+} from '@shared/store/actions/dialog.action'
+
+export const rolesFeatureKey = 'roles'
 
 const initialState: IRolesState = {
   isLoading: false,
-  error: null,
+  backendErrors: null,
   data: {items: [], count: 0, first: 0},
   crud: null,
 }
@@ -27,6 +29,7 @@ const rolesReducer = createReducer(
     (state): IRolesState => ({
       ...state,
       isLoading: true,
+      backendErrors: null,
     })
   ),
   on(
@@ -39,9 +42,10 @@ const rolesReducer = createReducer(
   ),
   on(
     getRolesFailureAction,
-    (state): IRolesState => ({
+    (state, action): IRolesState => ({
       ...state,
       isLoading: false,
+      backendErrors: action.errors,
     })
   ),
   on(
@@ -68,6 +72,6 @@ const rolesReducer = createReducer(
   on(routerNavigationAction, (): IRolesState => initialState)
 )
 
-export function reducers(state: IRolesState, action: Action) {
+export function reducerRoles(state: IRolesState, action: Action) {
   return rolesReducer(state, action)
 }

@@ -4,11 +4,10 @@ import {Observable} from 'rxjs'
 
 import {LazyLoadEvent} from 'primeng/api'
 
-import {environment} from 'src/environments/environment'
-import {eventToParams} from 'src/app/shared/functions/event.function'
-import {IPermission} from 'src/app/shared/interfaces/permission.interface'
-import {IResponseItems} from 'src/app/shared/interfaces/response-items.interface'
-import {TCrudAction} from 'src/app/shared/types/crud-action.type'
+import {environment} from 'environments/environment'
+import {eventAction, eventToParams} from '@shared/functions/event.function'
+import {IPermission} from '@shared/interfaces/permission.interface'
+import {IResponseItems} from '@shared/interfaces/response-items.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -25,23 +24,8 @@ export class PermissionsService {
     event: LazyLoadEvent | null,
     previousAction: number
   ): Observable<IResponseItems<IPermission>> {
-    if (event) {
-      this.previousEvent = event
-    }
-    switch (previousAction) {
-      case TCrudAction.CREATE: {
-        if (this.previousEvent) {
-          this.previousEvent.first = 0
-        }
-        break
-      }
-      case TCrudAction.DELETE: {
-        if (this.previousEvent) {
-          this.previousEvent.first = 0
-        }
-        break
-      }
-    }
+    this.previousEvent = eventAction(event, this.previousEvent, previousAction)
+
     return this.http.get<IResponseItems<IPermission>>(this.fullUrl, {
       params: eventToParams(this.previousEvent),
     })

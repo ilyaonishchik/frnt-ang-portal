@@ -3,7 +3,6 @@ import {RouterModule, Routes} from '@angular/router'
 
 import {MainComponent} from './components/main/main.component'
 import {DashboardComponent} from './components/dashboard/dashboard.component'
-// import {RoleGuard} from '../../guards/role.guard'
 
 const routes: Routes = [
   {path: '', component: MainComponent},
@@ -27,6 +26,16 @@ const routes: Routes = [
       import('./sections/auth/permissions/permissions.module').then(
         (m) => m.PermissionsModule
       ),
+  },
+  {
+    path: 'links',
+    loadChildren: () =>
+      import('./sections/portal/links/links.module').then((m) => m.LinksModule),
+  },
+  {
+    path: 'menus',
+    loadChildren: () =>
+      import('./sections/portal/menus/menus.module').then((m) => m.MenusModule),
   },
 ]
 

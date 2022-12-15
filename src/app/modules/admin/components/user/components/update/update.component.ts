@@ -6,11 +6,11 @@ import {
   OnInit,
   Output,
 } from '@angular/core'
-import {select, Store} from '@ngrx/store'
+import {Store} from '@ngrx/store'
 import {Observable, Subscription} from 'rxjs'
 
-import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
-import {IUser} from 'src/app/shared/interfaces/user.interface'
+import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
+import {IUser} from '@shared/interfaces/user.interface'
 import {
   errorsSelector,
   isLoadingSelector,
@@ -24,16 +24,17 @@ import {getUserAction, updateUserAction} from '../../store/actions/user.action'
   styleUrls: ['./update.component.scss'],
 })
 export class UpdateComponent implements OnInit, OnDestroy {
-  @Input('visible') visible: boolean = false
-  @Output('visibleChange') visibleChange = new EventEmitter<boolean>()
-  @Input('itemId') itemId!: number
+  @Input() visible = false
+  @Output() visibleChange = new EventEmitter<boolean>()
+  @Input() itemId!: number
 
   item!: IUser
   itemSubscription!: Subscription
 
   isLoading$!: Observable<boolean>
   validationErrors$!: Observable<IBackendErrors | null>
-  formValid: boolean = false
+  formValid = false
+  statusItem = 0
 
   constructor(private store: Store) {}
 
@@ -43,21 +44,22 @@ export class UpdateComponent implements OnInit, OnDestroy {
     this.initializeListeners()
   }
 
-  initializeValues(): void {
-    this.isLoading$ = this.store.pipe(select(isLoadingSelector))
-    this.validationErrors$ = this.store.pipe(select(errorsSelector))
+  private initializeValues(): void {
+    this.isLoading$ = this.store.select(isLoadingSelector)
+    this.validationErrors$ = this.store.select(errorsSelector)
   }
 
-  fetchData(): void {
+  private fetchData(): void {
     this.store.dispatch(getUserAction({id: this.itemId}))
   }
 
-  initializeListeners(): void {
+  private initializeListeners(): void {
     this.itemSubscription = this.store
-      .pipe(select(userSelector))
-      .subscribe((user: IUser | null) => {
-        if (user) {
-          this.item = {...user}
+      .select(userSelector)
+      .subscribe((item: IUser | null) => {
+        if (item) {
+          this.item = {...item}
+          this.statusItem = item.status
         }
       })
   }
@@ -68,7 +70,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
   }
 
   changeItem(value: IUser): void {
-    this.item = {...value}
+    this.item = {...value, status: this.statusItem}
   }
 
   onValidate(value: boolean): void {
@@ -85,5 +87,9 @@ export class UpdateComponent implements OnInit, OnDestroy {
     if (this.itemSubscription) {
       this.itemSubscription.unsubscribe()
     }
+  }
+
+  changeStatus(event: number): void {
+    this.statusItem = event
   }
 }

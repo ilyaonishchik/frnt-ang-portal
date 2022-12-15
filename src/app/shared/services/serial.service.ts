@@ -23,7 +23,7 @@ export class SerialService {
     console.log(`Load from port: ${data}`)
   }
 
-  async getPorts(filters: filterInterface[] = [], request: boolean = false) {
+  async getPorts(filters: filterInterface[] = [], request = false) {
     return await this.serialPort.getPorts(filters, request)
   }
 

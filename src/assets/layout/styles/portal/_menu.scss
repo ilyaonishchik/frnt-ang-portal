@@ -1,0 +1,19 @@
+.layout-sidebar {
+  height: calc(100vh - 7rem);
+  top: 5rem;
+  left: 1rem;
+}
+
+.layout-menu {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  ul {
+    a {
+      &.active-route {
+        background-color: rgba(0, 0, 0, .05);
+      }
+    }
+  }
+}

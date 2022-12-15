@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
 
-import {AppService} from '../../../../shared/services/app.service'
 import {AuthService} from '../../services/auth.service'
 import {IVerifyResponse} from '../../interfaces/verify-response.interface'
+import {environment} from 'environments/environment'
 
 @Component({
   selector: 'app-verify',
@@ -11,21 +11,17 @@ import {IVerifyResponse} from '../../interfaces/verify-response.interface'
   styleUrls: ['./verify.component.scss'],
 })
 export class VerifyComponent implements OnInit {
+  projectTitle: string = environment.title
   username!: string
   message!: string
 
   constructor(
     private activateRoute: ActivatedRoute,
-    private authService: AuthService,
-    private appService: AppService
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.verifyCode(this.activateRoute.snapshot.params['code'])
-  }
-
-  get appName() {
-    return this.appService.projectTitle
   }
 
   verifyCode(code: string) {

@@ -3,7 +3,7 @@
     <div class='col-12 text-center mb-2'>
       <p-button styleClass='p-button-text p-button-plain' routerLink='/'>
         <img src='assets/img/project.png' alt='Logo' style='width: 2rem' />
-        <span class='ml-2 text-2xl'>{{appService.projectTitle}}</span>
+        <span class='ml-2 text-2xl'>{{projectTitle}}</span>
       </p-button>
     </div>
     <div class='col-11 md:col-10 lg:col-8 xl:col-6'
@@ -28,9 +28,7 @@
                 class='w-full p-3'>
               <ng-container
                 *ngIf="(f['username'].dirty || f['username'].touched) && f['username'].invalid">
-                <small *ngIf="f['username'].errors?.['required']" class='p-error block'>
-                  Обязательно для заполнения
-                </small>
+                <avs-validate-input [errors]="f['username'].errors"></avs-validate-input>
               </ng-container>
             </div>
             <div class='field'>
@@ -45,9 +43,7 @@
               </p-password>
               <ng-container
                 *ngIf="(f['password'].dirty || f['password'].touched) && f['password'].invalid">
-                <small *ngIf="f['password'].errors?.['required']" class='p-error block'>
-                  Обязательно для заполнения
-                </small>
+                <avs-validate-input [errors]="f['password'].errors"></avs-validate-input>
               </ng-container>
             </div>
             <div class='flex align-items-center mb-3'>

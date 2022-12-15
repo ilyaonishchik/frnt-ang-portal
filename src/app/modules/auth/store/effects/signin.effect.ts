@@ -12,15 +12,15 @@ import {
   signinSuccessAction,
 } from '../actions/signin.action'
 import {AuthService} from '../../services/auth.service'
-import {responseToError} from 'src/app/shared/functions/error.function'
 
 import {ISigninResponse} from '../../interfaces/signin-response.interface'
-import {PersistenceService} from 'src/app/shared/services/persistence.service'
-import {LayoutService} from 'src/app/shared/services/layout.service'
+import {PersistenceService} from '@shared/services/persistence.service'
 import {IAuthState} from '../../interfaces/auth-state.interface'
 import {redirectUrlSelector} from '../selectors'
-import {getAllRolesAction} from '../actions/get-all-roles.action'
-import {getAllPermissionsAction} from '../actions/get-all-permissions.action'
+// import {getAllRolesAction} from '../actions/get-all-roles.action'
+// import {getAllPermissionsAction} from '../actions/get-all-permissions.action'
+import {LayoutService} from '@shared/modules/layout/services/layout.service'
+import {responseToErrors} from '@shared/functions/error.function'
 
 @Injectable()
 export class SigninEffect {
@@ -41,12 +41,13 @@ export class SigninEffect {
           map((response: ISigninResponse) => {
             this.persistenceService.setAccessToken(response.access_token)
             this.persistenceService.setRefreshToken(response.refresh_token)
+            this.persistenceService.setCurrentUser(response.user)
             this.layoutService.config.menuMode = 'static'
             return signinSuccessAction({currentUser: response.user})
           }),
           catchError((errorResponse: HttpErrorResponse) => {
             return of(
-              signinFailureAction({error: responseToError(errorResponse)})
+              signinFailureAction({errors: responseToErrors(errorResponse)})
             )
           })
         )
@@ -59,12 +60,12 @@ export class SigninEffect {
       this.actions$.pipe(
         ofType(signinSuccessAction),
         tap(() => {
-          this.store.dispatch(getAllRolesAction())
-          this.store.dispatch(getAllPermissionsAction())
-          let getRedirectUrl$ = this.store
+          // this.store.dispatch(getAllRolesAction())
+          // this.store.dispatch(getAllPermissionsAction())
+          const getRedirectUrl$ = this.store
             .select(redirectUrlSelector)
             .subscribe((value) => {
-              this.router.navigateByUrl(value).then((_) => {})
+              this.router.navigateByUrl(value).then()
             })
           getRedirectUrl$.unsubscribe()
         })

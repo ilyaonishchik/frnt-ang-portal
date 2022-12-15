@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core'
 import {RouterModule, Routes} from '@angular/router'
 
+import {LayoutComponent} from '@shared/modules/layout/components/layout/layout.component'
 import {SignedOutGuard} from './guards/signed-out.guard'
 import {SignedInGuard} from './guards/signed-in.guard'
-
-import {LayoutComponent} from './shared/components/layout/layout.component'
+import {PermissionGuard} from './guards/permission.guard'
 
 const routes: Routes = [
   {
@@ -19,17 +19,15 @@ const routes: Routes = [
       {
         path: 'admin',
         canLoad: [SignedInGuard],
-        canActivate: [SignedInGuard],
-        // canActivateChild: [SignedInGuard],
-        // data: {role: 'admin:view'},
+        canActivate: [SignedInGuard, PermissionGuard],
+        data: {permission: 'admin-panel:view'},
         loadChildren: () =>
           import('./modules/admin/admin.module').then((m) => m.AdminModule),
       },
       {
-        path: 'pdp',
+        path: 'podpiska',
         canLoad: [SignedInGuard],
         canActivate: [SignedInGuard],
-        // canActivateChild: [SignedInGuard],
         loadChildren: () =>
           import('./modules/podpiska/podpiska.module').then(
             (m) => m.PodpiskaModule
@@ -55,8 +53,10 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling: 'enabled',
+      onSameUrlNavigation: 'reload',
       enableTracing: false,
-      // preloadingStrategy: null,
       useHash: false,
     }),
   ],

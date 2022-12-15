@@ -1,6 +1,6 @@
 .layout-topbar {
     position: fixed;
-    height: 4rem;
+    height: 5rem;
     z-index: 997;
     left: 0;
     top: 0;
@@ -54,20 +54,17 @@
 
         i {
             font-size: 1.5rem;
-            span {
-                display: inline-block;
-            }
         }
 
         span {
-            font-size: 1.25rem;
+            font-size: 1rem;
             display: none;
         }
     }
 
-    //.layout-menu-button {
-    //    margin-left: 2rem;
-    //}
+    .layout-menu-button {
+        margin-left: 2rem;
+    }
 
     .layout-topbar-menu-button {
         display: none;
@@ -114,7 +111,7 @@
             position: absolute;
             flex-direction: column;
             background-color: var(--surface-overlay);
-            box-shadow: 0px 3px 5px rgba(0,0,0,.02), 0px 0px 2px rgba(0,0,0,.05), 0px 1px 4px rgba(0,0,0,.08);
+            box-shadow: 0 3px 5px rgba(0,0,0,.02), 0 0 2px rgba(0,0,0,.05), 0 1px 4px rgba(0,0,0,.08);
             border-radius: 12px;
             padding: 1rem;
             right: 2rem;
@@ -138,8 +135,8 @@
                 padding: 1rem;
 
                 i {
-                    font-size: 1.25rem;
-                    margin-right: 1rem;
+                    font-size: 1rem;
+                    margin-right: .5rem;
                 }
 
                 span {

@@ -5,15 +5,15 @@ import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {Store} from '@ngrx/store'
 
 import {PermissionService} from '../../services/permission.service'
-import {responseToErrors} from 'src/app/shared/functions/error.function'
-import {IDeleteResponse} from 'src/app/shared/interfaces/delete-response.interface'
+import {responseToErrors} from '@shared/functions/error.function'
+import {IDeleteResponse} from '@shared/interfaces/delete-response.interface'
 import {
   deletePermissionAction,
   deletePermissionFailureAction,
   deletePermissionSuccessAction,
 } from '../actions/permission.action'
-import {TCrudAction} from 'src/app/shared/types/crud-action.type'
-import {dialogConfirmAction} from 'src/app/shared/store/actions/dialogs.action'
+import {TCrudAction} from '@shared/types/crud-action.type'
+import {dialogConfirmAction} from '@shared/store/actions/dialog.action'
 
 @Injectable()
 export class DeletePermissionEffect {

@@ -17,21 +17,24 @@ import {
 } from 'rxjs'
 import {Store} from '@ngrx/store'
 
-import {PersistenceService} from '../shared/services/persistence.service'
-import {AuthService} from '../modules/auth/services/auth.service'
-import {IAuthState} from '../modules/auth/interfaces/auth-state.interface'
-import {signoutAction} from '../modules/auth/store/actions/signout.action'
+import {PersistenceService} from '@shared/services/persistence.service'
+import {AuthService} from '@modules/auth/services/auth.service'
+import {IAuthState} from '@modules/auth/interfaces/auth-state.interface'
+import {signoutAction} from '@modules/auth/store/actions/signout.action'
+import {ToastService} from '@shared/services/toast.service'
+import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
+import {responseToErrors} from '@shared/functions/error.function'
+import {IToken} from '@modules/auth/interfaces/token.interface'
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
   private isRefreshing = false
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
-    null
-  )
+  private refreshTokenSubject = new BehaviorSubject<any>(null)
 
   constructor(
-    private persistenceService: PersistenceService,
     private authService: AuthService,
+    private persistenceService: PersistenceService,
+    private toastService: ToastService,
     private store: Store<IAuthState>
   ) {}
 
@@ -48,15 +51,19 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     return next.handle(authRequest).pipe(
       catchError((error) => {
         if (error instanceof HttpErrorResponse) {
-          if (error.status === 401) {
-            if (!authRequest.url.includes('auth/signin')) {
-              return this.handle401Error(authRequest, next)
-            }
-          }
-          if (error.status === 403) {
-            if (authRequest.url.includes('auth/refresh')) {
-              this.store.dispatch(signoutAction())
-            }
+          switch (error.status) {
+            case 401:
+              if (!authRequest.url.includes('auth/signin')) {
+                return this.handle401Error(authRequest, next)
+              }
+              break
+            case 403:
+              if (authRequest.url.includes('auth/refresh')) {
+                this.store.dispatch(signoutAction())
+              }
+              break
+            default:
+              this.showMessage(responseToErrors(error))
           }
         }
         return throwError(error)
@@ -71,7 +78,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       const token = this.persistenceService.getRefreshToken()
       if (token) {
         return this.authService.refreshToken(token).pipe(
-          switchMap((token: any) => {
+          switchMap((token: IToken) => {
             this.isRefreshing = false
             this.persistenceService.setAccessToken(token.access_token)
             this.refreshTokenSubject.next(token.access_token)
@@ -95,6 +102,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     return request.clone({
       headers: request.headers.set('Authorization', `Bearer ${token}`),
     })
+  }
+
+  private showMessage(errors: IBackendErrors): void {
+    this.toastService.showBackendErrors(errors)
   }
 }
 

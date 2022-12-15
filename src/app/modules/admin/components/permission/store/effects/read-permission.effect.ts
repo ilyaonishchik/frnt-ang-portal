@@ -9,11 +9,11 @@ import {
   getPermissionFailureAction,
   getPermissionSuccessAction,
 } from '../actions/permission.action'
-import {IPermission} from 'src/app/shared/interfaces/permission.interface'
-import {responseToErrors} from 'src/app/shared/functions/error.function'
+import {IPermission} from '@shared/interfaces/permission.interface'
+import {responseToErrors} from '@shared/functions/error.function'
 
 @Injectable()
-export class GetPermissionEffect {
+export class ReadPermissionEffect {
   constructor(
     private actions$: Actions,
     private permissionService: PermissionService

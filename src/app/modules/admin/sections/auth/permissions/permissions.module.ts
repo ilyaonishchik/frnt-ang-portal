@@ -12,25 +12,24 @@ import {TooltipModule} from 'primeng/tooltip'
 import {InputTextareaModule} from 'primeng/inputtextarea'
 import {DialogModule} from 'primeng/dialog'
 
+import {AvsTableModule} from '@shared/modules/table/table.module'
+import {PermissionsRoutingModule} from './permissions-routing.module'
+import {PermissionModule} from '../../../components/permission/permission.module'
+
 import {GetPermissionsEffect} from './store/effects/permissions.effect'
 import {PermissionsComponent} from './components/permissions/permissions.component'
-import {reducers} from './store/reducers'
-import {PermissionsRoutingModule} from './permissions-routing.module'
-import {ColumnsModule} from 'src/app/shared/components/table/columns/columns.module'
-import {AvsTableModule} from 'src/app/shared/modules/table/table.module'
-import {PermissionModule} from '../../../components/permission/permission.module'
+import {permissionsFeatureKey, reducerPermissions} from './store/reducers'
 
 @NgModule({
   imports: [
     CommonModule,
     PermissionsRoutingModule,
     EffectsModule.forFeature([GetPermissionsEffect]),
-    StoreModule.forFeature('permissions', reducers),
+    StoreModule.forFeature(permissionsFeatureKey, reducerPermissions),
     TableModule,
     ButtonModule,
     InputTextModule,
     TooltipModule,
-    ColumnsModule,
     FormsModule,
     InputTextareaModule,
     AvsTableModule,

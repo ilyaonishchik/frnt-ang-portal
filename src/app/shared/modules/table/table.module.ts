@@ -5,28 +5,14 @@ import {TableModule} from 'primeng/table'
 import {ButtonModule} from 'primeng/button'
 import {TooltipModule} from 'primeng/tooltip'
 import {InputTextModule} from 'primeng/inputtext'
+import {DialogModule} from 'primeng/dialog'
 
 import {TableComponent} from './components/table/table.component'
 import {StatusComponent} from './components/columns/status/status.component'
 import {ActionsComponent as ColumnsActionsComponent} from './components/columns/actions/actions.component'
-import {
-  ActionsComponent,
-  ActionsComponent as DialogActionsComponent,
-} from './components/dialog/actions/actions.component'
-import {
-  DeleteComponent,
-  DeleteComponent as DialogDeleteComponent,
-} from './components/dialog/delete/delete.component'
-import {DialogModule} from 'primeng/dialog'
 
 @NgModule({
-  declarations: [
-    TableComponent,
-    StatusComponent,
-    ColumnsActionsComponent,
-    DialogActionsComponent,
-    DialogDeleteComponent,
-  ],
+  declarations: [TableComponent, StatusComponent, ColumnsActionsComponent],
   imports: [
     CommonModule,
     TableModule,
@@ -35,6 +21,6 @@ import {DialogModule} from 'primeng/dialog'
     InputTextModule,
     DialogModule,
   ],
-  exports: [TableComponent, ActionsComponent, DeleteComponent],
+  exports: [TableComponent],
 })
 export class AvsTableModule {}

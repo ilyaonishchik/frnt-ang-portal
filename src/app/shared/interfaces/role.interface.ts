@@ -5,14 +5,14 @@ export interface IRole {
   code: string
   name: string
   comment: string | null
-  status: number
   permissions: IPermission[]
+  status: number
 }
 
 export interface IRoleSave {
   code: string
   name: string
   comment: string | null
-  status: number
   permissions: number[]
+  status: number
 }

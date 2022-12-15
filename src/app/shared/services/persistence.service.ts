@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core'
+import {IUser} from '../interfaces/user.interface'
 
 const TOKEN_KEY = 'auth-token'
 const REFRESH_TOKEN_KEY = 'auth-refresh-token'
+const CURRENT_USER_KEY = 'current-user'
 
 @Injectable({
   providedIn: 'root',
@@ -12,21 +14,32 @@ export class PersistenceService {
     this.currentStorage = localStorage
   }
 
-  set(key: string, value: any): void {
+  set(key: string, value: any, session = false): void {
     try {
-      this.currentStorage.setItem(key, JSON.stringify(value))
+      const _value: string = JSON.stringify(value)
+      if (session) {
+        sessionStorage.setItem(key, _value)
+      } else {
+        localStorage.setItem(key, _value)
+      }
     } catch (e) {
       console.error('Error saving to storage', e)
     }
   }
 
-  get(key: string): any {
+  get(key: string, session = false): any {
+    let _value: any = null
     try {
-      const value = this.currentStorage.getItem(key)
-      if (value) {
-        return JSON.parse(value)
+      if (session) {
+        _value = sessionStorage.getItem(key)
+      } else {
+        _value = localStorage.getItem(key)
       }
-      return value
+
+      if (_value) {
+        return JSON.parse(_value)
+      }
+      return _value
     } catch (e) {
       console.error('Error getting value from storage', e)
       return null
@@ -56,7 +69,24 @@ export class PersistenceService {
     this.currentStorage.removeItem(REFRESH_TOKEN_KEY)
   }
 
-  clear(): void {
-    this.currentStorage.clear()
+  clear(session = false): void {
+    if (session) {
+      sessionStorage.clear()
+    } else {
+      localStorage.clear()
+    }
+  }
+
+  setCurrentUser(user: IUser): void {
+    sessionStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user))
+  }
+
+  getCurrentUser(): IUser | null {
+    const user = sessionStorage.getItem(CURRENT_USER_KEY)
+    if (user) {
+      return JSON.parse(user)
+    } else {
+      return null
+    }
   }
 }

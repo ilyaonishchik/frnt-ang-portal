@@ -7,16 +7,17 @@ import {
   Output,
 } from '@angular/core'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
-import {select, Store} from '@ngrx/store'
+import {Store} from '@ngrx/store'
 import {Subscription} from 'rxjs'
 
-import {IUser} from 'src/app/shared/interfaces/user.interface'
+import {IUser} from '@shared/interfaces/user.interface'
+import {IPermission} from '@shared/interfaces/permission.interface'
+import {IRole} from '@shared/interfaces/role.interface'
 import {
   allPermissionsSelector,
   allRolesSelector,
-} from '../../../../../auth/store/selectors'
-import {IPermission} from 'src/app/shared/interfaces/permission.interface'
-import {IRole} from 'src/app/shared/interfaces/role.interface'
+} from '@shared/store/selectors/session.selectors'
+// import {StorageService} from '@shared/services/storage.service'
 
 @Component({
   selector: 'app-user-form',
@@ -24,7 +25,7 @@ import {IRole} from 'src/app/shared/interfaces/role.interface'
   styleUrls: ['./user.component.scss'],
 })
 export class UserComponent implements OnInit, OnDestroy {
-  @Input('isReadOnly') isReadOnlyProps: boolean = false
+  @Input('isReadOnly') isReadOnlyProps = false
   @Input('initialValues') initialValuesProps!: IUser
 
   @Output('changeValues') changeValuesEvent = new EventEmitter<IUser>()
@@ -39,20 +40,23 @@ export class UserComponent implements OnInit, OnDestroy {
   targetRoles: IRole[] = []
   targetPermissions: IPermission[] = []
 
-  constructor(private fb: FormBuilder, private store: Store) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store // private storage: StorageService
+  ) {}
 
   ngOnInit(): void {
     this.initializeValues()
     this.initializeForm()
   }
 
-  initializeValues(): void {
+  private initializeValues(): void {
     this.targetRoles.push(...this.initialValuesProps.roles)
     this.targetPermissions.push(...this.initialValuesProps.permissions)
 
     this.itemSubscriptionR = this.store
-      .pipe(select(allRolesSelector))
-      .subscribe((items: IRole[]) => {
+      .select(allRolesSelector)
+      .subscribe((items: IRole[] | null) => {
         if (items) {
           this.sourceRoles = items.filter(
             (item) => !this.targetRoles.find((tr) => tr.id == item.id)
@@ -61,8 +65,8 @@ export class UserComponent implements OnInit, OnDestroy {
       })
 
     this.itemSubscriptionP = this.store
-      .pipe(select(allPermissionsSelector))
-      .subscribe((items: IPermission[]) => {
+      .select(allPermissionsSelector)
+      .subscribe((items: IPermission[] | null) => {
         if (items) {
           this.sourcePermissions = items.filter(
             (item) => !this.targetPermissions.find((tp) => tp.id == item.id)
@@ -71,7 +75,7 @@ export class UserComponent implements OnInit, OnDestroy {
       })
   }
 
-  initializeForm(): void {
+  private initializeForm(): void {
     this.formUser = this.fb.group({
       username: [
         this.initialValuesProps.username,
@@ -103,19 +107,19 @@ export class UserComponent implements OnInit, OnDestroy {
     return this.formUser.controls
   }
 
-  onValidateForm() {
+  onValidateForm(): void {
     this.formValidEvent.emit(this.formUser.valid)
   }
 
-  changeRoles() {
+  changeRoles(): void {
     this.formUser.value['roles'] = this.targetRoles
   }
 
-  changePermissions() {
+  changePermissions(): void {
     this.formUser.value['permissions'] = this.targetPermissions
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.itemSubscriptionR) {
       this.itemSubscriptionR.unsubscribe()
     }
@@ -123,4 +127,18 @@ export class UserComponent implements OnInit, OnDestroy {
       this.itemSubscriptionP.unsubscribe()
     }
   }
+
+  // uploadFile(event: any): void {
+  //   console.log(event.files)
+  //   for (let file of event.files) {
+  //     this.storage.uploadFile(file).subscribe(
+  //       (data) => {
+  //         console.log(data)
+  //       },
+  //       (error) => {
+  //         console.log(error)
+  //       }
+  //     )
+  //   }
+  // }
 }

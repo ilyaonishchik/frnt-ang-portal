@@ -1,5 +1,5 @@
-import {IUser} from 'src/app/shared/interfaces/user.interface'
-import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
+import {IUser} from '@shared/interfaces/user.interface'
+import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 
 export interface IUserState {
   isLoading: boolean

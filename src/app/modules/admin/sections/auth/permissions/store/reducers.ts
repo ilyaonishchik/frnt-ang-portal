@@ -11,11 +11,13 @@ import {
   dialogCancelAction,
   dialogConfirmAction,
   dialogShowAction,
-} from 'src/app/shared/store/actions/dialogs.action'
+} from '@shared/store/actions/dialog.action'
+
+export const permissionsFeatureKey = 'permissions'
 
 const initialState: IPermissionsState = {
   isLoading: false,
-  error: null,
+  backendErrors: null,
   data: {items: [], count: 0, first: 0},
   crud: null,
 }
@@ -27,6 +29,7 @@ const permissionsReducer = createReducer(
     (state): IPermissionsState => ({
       ...state,
       isLoading: true,
+      backendErrors: null,
     })
   ),
   on(
@@ -39,9 +42,10 @@ const permissionsReducer = createReducer(
   ),
   on(
     getPermissionsFailureAction,
-    (state): IPermissionsState => ({
+    (state, action): IPermissionsState => ({
       ...state,
       isLoading: false,
+      backendErrors: action.errors,
     })
   ),
   on(
@@ -63,11 +67,12 @@ const permissionsReducer = createReducer(
     (state): IPermissionsState => ({
       ...state,
       crud: null,
+      backendErrors: null,
     })
   ),
   on(routerNavigationAction, (): IPermissionsState => initialState)
 )
 
-export function reducers(state: IPermissionsState, action: Action) {
+export function reducerPermissions(state: IPermissionsState, action: Action) {
   return permissionsReducer(state, action)
 }

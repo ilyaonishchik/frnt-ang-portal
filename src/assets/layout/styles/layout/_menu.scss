@@ -1,12 +1,12 @@
 .layout-sidebar {
     position: fixed;
     width: 300px;
-    height: calc(100vh - 7rem);
+    height: calc(100vh - 9rem);
     z-index: 999;
     overflow-y: auto;
     user-select: none;
-    top: 5rem;
-    left: 1rem;
+    top: 7rem;
+    left: 2rem;
     transition: transform $transitionDuration, left $transitionDuration;
     background-color: var(--surface-overlay);
     border-radius: $borderRadius;
@@ -77,16 +77,9 @@
                 transition: transform $transitionDuration;
             }
 
-            &.rotated-icon {
-                .layout-menuitem-icon {
-                    transform: rotate(90deg);
-                }
-            }
-
             &.active-route {
                 font-weight: 700;
                 color: var(--primary-color);
-                background-color: rgba(0, 0, 0, .05);
             }
 
             &:hover {

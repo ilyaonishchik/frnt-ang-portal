@@ -10,10 +10,10 @@ import {
   updatePermissionFailureAction,
   updatePermissionSuccessAction,
 } from '../actions/permission.action'
-import {IPermission} from 'src/app/shared/interfaces/permission.interface'
-import {responseToErrors} from 'src/app/shared/functions/error.function'
-import {TCrudAction} from 'src/app/shared/types/crud-action.type'
-import {dialogConfirmAction} from 'src/app/shared/store/actions/dialogs.action'
+import {IPermission} from '@shared/interfaces/permission.interface'
+import {responseToErrors} from '@shared/functions/error.function'
+import {TCrudAction} from '@shared/types/crud-action.type'
+import {dialogConfirmAction} from '@shared/store/actions/dialog.action'
 
 @Injectable()
 export class UpdatePermissionEffect {

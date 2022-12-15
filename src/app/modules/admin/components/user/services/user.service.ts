@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http'
 import {Observable} from 'rxjs'
 
-import {environment} from 'src/environments/environment'
-import {IUser, IUserSave} from 'src/app/shared/interfaces/user.interface'
-import {IDeleteResponse} from 'src/app/shared/interfaces/delete-response.interface'
+import {environment} from 'environments/environment'
+import {IUser, IUserSave} from '@shared/interfaces/user.interface'
+import {IDeleteResponse} from '@shared/interfaces/delete-response.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +38,7 @@ export class UserService {
       email: item.email ? item.email : null,
       comment: item.comment,
       avatar: item.avatar,
-      sd_id: item.sd_id,
+      sd_id: item.sd_id ? item.sd_id : null,
       status: item.status,
       roles: [...item.roles.map((value) => value.id)],
       permissions: [...item.permissions.map((value) => value.id)],

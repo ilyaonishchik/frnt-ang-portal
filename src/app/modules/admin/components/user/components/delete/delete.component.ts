@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
-import {select, Store} from '@ngrx/store'
+import {Store} from '@ngrx/store'
 import {Observable} from 'rxjs'
 
-import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
+import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 import {deleteUserAction} from '../../store/actions/user.action'
 import {errorsSelector} from '../../store/selectors'
 
@@ -12,11 +12,11 @@ import {errorsSelector} from '../../store/selectors'
   styleUrls: ['./delete.component.scss'],
 })
 export class DeleteComponent implements OnInit {
-  @Input('visible') visible: boolean = false
-  @Output('visibleChange') visibleChange = new EventEmitter<boolean>()
-  @Input('itemId') itemId!: number
-  @Input('itemInfo') itemInfo: string | number | undefined = undefined
-  @Output('clickCancel') onClickCancel = new EventEmitter<any>()
+  @Input() visible = false
+  @Output() visibleChange = new EventEmitter<boolean>()
+  @Input() itemId!: number
+  @Input() itemInfo: string | number | undefined = undefined
+  @Output() clickCancel = new EventEmitter()
 
   validationErrors$!: Observable<IBackendErrors | null>
 
@@ -26,8 +26,8 @@ export class DeleteComponent implements OnInit {
     this.initializeValues()
   }
 
-  initializeValues(): void {
-    this.validationErrors$ = this.store.pipe(select(errorsSelector))
+  private initializeValues(): void {
+    this.validationErrors$ = this.store.select(errorsSelector)
   }
 
   onVisibleChange(value: boolean): void {
@@ -36,7 +36,7 @@ export class DeleteComponent implements OnInit {
   }
 
   cancelDelete(): void {
-    this.onClickCancel.emit()
+    this.clickCancel.emit()
   }
 
   confirmDelete(): void {

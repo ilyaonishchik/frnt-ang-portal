@@ -6,10 +6,10 @@
   class='p-fluid'
   header='Создание пользователя'
 >
-  <avs-message-validate
+  <avs-validate-errors
     *ngIf='validationErrors$ | async'
     [errors]='validationErrors$ | async'
-  ></avs-message-validate>
+  ></avs-validate-errors>
   <app-user-form
     [initialValues]=item
     (changeValues)=changeItem($event)
@@ -24,6 +24,7 @@
         [binary]=true
         [trueValue]=1
         [falseValue]=0
+        (ngModelChange)=changeStatus($event)
       ></p-checkbox>
       <div>
         <button

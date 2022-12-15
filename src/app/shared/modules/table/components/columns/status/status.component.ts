@@ -1,14 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core'
+import {Component, Input} from '@angular/core'
 
 @Component({
   selector: 'avs-table-columns-status',
   templateUrl: './status.component.html',
   styleUrls: ['./status.component.scss'],
 })
-export class StatusComponent implements OnInit {
+export class StatusComponent {
   @Input('status') value: boolean | number | undefined
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

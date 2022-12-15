@@ -6,6 +6,8 @@ import {
   createUserAction,
   createUserFailureAction,
   createUserSuccessAction,
+  deleteUserAction,
+  deleteUserFailureAction,
   getUserAction,
   getUserFailureAction,
   getUserSuccessAction,
@@ -13,6 +15,9 @@ import {
   updateUserFailureAction,
   updateUserSuccessAction,
 } from './actions/user.action'
+import {dialogCancelAction} from '@shared/store/actions/dialog.action'
+
+export const userFeatureKey = 'user'
 
 const initialState: IUserState = {
   isLoading: false,
@@ -98,9 +103,33 @@ const userReducer = createReducer(
       backendErrors: action.errors,
     })
   ),
+  on(
+    deleteUserAction,
+    (state): IUserState => ({
+      ...state,
+      isSubmitting: true,
+      backendErrors: null,
+    })
+  ),
+  on(
+    deleteUserFailureAction,
+    (state, action): IUserState => ({
+      ...state,
+      isSubmitting: false,
+      backendErrors: action.errors,
+    })
+  ),
+  on(
+    dialogCancelAction,
+    (state): IUserState => ({
+      ...state,
+      item: null,
+      backendErrors: null,
+    })
+  ),
   on(routerNavigationAction, (): IUserState => initialState)
 )
 
-export function reducers(state: IUserState, action: Action) {
+export function reducerUser(state: IUserState, action: Action) {
   return userReducer(state, action)
 }

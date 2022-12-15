@@ -11,19 +11,22 @@ import {DialogModule} from 'primeng/dialog'
 import {CheckboxModule} from 'primeng/checkbox'
 import {ButtonModule} from 'primeng/button'
 
-import {GetPermissionEffect} from './store/effects/read-permission.effect'
-import {ReadComponent} from './components/read/read.component'
+import {LoadingModule} from '@shared/modules/loading/loading.module'
+import {ValidateModule} from '@shared/modules/validate/validate.module'
+
 import {PermissionComponent} from './forms/permission/permission.component'
-import {reducers} from './store/reducers'
-import {LoadingModule} from 'src/app/shared/modules/loading/loading.module'
+
 import {CreateComponent} from './components/create/create.component'
-import {CreatePermissionEffect} from './store/effects/create-permission.effect'
+import {ReadComponent} from './components/read/read.component'
 import {UpdateComponent} from './components/update/update.component'
-import {UpdatePermissionEffect} from './store/effects/update-permission.effect'
-import {MessagesModule} from 'src/app/shared/modules/messages/messages.module'
 import {DeleteComponent} from './components/delete/delete.component'
+
+import {permissionFeatureKey, reducerPermission} from './store/reducers'
+
+import {CreatePermissionEffect} from './store/effects/create-permission.effect'
+import {ReadPermissionEffect} from './store/effects/read-permission.effect'
+import {UpdatePermissionEffect} from './store/effects/update-permission.effect'
 import {DeletePermissionEffect} from './store/effects/delete-permission.effect'
-import {ErrorsModule} from 'src/app/shared/modules/errors/errors.module'
 
 @NgModule({
   declarations: [
@@ -36,12 +39,12 @@ import {ErrorsModule} from 'src/app/shared/modules/errors/errors.module'
   imports: [
     CommonModule,
     EffectsModule.forFeature([
-      GetPermissionEffect,
+      ReadPermissionEffect,
       CreatePermissionEffect,
       UpdatePermissionEffect,
       DeletePermissionEffect,
     ]),
-    StoreModule.forFeature('permission', reducers),
+    StoreModule.forFeature(permissionFeatureKey, reducerPermission),
     InputTextModule,
     InputTextareaModule,
     ReactiveFormsModule,
@@ -50,8 +53,7 @@ import {ErrorsModule} from 'src/app/shared/modules/errors/errors.module'
     ButtonModule,
     FormsModule,
     LoadingModule,
-    MessagesModule,
-    ErrorsModule,
+    ValidateModule,
   ],
   exports: [
     ReadComponent,

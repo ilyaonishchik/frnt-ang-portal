@@ -1,8 +1,10 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store'
 
 import {IUserState} from '../interfaces/user-state.interface'
+import {userFeatureKey} from './reducers'
 
-export const userFeatureSelector = createFeatureSelector<IUserState>('user')
+export const userFeatureSelector =
+  createFeatureSelector<IUserState>(userFeatureKey)
 
 export const isLoadingSelector = createSelector(
   userFeatureSelector,

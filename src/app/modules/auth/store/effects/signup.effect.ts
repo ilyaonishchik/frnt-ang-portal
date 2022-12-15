@@ -11,16 +11,15 @@ import {
   signupSuccessAction,
 } from '../actions/signup.action'
 import {AuthService} from '../../services/auth.service'
-import {ICurrentUser} from '../../../../shared/interfaces/current-user.interface'
-import {responseToError} from '../../../../shared/functions/error.function'
-import {AppService} from '../../../../shared/services/app.service'
+import {IUser} from '@shared/interfaces/user.interface'
+import {responseToErrors} from '@shared/functions/error.function'
 
 @Injectable()
 export class SignupEffect {
   constructor(
     private actions$: Actions,
     private authService: AuthService,
-    private appService: AppService,
+    // private appService: AppService,
     private router: Router
   ) {}
 
@@ -29,12 +28,12 @@ export class SignupEffect {
       ofType(signupAction),
       switchMap(({request}) => {
         return this.authService.signUp(request).pipe(
-          map((currentUser: ICurrentUser) => {
+          map((currentUser: IUser) => {
             return signupSuccessAction({currentUser})
           }),
           catchError((errorResponse: HttpErrorResponse) => {
             return of(
-              signupFailureAction({error: responseToError(errorResponse)})
+              signupFailureAction({errors: responseToErrors(errorResponse)})
             )
           })
         )
@@ -46,9 +45,8 @@ export class SignupEffect {
     () =>
       this.actions$.pipe(
         ofType(signupSuccessAction),
-        tap((value) => {
-          this.appService.showSignupSuccess(value.currentUser)
-          this.router.navigateByUrl('/').then((_) => {})
+        tap(() => {
+          this.router.navigateByUrl('/').then()
         })
       ),
     {dispatch: false}

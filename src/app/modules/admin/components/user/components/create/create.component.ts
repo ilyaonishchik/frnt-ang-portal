@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {Observable} from 'rxjs'
-import {select, Store} from '@ngrx/store'
+import {Store} from '@ngrx/store'
 
-import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
-import {IUser} from 'src/app/shared/interfaces/user.interface'
+import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
+import {IUser} from '@shared/interfaces/user.interface'
 import {errorsSelector} from '../../store/selectors'
 import {createUserAction} from '../../store/actions/user.action'
 
@@ -13,12 +13,13 @@ import {createUserAction} from '../../store/actions/user.action'
   styleUrls: ['./create.component.scss'],
 })
 export class CreateComponent implements OnInit {
-  @Input('visible') visible: boolean = false
-  @Output('visibleChange') visibleChange = new EventEmitter<boolean>()
+  @Input() visible = false
+  @Output() visibleChange = new EventEmitter<boolean>()
 
   item!: IUser
   validationErrors$!: Observable<IBackendErrors | null>
-  formValid: boolean = false
+  formValid = false
+  statusItem = 1
 
   constructor(private store: Store) {
     this.item = {
@@ -40,8 +41,8 @@ export class CreateComponent implements OnInit {
     this.initializeValues()
   }
 
-  initializeValues(): void {
-    this.validationErrors$ = this.store.pipe(select(errorsSelector))
+  private initializeValues(): void {
+    this.validationErrors$ = this.store.select(errorsSelector)
   }
 
   saveItem(): void {
@@ -60,6 +61,10 @@ export class CreateComponent implements OnInit {
   }
 
   changeItem(value: IUser): void {
-    this.item = {...value}
+    this.item = {...value, status: this.statusItem}
+  }
+
+  changeStatus(event: number): void {
+    this.statusItem = event
   }
 }

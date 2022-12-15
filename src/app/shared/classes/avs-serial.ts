@@ -15,12 +15,12 @@ export class AvsSerial {
   }
   private writer: any
   private readFunction: Function
-  private controlCharacter: string = '\n'
-  private endLineCharacter: string = '\r'
+  private controlCharacter = '\n'
+  private endLineCharacter = '\r'
   private reader: any
   private readableStreamClosed: any
   private writableStreamClosed: any
-  private keepReading: boolean = true
+  private keepReading = true
 
   constructor(
     readFunction: Function,
@@ -34,10 +34,7 @@ export class AvsSerial {
     if (endLineCharacter) this.endLineCharacter = endLineCharacter
   }
 
-  public async getPorts(
-    filters: filterInterface[] = [],
-    request: boolean = false
-  ) {
+  public async getPorts(filters: filterInterface[] = [], request = false) {
     if ('serial' in navigator) {
       let nav: any = navigator
       const _ports = await nav.serial.getPorts()

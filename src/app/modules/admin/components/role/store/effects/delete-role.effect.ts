@@ -4,16 +4,16 @@ import {catchError, map, of, switchMap, tap} from 'rxjs'
 import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {Store} from '@ngrx/store'
 
-import {TCrudAction} from 'src/app/shared/types/crud-action.type'
-import {dialogConfirmAction} from 'src/app/shared/store/actions/dialogs.action'
+import {TCrudAction} from '@shared/types/crud-action.type'
+import {dialogConfirmAction} from '@shared/store/actions/dialog.action'
 import {RoleService} from '../../services/role.service'
 import {
   deleteRoleAction,
   deleteRoleFailureAction,
   deleteRoleSuccessAction,
 } from '../actions/role.action'
-import {IDeleteResponse} from 'src/app/shared/interfaces/delete-response.interface'
-import {responseToErrors} from 'src/app/shared/functions/error.function'
+import {IDeleteResponse} from '@shared/interfaces/delete-response.interface'
+import {responseToErrors} from '@shared/functions/error.function'
 
 @Injectable()
 export class DeleteRoleEffect {

@@ -1,16 +1,17 @@
-import {Component, OnInit} from '@angular/core'
+import {Component} from '@angular/core'
 import {Location} from '@angular/common'
-import {AppService} from '../../../../shared/services/app.service'
+
+import {environment} from 'environments/environment'
 
 @Component({
   selector: 'app-page404',
   templateUrl: './page404.component.html',
   styleUrls: ['./page404.component.scss'],
 })
-export class Page404Component implements OnInit {
-  constructor(public appService: AppService, private location: Location) {}
+export class Page404Component {
+  projectTitle: string = environment.title
 
-  ngOnInit(): void {}
+  constructor(private location: Location) {}
 
   goBack(): void {
     this.location.back()

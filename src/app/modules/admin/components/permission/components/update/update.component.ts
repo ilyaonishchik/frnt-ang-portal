@@ -6,10 +6,10 @@ import {
   OnInit,
   Output,
 } from '@angular/core'
-import {select, Store} from '@ngrx/store'
+import {Store} from '@ngrx/store'
 import {Observable, Subscription} from 'rxjs'
 
-import {IPermission} from 'src/app/shared/interfaces/permission.interface'
+import {IPermission} from '@shared/interfaces/permission.interface'
 import {
   getPermissionAction,
   updatePermissionAction,
@@ -19,7 +19,7 @@ import {
   isLoadingSelector,
   permissionSelector,
 } from '../../store/selectors'
-import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
+import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 
 @Component({
   selector: 'app-permission-update',
@@ -27,16 +27,17 @@ import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface
   styleUrls: ['./update.component.scss'],
 })
 export class UpdateComponent implements OnInit, OnDestroy {
-  @Input('visible') visible: boolean = false
-  @Output('visibleChange') visibleChange = new EventEmitter<boolean>()
-  @Input('itemId') itemId!: number
+  @Input() visible = false
+  @Output() visibleChange = new EventEmitter<boolean>()
+  @Input() itemId!: number
 
   item!: IPermission
   itemSubscription!: Subscription
 
   isLoading$!: Observable<boolean>
   validationErrors$!: Observable<IBackendErrors | null>
-  formValid: boolean = false
+  formValid = false
+  statusItem = 0
 
   constructor(private store: Store) {}
 
@@ -47,21 +48,22 @@ export class UpdateComponent implements OnInit, OnDestroy {
   }
 
   initializeValues(): void {
-    this.isLoading$ = this.store.pipe(select(isLoadingSelector))
-    this.validationErrors$ = this.store.pipe(select(errorsSelector))
+    this.isLoading$ = this.store.select(isLoadingSelector)
+    this.validationErrors$ = this.store.select(errorsSelector)
   }
 
-  initializeListeners(): void {
+  private initializeListeners(): void {
     this.itemSubscription = this.store
-      .pipe(select(permissionSelector))
-      .subscribe((permission: IPermission | null) => {
-        if (permission) {
-          this.item = {...permission}
+      .select(permissionSelector)
+      .subscribe((item: IPermission | null) => {
+        if (item) {
+          this.item = {...item}
+          this.statusItem = item.status
         }
       })
   }
 
-  fetchData(): void {
+  private fetchData(): void {
     this.store.dispatch(getPermissionAction({id: this.itemId}))
   }
 
@@ -83,10 +85,14 @@ export class UpdateComponent implements OnInit, OnDestroy {
   }
 
   changeItem(value: IPermission): void {
-    this.item = {...value}
+    this.item = {...value, status: this.statusItem}
   }
 
-  ngOnDestroy() {
+  changeStatus(event: number): void {
+    this.statusItem = event
+  }
+
+  ngOnDestroy(): void {
     if (this.itemSubscription) {
       this.itemSubscription.unsubscribe()
     }

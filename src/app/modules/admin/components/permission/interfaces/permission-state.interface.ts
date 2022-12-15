@@ -1,5 +1,5 @@
-import {IPermission} from 'src/app/shared/interfaces/permission.interface'
-import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
+import {IPermission} from '@shared/interfaces/permission.interface'
+import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 
 export interface IPermissionState {
   isLoading: boolean

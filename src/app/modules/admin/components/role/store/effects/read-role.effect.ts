@@ -9,11 +9,11 @@ import {
   getRoleFailureAction,
   getRoleSuccessAction,
 } from '../actions/role.action'
-import {IRole} from 'src/app/shared/interfaces/role.interface'
-import {responseToErrors} from 'src/app/shared/functions/error.function'
+import {IRole} from '@shared/interfaces/role.interface'
+import {responseToErrors} from '@shared/functions/error.function'
 
 @Injectable()
-export class GetRoleEffect {
+export class ReadRoleEffect {
   constructor(private actions$: Actions, private roleService: RoleService) {}
 
   getRole$ = createEffect(() =>

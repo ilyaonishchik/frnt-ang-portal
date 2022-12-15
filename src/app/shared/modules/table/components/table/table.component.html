@@ -29,7 +29,7 @@
         label='Создать'
         icon='pi pi-plus'
         class='p-button-success mr-2'
-        [disabled]=!userCRUD.create
+        [disabled]=!crud.create
         (click)='createItem()'
       >
       </button>
@@ -81,7 +81,7 @@
       <td class='text-center'>
         <span class='p-column-title'>Операции</span>
         <avs-table-columns-actions
-          [userCRUD]=userCRUD
+          [crud]=crud
           (clickRead)=readItem(rowData[dt.dataKey])
           (clickUpdate)=updateItem(rowData[dt.dataKey])
           (clickDelete)=deleteItem(rowData)

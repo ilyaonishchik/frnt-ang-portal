@@ -1,5 +1,5 @@
-import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
-import {IRole} from 'src/app/shared/interfaces/role.interface'
+import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
+import {IRole} from '@shared/interfaces/role.interface'
 
 export interface IRoleState {
   isLoading: boolean

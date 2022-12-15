@@ -5,10 +5,10 @@
   [modal]=true
   [style]="{width: '450px'}"
 >
-  <avs-message-validate
+  <avs-validate-errors
     *ngIf='validationErrors$ | async'
     [errors]='validationErrors$ | async'
-  ></avs-message-validate>
+  ></avs-validate-errors>
   <div class='flex align-items-center justify-content-center'>
     <i class='pi pi-exclamation-triangle mr-3' style='font-size: 2rem'></i>
     <span>Вы действительно хотите удалить: <b>{{itemInfo}}</b>?</span>

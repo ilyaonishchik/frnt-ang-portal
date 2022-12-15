@@ -1,13 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import 'assets/layout/styles/layout/layout';
+//$gutter: 1rem; //for primeflex grid system
+@import "assets/layout/styles/layout/layout";
 
-/* PrimeNG*/
-@import '../node_modules/primeicons/primeicons.css';
-@import '../node_modules/primeng/resources/primeng.min.css';
+/* PrimeNG */
+@import "../node_modules/primeicons/primeicons.css";
+@import "../node_modules/primeng/resources/primeng.min.css";
+
 
 /* PrimeFlex */
-@import '../node_modules/primeflex/primeflex';
+@import "../node_modules/primeflex/primeflex";
+
+/* Fontawesome */
+@import "assets/fontawesome/scss/fontawesome";
+@import "assets/fontawesome/scss/solid";
+@import "assets/fontawesome/scss/regular";
 
 /* Portal */
-@import 'assets/layout/styles/portal/portal';
+@import "assets/layout/styles/portal/portal";

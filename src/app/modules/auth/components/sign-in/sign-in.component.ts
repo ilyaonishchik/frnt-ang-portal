@@ -2,12 +2,12 @@ import {Component, OnInit} from '@angular/core'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import {Observable} from 'rxjs'
 
-import {select, Store} from '@ngrx/store'
+import {Store} from '@ngrx/store'
 
-import {AppService} from '../../../../shared/services/app.service'
 import {isSubmittingSelector} from '../../store/selectors'
 import {ISigninRequest} from '../../interfaces/signin-request.interface'
 import {signinAction} from '../../store/actions/signin.action'
+import {environment} from 'environments/environment'
 
 @Component({
   selector: 'app-sign-in',
@@ -15,14 +15,11 @@ import {signinAction} from '../../store/actions/signin.action'
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements OnInit {
+  projectTitle: string = environment.title
   signInForm!: FormGroup
   isSubmitting$!: Observable<boolean>
 
-  constructor(
-    private store: Store,
-    public appService: AppService,
-    private formBuilder: FormBuilder
-  ) {}
+  constructor(private store: Store, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.initializeForm()
@@ -33,7 +30,7 @@ export class SignInComponent implements OnInit {
     return this.signInForm.controls
   }
 
-  initializeForm(): void {
+  private initializeForm(): void {
     this.signInForm = this.formBuilder.group({
       username: [null, [Validators.required]],
       password: [null, [Validators.required]],
@@ -41,36 +38,16 @@ export class SignInComponent implements OnInit {
     })
   }
 
-  initializeValues(): void {
-    this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector))
+  private initializeValues(): void {
+    this.isSubmitting$ = this.store.select(isSubmittingSelector)
   }
 
-  resetForm() {
+  resetForm(): void {
     this.signInForm.reset()
   }
 
-  submitSignIn() {
+  submitSignIn(): void {
     const request: ISigninRequest = this.signInForm.value
     this.store.dispatch(signinAction({request}))
-
-    // this.authService.signIn(this.signInForm.value).subscribe({
-    //   next: () => {
-    //     this.authService.getUserMeInfo()
-    //     this.authService.redirect()
-    //   },
-    //   error: (err) => {
-    //     console.warn('SignIn error (%s): %s', err.code, err.message)
-    //     this.messageService.add({
-    //       key: 'main',
-    //       severity: 'warn',
-    //       summary: 'Внимание',
-    //       detail: err.message,
-    //     })
-    //   },
-    //   complete: () => {
-    //     console.log('SignIn: Complete')
-    //   },
-    // })
-    // this.resetForm()
   }
 }

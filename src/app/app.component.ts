@@ -1,48 +1,27 @@
-import {Component, OnDestroy, OnInit} from '@angular/core'
-import {Observable, Subscription} from 'rxjs'
+import {Component, OnInit} from '@angular/core'
+import {Store} from '@ngrx/store'
 
-import {select, Store} from '@ngrx/store'
+import {PrimeNGConfig} from 'primeng/api'
 
-import {MessageService, PrimeNGConfig} from 'primeng/api'
-
-import {EventBusService} from './shared/services/event-bus.service'
-import {signoutAction} from './modules/auth/store/actions/signout.action'
-import {getCurrentUserAction} from './modules/auth/store/actions/get-current-user.action'
-import {
-  currentUserSelector,
-  validationErrorSelector,
-} from './modules/auth/store/selectors'
-import {ICurrentUser} from './shared/interfaces/current-user.interface'
-import {AppService} from './shared/services/app.service'
+import {getCurrentUserAction} from '@modules/auth/store/actions/get-current-user.action'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
-  eventBusSub!: Subscription
-  backendError!: Subscription
-  currentUser$!: Observable<ICurrentUser | null>
-
-  constructor(
-    private store: Store,
-    private primeConfig: PrimeNGConfig,
-    private eventBusService: EventBusService,
-    private messageService: MessageService,
-    private appService: AppService
-  ) {}
+export class AppComponent implements OnInit {
+  constructor(private primengConfig: PrimeNGConfig, private store: Store) {}
 
   ngOnInit() {
     this.initializeConfig()
     this.initializeState()
-    this.initializeEvents()
   }
 
   initializeConfig(): void {
     document.documentElement.style.fontSize = '14px'
-    this.primeConfig.ripple = false
-    this.primeConfig.setTranslation({
+    this.primengConfig.ripple = false
+    this.primengConfig.setTranslation({
       passwordPrompt: 'Введите пароль',
       weak: 'Легкий',
       medium: 'Средний',
@@ -97,29 +76,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initializeState(): void {
-    this.currentUser$ = this.store.pipe(select(currentUserSelector))
     this.store.dispatch(getCurrentUserAction())
-  }
-
-  initializeEvents(): void {
-    this.eventBusSub = this.eventBusService.on('signout', () => {
-      this.messageService.add({
-        key: 'main',
-        severity: 'warn',
-        summary: 'Внимание',
-        detail:
-          'Ваш сеанс завершен принудительно в связи с окончанием времени сессии.',
-      })
-      this.store.dispatch(signoutAction())
-    })
-    this.backendError = this.store
-      .pipe(select(validationErrorSelector))
-      .subscribe((value) => {
-        this.appService.showBackendError(value)
-      })
-  }
-
-  ngOnDestroy(): void {
-    if (this.eventBusSub) this.eventBusSub.unsubscribe()
   }
 }

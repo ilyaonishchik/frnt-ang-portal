@@ -10,10 +10,10 @@ import {
   getRolesSuccessAction,
 } from '../actions/roles.action'
 import {RolesService} from '../../services/roles.service'
-import {IResponseItems} from 'src/app/shared/interfaces/response-items.interface'
-import {IRole} from 'src/app/shared/interfaces/role.interface'
-import {responseToErrors} from 'src/app/shared/functions/error.function'
-import {dialogConfirmAction} from 'src/app/shared/store/actions/dialogs.action'
+import {IResponseItems} from '@shared/interfaces/response-items.interface'
+import {IRole} from '@shared/interfaces/role.interface'
+import {responseToErrors} from '@shared/functions/error.function'
+import {dialogConfirmAction} from '@shared/store/actions/dialog.action'
 
 @Injectable()
 export class GetRolesEffect {

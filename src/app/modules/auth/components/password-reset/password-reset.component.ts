@@ -1,21 +1,21 @@
-import {Component, OnInit} from '@angular/core'
+import {Component} from '@angular/core'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 
 import {MessageService} from 'primeng/api'
 
-import {AppService} from '../../../../shared/services/app.service'
 import {AuthService} from '../../services/auth.service'
+import {environment} from 'environments/environment'
 
 @Component({
   selector: 'app-password-reset',
   templateUrl: './password-reset.component.html',
   styleUrls: ['./password-reset.component.scss'],
 })
-export class PasswordResetComponent implements OnInit {
+export class PasswordResetComponent {
+  projectTitle: string = environment.title
   resetPasswordForm!: FormGroup
 
   constructor(
-    public appService: AppService,
     public authService: AuthService,
     private messageService: MessageService,
     private formBuilder: FormBuilder
@@ -23,22 +23,20 @@ export class PasswordResetComponent implements OnInit {
     this.makeForm()
   }
 
-  ngOnInit(): void {}
-
   get f() {
     return this.resetPasswordForm.controls
   }
-  makeForm() {
+  makeForm(): void {
     this.resetPasswordForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
     })
   }
 
-  resetForm() {
+  resetForm(): void {
     this.resetPasswordForm.reset()
   }
 
-  submitReset() {
+  submitReset(): void {
     this.authService.resetPassword(this.resetPasswordForm.value).subscribe({
       next: (res) => {
         console.log(res)

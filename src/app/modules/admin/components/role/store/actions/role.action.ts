@@ -1,66 +1,66 @@
 import {createAction, props} from '@ngrx/store'
 
-import {ActionTypes} from '../actionTypes'
-import {IRole} from 'src/app/shared/interfaces/role.interface'
-import {IBackendErrors} from 'src/app/shared/interfaces/backend-errors.interface'
-import {IDeleteResponse} from 'src/app/shared/interfaces/delete-response.interface'
+import {RoleActionTypes} from '../actionTypes'
+import {IRole} from '@shared/interfaces/role.interface'
+import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
+import {IDeleteResponse} from '@shared/interfaces/delete-response.interface'
 
 export const getRoleAction = createAction(
-  ActionTypes.GET_ROLE,
+  RoleActionTypes.GET_ROLE,
   props<{id: number}>()
 )
 
 export const getRoleSuccessAction = createAction(
-  ActionTypes.GET_ROLE_SUCCESS,
+  RoleActionTypes.GET_ROLE_SUCCESS,
   props<{role: IRole}>()
 )
 
 export const getRoleFailureAction = createAction(
-  ActionTypes.GET_ROLE_FAILURE,
+  RoleActionTypes.GET_ROLE_FAILURE,
   props<{errors: IBackendErrors}>()
 )
 
 export const createRoleAction = createAction(
-  ActionTypes.CREATE_ROLE,
+  RoleActionTypes.CREATE_ROLE,
   props<{role: IRole}>()
 )
 
 export const createRoleSuccessAction = createAction(
-  ActionTypes.CREATE_ROLE_SUCCESS,
+  RoleActionTypes.CREATE_ROLE_SUCCESS,
   props<{role: IRole}>()
 )
 
 export const createRoleFailureAction = createAction(
-  ActionTypes.CREATE_ROLE_FAILURE,
+  RoleActionTypes.CREATE_ROLE_FAILURE,
   props<{errors: IBackendErrors}>()
 )
 
 export const updateRoleAction = createAction(
-  ActionTypes.UPDATE_ROLE,
+  RoleActionTypes.UPDATE_ROLE,
   props<{id: number; role: IRole}>()
 )
 
 export const updateRoleSuccessAction = createAction(
-  ActionTypes.UPDATE_ROLE_SUCCESS,
+  RoleActionTypes.UPDATE_ROLE_SUCCESS,
   props<{role: IRole}>()
 )
 
 export const updateRoleFailureAction = createAction(
-  ActionTypes.UPDATE_ROLE_FAILURE,
+  RoleActionTypes.UPDATE_ROLE_FAILURE,
   props<{errors: IBackendErrors}>()
 )
 
 export const deleteRoleAction = createAction(
-  ActionTypes.DELETE_ROLE,
+  RoleActionTypes.DELETE_ROLE,
   props<{id: number}>()
 )
 
 export const deleteRoleSuccessAction = createAction(
-  ActionTypes.DELETE_ROLE_SUCCESS,
+  RoleActionTypes.DELETE_ROLE_SUCCESS,
   props<{response: IDeleteResponse}>()
 )
 
 export const deleteRoleFailureAction = createAction(
-  ActionTypes.DELETE_ROLE_FAILURE,
+  RoleActionTypes.DELETE_ROLE_FAILURE,
   props<{errors: IBackendErrors}>()
 )

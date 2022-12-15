@@ -10,10 +10,10 @@ import {
   getPermissionsFailureAction,
   getPermissionsSuccessAction,
 } from '../actions/permissions.action'
-import {IResponseItems} from 'src/app/shared/interfaces/response-items.interface'
-import {IPermission} from 'src/app/shared/interfaces/permission.interface'
-import {dialogConfirmAction} from 'src/app/shared/store/actions/dialogs.action'
-import {responseToErrors} from 'src/app/shared/functions/error.function'
+import {IResponseItems} from '@shared/interfaces/response-items.interface'
+import {IPermission} from '@shared/interfaces/permission.interface'
+import {dialogConfirmAction} from '@shared/store/actions/dialog.action'
+import {responseToErrors} from '@shared/functions/error.function'
 
 @Injectable()
 export class GetPermissionsEffect {

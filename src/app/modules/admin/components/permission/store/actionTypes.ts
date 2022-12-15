@@ -1,4 +1,4 @@
-export enum ActionTypes {
+export enum PermissionActionTypes {
   GET_PERMISSION = '[Permission] Get permission',
   GET_PERMISSION_SUCCESS = '[Permission] Get permission success',
   GET_PERMISSION_FAILURE = '[Permission] Get permission failure',

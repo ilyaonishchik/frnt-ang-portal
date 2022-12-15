@@ -1,15 +1,16 @@
 import {createAction, props} from '@ngrx/store'
-import {ActionTypes} from '../actionTypes'
-import {IBackendError} from 'src/app/shared/interfaces/backend-errors.interface'
 
-export const signoutAction = createAction(ActionTypes.SIGNOUT)
+import {AuthActionTypes} from '../actionTypes'
+import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
+
+export const signoutAction = createAction(AuthActionTypes.SIGNOUT)
 
 export const signoutSuccessAction = createAction(
-  ActionTypes.SIGNOUT_SUCCESS,
+  AuthActionTypes.SIGNOUT_SUCCESS,
   props<{url: string}>()
 )
 
 export const signoutFailureAction = createAction(
-  ActionTypes.SIGNOUT_FAILURE,
-  props<{error: IBackendError}>()
+  AuthActionTypes.SIGNOUT_FAILURE,
+  props<{errors: IBackendErrors}>()
 )

@@ -1,31 +1,32 @@
-import {Injectable} from '@angular/core'
+import {Injectable, OnDestroy} from '@angular/core'
 import {Store} from '@ngrx/store'
 
+import {environment} from 'environments/environment'
+import {currentUserSelector} from '@modules/auth/store/selectors'
 import {IItemCRUD} from '../interfaces/rbac.interface'
-import {currentUserSelector} from '../../modules/auth/store/selectors'
 import {IPermission} from '../interfaces/permission.interface'
-import {environment} from '../../../environments/environment'
-import {IRole} from '../interfaces/role.interface'
+// import {IRole} from '../interfaces/role.interface'
+import {Subscription} from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
 })
-export class RbacService {
+export class RbacService implements OnDestroy {
   userPermissions: IPermission[] = []
-  userRoles: IRole[] = []
+  // userRoles: IRole[] = []
+
+  rbacSubscription!: Subscription
 
   constructor(private store: Store) {
-    // TODO Реализовать отписку
-    this.store.select(currentUserSelector).subscribe((user) => {
-      if (user) {
-        this.userPermissions = user.permissions
-        this.userRoles = user.roles
-      }
-    })
+    this.initializeListeners()
   }
 
-  // checkRole(name: string): boolean {
-  //   return false
+  // checkRole(code: string): boolean {
+  //   return (
+  //     this.userRoles.findIndex((item) => {
+  //       return item.code === code
+  //     }) != -1
+  //   )
   // }
 
   checkPermission(code: string): boolean {
@@ -60,6 +61,23 @@ export class RbacService {
           delete: false,
         }
       }
+    }
+  }
+
+  private initializeListeners(): void {
+    this.rbacSubscription = this.store
+      .select(currentUserSelector)
+      .subscribe((user) => {
+        if (user) {
+          this.userPermissions = user.permissions
+          // this.userRoles = user.roles
+        }
+      })
+  }
+
+  ngOnDestroy(): void {
+    if (this.rbacSubscription) {
+      this.rbacSubscription.unsubscribe()
     }
   }
 }

@@ -1,9 +1,10 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store'
 
 import {IPermissionState} from '../interfaces/permission-state.interface'
+import {permissionFeatureKey} from './reducers'
 
 export const permissionFeatureSelector =
-  createFeatureSelector<IPermissionState>('permission')
+  createFeatureSelector<IPermissionState>(permissionFeatureKey)
 
 export const isLoadingSelector = createSelector(
   permissionFeatureSelector,

@@ -7,11 +7,16 @@ import {
   Output,
 } from '@angular/core'
 import {Observable, Subscription} from 'rxjs'
-import {select, Store} from '@ngrx/store'
+import {Store} from '@ngrx/store'
 
-import {IUser} from 'src/app/shared/interfaces/user.interface'
-import {isLoadingSelector, userSelector} from '../../store/selectors'
+import {IUser} from '@shared/interfaces/user.interface'
+import {
+  errorsSelector,
+  isLoadingSelector,
+  userSelector,
+} from '../../store/selectors'
 import {getUserAction} from '../../store/actions/user.action'
+import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 
 @Component({
   selector: 'app-user-read',
@@ -19,14 +24,15 @@ import {getUserAction} from '../../store/actions/user.action'
   styleUrls: ['./read.component.scss'],
 })
 export class ReadComponent implements OnInit, OnDestroy {
-  @Input('visible') visible: boolean = false
-  @Output('visibleChange') visibleChange = new EventEmitter<boolean>()
-  @Input('itemId') itemId!: number
+  @Input() visible = false
+  @Output() visibleChange = new EventEmitter<boolean>()
+  @Input() itemId!: number
 
   item!: IUser
   itemSubscription!: Subscription
 
   isLoading$!: Observable<boolean>
+  validationErrors$!: Observable<IBackendErrors | null>
 
   constructor(private store: Store) {}
 
@@ -36,20 +42,21 @@ export class ReadComponent implements OnInit, OnDestroy {
     this.initializeListeners()
   }
 
-  initializeValues(): void {
-    this.isLoading$ = this.store.pipe(select(isLoadingSelector))
+  private initializeValues(): void {
+    this.isLoading$ = this.store.select(isLoadingSelector)
+    this.validationErrors$ = this.store.select(errorsSelector)
   }
 
-  fetchData(): void {
+  private fetchData(): void {
     this.store.dispatch(getUserAction({id: this.itemId}))
   }
 
-  initializeListeners(): void {
+  private initializeListeners(): void {
     this.itemSubscription = this.store
-      .pipe(select(userSelector))
-      .subscribe((user: IUser | null) => {
-        if (user) {
-          this.item = user
+      .select(userSelector)
+      .subscribe((item: IUser | null) => {
+        if (item) {
+          this.item = item
         }
       })
   }

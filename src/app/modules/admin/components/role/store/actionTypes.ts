@@ -1,4 +1,4 @@
-export enum ActionTypes {
+export enum RoleActionTypes {
   GET_ROLE = '[Role] Get role',
   GET_ROLE_SUCCESS = '[Role] Get role success',
   GET_ROLE_FAILURE = '[Role] Get role failure',

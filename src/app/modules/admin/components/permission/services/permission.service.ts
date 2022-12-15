@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http'
-import {delay, Observable} from 'rxjs'
+import {Observable} from 'rxjs'
 
-import {environment} from 'src/environments/environment'
+import {environment} from 'environments/environment'
 import {
   IPermission,
   IPermissionSave,
-} from 'src/app/shared/interfaces/permission.interface'
-import {IDeleteResponse} from 'src/app/shared/interfaces/delete-response.interface'
+} from '@shared/interfaces/permission.interface'
+import {IDeleteResponse} from '@shared/interfaces/delete-response.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,7 @@ export class PermissionService {
   }
 
   getPermission(id: number): Observable<IPermission> {
-    return this.http.get<IPermission>(`${this.fullUrl}/${id}`).pipe(delay(5))
+    return this.http.get<IPermission>(`${this.fullUrl}/${id}`)
   }
 
   createPermission(item: IPermission): Observable<IPermission> {

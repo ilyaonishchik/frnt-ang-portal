@@ -1,34 +1,32 @@
 import {Injectable} from '@angular/core'
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http'
-import {map, Observable} from 'rxjs'
+import {Observable} from 'rxjs'
 
+import {environment} from 'environments/environment'
 import {ISignupRequest} from '../interfaces/signup-request.interface'
-import {ICurrentUser} from '../../../shared/interfaces/current-user.interface'
-import {AppService} from '../../../shared/services/app.service'
 import {ISignupResponse} from '../interfaces/signup-response.interface'
 import {ISigninRequest} from '../interfaces/signin-request.interface'
 import {ISigninResponse} from '../interfaces/signin-response.interface'
 import {IToken} from '../interfaces/token.interface'
 import {IVerifyResponse} from '../interfaces/verify-response.interface'
-import {IPermission} from '../../../shared/interfaces/permission.interface'
-import {IRole} from '../../../shared/interfaces/role.interface'
-import {IUserReset} from '../../../shared/interfaces/user.interface'
-import {IResponseItems} from '../../../shared/interfaces/response-items.interface'
+import {IUser, IUserReset} from '@shared/interfaces/user.interface'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  readonly apiUrl: string = ''
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient, private appService: AppService) {
-    this.apiUrl = this.appService.urlApiAuth
+  getCurrentUser(): Observable<IUser> {
+    return this.http.get<IUser>(`${environment.urlApiAuth}/users/me`)
   }
 
-  signUp(data: ISignupRequest): Observable<ICurrentUser> {
-    return this.http
-      .post<ISignupResponse>(`${this.apiUrl}signup`, data)
-      .pipe(map((response: ISignupResponse) => response))
+  signUp(data: ISignupRequest): Observable<ISignupResponse> {
+    return this.http.post<ISignupResponse>(
+      `${environment.urlApiAuth}/signup`,
+      data
+    )
+    // .pipe(map((response: ISignupResponse) => response))
   }
 
   signIn(data: ISigninRequest): Observable<ISigninResponse> {
@@ -41,38 +39,25 @@ export class AuthService {
       fromObject: {username: data.username, password: data.password},
     })
 
-    return this.http
-      .post<ISigninResponse>(`${this.apiUrl}signin`, params, httpOptions)
-      .pipe(map((response: ISigninResponse) => response))
-  }
-
-  getCurrentUser(): Observable<ICurrentUser> {
-    return this.http
-      .get<ICurrentUser>(`${this.apiUrl}users/me`)
-      .pipe(map((response: ICurrentUser) => response))
-  }
-
-  getRoles(): Observable<IRole[]> {
-    return this.http
-      .get<IResponseItems<IRole>>(`${this.apiUrl}roles`)
-      .pipe(map((response: IResponseItems<IRole>) => response.results))
-  }
-
-  getPermissions(): Observable<IPermission[]> {
-    return this.http
-      .get<IResponseItems<IPermission>>(`${this.apiUrl}permissions`)
-      .pipe(map((response: IResponseItems<IPermission>) => response.results))
+    return this.http.post<ISigninResponse>(
+      `${environment.urlApiAuth}/signin`,
+      params,
+      httpOptions
+    )
+    // .pipe(map((response: ISigninResponse) => response))
   }
 
   resetPassword(user: IUserReset): Observable<any> {
-    return this.http.get(`${this.apiUrl}reset/${user.email}`)
+    return this.http.get(`${environment.urlApiAuth}/reset/${user.email}`)
   }
 
-  refreshToken(token: string) {
-    return this.http.get<IToken>(`${this.apiUrl}refresh/${token}`)
+  refreshToken(token: string): Observable<IToken> {
+    return this.http.get<IToken>(`${environment.urlApiAuth}/refresh/${token}`)
   }
 
   verifyCode(code: string): Observable<IVerifyResponse> {
-    return this.http.get<IVerifyResponse>(`${this.apiUrl}verify/${code}`)
+    return this.http.get<IVerifyResponse>(
+      `${environment.urlApiAuth}/verify/${code}`
+    )
   }
 }

@@ -12,11 +12,13 @@ import {
   dialogCancelAction,
   dialogConfirmAction,
   dialogShowAction,
-} from 'src/app/shared/store/actions/dialogs.action'
+} from '@shared/store/actions/dialog.action'
+
+export const usersFeatureKey = 'users'
 
 const initialState: IUsersState = {
   isLoading: false,
-  error: null,
+  backendErrors: null,
   data: {items: [], count: 0, first: 0},
   crud: null,
 }
@@ -28,6 +30,7 @@ const usersReducer = createReducer(
     (state): IUsersState => ({
       ...state,
       isLoading: true,
+      backendErrors: null,
     })
   ),
   on(
@@ -40,9 +43,10 @@ const usersReducer = createReducer(
   ),
   on(
     getUsersFailureAction,
-    (state): IUsersState => ({
+    (state, action): IUsersState => ({
       ...state,
       isLoading: false,
+      backendErrors: action.errors,
     })
   ),
   on(
@@ -69,6 +73,6 @@ const usersReducer = createReducer(
   on(routerNavigationAction, (): IUsersState => initialState)
 )
 
-export function reducers(state: IUsersState, action: Action) {
+export function reducerUsers(state: IUsersState, action: Action) {
   return usersReducer(state, action)
 }

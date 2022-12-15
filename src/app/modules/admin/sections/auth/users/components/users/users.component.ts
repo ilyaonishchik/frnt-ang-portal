@@ -1,24 +1,28 @@
 import {Component, OnInit} from '@angular/core'
-import {select, Store} from '@ngrx/store'
+import {Store} from '@ngrx/store'
 import {Observable} from 'rxjs'
 import {LazyLoadEvent} from 'primeng/api'
 
-import {IColumn} from 'src/app/shared/interfaces/column.interface'
-import {ITableItems} from 'src/app/shared/interfaces/table-items.interface'
-import {ICrudAction} from 'src/app/shared/interfaces/crud-action.interface'
-import {IUser} from 'src/app/shared/interfaces/user.interface'
-import {TCrudAction} from 'src/app/shared/types/crud-action.type'
+import {IColumn} from '@shared/interfaces/column.interface'
+import {ITableItems} from '@shared/interfaces/table-items.interface'
+import {ICrudAction} from '@shared/interfaces/crud-action.interface'
+import {IUser} from '@shared/interfaces/user.interface'
+import {TCrudAction} from '@shared/types/crud-action.type'
 import {getUsersAction} from '../../store/actions/users.action'
 import {
   dialogCancelAction,
   dialogShowAction,
-} from 'src/app/shared/store/actions/dialogs.action'
-import {IDeleteEvent} from 'src/app/shared/interfaces/event.interface'
+} from '@shared/store/actions/dialog.action'
+import {IDeleteEvent} from '@shared/interfaces/event.interface'
 import {
   dialogActionSelector,
   isLoadingSelector,
   usersSelector,
 } from '../../store/selectors'
+import {
+  getAllPermissionsAction,
+  getAllRolesAction,
+} from '@shared/store/actions/session.actions'
 
 @Component({
   selector: 'app-users',
@@ -31,13 +35,13 @@ export class UsersComponent implements OnInit {
     {field: 'username', header: 'Имя пользователя'},
     {field: 'email', header: 'E-Mail'},
   ]
-  crudName: string = 'user'
-  keyField: string = 'id'
-  sortField: string = 'id'
-  confirmField: string = 'username'
+  crudName = 'user'
+  keyField = 'id'
+  sortField = 'id'
+  confirmField = 'username'
 
   isLoading$!: Observable<boolean>
-  users$!: Observable<ITableItems<IUser> | null>
+  items$!: Observable<ITableItems<IUser> | null>
   dialog$!: Observable<ICrudAction | null>
 
   constructor(private store: Store) {}
@@ -47,10 +51,12 @@ export class UsersComponent implements OnInit {
     this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
   }
 
-  initializeValues(): void {
-    this.isLoading$ = this.store.pipe(select(isLoadingSelector))
-    this.users$ = this.store.pipe(select(usersSelector))
-    this.dialog$ = this.store.pipe(select(dialogActionSelector))
+  private initializeValues(): void {
+    this.isLoading$ = this.store.select(isLoadingSelector)
+    this.items$ = this.store.select(usersSelector)
+    this.dialog$ = this.store.select(dialogActionSelector)
+    this.store.dispatch(getAllRolesAction())
+    this.store.dispatch(getAllPermissionsAction())
   }
 
   loadItems(

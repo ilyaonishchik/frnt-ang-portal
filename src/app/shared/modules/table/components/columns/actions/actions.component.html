@@ -3,20 +3,20 @@
     pButton icon='pi pi-eye' class='p-button-raised p-button-text p-button-info p-button-xsm'
     pTooltip='Просмотреть' tooltipPosition='bottom' [showDelay]=250
     [disabled]='!crud?.read'
-    (click)='clickRead($event)'>
+    (click)='onClickRead($event)'>
   </button>
   <button
     pButton icon='pi pi-pencil' class='p-button-raised p-button-text p-button-success p-button-xsm'
     pTooltip='Изменить' tooltipPosition='bottom' [showDelay]=250
     [disabled]='!crud?.update'
-    (click)='clickEdit($event)'
+    (click)='onClickUpdate($event)'
   >
   </button>
   <button
     pButton icon='pi pi-trash' class='p-button-raised p-button-text p-button-warning p-button-xsm'
     pTooltip='Удалить' tooltipPosition='bottom' [showDelay]=250
     [disabled]='!crud?.delete'
-    (click)='clickDelete($event)'
+    (click)='onClickDelete($event)'
   >
   </button>
 </span>

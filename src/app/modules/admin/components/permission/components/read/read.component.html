@@ -7,15 +7,20 @@
   header='Просмотр разрешения'
 >
   <avs-loading *ngIf='(isLoading$ | async)'></avs-loading>
-  <ng-container *ngIf='!(isLoading$ | async)'>
+  <avs-validate-errors
+    *ngIf='validationErrors$ | async'
+    [errors]='validationErrors$ | async'
+  ></avs-validate-errors>
+  <ng-container *ngIf='(isLoading$ | async) === false'>
     <app-permission-form
+      *ngIf=item
       [initialValues]=item
       [readOnly]=true
     ></app-permission-form>
   </ng-container>
   <p-footer>
     <div
-      *ngIf='!(isLoading$ | async)'
+      *ngIf='(isLoading$ | async) === false && item'
       class='flex justify-content-between'
     >
       <p-checkbox

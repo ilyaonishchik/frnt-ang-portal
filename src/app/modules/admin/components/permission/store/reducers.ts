@@ -13,6 +13,10 @@ import {
   updatePermissionSuccessAction,
   updatePermissionFailureAction,
 } from './actions/permission.action'
+import {deleteLinkFailureAction} from '../../link/store/actions/link.action'
+import {dialogCancelAction} from '@shared/store/actions/dialog.action'
+
+export const permissionFeatureKey = 'permission'
 
 const initialState: IPermissionState = {
   isLoading: false,
@@ -42,9 +46,10 @@ const permissionReducer = createReducer(
   ),
   on(
     getPermissionFailureAction,
-    (state): IPermissionState => ({
+    (state, action): IPermissionState => ({
       ...state,
       isLoading: false,
+      backendErrors: action.errors,
     })
   ),
   on(
@@ -97,9 +102,25 @@ const permissionReducer = createReducer(
       backendErrors: action.errors,
     })
   ),
+  on(
+    deleteLinkFailureAction,
+    (state, action): IPermissionState => ({
+      ...state,
+      isSubmitting: false,
+      backendErrors: action.errors,
+    })
+  ),
+  on(
+    dialogCancelAction,
+    (state): IPermissionState => ({
+      ...state,
+      item: null,
+      backendErrors: null,
+    })
+  ),
   on(routerNavigationAction, (): IPermissionState => initialState)
 )
 
-export function reducers(state: IPermissionState, action: Action) {
+export function reducerPermission(state: IPermissionState, action: Action) {
   return permissionReducer(state, action)
 }
