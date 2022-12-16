@@ -32,6 +32,7 @@ export class SortingComponent implements OnInit, OnDestroy {
   selectedBarcode: string | null = null
   selectedPeriodical: IPeriodical | null = null
   barcodeNotFound = false
+  digitsExist = false
 
   isLoading$!: Observable<boolean>
   periodicals$!: Observable<IPeriodical[] | null>
@@ -46,8 +47,9 @@ export class SortingComponent implements OnInit, OnDestroy {
       {usbVendorId: 1027, usbProductId: 24577},
     ]
     this.serialService.getPorts(filters, true).then((ports) => {
+      this.digitsExist = ports.length > 0
       this.serialService.setCurrentPort(ports.pop())
-      this.serialService.clearDigits()
+      this.serialService.clearDigits().then()
     })
     this.initializeValues()
     this.changeInvoiceDate()
@@ -75,7 +77,10 @@ export class SortingComponent implements OnInit, OnDestroy {
     this.barcodeNotFound = false
     if (this.selectedPeriodical) {
       this.store.dispatch(
-        getCellsAction({invoice: this.selectedPeriodical.id_rec})
+        getCellsAction({
+          invoice: this.selectedPeriodical.id_rec,
+          digitsExist: this.digitsExist,
+        })
       )
     }
   }
@@ -91,10 +96,23 @@ export class SortingComponent implements OnInit, OnDestroy {
   clearCurrentItem(): void {
     this.barcodeNotFound = false
     this.selectedPeriodical = null
-    this.store.dispatch(clearCellsAction())
+    this.store.dispatch(clearCellsAction({digitsExist: this.digitsExist}))
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(clearCellsAction())
+    this.store.dispatch(clearCellsAction({digitsExist: this.digitsExist}))
+  }
+
+  checkDigits(event: any) {
+    if (event.checked) {
+      const lines: string[] = []
+      for (let i = 1; i < 51; i++) {
+        lines.push(`;${i}-888`)
+      }
+      lines.unshift('#')
+      this.serialService.sendData(lines).then()
+    } else {
+      this.serialService.clearDigits().then()
+    }
   }
 }

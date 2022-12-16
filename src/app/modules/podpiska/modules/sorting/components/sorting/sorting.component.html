@@ -74,6 +74,16 @@
         </div>
       </div>
     </ng-container>
+    <ng-container *ngIf='selectedPeriodical === null && digitsExist'>
+      <div class='col-fixed'>
+        <p-toggleButton
+          styleClass='success'
+          onLabel='Off'
+          offLabel='888'
+          (onChange)='checkDigits($event)'
+        ></p-toggleButton>
+      </div>
+    </ng-container>
     <div
       *ngIf='selectedPeriodical'
       class='col-12 font-medium text-2xl'>

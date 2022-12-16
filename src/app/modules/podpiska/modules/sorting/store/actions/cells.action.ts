@@ -6,7 +6,7 @@ import {ICell} from '../../interfaces/cell.interface'
 
 export const getCellsAction = createAction(
   PdpSrtActionTypes.GET_CELLS,
-  props<{invoice: number}>()
+  props<{invoice: number; digitsExist: boolean}>()
 )
 
 export const getCellsSuccessAction = createAction(
@@ -19,4 +19,7 @@ export const getCellsFailureAction = createAction(
   props<{errors: IBackendErrors}>()
 )
 
-export const clearCellsAction = createAction(PdpSrtActionTypes.CLEAR_CELLS)
+export const clearCellsAction = createAction(
+  PdpSrtActionTypes.CLEAR_CELLS,
+  props<{digitsExist: boolean}>()
+)

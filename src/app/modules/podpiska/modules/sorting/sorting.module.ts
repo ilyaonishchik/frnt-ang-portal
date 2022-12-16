@@ -9,6 +9,7 @@ import {CalendarModule} from 'primeng/calendar'
 import {InputTextModule} from 'primeng/inputtext'
 import {DropdownModule} from 'primeng/dropdown'
 import {MessagesModule} from 'primeng/messages'
+import {ToggleButtonModule} from 'primeng/togglebutton'
 
 import {SortingRoutingModule} from './sorting-routing.module'
 import {LoadingModule} from '@shared/modules/loading/loading.module'
@@ -33,6 +34,7 @@ import {GetCellsEffect} from './store/effects/cells.effect'
     FormsModule,
     LoadingModule,
     ValidateModule,
+    ToggleButtonModule,
   ],
 })
 export class SortingModule {}

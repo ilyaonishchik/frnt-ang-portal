@@ -25,10 +25,12 @@ export class GetCellsEffect {
   getCells$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getCellsAction),
-      switchMap(({invoice}) => {
+      switchMap(({invoice, digitsExist}) => {
         return this.sortingService.getCells(invoice).pipe(
           map((response: ICell[]) => {
-            this.updateCells(response)
+            if (digitsExist) {
+              this.updateCells(response)
+            }
             return getCellsSuccessAction({
               cells: response,
             })
@@ -47,8 +49,10 @@ export class GetCellsEffect {
     () =>
       this.actions$.pipe(
         ofType(clearCellsAction),
-        tap(() => {
-          this.serialService.clearDigits()
+        tap((value) => {
+          if (value.digitsExist) {
+            this.serialService.clearDigits().then()
+          }
         })
       ),
     {dispatch: false}
@@ -63,9 +67,9 @@ export class GetCellsEffect {
         }
       }
       lines.unshift('#')
-      this.serialService.sendData(lines)
+      this.serialService.sendData(lines).then()
     } else {
-      this.serialService.clearDigits()
+      this.serialService.clearDigits().then()
     }
   }
 }

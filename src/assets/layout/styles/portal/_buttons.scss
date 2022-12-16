@@ -8,3 +8,21 @@
 p-button.p-button-icon-only {
     width: 2rem;
 }
+
+.p-togglebutton.p-button.success{
+  background: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.p-togglebutton.p-button.success.p-highlight {
+  background: #545b62;
+  border-color: #4e555b;
+  color: #ffffff;
+}
+
+.p-togglebutton.p-button.success:not(.p-disabled):hover {
+  background: var(--primary-600);
+  border-color: var(--primary-700);
+}
+
