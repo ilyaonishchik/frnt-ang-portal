@@ -2,6 +2,8 @@ import {Action, createReducer, on} from '@ngrx/store'
 
 import {ISessionState} from '../../interfaces/session-state.interface'
 import {
+  clearPermissionsAction,
+  clearRolesAction,
   getAllPermissionsAction,
   getAllPermissionsFailureAction,
   getAllPermissionsSuccessAction,
@@ -45,6 +47,13 @@ const sessionReducer = createReducer(
     })
   ),
   on(
+    clearPermissionsAction,
+    (state): ISessionState => ({
+      ...state,
+      allPermissions: null,
+    })
+  ),
+  on(
     getAllRolesAction,
     (state): ISessionState => ({
       ...state,
@@ -65,6 +74,13 @@ const sessionReducer = createReducer(
       ...state,
       isLoading: false,
       backendErrors: action.errors,
+    })
+  ),
+  on(
+    clearRolesAction,
+    (state): ISessionState => ({
+      ...state,
+      allRoles: null,
     })
   )
 )

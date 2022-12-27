@@ -25,7 +25,7 @@ export class CreateComponent implements OnInit {
     this.item = {
       id: 0,
       parent: 0,
-      type: 1,
+      type: 2,
       label: '',
       icon: null,
       link: null,

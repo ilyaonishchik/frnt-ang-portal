@@ -27,7 +27,8 @@ const routes: Routes = [
       {
         path: 'podpiska',
         canLoad: [SignedInGuard],
-        canActivate: [SignedInGuard],
+        canActivate: [SignedInGuard, PermissionGuard],
+        data: {permission: 'podpiska:module'},
         loadChildren: () =>
           import('./modules/podpiska/podpiska.module').then(
             (m) => m.PodpiskaModule

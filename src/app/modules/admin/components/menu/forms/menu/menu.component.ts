@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 
 import {IMenu} from '../../../../sections/portal/menus/interfaces/menu.interface'
+import {SelectItem} from 'primeng/api'
 
 @Component({
   selector: 'app-menu-form',
@@ -16,6 +17,8 @@ export class MenuComponent implements OnInit {
   @Output('formValid') formValidEvent = new EventEmitter<boolean>()
 
   formMenu!: FormGroup
+  menuTypes: SelectItem[] = []
+
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -25,10 +28,7 @@ export class MenuComponent implements OnInit {
   private initializeForm(): void {
     this.formMenu = this.fb.group({
       parent: [this.initialValuesProps.parent, [Validators.min(0)]],
-      type: [
-        this.initialValuesProps.type,
-        [Validators.required, Validators.min(1), Validators.max(999)],
-      ],
+      type: [this.initialValuesProps.type, [Validators.required]],
       label: [
         this.initialValuesProps.label,
         [Validators.required, Validators.maxLength(100)],
@@ -50,6 +50,11 @@ export class MenuComponent implements OnInit {
       separator: [this.initialValuesProps.separator],
       status: [this.initialValuesProps.status],
     })
+    this.menuTypes = [
+      {label: 'Меню админки', value: 1},
+      {label: 'Общее меню', value: 2},
+      {label: 'Верхнее меню', value: 3},
+    ]
     this.onChangeValues()
   }
 

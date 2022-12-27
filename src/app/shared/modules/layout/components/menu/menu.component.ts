@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges} from '@angular/core'
-import {map, Observable} from 'rxjs'
+import {Observable} from 'rxjs'
 
 import {IMenu} from '@shared/interfaces/menu.interface'
 import {MenuService} from '../../services/menu.service'
@@ -16,10 +16,6 @@ export class MenuComponent implements OnChanges {
   constructor(public menuService: MenuService) {}
 
   ngOnChanges(): void {
-    this.menuItems$ = this.menuService.getItems(this.menuType).pipe(
-      map((items) => {
-        return items
-      })
-    )
+    this.menuItems$ = this.menuService.getItems(this.menuType)
   }
 }

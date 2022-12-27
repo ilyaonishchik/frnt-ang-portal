@@ -17,6 +17,7 @@ import {
   userSelector,
 } from '../../store/selectors'
 import {getUserAction, updateUserAction} from '../../store/actions/user.action'
+import {TCrudAction} from '@shared/types/crud-action.type'
 
 @Component({
   selector: 'app-user-update',
@@ -28,6 +29,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
   @Output() visibleChange = new EventEmitter<boolean>()
   @Input() itemId!: number
 
+  crudAction: TCrudAction = TCrudAction.UPDATE
   item!: IUser
   itemSubscription!: Subscription
 

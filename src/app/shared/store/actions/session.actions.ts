@@ -19,6 +19,10 @@ export const getAllPermissionsFailureAction = createAction(
   props<{errors: IBackendErrors}>()
 )
 
+export const clearPermissionsAction = createAction(
+  SessionActionTypes.CLEAR_PERMISSIONS
+)
+
 export const getAllRolesAction = createAction(SessionActionTypes.GET_ALL_ROLES)
 
 export const getAllRolesSuccessAction = createAction(
@@ -30,3 +34,5 @@ export const getAllRolesFailureAction = createAction(
   SessionActionTypes.GET_ALL_ROLES_FAILURE,
   props<{errors: IBackendErrors}>()
 )
+
+export const clearRolesAction = createAction(SessionActionTypes.CLEAR_ROLES)

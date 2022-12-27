@@ -20,7 +20,12 @@ export class SignedOutGuard implements CanActivate, CanLoad {
     | UrlTree {
     return this.store.select(isAnonymousSelector).pipe(
       map((value) => {
-        return value
+        if (value) {
+          return value
+        } else {
+          this.location.back()
+          return false
+        }
       })
     )
   }

@@ -15,6 +15,19 @@ export interface IUser {
   status: number
 }
 
+export interface IUserCreate {
+  id: number
+  username: string
+  email: string | null
+  password: string
+  comment: string | null
+  avatar: string | null
+  sd_id: number | null
+  roles: IRole[]
+  permissions: IPermission[]
+  status: number
+}
+
 export interface IUserSave {
   username: string
   email: string | null

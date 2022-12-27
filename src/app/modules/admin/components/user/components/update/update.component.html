@@ -14,6 +14,7 @@
   <ng-container *ngIf='(isLoading$ | async) === false'>
     <app-user-form
       *ngIf=item
+      [crudAction]=crudAction
       [initialValues]=item
       (changeValues)=changeItem($event)
       (formValid)=onValidate($event)

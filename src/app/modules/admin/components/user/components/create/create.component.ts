@@ -6,6 +6,7 @@ import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 import {IUser} from '@shared/interfaces/user.interface'
 import {errorsSelector} from '../../store/selectors'
 import {createUserAction} from '../../store/actions/user.action'
+import {TCrudAction} from '@shared/types/crud-action.type'
 
 @Component({
   selector: 'app-user-create',
@@ -16,6 +17,7 @@ export class CreateComponent implements OnInit {
   @Input() visible = false
   @Output() visibleChange = new EventEmitter<boolean>()
 
+  crudAction: TCrudAction = TCrudAction.CREATE
   item!: IUser
   validationErrors$!: Observable<IBackendErrors | null>
   formValid = false

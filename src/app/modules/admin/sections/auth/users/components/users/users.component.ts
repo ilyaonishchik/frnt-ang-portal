@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, OnDestroy, OnInit} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {Observable} from 'rxjs'
 import {LazyLoadEvent} from 'primeng/api'
@@ -20,6 +20,8 @@ import {
   usersSelector,
 } from '../../store/selectors'
 import {
+  clearPermissionsAction,
+  clearRolesAction,
   getAllPermissionsAction,
   getAllRolesAction,
 } from '@shared/store/actions/session.actions'
@@ -29,7 +31,7 @@ import {
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
   columns: IColumn[] = [
     {field: 'id', header: 'ID', width: 'w-1rem'},
     {field: 'username', header: 'Имя пользователя'},
@@ -98,5 +100,10 @@ export class UsersComponent implements OnInit {
 
   hideDialog(): void {
     this.store.dispatch(dialogCancelAction())
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(clearRolesAction())
+    this.store.dispatch(clearPermissionsAction())
   }
 }

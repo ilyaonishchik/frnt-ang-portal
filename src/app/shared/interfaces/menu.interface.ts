@@ -6,6 +6,7 @@ export interface IMenu {
   target?: string
   separator?: boolean
   badge?: string
+  visible?: boolean
   items?: IMenu[]
 }
 

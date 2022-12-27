@@ -5,8 +5,8 @@
     <div class='field col-fixed'>
       <p-avatar
         image='assets/img/avatars/default.png'
-        size="xlarge"
-        shape="circle">
+        size='xlarge'
+        shape='circle'>
       </p-avatar>
     </div>
     <div class='field col-5'>
@@ -17,7 +17,7 @@
         pInputText
         formControlName='username'
         autofocus
-        [readonly]=isReadOnlyProps
+        [readonly]='crudAction === 2'
       >
       <ng-container
         *ngIf="(f['username'].dirty || f['username'].touched) && f['username'].invalid">
@@ -31,7 +31,7 @@
         type='text'
         pInputText
         formControlName='email'
-        [readonly]=isReadOnlyProps
+        [readonly]='crudAction === 2'
       >
       <ng-container
         *ngIf="(f['email'].dirty || f['email'].touched) && f['email'].invalid">
@@ -39,12 +39,46 @@
       </ng-container>
     </div>
   </div>
-  <div class="field">
-    <div class="field col">
+  <div class='p-fluid grid formgrid' *ngIf='crudAction === 1'>
+    <div class='field col'>
+      <label for='password'>Пароль</label>
+      <p-password
+        formControlName='password'
+        id='password'
+        placeholder='Пароль'
+        [toggleMask]='true'
+      >
+      </p-password>
+      <ng-container
+        *ngIf="(f['password'].dirty || f['password'].touched) && f['password'].invalid">
+        <avs-validate-input [errors]="f['password'].errors"></avs-validate-input>
+      </ng-container>
+    </div>
+    <div class='field col'>
+      <label for='password2'>Пароль еще раз</label>
+      <p-password
+        formControlName='password2'
+        id='password2'
+        placeholder='Пароль'
+        [toggleMask]='true'
+        [feedback]='false'
+      >
+      </p-password>
+      <ng-container
+        *ngIf="(f['password2'].dirty || f['password2'].touched) && f['password2'].invalid">
+        <avs-validate-input [errors]="f['password2'].errors"></avs-validate-input>
+      </ng-container>
+    </div>
+  </div>
+  <div
+    class='field'
+    *ngIf='false'
+  >
+    <div class='field col'>
       <p-fileUpload
-        name="files"
-        url="/api/v1/storage/files/uploads"
-        [multiple]="true"
+        name='files'
+        url='/api/v1/storage/files/uploads'
+        [multiple]='true'
       ></p-fileUpload>
     </div>
   </div>
@@ -55,14 +89,15 @@
         header='Дополнительно'
       >
         <div class='field'>
-          <label for='email'>Код подразделения</label>
-          <input
+          <label for='sd_id'>Код подразделения</label>
+          <p-dropdown
             id='sd_id'
-            type='text'
-            pInputText
             formControlName='sd_id'
-            [readonly]=isReadOnlyProps
+            [options]=subdivisions
+            [readonly]='crudAction === 2'
+            (ngModelChange)='onChangeValues()'
           >
+          </p-dropdown>
           <ng-container
             *ngIf="(f['sd_id'].dirty || f['sd_id'].touched) && f['sd_id'].invalid">
             <avs-validate-input [errors]="f['sd_id'].errors"></avs-validate-input>
@@ -76,7 +111,7 @@
             rows='3'
             cols='20'
             formControlName='comment'
-            [readonly]=isReadOnlyProps>
+            [readonly]='crudAction === 2'>
           </textarea>
           <ng-container
             *ngIf="(f['comment'].dirty || f['comment'].touched) && f['comment'].invalid">
@@ -100,7 +135,7 @@
           [dragdrop]=false
           [responsive]=true
           filterBy='code,name'
-          [disabled]=isReadOnlyProps
+          [disabled]='crudAction === 2'
         >
           <ng-template let-role pTemplate='item'>
             <div
@@ -126,7 +161,7 @@
           [dragdrop]=false
           [responsive]=true
           filterBy='code,name'
-          [disabled]=isReadOnlyProps
+          [disabled]='crudAction === 2'
         >
           <ng-template let-permission pTemplate='item'>
             <div

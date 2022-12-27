@@ -30,7 +30,9 @@ import {CreateUserEffect} from './store/effects/create-user.effect'
 import {ReadUserEffect} from './store/effects/read-user.effect'
 import {UpdateUserEffect} from './store/effects/update-user.effect'
 import {DeleteUserEffect} from './store/effects/delete-user.effect'
-import {FileUploadModule} from "primeng/fileupload";
+import {FileUploadModule} from 'primeng/fileupload'
+import {DropdownModule} from 'primeng/dropdown'
+import {PasswordModule} from 'primeng/password'
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import {FileUploadModule} from "primeng/fileupload";
     AvatarModule,
     ValidateModule,
     FileUploadModule,
+    DropdownModule,
+    PasswordModule,
   ],
   exports: [
     UserComponent,

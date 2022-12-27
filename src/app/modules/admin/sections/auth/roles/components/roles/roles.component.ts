@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, OnDestroy, OnInit} from '@angular/core'
 import {Observable} from 'rxjs'
 
 import {Store} from '@ngrx/store'
@@ -21,14 +21,17 @@ import {
   dialogShowAction,
 } from '@shared/store/actions/dialog.action'
 import {IDeleteEvent} from '@shared/interfaces/event.interface'
-import {getAllPermissionsAction} from '@shared/store/actions/session.actions'
+import {
+  clearPermissionsAction,
+  getAllPermissionsAction,
+} from '@shared/store/actions/session.actions'
 
 @Component({
   selector: 'app-roles',
   templateUrl: './roles.component.html',
   styleUrls: ['./roles.component.scss'],
 })
-export class RolesComponent implements OnInit {
+export class RolesComponent implements OnInit, OnDestroy {
   columns: IColumn[]
   crudName: string
   keyField: string
@@ -102,5 +105,9 @@ export class RolesComponent implements OnInit {
 
   hideDialog(): void {
     this.store.dispatch(dialogCancelAction())
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(clearPermissionsAction())
   }
 }

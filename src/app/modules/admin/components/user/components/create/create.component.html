@@ -11,6 +11,7 @@
     [errors]='validationErrors$ | async'
   ></avs-validate-errors>
   <app-user-form
+    [crudAction]=crudAction
     [initialValues]=item
     (changeValues)=changeItem($event)
     (formValid)=onValidate($event)

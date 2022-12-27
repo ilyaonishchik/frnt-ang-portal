@@ -14,8 +14,8 @@
   <ng-container *ngIf='(isLoading$ | async) === false'>
     <app-user-form
       *ngIf=item
+      [crudAction]=crudAction
       [initialValues]=item
-      [isReadOnly]=true
     ></app-user-form>
   </ng-container>
   <p-footer>

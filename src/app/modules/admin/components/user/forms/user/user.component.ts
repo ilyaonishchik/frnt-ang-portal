@@ -6,7 +6,13 @@ import {
   OnInit,
   Output,
 } from '@angular/core'
-import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms'
 import {Store} from '@ngrx/store'
 import {Subscription} from 'rxjs'
 
@@ -17,7 +23,9 @@ import {
   allPermissionsSelector,
   allRolesSelector,
 } from '@shared/store/selectors/session.selectors'
-// import {StorageService} from '@shared/services/storage.service'
+import {SelectItem} from 'primeng/api'
+import {TCrudAction} from '@shared/types/crud-action.type'
+import {CustomValidators} from '@shared/validators/custom'
 
 @Component({
   selector: 'app-user-form',
@@ -25,13 +33,14 @@ import {
   styleUrls: ['./user.component.scss'],
 })
 export class UserComponent implements OnInit, OnDestroy {
-  @Input('isReadOnly') isReadOnlyProps = false
-  @Input('initialValues') initialValuesProps!: IUser
+  @Input() crudAction: TCrudAction = TCrudAction.NONE
+  @Input() initialValues!: IUser
 
   @Output('changeValues') changeValuesEvent = new EventEmitter<IUser>()
   @Output('formValid') formValidEvent = new EventEmitter<boolean>()
 
   formUser!: FormGroup
+  subdivisions: SelectItem[] = []
 
   itemSubscriptionR!: Subscription
   itemSubscriptionP!: Subscription
@@ -51,8 +60,29 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   private initializeValues(): void {
-    this.targetRoles.push(...this.initialValuesProps.roles)
-    this.targetPermissions.push(...this.initialValuesProps.permissions)
+    this.subdivisions = [
+      {label: 'Не указано', value: null},
+      {label: 'Берестовица УПС', value: 1},
+      {label: 'Волковыск РУПС', value: 2},
+      {label: 'Вороново УПС', value: 3},
+      {label: 'Гродно ОЦПС', value: 4},
+      {label: 'Дятлово УПС', value: 5},
+      {label: 'Зельва УПС', value: 6},
+      {label: 'Ивье УПС', value: 7},
+      {label: 'Кореличи УПС', value: 8},
+      {label: 'Лида РУПС', value: 9},
+      {label: 'Мосты УПС', value: 10},
+      {label: 'Новогрудок УПС', value: 11},
+      {label: 'Островец УПС', value: 12},
+      {label: 'Ошмяны УПС', value: 13},
+      {label: 'Слоним УПС', value: 14},
+      {label: 'Свислочь УПС', value: 15},
+      {label: 'Сморгонь РУПС', value: 16},
+      {label: 'Щучин УПС', value: 17},
+      {label: 'Гродно РУПС', value: 18},
+    ]
+    this.targetRoles.push(...this.initialValues.roles)
+    this.targetPermissions.push(...this.initialValues.permissions)
 
     this.itemSubscriptionR = this.store
       .select(allRolesSelector)
@@ -76,23 +106,38 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   private initializeForm(): void {
-    this.formUser = this.fb.group({
-      username: [
-        this.initialValuesProps.username,
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(100),
-        ],
-      ],
-      email: [this.initialValuesProps.email, [Validators.email]],
-      avatar: [this.initialValuesProps.avatar],
-      comment: [this.initialValuesProps.comment, [Validators.maxLength(200)]],
-      sd_id: [this.initialValuesProps.sd_id, [Validators.min(1)]],
-      roles: [this.initialValuesProps.roles],
-      permissions: [this.initialValuesProps.permissions],
-      status: [this.initialValuesProps.status],
-    })
+    const form: any = {}
+    let custom_validators: ValidatorFn | ValidatorFn[] | null = null
+
+    form['username'] = new FormControl(this.initialValues.username, [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(100),
+    ])
+    form['email'] = new FormControl(this.initialValues.email, [
+      Validators.email,
+    ])
+    form['avatar'] = new FormControl(this.initialValues.avatar)
+    form['comment'] = new FormControl(this.initialValues.comment, [
+      Validators.maxLength(200),
+    ])
+    form['sd_id'] = new FormControl(this.initialValues.sd_id)
+    form['roles'] = new FormControl(this.initialValues.roles)
+    form['permissions'] = new FormControl(this.initialValues.permissions)
+    form['status'] = new FormControl(this.initialValues.status)
+
+    if (this.crudAction === TCrudAction.CREATE) {
+      form['password'] = new FormControl(null, [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(60),
+      ])
+      form['password2'] = new FormControl(null, [Validators.required])
+      custom_validators = [CustomValidators.mustMatch('password', 'password2')]
+    }
+
+    this.formUser = this.fb.group(form, {validators: custom_validators})
+
     this.onChangeValues()
   }
 

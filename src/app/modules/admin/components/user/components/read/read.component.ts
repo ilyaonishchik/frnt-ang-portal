@@ -17,6 +17,7 @@ import {
 } from '../../store/selectors'
 import {getUserAction} from '../../store/actions/user.action'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
+import {TCrudAction} from '@shared/types/crud-action.type'
 
 @Component({
   selector: 'app-user-read',
@@ -28,6 +29,7 @@ export class ReadComponent implements OnInit, OnDestroy {
   @Output() visibleChange = new EventEmitter<boolean>()
   @Input() itemId!: number
 
+  crudAction: TCrudAction = TCrudAction.READ
   item!: IUser
   itemSubscription!: Subscription
 

@@ -28,6 +28,7 @@ import {CreateMenuEffect} from './store/effects/create-menu.effect'
 import {UpdateMenuEffect} from './store/effects/update-menu.effect'
 import {DeleteMenuEffect} from './store/effects/delete-menu.effect'
 import {InputNumberModule} from 'primeng/inputnumber'
+import {DropdownModule} from 'primeng/dropdown'
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import {InputNumberModule} from 'primeng/inputnumber'
     InputTextareaModule,
     LoadingModule,
     InputNumberModule,
+    DropdownModule,
   ],
   exports: [
     MenuComponent,
