@@ -61,16 +61,15 @@ export class SortingComponent implements OnInit, OnDestroy {
   }
 
   changeBarcode(): void {
-    // this.clearCurrentItem()
     this.selectedPeriodical = this.items.options.find(
       (value) => value.barcode === this.selectedBarcode
     )
-    console.log(this.selectedPeriodical)
     if (this.selectedPeriodical) {
       this.changeCurrentItem()
     } else {
       this.barcodeNotFound = true
     }
+    this.selectedBarcode = null
   }
 
   changeCurrentItem(): void {
@@ -83,7 +82,6 @@ export class SortingComponent implements OnInit, OnDestroy {
         })
       )
     }
-    this.selectedBarcode = null
   }
 
   private initializeValues(): void {
