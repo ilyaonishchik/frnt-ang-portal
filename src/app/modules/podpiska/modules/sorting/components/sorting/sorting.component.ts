@@ -67,6 +67,7 @@ export class SortingComponent implements OnInit, OnDestroy {
     if (this.selectedPeriodical) {
       this.changeCurrentItem()
     } else {
+      this.clearCurrentItem()
       this.barcodeNotFound = true
     }
     this.selectedBarcode = null
