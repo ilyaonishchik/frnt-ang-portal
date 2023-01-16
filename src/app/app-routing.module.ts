@@ -34,6 +34,15 @@ const routes: Routes = [
             (m) => m.PodpiskaModule
           ),
       },
+      {
+        path: 'profile',
+        canLoad: [SignedInGuard],
+        canActivate: [SignedInGuard],
+        loadChildren: () =>
+          import('./modules/profile/profile.module').then(
+            (m) => m.ProfileModule
+          ),
+      },
     ],
   },
   {
