@@ -37,10 +37,6 @@ export class TopbarComponent implements OnInit {
     this.isAnonymous$ = this.store.select(isAnonymousSelector)
   }
 
-  showNotifications(): void {}
-
-  showMessages(): void {}
-
   logout(): void {
     this.store.dispatch(signoutAction())
   }

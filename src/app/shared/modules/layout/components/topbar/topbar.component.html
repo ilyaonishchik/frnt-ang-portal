@@ -24,22 +24,30 @@
     class='layout-topbar-menu'
     [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
     <ng-container *ngIf='isSignedIn$ | async'>
-      <ng-container *ngIf=false>
+      <ng-container *ngIf=true>
+        <button
+          class='p-link layout-topbar-button'
+          pTooltip='Документы'
+          tooltipPosition='bottom'
+          [routerLink]="'/docs'"
+          [showDelay]=1000
+        >
+          <i class='pi pi-inbox' pBadge severity='info' [value]="'1'"></i>
+          <span>Документы</span>
+        </button>
         <button
           class='p-link layout-topbar-button'
           pTooltip='Уведомления'
           tooltipPosition='bottom'
-          (click)='showNotifications()'
           [showDelay]=1000
         >
-          <i class='pi pi-bell' pBadge severity='danger' [value]="'99+'"></i>
+          <i class='pi pi-bell' pBadge severity='danger' [value]="'10'"></i>
           <span>Уведомления</span>
         </button>
         <button
           class='p-link layout-topbar-button'
           pTooltip='Сообщения'
           tooltipPosition='bottom'
-          (click)='showMessages()'
           [showDelay]=1000
         >
           <i class='pi pi-envelope' pBadge severity='info' value='5'></i>

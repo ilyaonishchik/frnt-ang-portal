@@ -25,6 +25,15 @@ const routes: Routes = [
           import('./modules/admin/admin.module').then((m) => m.AdminModule),
       },
       {
+        path: 'docs',
+        canLoad: [SignedInGuard],
+        canActivate: [SignedInGuard],
+        loadChildren: () =>
+          import('./modules/documents/documents.module').then(
+            (m) => m.DocumentsModule
+          ),
+      },
+      {
         path: 'podpiska',
         canLoad: [SignedInGuard],
         canActivate: [SignedInGuard, PermissionGuard],
