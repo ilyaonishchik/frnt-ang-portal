@@ -1,6 +1,6 @@
 <div class='card mb-2'>
   <div class='grid'>
-    <div class='col'>
+    <div class='col-12 sm:col pb-0'>
       <div class='grid'>
         <div class='col-12 text-lg'>
           Сортировка изданий принятых по подписке согласно ДУ.
@@ -62,7 +62,7 @@
       </div>
     </div>
     <ng-container *ngIf='selectedPeriodical'>
-      <div class='col-fixed'>
+      <div class='col-fixed pb-0'>
         <div
           [class.bg-green-100]='selectedPeriodical.nom_count === selectedPeriodical.need_count'
           [class.bg-red-100]='selectedPeriodical.nom_count !== selectedPeriodical.need_count'
@@ -74,19 +74,30 @@
         </div>
       </div>
     </ng-container>
-    <ng-container *ngIf='selectedPeriodical === null && digitsExist'>
-      <div class='col-fixed'>
-        <p-toggleButton
-          styleClass='success'
-          onLabel='Off'
-          offLabel='888'
-          (onChange)='checkDigits($event)'
-        ></p-toggleButton>
+    <ng-container *ngIf='selectedPeriodical === null'>
+      <div class='col sm:col-fixed sm:w-10rem sm:text-right pb-0'>
+        <div class='grid'>
+          <p-toggleButton
+            class='col-fixed sm:col-12 sm:py-0'
+            styleClass='p-button-raised p-button-danger'
+            onLabel='Off'
+            offLabel='888'
+            (onChange)='checkDigits($event)'
+            [disabled]='digitsExist === false'
+          ></p-toggleButton>
+          <p-button
+            class='col-fixed sm:col-12 pl-1'
+            label='Накладные'
+            styleClass='p-button-secondary p-button-outlined'
+            icon='pi pi-print'
+            [disabled]='(periodicals$ | async) === null'
+          ></p-button>
+        </div>
       </div>
     </ng-container>
     <div
       *ngIf='selectedPeriodical'
-      class='col-12 font-medium text-2xl'>
+      class='col-12 font-medium text-2xl pb-0'>
       {{selectedPeriodical.indizd}} - {{selectedPeriodical.naimen}} №{{selectedPeriodical.nom_izd}}
     </div>
   </div>
