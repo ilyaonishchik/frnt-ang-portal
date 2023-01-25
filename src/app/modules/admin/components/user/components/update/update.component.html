@@ -1,8 +1,11 @@
 <p-dialog
   [(visible)]=visible
   (visibleChange)=onVisibleChange($event)
-  [style]="{width: '60%'}"
+  [style]="{width: '75vw', height: '37rem'}"
+  [breakpoints]="{'960px': '95vw'}"
   [modal]=true
+  [maximizable]=true
+  [resizable]=false
   class='p-fluid'
   header='Изменение пользователя'
 >
