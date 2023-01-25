@@ -1,7 +1,8 @@
 .layout-sidebar {
-  height: calc(100vh - 7rem);
+  height: calc(100vh - 6rem);
   top: 5rem;
   left: 1rem;
+  width: $menuWidth;
 }
 
 .layout-menu {

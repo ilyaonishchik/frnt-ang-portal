@@ -1,6 +1,10 @@
 .layout-topbar {
   height: 4rem;
 
+  .layout-topbar-logo {
+    width: $menuWidth;
+  }
+
   .layout-topbar-button {
     i {
       span {

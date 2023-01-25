@@ -8,6 +8,9 @@
     }
 
     &.layout-static {
+      .layout-main-container {
+        margin-left: $menuWidth;
+      }
       &.layout-static-inactive {
         .layout-main-container {
           padding-left: 1rem;
