@@ -35,6 +35,7 @@ export class UserService {
   itemToSave(item: IUser): IUserSave {
     return {
       username: item.username,
+      password: item.password,
       email: item.email ? item.email : null,
       comment: item.comment,
       avatar: item.avatar,

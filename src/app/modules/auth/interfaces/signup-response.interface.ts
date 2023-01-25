@@ -5,6 +5,7 @@ export interface ISignupResponse {
   id: number
   username: string
   email: string | null
+  password: string | null
   comment: string | null
   avatar: string | null
   sd_id: number | null

@@ -27,6 +27,7 @@ export class CreateComponent implements OnInit {
     this.item = {
       id: 0,
       username: '',
+      password: null,
       email: null,
       comment: null,
       avatar: null,
