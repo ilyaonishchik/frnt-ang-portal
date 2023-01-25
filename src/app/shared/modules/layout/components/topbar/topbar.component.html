@@ -24,7 +24,7 @@
     class='layout-topbar-menu'
     [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
     <ng-container *ngIf='isSignedIn$ | async'>
-      <ng-container *ngIf=true>
+      <ng-container *ngIf='production === false'>
         <button
           class='p-link layout-topbar-button'
           pTooltip='Документы'

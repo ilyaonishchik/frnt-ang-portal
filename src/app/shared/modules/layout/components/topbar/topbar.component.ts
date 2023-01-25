@@ -17,6 +17,7 @@ import {signoutAction} from '@modules/auth/store/actions/signout.action'
   styleUrls: ['./topbar.component.scss'],
 })
 export class TopbarComponent implements OnInit {
+  production: boolean = environment.production
   projectTitle: string = environment.title
 
   isSignedIn$!: Observable<boolean>
