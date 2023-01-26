@@ -1,44 +1,46 @@
-<div class='card'>
-  <h4>Профиль пользователя</h4>
-  <ng-container *ngIf='(currentUser$ | async) as user'>
-    <div class='p-fluid grid formgrid'>
+<!--<div class='card'>-->
+<!--  <h4>Профиль пользователя</h4>-->
+<ng-container *ngIf='(currentUser$ | async) as user'>
+  <div class='p-fluid grid formgrid'>
+    <div class='field col-12'>
       <p-avatar
         image='assets/img/avatars/default.png'
         size='xlarge'
         shape='circle'
       >
       </p-avatar>
-
-      <div class='field col'>
-        <label for='name'>Имя пользователя</label>
-        <input
-          id='name'
-          type='text'
-          pInputText
-          [value]=user.username
-          [readOnly]=true
-        >
-      </div>
-      <div class='field col'>
-        <label for='email'>E-Mail</label>
-        <input
-          id='email'
-          type='email'
-          pInputText
-          [value]=user.email
-          [readOnly]=true
-        >
-      </div>
-      <div class='field col'>
-        <label for='created'>Последний вход</label>
-        <input
-          id='created'
-          type='text'
-          pInputText
-          [value]="user.last_login | date: 'dd.MM.y H:mm:ss'"
-          [readOnly]=true
-        >
-      </div>
     </div>
-  </ng-container>
-</div>
+
+    <div class='field col-12'>
+      <label for='name'>Имя пользователя</label>
+      <input
+        id='name'
+        type='text'
+        pInputText
+        [value]=user.username
+        [readOnly]=true
+      >
+    </div>
+    <div class='field col-12 lg:col-6'>
+      <label for='email'>E-Mail</label>
+      <input
+        id='email'
+        type='email'
+        pInputText
+        [value]=user.email
+        [readOnly]=true
+      >
+    </div>
+    <div class='field col-12 lg:col-6'>
+      <label for='created'>Последний вход</label>
+      <input
+        id='created'
+        type='text'
+        pInputText
+        [value]="user.last_login | date: 'dd.MM.y H:mm:ss'"
+        [readOnly]=true
+      >
+    </div>
+  </div>
+</ng-container>
+<!--</div>-->

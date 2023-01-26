@@ -20,6 +20,8 @@ export class TopbarComponent implements OnInit {
   production: boolean = environment.production
   projectTitle: string = environment.title
 
+  visibleProfile = false
+
   isSignedIn$!: Observable<boolean>
   isAnonymous$!: Observable<boolean>
 

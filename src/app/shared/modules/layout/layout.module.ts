@@ -20,6 +20,9 @@ import {SidebarComponent} from './components/sidebar/sidebar.component'
 import {authFeatureKey, reducerAuth} from '@modules/auth/store/reducers'
 import {GetCurrentUserEffect} from '@modules/auth/store/effects/get-current-user.effect'
 import {SignoutEffect} from '@modules/auth/store/effects/signout.effect'
+import {SidebarModule} from 'primeng/sidebar'
+import {ProfileModule} from '@modules/profile/profile.module'
+import {ButtonModule} from 'primeng/button'
 
 @NgModule({
   declarations: [
@@ -43,6 +46,9 @@ import {SignoutEffect} from '@modules/auth/store/effects/signout.effect'
     DividerModule,
     StoreModule.forFeature(authFeatureKey, reducerAuth),
     EffectsModule.forFeature([GetCurrentUserEffect, SignoutEffect]),
+    SidebarModule,
+    ProfileModule,
+    ButtonModule,
   ],
   exports: [LayoutComponent],
 })

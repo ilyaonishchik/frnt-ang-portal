@@ -5,7 +5,7 @@ import {IUser} from '@shared/interfaces/user.interface'
 import {currentUserSelector} from '@modules/auth/store/selectors'
 
 @Component({
-  selector: 'app-main',
+  selector: 'app-user-profile',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })

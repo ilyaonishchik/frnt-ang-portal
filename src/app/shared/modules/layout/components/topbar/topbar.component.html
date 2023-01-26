@@ -61,7 +61,7 @@
         pTooltip='Профиль'
         tooltipPosition='bottom'
         [showDelay]=1000
-        [routerLink]="'/profile'"
+        (click)='visibleProfile = true'
       >
         <i class='pi pi-user'></i>
         <span>Профиль</span>
@@ -107,3 +107,21 @@
     </ng-container>
   </div>
 </div>
+<p-sidebar
+  [(visible)]="visibleProfile"
+  position='right'
+  styleClass='p-sidebar-md'
+>
+  <ng-template pTemplate="header">
+   Профиль пользователя
+  </ng-template>
+  <ng-template pTemplate="content">
+    <app-user-profile></app-user-profile>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <p-button
+      label='ОК'
+      (click)='visibleProfile = false'
+    ></p-button>
+  </ng-template>
+</p-sidebar>

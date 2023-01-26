@@ -9,5 +9,6 @@ import {InputTextModule} from 'primeng/inputtext'
 @NgModule({
   declarations: [MainComponent],
   imports: [CommonModule, ProfileRoutingModule, AvatarModule, InputTextModule],
+  exports: [MainComponent],
 })
 export class ProfileModule {}
