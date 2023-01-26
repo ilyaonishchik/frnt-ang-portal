@@ -5,6 +5,7 @@
       <p-tree
         [value]=categories
         [filter]=true
+        filterMode='strict'
         selectionMode='single'
         [(selection)]=selectedCategory
         [draggableNodes]=true
@@ -12,7 +13,40 @@
         [droppableNodes]=true
         droppableScope='self'
         (onNodeDrop)=showItems($event)
+        (onNodeSelect)='nodeSelect()'
       >
+        <ng-template pTemplate='header'>
+          <div class='flex align-items-center justify-content-between'>
+            <p-button
+              type='button'
+              icon='pi pi-refresh'
+              styleClass='p-button-text'
+              pTooltip='Обновить'
+              tooltipPosition='right'
+              [showDelay]=250
+              (click)=refreshItems()>
+            </p-button>
+            <span class='p-buttonset'>
+            <button
+              class='p-button-text'
+              pButton
+              pTooltip='Развернуть'
+              icon='pi pi-arrow-circle-down'
+              (click)='expandAll()'
+            ></button>
+            <button
+              class='p-button-text'
+              pButton
+              pTooltip='Свернуть'
+              icon='pi pi-arrow-circle-up'
+              (click)='collapseAll()'
+            ></button>
+          </span>
+          </div>
+        </ng-template>
+        <ng-template pTemplate='empty'>
+          Нет данных для отображения
+        </ng-template>
       </p-tree>
     </div>
     <div class='col-12 lg:col-8 xl:col-9'>
