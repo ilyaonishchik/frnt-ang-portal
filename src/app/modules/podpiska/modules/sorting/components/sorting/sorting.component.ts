@@ -62,7 +62,7 @@ export class SortingComponent implements OnInit, OnDestroy {
 
   changeBarcode(): void {
     this.selectedPeriodical = this.items.options.find(
-      (value) => value.barcode === this.selectedBarcode
+      (value) => value.barcode === this.selectedBarcode?.slice(0, 13)
     )
     if (this.selectedPeriodical) {
       this.changeCurrentItem()
