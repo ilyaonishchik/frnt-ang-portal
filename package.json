@@ -7,7 +7,8 @@
     "build": "ng build --configuration production --optimization --output-hashing all",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "update": "npm update"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +25,7 @@
     "@ngrx/router-store": "^15.2.1",
     "@ngrx/store": "^15.2.1",
     "@ngrx/store-devtools": "^15.2.1",
+    "ngx-filesize": "^3.0.1",
     "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",
     "primeng": "^15.2.0",
