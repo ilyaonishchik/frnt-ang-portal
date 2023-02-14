@@ -6,6 +6,7 @@ export const environment = {
   urlApiAuth: '/api/v1/auth',
   urlApiPdp: '/api/v1/sorting',
   urlApiStorage: '/api/v1/storage',
+  urlApiReport: '/api/v1/report',
 
   rowsPerPageCount: 15,
   rowsPerPageOptions: [10, 15, 20, 25],

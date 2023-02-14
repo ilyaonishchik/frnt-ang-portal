@@ -10,6 +10,8 @@ export const environment = {
   urlApiAuth: '/api/v1/auth',
   urlApiPdp: '/api/v1/sorting',
   urlApiStorage: '/api/v1/storage',
+  urlApiReport: '/api/v1/report',
+  // urlApiReport: 'http://172.16.190.86:8097',
 
   rowsPerPageCount: 15,
   rowsPerPageOptions: [5, 10, 15, 20, 25],

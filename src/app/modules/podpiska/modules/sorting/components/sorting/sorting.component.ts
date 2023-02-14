@@ -18,6 +18,9 @@ import {
 } from '../../store/actions/cells.action'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 import {SerialService} from '@shared/services/serial.service'
+import {ReportService} from '@shared/services/report.service'
+import {IUser} from '@shared/interfaces/user.interface'
+import {PersistenceService} from '@shared/services/persistence.service'
 
 @Component({
   selector: 'app-sorting',
@@ -39,7 +42,12 @@ export class SortingComponent implements OnInit, OnDestroy {
   cells$!: Observable<ICell[] | null>
   errors$!: Observable<IBackendErrors | null>
 
-  constructor(private store: Store, private serialService: SerialService) {}
+  constructor(
+    private store: Store,
+    private serialService: SerialService,
+    private reportService: ReportService,
+    private persistenceService: PersistenceService
+  ) {}
 
   ngOnInit(): void {
     const filters = [
@@ -114,5 +122,51 @@ export class SortingComponent implements OnInit, OnDestroy {
     } else {
       this.serialService.clearDigits().then()
     }
+  }
+
+  getReport(): void {
+    const user: IUser | null = this.persistenceService.getCurrentUser()
+    if (user && user.sd_id) {
+      this.reportService.getReportWindow({
+        report: 'podpiska\\avs_kst_nakl.fr3',
+        format: 'pdf',
+        params: {
+          nakl_date: this.selectedDate.toLocaleDateString('ru-RU'),
+          region: user.sd_id,
+          magazine: 1,
+        },
+      })
+    }
+    // const url =
+    //   environment.urlApiReport +
+    //   '/result?report=1.Basic reports\\01.Simple list.fr3' +
+    //   '&format=PDF'
+    // const link = document.createElement('a')
+    // link.href = url
+    // link.download = 'report.pdf'
+    // link.click()
+
+    // window.open(url, '_blank')
+
+    // this.reportService
+    //   .getReport({
+    //     report: '1.Basic reports\\01.Simple list.fr3',
+    //     format: 'PDF',
+    //   })
+    //   .subscribe((data) => {
+    //     console.log(data)
+    // const blob: Blob = data.body as Blob
+    // const blob = new Blob([data], {type: 'application/pdf'})
+
+    // const downloadURL = window.URL.createObjectURL(blob)
+    // window.open(downloadURL, '_blank')
+    // window.location.href = downloadURL
+    // const link = document.createElement('a')
+    // link.href = downloadURL
+    // link.download = 'Report.pdf'
+    // link.click()
+    // URL.revokeObjectURL(downloadURL)
+    // })
+    //http://localhost:8097/result?report=avs%5Fkst%5Fnakl.fr3
   }
 }
