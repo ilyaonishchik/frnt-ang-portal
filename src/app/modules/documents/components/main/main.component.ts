@@ -1,15 +1,10 @@
 import {Component, OnInit} from '@angular/core'
 import {IColumn} from '@shared/interfaces/column.interface'
 import {environment} from 'environments/environment'
-import {TreeDragDropService, TreeNode} from 'primeng/api'
+import {SelectItem, TreeDragDropService, TreeNode} from 'primeng/api'
+import {DataView} from 'primeng/dataview'
 import {DocsService} from '@modules/documents/services/docs.service'
-
-interface DocFile {
-  id: number
-  name: string
-  size: number
-  type: string
-}
+import {IFile} from '@modules/documents/interfaces/file.interface'
 
 @Component({
   selector: 'app-main',
@@ -21,24 +16,29 @@ export class MainComponent implements OnInit {
   categories: TreeNode<string>[] = []
   selectedCategory!: TreeNode
 
+  files: IFile[] = []
+
   rowsPerPageCount: number = environment.rowsPerPageCount
   rowsPerPageOptions: number[] = environment.rowsPerPageOptions
+
+  sortOptions: SelectItem[] = []
+  sortOrder = 0
+  sortField = ''
+
   columns: IColumn[] = [
     {field: 'name', header: 'Name'},
     {field: 'size', header: 'Size'},
     {field: 'type', header: 'Type'},
-  ]
-  files: DocFile[] = [
-    {id: 1, name: 'Name file', size: 250, type: 'DOC'},
-    {id: 2, name: 'Name file', size: 250, type: 'DOC'},
-    {id: 3, name: 'Name file', size: 250, type: 'DOC'},
-    {id: 4, name: 'Name file', size: 250, type: 'DOC'},
   ]
 
   constructor(private docsService: DocsService) {}
 
   ngOnInit() {
     this.initializeValues()
+    this.sortOptions = [
+      {label: 'Имя по убыванию', value: '!name'},
+      {label: 'Имя по возрастанию', value: 'name'},
+    ]
   }
 
   initializeValues(): void {
@@ -47,6 +47,14 @@ export class MainComponent implements OnInit {
         this.categories = items
         this.selectedCategory = this.categories[0]
         this.nodeSelect()
+      }
+    })
+  }
+
+  getFilesOfCategory(category: number | string) {
+    this.docsService.getFiles(category).then((items) => {
+      if (items) {
+        this.files = items
       }
     })
   }
@@ -82,7 +90,22 @@ export class MainComponent implements OnInit {
 
   nodeSelect(): void {
     if (this.selectedCategory) {
-      console.log(this.selectedCategory.key)
+      this.getFilesOfCategory(this.selectedCategory.key!)
     }
+  }
+
+  onSortChange(event: any): void {
+    const value = event.value
+    if (value.indexOf('!') === 0) {
+      this.sortOrder = -1
+      this.sortField = value.substring(1, value.length)
+    } else {
+      this.sortOrder = 1
+      this.sortField = value
+    }
+  }
+
+  onFilter(dv: DataView, event: Event): void {
+    dv.filter((event.target as HTMLInputElement).value)
   }
 }

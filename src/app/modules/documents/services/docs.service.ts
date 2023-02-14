@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http'
-// import {Observable} from 'rxjs'
 import {ICategory} from '@modules/documents/interfaces/category.interface'
 import {TreeNode} from 'primeng/api'
+import {IFile} from '@modules/documents/interfaces/file.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +20,18 @@ export class DocsService {
       .then((res) => <ICategory[]>res.items)
       .then((items) => {
         return this.toTreeNode(items)
+      })
+  }
+
+  getFiles(category: number | string) {
+    return this.http
+      .get<any>('assets/data/files.json')
+      .toPromise()
+      .then((res) => <IFile[]>res.items)
+      .then((items) => {
+        return items.filter((item) => {
+          return item.category == category
+        })
       })
   }
 

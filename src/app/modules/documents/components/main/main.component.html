@@ -31,6 +31,7 @@
               class='p-button-text'
               pButton
               pTooltip='Развернуть'
+              tooltipPosition='left'
               icon='pi pi-arrow-circle-down'
               (click)='expandAll()'
             ></button>
@@ -38,6 +39,7 @@
               class='p-button-text'
               pButton
               pTooltip='Свернуть'
+              tooltipPosition='left'
               icon='pi pi-arrow-circle-up'
               (click)='collapseAll()'
             ></button>
@@ -50,7 +52,85 @@
       </p-tree>
     </div>
     <div class='col-12 lg:col-8 xl:col-9'>
-      <h4>Документы</h4>
+      <h4>Документы: {{selectedCategory.label}}</h4>
+      <p-dataView
+        #dv
+        [value]='files'
+        [paginator]='true'
+        [rows]='8'
+        filterBy='name'
+        [sortField]='sortField'
+        [sortOrder]='sortOrder'
+        layout='grid'
+        emptyMessage='Нет документов для отображения'
+      >
+        <ng-template pTemplate='header'>
+          <div
+            class='flex flex-row justify-content-between'>
+            <button
+              type='button'
+              pButton
+              label='Загрузить'
+              icon='pi pi-cloud-upload'
+            ></button>
+            <span
+              class='p-input-icon-left'>
+              <i class='pi pi-search'></i>
+              <input
+                type='search'
+                pInputText
+                placeholder='Поиск'
+                (input)='onFilter(dv, $event)'>
+              </span>
+            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+          </div>
+        </ng-template>
+        <ng-template let-file pTemplate='listItem'>
+          <div class='col-12'>
+            {{file.name}} {{file.type}} {{file.size}} {{file.loaded}}
+            {{file.desc}} {{file.downloads}}
+          </div>
+        </ng-template>
+        <ng-template let-file pTemplate='gridItem'>
+          <div class='col-12 md:col-6'>
+            <div class='card m-2 flex flex-row flex-wrap justify-content-between'>
+              <i class='pi pi-file-word' style='font-size: 4rem'></i>
+              <div class='col bg-yellow-200'>
+                <div>{{file.name}}</div>
+                <div>{{file.desc}}</div>
+              </div>
+              <div class='ml-2'>
+                <p-button
+                  icon='pi pi-cloud-download'
+                  iconPos='top'
+                  styleClass='p-button-success w-5rem'
+                  [badge]='file.downloads'
+                  badgeClass='p-badge-warning'
+                  pTooltip='Скачать'
+                  tooltipPosition='left'
+                  [showDelay]='1000'
+                ></p-button>
+                <div class='text-right'>
+                  {{file.size | filesize}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate='paginatorLeft'>
+          <div>
+            <p-dropdown
+              [options]='sortOptions'
+              placeholder='Сортировка по имени'
+              (onChange)='onSortChange($event)'>
+            </p-dropdown>
+          </div>
+        </ng-template>
+      </p-dataView>
+    </div>
+    <div
+      *ngIf='false'
+      class='col-12'>
       <p-table
         responsiveLayout='stack'
         styleClass='p-datatable-sm p-datatable-gridlines'

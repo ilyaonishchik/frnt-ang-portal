@@ -1,0 +1,104 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Name file 1",
+      "category": 0,
+      "desc": "kf sdl;f gklad'fg ka'dfk as;dlkf gj sdkflgj klsdf",
+      "size": 1852520250,
+      "type": "DOC",
+      "loaded": "01.01.2023",
+      "downloads": 2518
+    },
+    {
+      "id": 2,
+      "name": "Name file 2",
+      "category": 10,
+      "desc": "",
+      "size": 2250,
+      "type": "DBF",
+      "loaded": "01.01.2023",
+      "downloads": 0
+    },
+    {
+      "id": 3,
+      "name": "Name file very long 3",
+      "category": 11,
+      "desc": "",
+      "size": 3250,
+      "type": "PDF",
+      "loaded": "01.01.2023",
+      "downloads": 0
+    },
+    {
+      "id": 4,
+      "name": "Name file 4",
+      "category": 0,
+      "desc": "",
+      "size": 4250,
+      "type": "XLS",
+      "loaded": "01.01.2023",
+      "downloads": 5
+    },
+    {
+      "id": 5,
+      "name": "Name file 5",
+      "category": 111,
+      "desc": "",
+      "size": 1250,
+      "type": "DOC",
+      "loaded": "01.01.2023",
+      "downloads": 0
+    },
+    {
+      "id": 6,
+      "name": "Name file 6",
+      "category": 122,
+      "desc": "",
+      "size": 2250,
+      "type": "DBF",
+      "loaded": "01.01.2023",
+      "downloads": 0
+    },
+    {
+      "id": 7,
+      "name": "Name file 7",
+      "category": 122,
+      "desc": "",
+      "size": 3250,
+      "type": "PDF",
+      "loaded": "01.01.2023",
+      "downloads": 0
+    },
+    {
+      "id": 8,
+      "name": "Name file 8",
+      "category": 3,
+      "desc": "",
+      "size": 4250,
+      "type": "XLS",
+      "loaded": "01.01.2023",
+      "downloads": 0
+    },
+    {
+      "id": 9,
+      "name": "Name file 9",
+      "category": 3,
+      "desc": "",
+      "size": 3250,
+      "type": "PDF",
+      "loaded": "01.01.2023",
+      "downloads": 0
+    },
+    {
+      "id": 10,
+      "name": "Name file 10",
+      "category": 120,
+      "desc": "",
+      "size": 4250,
+      "type": "XLS",
+      "loaded": "01.01.2023",
+      "downloads": 0
+    }
+  ]
+}
