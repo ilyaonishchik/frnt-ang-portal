@@ -7,6 +7,7 @@ import {DocsService} from '@modules/documents/services/docs.service'
 import {IFile} from '@modules/documents/interfaces/file.interface'
 import {StorageService} from '@shared/services/storage.service'
 import {take} from 'rxjs'
+import {getFileName} from '@shared/functions/string.function'
 
 @Component({
   selector: 'app-main',
@@ -125,12 +126,8 @@ export class MainComponent implements OnInit {
           link.href = URL.createObjectURL(blob)
           const contentDisposition = response.headers.get('content-disposition')
           if (contentDisposition) {
-            link.download = contentDisposition
-              .split(';')[1]
-              .split('filename')[1]
-              .split('=')[1]
-              .split('"')[1]
-              .trim()
+            // attachment; filename*=utf-8''New%20Mail.sql
+            link.download = getFileName(contentDisposition)
           }
           link.click()
           URL.revokeObjectURL(link.href)

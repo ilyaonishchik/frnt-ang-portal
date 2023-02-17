@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Name file 1",
-      "uuid": "4cbefa6e-b465-46ba-8d69-a8e148d2c821",
+      "uuid": "9e9abdb4-d8da-412b-82c1-d9977b4e0913",
       "category": 0,
       "desc": "kf sdl;f gklad'fg ka'dfk as;dlkf gj sdkflgj klsdf",
       "size": 1852520250,
@@ -34,6 +34,7 @@
     {
       "id": 4,
       "name": "Name file 4",
+      "uuid": "469f399f-09d8-42ed-afe4-527c6adcfeaf",
       "category": 0,
       "desc": "",
       "size": 4250,

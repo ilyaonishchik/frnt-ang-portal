@@ -11,7 +11,7 @@ import {InputTextModule} from 'primeng/inputtext'
 import {DataViewModule} from 'primeng/dataview'
 import {DropdownModule} from 'primeng/dropdown'
 import {FormsModule} from '@angular/forms'
-import {NgxFilesizeModule} from 'ngx-filesize'
+import {PipesModule} from '@shared/modules/pipes/pipes.module'
 
 @NgModule({
   declarations: [MainComponent],
@@ -26,7 +26,7 @@ import {NgxFilesizeModule} from 'ngx-filesize'
     DataViewModule,
     DropdownModule,
     FormsModule,
-    NgxFilesizeModule,
+    PipesModule,
   ],
 })
 export class DocumentsModule {}
