@@ -21,7 +21,6 @@
             type='text'
             pInputText
             placeholder='Штрихкод издания'
-            autofocus
             [(ngModel)]=selectedBarcode
             [disabled]='(periodicals$ | async) === null'
             (change)=changeBarcode()>
