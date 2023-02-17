@@ -5,6 +5,8 @@ import {SelectItem, TreeDragDropService, TreeNode} from 'primeng/api'
 import {DataView} from 'primeng/dataview'
 import {DocsService} from '@modules/documents/services/docs.service'
 import {IFile} from '@modules/documents/interfaces/file.interface'
+import {StorageService} from '@shared/services/storage.service'
+import {take} from 'rxjs'
 
 @Component({
   selector: 'app-main',
@@ -31,7 +33,10 @@ export class MainComponent implements OnInit {
     {field: 'type', header: 'Type'},
   ]
 
-  constructor(private docsService: DocsService) {}
+  constructor(
+    private docsService: DocsService,
+    private storageService: StorageService
+  ) {}
 
   ngOnInit() {
     this.initializeValues()
@@ -89,8 +94,8 @@ export class MainComponent implements OnInit {
   }
 
   nodeSelect(): void {
-    if (this.selectedCategory) {
-      this.getFilesOfCategory(this.selectedCategory.key!)
+    if (this.selectedCategory && this.selectedCategory.key) {
+      this.getFilesOfCategory(this.selectedCategory.key)
     }
   }
 
@@ -107,5 +112,29 @@ export class MainComponent implements OnInit {
 
   onFilter(dv: DataView, event: Event): void {
     dv.filter((event.target as HTMLInputElement).value)
+  }
+
+  downloadFile(s: string) {
+    if (s) {
+      this.storageService
+        .downloadFile(s)
+        .pipe(take(1))
+        .subscribe((response) => {
+          const blob: Blob = response.body as Blob
+          const link = document.createElement('a')
+          link.href = URL.createObjectURL(blob)
+          const contentDisposition = response.headers.get('content-disposition')
+          if (contentDisposition) {
+            link.download = contentDisposition
+              .split(';')[1]
+              .split('filename')[1]
+              .split('=')[1]
+              .split('"')[1]
+              .trim()
+          }
+          link.click()
+          URL.revokeObjectURL(link.href)
+        })
+    }
   }
 }

@@ -52,7 +52,7 @@
       </p-tree>
     </div>
     <div class='col-12 lg:col-8 xl:col-9'>
-      <h4>Документы: {{selectedCategory.label}}</h4>
+      <h4 *ngIf='selectedCategory'>Документы: {{selectedCategory.label}}</h4>
       <p-dataView
         #dv
         [value]='files'
@@ -109,6 +109,7 @@
                   pTooltip='Скачать'
                   tooltipPosition='left'
                   [showDelay]='1000'
+                  (onClick)='downloadFile(file.uuid)'
                 ></p-button>
                 <div class='text-right'>
                   {{file.size | filesize}}
