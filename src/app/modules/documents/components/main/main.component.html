@@ -94,7 +94,7 @@
         <ng-template let-file pTemplate='gridItem'>
           <div class='col-12 md:col-6'>
             <div class='card m-2 flex flex-row flex-wrap justify-content-between'>
-              <i class='pi pi-file-word' style='font-size: 4rem'></i>
+              <i class='{{file.type | mimeIcon}} mr-2' style='font-size: 4rem'></i>
               <div class='col bg-yellow-200'>
                 <div>{{file.name}}</div>
                 <div>{{file.desc}}</div>

@@ -7,7 +7,7 @@
       "category": 0,
       "desc": "kf sdl;f gklad'fg ka'dfk as;dlkf gj sdkflgj klsdf",
       "size": 1852520250,
-      "type": "DOC",
+      "type": "application/vnd.ms-word",
       "loaded": "01.01.2023",
       "downloads": 2518
     },
@@ -17,7 +17,7 @@
       "category": 10,
       "desc": "",
       "size": 2250,
-      "type": "DBF",
+      "type": "application/octet-stream",
       "loaded": "01.01.2023",
       "downloads": 0
     },
@@ -27,7 +27,7 @@
       "category": 11,
       "desc": "",
       "size": 3250,
-      "type": "PDF",
+      "type": "application/pdf",
       "loaded": "01.01.2023",
       "downloads": 0
     },
@@ -38,7 +38,7 @@
       "category": 0,
       "desc": "",
       "size": 4250,
-      "type": "XLS",
+      "type": "application/vnd.ms-excel",
       "loaded": "01.01.2023",
       "downloads": 5
     },
@@ -48,7 +48,7 @@
       "category": 111,
       "desc": "",
       "size": 1250,
-      "type": "DOC",
+      "type": "application/vnd.ms-word",
       "loaded": "01.01.2023",
       "downloads": 0
     },
@@ -58,7 +58,7 @@
       "category": 122,
       "desc": "",
       "size": 2250,
-      "type": "DBF",
+      "type": "application/octet-stream",
       "loaded": "01.01.2023",
       "downloads": 0
     },
@@ -68,7 +68,7 @@
       "category": 122,
       "desc": "",
       "size": 3250,
-      "type": "PDF",
+      "type": "application/pdf",
       "loaded": "01.01.2023",
       "downloads": 0
     },
@@ -78,7 +78,7 @@
       "category": 3,
       "desc": "",
       "size": 4250,
-      "type": "XLS",
+      "type": "application/vnd.ms-excel",
       "loaded": "01.01.2023",
       "downloads": 0
     },
@@ -88,7 +88,7 @@
       "category": 3,
       "desc": "",
       "size": 3250,
-      "type": "PDF",
+      "type": "application/pdf",
       "loaded": "01.01.2023",
       "downloads": 0
     },
@@ -98,7 +98,7 @@
       "category": 120,
       "desc": "",
       "size": 4250,
-      "type": "XLS",
+      "type": "application/vnd.ms-excel",
       "loaded": "01.01.2023",
       "downloads": 0
     }
