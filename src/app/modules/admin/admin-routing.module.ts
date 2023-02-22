@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router'
 
 import {MainComponent} from './components/main/main.component'
 import {DashboardComponent} from './components/dashboard/dashboard.component'
-import {PermissionGuard} from '../../guards/permission.guard'
+import {PermissionGuard} from '@guards/permission.guard'
 
 const routes: Routes = [
   {path: '', component: MainComponent},
@@ -44,6 +44,13 @@ const routes: Routes = [
     data: {permission: 'menu:read'},
     loadChildren: () =>
       import('./sections/portal/menus/menus.module').then((m) => m.MenusModule),
+  },
+  {
+    path: 'docs',
+    canActivate: [PermissionGuard],
+    data: {permission: 'docs:module'},
+    loadChildren: () =>
+      import('./sections/portal/docs/docs.module').then((m) => m.DocsModule),
   },
 ]
 

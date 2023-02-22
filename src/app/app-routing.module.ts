@@ -2,9 +2,9 @@ import {NgModule} from '@angular/core'
 import {RouterModule, Routes} from '@angular/router'
 
 import {LayoutComponent} from '@shared/modules/layout/components/layout/layout.component'
-import {SignedOutGuard} from './guards/signed-out.guard'
-import {SignedInGuard} from './guards/signed-in.guard'
-import {PermissionGuard} from './guards/permission.guard'
+import {SignedOutGuard} from '@guards/signed-out.guard'
+import {SignedInGuard} from '@guards/signed-in.guard'
+import {PermissionGuard} from '@guards/permission.guard'
 
 const routes: Routes = [
   {
