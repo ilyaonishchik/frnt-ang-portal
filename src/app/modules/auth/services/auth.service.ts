@@ -10,12 +10,14 @@ import {ISigninResponse} from '../interfaces/signin-response.interface'
 import {IToken} from '../interfaces/token.interface'
 import {IVerifyResponse} from '../interfaces/verify-response.interface'
 import {IUser, IUserReset} from '@shared/interfaces/user.interface'
+import {Store} from '@ngrx/store'
+import {isSignedInSelector} from '@modules/auth/store/selectors'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private store: Store) {}
 
   getCurrentUser(): Observable<IUser> {
     return this.http.get<IUser>(`${environment.urlApiAuth}/users/me`)
@@ -59,5 +61,9 @@ export class AuthService {
     return this.http.get<IVerifyResponse>(
       `${environment.urlApiAuth}/verify/${code}`
     )
+  }
+
+  isSignedIn(): Observable<boolean> {
+    return this.store.select(isSignedInSelector)
   }
 }
