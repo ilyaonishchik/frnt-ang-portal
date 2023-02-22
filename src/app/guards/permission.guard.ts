@@ -37,6 +37,7 @@ export class PermissionGuard implements CanActivate {
   }
 
   checkPermission(data: Data, user: IUser): boolean {
+    console.log(`PermissionGuard (checkPermission): ${data['permission']}`)
     let result = false
     if (data['permission']) {
       for (const key in user.permissions) {

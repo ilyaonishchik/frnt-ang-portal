@@ -3,9 +3,11 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   CanActivateChild,
-  CanLoad,
+  CanMatch,
+  Route,
   Router,
   RouterStateSnapshot,
+  UrlSegment,
   UrlTree,
 } from '@angular/router'
 import {map, Observable} from 'rxjs'
@@ -16,7 +18,7 @@ import {isSignedInSelector} from '@modules/auth/store/selectors'
 @Injectable({
   providedIn: 'root',
 })
-export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
+export class SignedInGuard implements CanActivate, CanActivateChild, CanMatch {
   constructor(private store: Store, private router: Router) {}
 
   canActivate(
@@ -27,6 +29,7 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    console.log(`SignedInGuard (canActivate): ${state.url}`)
     return this.store.select(isSignedInSelector).pipe(
       map((value) => {
         if (value) {
@@ -38,11 +41,15 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
     )
   }
 
-  canActivateChild():
+  canActivateChild(
+    childRoute: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ):
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    console.log(`SignedInGuard (canActivateChild): ${state.url}`)
     return this.store.select(isSignedInSelector).pipe(
       map((value) => {
         return value
@@ -50,28 +57,32 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanLoad {
     )
   }
 
-  canLoad():
+  canMatch(
+    route: Route,
+    segments: UrlSegment[]
+  ):
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    console.log(`SignedInGuard (canMatch): ${route.path}`)
     return this.store.select(isSignedInSelector).pipe(
       map((value) => {
-        if (value) {
-          return true
-        } else {
-          this.router.navigateByUrl('/welcome').then()
-          return false
+        if (!value) {
+          return this.checkUrl(segments[0].path)
         }
+        return value
       })
     )
   }
 
   checkUrl(url: string): boolean {
+    console.log(`checkUrl: ${url}`)
     if (url === '/') {
       this.router.navigateByUrl('/welcome').then()
-      return false
+    } else {
+      this.router.navigateByUrl('/auth/sign-in').then()
     }
-    return true
+    return false
   }
 }

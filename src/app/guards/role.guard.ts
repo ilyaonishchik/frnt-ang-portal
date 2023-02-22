@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core'
 import {
   ActivatedRouteSnapshot,
   CanActivate,
-  CanLoad,
+  CanMatch,
   Data,
   Route,
   Router,
@@ -18,7 +18,7 @@ import {IUser} from '@shared/interfaces/user.interface'
 @Injectable({
   providedIn: 'root',
 })
-export class RoleGuard implements CanActivate, CanLoad {
+export class RoleGuard implements CanActivate, CanMatch {
   constructor(private store: Store, private router: Router) {}
   canActivate(
     route: ActivatedRouteSnapshot
@@ -38,7 +38,7 @@ export class RoleGuard implements CanActivate, CanLoad {
     )
   }
 
-  canLoad(
+  canMatch(
     route: Route
   ):
     | Observable<boolean | UrlTree>
@@ -62,6 +62,7 @@ export class RoleGuard implements CanActivate, CanLoad {
   }
 
   checkRole(data: Data, user: IUser): boolean {
+    console.log(`RoleGuard (checkRole): ${data['role']}`)
     let result = false
     if (data['role']) {
       for (const key in user.roles) {

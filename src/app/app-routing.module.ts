@@ -18,7 +18,8 @@ const routes: Routes = [
       },
       {
         path: 'admin',
-        canLoad: [SignedInGuard],
+        // canMatch: [() => inject(AuthService).isSignedIn()],
+        canMatch: [SignedInGuard],
         canActivate: [SignedInGuard, PermissionGuard],
         data: {permission: 'admin-panel:view'},
         loadChildren: () =>
@@ -26,8 +27,9 @@ const routes: Routes = [
       },
       {
         path: 'docs',
-        canLoad: [SignedInGuard],
-        canActivate: [SignedInGuard],
+        canMatch: [SignedInGuard],
+        canActivate: [SignedInGuard, PermissionGuard],
+        data: {permission: 'docs:module'},
         loadChildren: () =>
           import('./modules/documents/documents.module').then(
             (m) => m.DocumentsModule
@@ -35,7 +37,7 @@ const routes: Routes = [
       },
       {
         path: 'podpiska',
-        canLoad: [SignedInGuard],
+        canMatch: [SignedInGuard],
         canActivate: [SignedInGuard, PermissionGuard],
         data: {permission: 'podpiska:module'},
         loadChildren: () =>
@@ -45,7 +47,7 @@ const routes: Routes = [
       },
       {
         path: 'profile',
-        canLoad: [SignedInGuard],
+        canMatch: [SignedInGuard],
         canActivate: [SignedInGuard],
         loadChildren: () =>
           import('./modules/profile/profile.module').then(
@@ -56,7 +58,7 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    canLoad: [SignedOutGuard],
+    canMatch: [SignedOutGuard],
     canActivate: [SignedOutGuard],
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
