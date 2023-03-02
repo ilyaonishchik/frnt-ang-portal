@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http'
 import {ICategory} from '@modules/documents/interfaces/category.interface'
 import {TreeNode} from 'primeng/api'
 import {IFile} from '@modules/documents/interfaces/file.interface'
+import {Observable} from 'rxjs'
+import {environment} from 'environments/environment'
 
 @Injectable({
   providedIn: 'root',
@@ -10,17 +12,10 @@ import {IFile} from '@modules/documents/interfaces/file.interface'
 export class DocsService {
   constructor(private http: HttpClient) {}
 
-  // getCategories(): Observable<ICategory[]> {
-  //   return this.http.get<ICategory[]>('assets/data/category-files.json')
-  // }
-  getCategories() {
-    return this.http
-      .get<any>('assets/data/category-files.json')
-      .toPromise()
-      .then((res) => <ICategory[]>res.items)
-      .then((items) => {
-        return this.toTreeNode(items)
-      })
+  getCategories(cat_id: number): Observable<ICategory[]> {
+    return this.http.get<ICategory[]>(
+      `${environment.urlApiStorage}/categories/${cat_id}/tree`
+    )
   }
 
   getFiles(category: number | string) {
@@ -39,12 +34,13 @@ export class DocsService {
     const result: TreeNode[] = []
     for (const item of data) {
       const res: TreeNode = {
-        key: item.id.toString(),
-        label: item.name,
+        key: `${item.id}`,
+        label: item.label,
         icon: item.icon,
       }
-      if (item.children) {
-        res.children = this.toTreeNode(item.children)
+
+      if (item.items) {
+        res.children = this.toTreeNode(item.items)
       }
       result.push(res)
     }

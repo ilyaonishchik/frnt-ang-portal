@@ -1,6 +1,8 @@
 export interface ICategory {
   id: number
-  name: string
+  parent: number | null
+  label: string
+  // cat_desc: string
   icon?: string
-  children?: ICategory[]
+  items?: ICategory[] | null
 }

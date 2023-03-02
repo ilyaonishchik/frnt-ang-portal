@@ -12,12 +12,18 @@ import {DataViewModule} from 'primeng/dataview'
 import {DropdownModule} from 'primeng/dropdown'
 import {FormsModule} from '@angular/forms'
 import {PipesModule} from '@shared/modules/pipes/pipes.module'
+import {StoreModule} from '@ngrx/store'
+import {docsFeatureKey, reducerDocs} from '@modules/documents/store/reducers'
+import {EffectsModule} from '@ngrx/effects'
+import {GetDocsEffect} from '@modules/documents/store/effects/docs.effect'
 
 @NgModule({
   declarations: [MainComponent],
   imports: [
     CommonModule,
     DocumentsRoutingModule,
+    StoreModule.forFeature(docsFeatureKey, reducerDocs),
+    EffectsModule.forFeature([GetDocsEffect]),
     TreeModule,
     TableModule,
     ButtonModule,

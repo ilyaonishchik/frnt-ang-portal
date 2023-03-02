@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, OnDestroy, OnInit} from '@angular/core'
 import {IColumn} from '@shared/interfaces/column.interface'
 import {environment} from 'environments/environment'
 import {SelectItem, TreeDragDropService, TreeNode} from 'primeng/api'
@@ -6,8 +6,12 @@ import {DataView} from 'primeng/dataview'
 import {DocsService} from '@modules/documents/services/docs.service'
 import {IFile} from '@modules/documents/interfaces/file.interface'
 import {StorageService} from '@shared/services/storage.service'
-import {take} from 'rxjs'
+import {Subscription, take} from 'rxjs'
 import {getFileName} from '@shared/functions/string.function'
+import {Store} from '@ngrx/store'
+import {categoriesSelector} from '@modules/documents/store/selectors'
+import {getCategoriesAction} from '@modules/documents/store/actions/docs.actions'
+import {ICategory} from '@modules/documents/interfaces/category.interface'
 
 @Component({
   selector: 'app-main',
@@ -15,9 +19,10 @@ import {getFileName} from '@shared/functions/string.function'
   styleUrls: ['./main.component.scss'],
   providers: [TreeDragDropService],
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
+  itemSubscription!: Subscription
   categories: TreeNode<string>[] = []
-  selectedCategory!: TreeNode
+  selectedCategory: TreeNode | null = null
 
   files: IFile[] = []
 
@@ -36,7 +41,8 @@ export class MainComponent implements OnInit {
 
   constructor(
     private docsService: DocsService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private store: Store
   ) {}
 
   ngOnInit() {
@@ -48,13 +54,16 @@ export class MainComponent implements OnInit {
   }
 
   initializeValues(): void {
-    this.docsService.getCategories().then((items) => {
-      if (items) {
-        this.categories = items
-        this.selectedCategory = this.categories[0]
-        this.nodeSelect()
-      }
-    })
+    this.itemSubscription = this.store
+      .select(categoriesSelector)
+      .subscribe((items: ICategory[] | null) => {
+        if (items) {
+          this.categories = this.docsService.toTreeNode(items)
+          this.selectedCategory = this.categories[0]
+          this.nodeSelect()
+        }
+      })
+    this.refreshItems()
   }
 
   getFilesOfCategory(category: number | string) {
@@ -66,7 +75,7 @@ export class MainComponent implements OnInit {
   }
 
   refreshItems(): void {
-    this.initializeValues()
+    this.store.dispatch(getCategoriesAction())
   }
 
   showItems(event: any): void {
@@ -126,12 +135,17 @@ export class MainComponent implements OnInit {
           link.href = URL.createObjectURL(blob)
           const contentDisposition = response.headers.get('content-disposition')
           if (contentDisposition) {
-            // attachment; filename*=utf-8''New%20Mail.sql
             link.download = getFileName(contentDisposition)
           }
           link.click()
           URL.revokeObjectURL(link.href)
         })
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.itemSubscription) {
+      this.itemSubscription.unsubscribe()
     }
   }
 }

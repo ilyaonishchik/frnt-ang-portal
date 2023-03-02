@@ -8,9 +8,9 @@
         filterMode='strict'
         selectionMode='single'
         [(selection)]=selectedCategory
-        [draggableNodes]=true
+        [draggableNodes]=false
         draggableScope='self'
-        [droppableNodes]=true
+        [droppableNodes]=false
         droppableScope='self'
         (onNodeDrop)=showItems($event)
         (onNodeSelect)='nodeSelect()'
@@ -51,8 +51,8 @@
         </ng-template>
       </p-tree>
     </div>
-    <div class='col-12 lg:col-8 xl:col-9'>
-      <h4 *ngIf='selectedCategory'>Документы: {{selectedCategory.label}}</h4>
+    <div class='col-12 lg:col-8 xl:col-9' *ngIf='selectedCategory'>
+      <h4>Документы: {{selectedCategory.label}}</h4>
       <p-dataView
         #dv
         [value]='files'
@@ -206,4 +206,3 @@
     </div>
   </div>
 </div>
-
