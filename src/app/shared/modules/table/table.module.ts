@@ -10,6 +10,7 @@ import {DialogModule} from 'primeng/dialog'
 import {TableComponent} from './components/table/table.component'
 import {StatusComponent} from './components/columns/status/status.component'
 import {ActionsComponent as ColumnsActionsComponent} from './components/columns/actions/actions.component'
+import {PipesModule} from '@shared/modules/pipes/pipes.module'
 
 @NgModule({
   declarations: [TableComponent, StatusComponent, ColumnsActionsComponent],
@@ -20,6 +21,7 @@ import {ActionsComponent as ColumnsActionsComponent} from './components/columns/
     TooltipModule,
     InputTextModule,
     DialogModule,
+    PipesModule,
   ],
   exports: [TableComponent],
 })

@@ -70,7 +70,11 @@
     <tr>
       <td *ngFor='let col of columns' style='white-space: normal'>
         <span class='p-column-title'>{{col.header}}</span>
-        {{rowData[col.field]}}
+        <ng-container *ngIf="col.pipe === 'filesize'">{{rowData[col.field] | filesize}}</ng-container>
+        <ng-container *ngIf="col.pipe === 'mimeicon'">
+          <i class='{{rowData[col.field] | mimeIcon}}' style='font-size: 1.5rem'></i>
+        </ng-container>
+        <ng-container *ngIf=!col.pipe>{{rowData[col.field]}}</ng-container>
       </td>
       <td class='text-center'>
         <span class='p-column-title'>Статус</span>
