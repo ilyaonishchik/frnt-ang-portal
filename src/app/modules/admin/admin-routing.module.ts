@@ -47,10 +47,22 @@ const routes: Routes = [
   },
   {
     path: 'docs',
-    canActivate: [PermissionGuard],
-    data: {permission: 'docs:module'},
-    loadChildren: () =>
-      import('./sections/portal/docs/docs.module').then((m) => m.DocsModule),
+    children: [
+      {
+        path: 'categories',
+        loadChildren: () =>
+          import('./sections/docs/categories/categories.module').then(
+            (m) => m.CategoriesModule
+          ),
+      },
+      {
+        path: 'files',
+        loadChildren: () =>
+          import('./sections/docs/files/files.module').then(
+            (m) => m.FilesModule
+          ),
+      },
+    ],
   },
 ]
 
