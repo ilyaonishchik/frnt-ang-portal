@@ -1,0 +1,17 @@
+<div class='card mb-0'>
+  <avs-table
+    [columns]=columns
+    [data]='(items$ | async)!'
+    (lazyLoad)=loadItems($event)
+    [loading]='(isLoading$ | async)!'
+    [filterFields]="['file_name']"
+    [confirmField]=confirmField
+    [crudName]=crudName
+    [keyField]=keyField
+    [sortField]=sortField
+    (actionCreate)=createItem()
+    (actionRead)=readItem($event)
+    (actionUpdate)=updateItem($event)
+    (actionDelete)=deleteItem($event)
+  ></avs-table>
+</div>
