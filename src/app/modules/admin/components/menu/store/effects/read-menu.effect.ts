@@ -10,7 +10,7 @@ import {
   getMenuSuccessAction,
 } from '../actions/menu.action'
 import {responseToErrors} from '@shared/functions/error.function'
-import {IMenu} from '../../../../sections/portal/menus/interfaces/menu.interface'
+import {IMenu} from '@modules/admin/sections/portal/menus/interfaces/menu.interface'
 
 @Injectable()
 export class ReadMenuEffect {

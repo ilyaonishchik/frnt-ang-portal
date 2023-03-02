@@ -1,9 +1,9 @@
 import {createAction, props} from '@ngrx/store'
 
-import {MenuActionTypes} from '../actionTypes'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 import {IDeleteResponse} from '@shared/interfaces/delete-response.interface'
-import {IMenu} from '../../../../sections/portal/menus/interfaces/menu.interface'
+import {IMenu} from '@modules/admin/sections/portal/menus/interfaces/menu.interface'
+import {MenuActionTypes} from '@modules/admin/components/menu/store/actionTypes'
 
 export const getMenuAction = createAction(
   MenuActionTypes.GET_MENU,
