@@ -1,0 +1,74 @@
+<form [formGroup]=formCategory
+      (change)='onChangeValues()'>
+  <div class='p-fluid grid formgrid'>
+    <div class='field col'>
+      <label for='cat_name'>Наименование</label>
+      <input
+        id='cat_name'
+        type='text'
+        pInputText
+        formControlName='cat_name'
+        [readonly]=readOnly
+      >
+      <ng-container
+        *ngIf="(f['cat_name'].dirty || f['cat_name'].touched) && f['cat_name'].invalid">
+        <avs-validate-input [errors]="f['cat_name'].errors"></avs-validate-input>
+      </ng-container>
+    </div>
+  </div>
+  <div class='p-fluid grid formgrid'>
+    <div class='field col'>
+      <label for='parent'>Родитель</label>
+      <p-inputNumber
+        id='parent'
+        inputId='parent'
+        formControlName='parent'
+        [min]=1
+        [max]=999
+        [allowEmpty]=true
+        [showButtons]=true
+        [readonly]=readOnly
+        (ngModelChange)='onChangeValues()'
+      >
+      </p-inputNumber>
+      <ng-container
+        *ngIf="(f['parent'].dirty || f['parent'].touched) && f['parent'].invalid">
+        <avs-validate-input [errors]="f['parent'].errors"></avs-validate-input>
+      </ng-container>
+    </div>
+    <div class='field col'>
+      <label for='sort'>Очередность</label>
+      <p-inputNumber
+        id='sort'
+        inputId='sort'
+        formControlName='sort'
+        [min]=0
+        [max]=999
+        [allowEmpty]=false
+        [showButtons]=true
+        [readonly]=readOnly
+        (ngModelChange)='onChangeValues()'
+      >
+      </p-inputNumber>
+      <ng-container
+        *ngIf="(f['sort'].dirty || f['sort'].touched) && f['sort'].invalid">
+        <avs-validate-input [errors]="f['sort'].errors"></avs-validate-input>
+      </ng-container>
+    </div>
+  </div>
+  <div class='field'>
+    <label for='cat_desc'>Описание</label>
+    <textarea
+      id='cat_desc'
+      pInputTextarea
+      rows='3'
+      cols='20'
+      formControlName='cat_desc'
+      [readonly]=readOnly>
+    </textarea>
+    <ng-container
+      *ngIf="(f['cat_desc'].dirty || f['cat_desc'].touched) && f['cat_desc'].invalid">
+      <avs-validate-input [errors]="f['cat_desc'].errors"></avs-validate-input>
+    </ng-container>
+  </div>
+</form>
