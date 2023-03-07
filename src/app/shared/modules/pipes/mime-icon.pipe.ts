@@ -41,6 +41,8 @@ export class MimeIconPipe implements PipeTransform {
       'application/octet-stream': 'far fa-file-zipper',
       //Application
       'application/x-msdownload': 'far fa-file-code',
+      //Torrent
+      'application/x-bittorrent': 'far fa-file',
     }
 
     for (const key in icon_classes) {

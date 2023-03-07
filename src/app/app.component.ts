@@ -72,6 +72,9 @@ export class AppComponent implements OnInit {
       clear: 'Очистить',
       emptyMessage: 'Нет данных',
       emptyFilterMessage: 'Нет данных',
+      choose: 'Обзор...',
+      upload: 'Загрузить',
+      cancel: 'Отмена',
     })
   }
 

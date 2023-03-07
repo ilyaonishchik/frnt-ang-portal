@@ -7,13 +7,13 @@ import {ValidationErrors} from '@angular/forms'
   styleUrls: ['./input.component.scss'],
 })
 export class InputComponent implements OnChanges {
-  @Input('errors') errorsProps: ValidationErrors | null = null
+  @Input() errors: ValidationErrors | null = null
   errorMessages: string[] = []
 
   ngOnChanges(): void {
-    if (this.errorsProps) {
+    if (this.errors) {
       this.errorMessages = []
-      for (const errorsPropsKey in this.errorsProps) {
+      for (const errorsPropsKey in this.errors) {
         switch (errorsPropsKey) {
           case 'required': {
             this.errorMessages.push('Обязательно для заполнения')
@@ -21,25 +21,25 @@ export class InputComponent implements OnChanges {
           }
           case 'min': {
             this.errorMessages.push(
-              `Значение должно быть больше или равно: ${this.errorsProps[errorsPropsKey]['min']}`
+              `Значение должно быть больше или равно: ${this.errors[errorsPropsKey]['min']}`
             )
             break
           }
           case 'minlength': {
             this.errorMessages.push(
-              `Введено символов: ${this.errorsProps[errorsPropsKey]['actualLength']} из минимально необходимых: ${this.errorsProps[errorsPropsKey]['requiredLength']}`
+              `Введено символов: ${this.errors[errorsPropsKey]['actualLength']} из минимально необходимых: ${this.errors[errorsPropsKey]['requiredLength']}`
             )
             break
           }
           case 'max': {
             this.errorMessages.push(
-              `Значение должно быть меньше или равно: ${this.errorsProps[errorsPropsKey]['max']}`
+              `Значение должно быть меньше или равно: ${this.errors[errorsPropsKey]['max']}`
             )
             break
           }
           case 'maxlength': {
             this.errorMessages.push(
-              `Введено символов: ${this.errorsProps[errorsPropsKey]['actualLength']} из максимально возможных: ${this.errorsProps[errorsPropsKey]['requiredLength']}`
+              `Введено символов: ${this.errors[errorsPropsKey]['actualLength']} из максимально возможных: ${this.errors[errorsPropsKey]['requiredLength']}`
             )
             break
           }

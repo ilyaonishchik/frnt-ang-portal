@@ -37,6 +37,7 @@ const permissionsReducer = createReducer(
     (state, action): IPermissionsState => ({
       ...state,
       isLoading: false,
+      backendErrors: null,
       data: action.permissions,
     })
   ),

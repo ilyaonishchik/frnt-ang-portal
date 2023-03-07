@@ -6,5 +6,5 @@ import {Component, Input} from '@angular/core'
   styleUrls: ['./status.component.scss'],
 })
 export class StatusComponent {
-  @Input('status') value: boolean | number | undefined
+  @Input() status: boolean | number | undefined
 }

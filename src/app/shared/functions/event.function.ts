@@ -37,7 +37,6 @@ export function eventToParams(event: LazyLoadEvent | null): HttpParams {
   } else {
     params = params.append('skip', 0)
   }
-
   return params
 }
 

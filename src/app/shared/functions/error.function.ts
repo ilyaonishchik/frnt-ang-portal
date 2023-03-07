@@ -14,11 +14,9 @@ export function responseToErrors(response: HttpErrorResponse): IBackendErrors {
       errors['_'] = `Ресурс не найден: ${response.url}`
       break
     case 422:
-      const validateErrors: IValidateErrorResponse = response.error
-      for (const key in validateErrors.detail) {
-        errors[validateErrors.detail[key].loc[1]] = capitalize(
-          validateErrors.detail[key].msg
-        )
+      for (const key in (response.error as IValidateErrorResponse).detail) {
+        errors[(response.error as IValidateErrorResponse).detail[key].loc[1]] =
+          capitalize((response.error as IValidateErrorResponse).detail[key].msg)
       }
       break
     default:
