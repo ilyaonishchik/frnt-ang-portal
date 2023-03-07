@@ -5,6 +5,9 @@ import {
   getCategoriesAction,
   getCategoriesFailureAction,
   getCategoriesSuccessAction,
+  getFilesAction,
+  getFilesFailureAction,
+  getFilesSuccessAction,
 } from '@modules/documents/store/actions/docs.actions'
 
 export const docsFeatureKey = 'docs'
@@ -13,7 +16,7 @@ const initialState: IDocsState = {
   isLoading: false,
   backendErrors: null,
   categories: null,
-  files: null,
+  files: {items: [], count: 0, first: 0},
 }
 
 const docsReducer = createReducer(
@@ -43,6 +46,31 @@ const docsReducer = createReducer(
       isLoading: false,
       backendErrors: action.errors,
       categories: null,
+    })
+  ),
+  on(
+    getFilesAction,
+    (state): IDocsState => ({
+      ...state,
+      isLoading: true,
+      backendErrors: null,
+    })
+  ),
+  on(
+    getFilesSuccessAction,
+    (state, action): IDocsState => ({
+      ...state,
+      isLoading: false,
+      backendErrors: null,
+      files: action.files,
+    })
+  ),
+  on(
+    getFilesFailureAction,
+    (state, action): IDocsState => ({
+      ...state,
+      isLoading: false,
+      backendErrors: action.errors,
     })
   )
 )

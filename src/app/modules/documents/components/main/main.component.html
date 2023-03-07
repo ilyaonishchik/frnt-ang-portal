@@ -55,24 +55,31 @@
       <h4>Документы: {{selectedCategory.label}}</h4>
       <p-dataView
         #dv
-        [value]='files'
-        [paginator]='true'
-        [rows]='8'
-        filterBy='name'
-        [sortField]='sortField'
-        [sortOrder]='sortOrder'
+        [value]=files.items
+        [lazy]=true
+        (onLazyLoad)=getFilesOfCategory($event)
+        [loading]='(isLoading$ | async)!'
+        [totalRecords]=files.count
+        [first]=files.first
+        [paginator]=true
+        [rows]=rowsPerPageCount
+        [rowsPerPageOptions]=rowsPerPageOptions
+        [showCurrentPageReport]=true
+        filterBy='file_name'
+        [sortField]=sortField
+        [sortOrder]=sortOrder
+        currentPageReportTemplate='Записи с {first} по {last} из {totalRecords}'
         layout='grid'
         emptyMessage='Нет документов для отображения'
       >
         <ng-template pTemplate='header'>
           <div
             class='flex flex-row justify-content-between'>
-            <button
-              type='button'
-              pButton
+            <p-button
               label='Загрузить'
               icon='pi pi-cloud-upload'
-            ></button>
+              (onClick)='uploadDialog = !uploadDialog'
+            ></p-button>
             <span
               class='p-input-icon-left'>
               <i class='pi pi-search'></i>
@@ -80,40 +87,47 @@
                 type='search'
                 pInputText
                 placeholder='Поиск'
-                (input)='onFilter(dv, $event)'>
+                (input)='onFilter($event)'>
               </span>
             <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
           </div>
         </ng-template>
         <ng-template let-file pTemplate='listItem'>
           <div class='col-12'>
-            {{file.name}} {{file.type}} {{file.size}} {{file.loaded}}
-            {{file.desc}} {{file.downloads}}
+            <i class='{{file.file_type | mimeIcon}} mr-1'></i>
+            {{file.file_name}} ({{file.file_size | filesize}})
+            {{file.downloads}}
           </div>
         </ng-template>
         <ng-template let-file pTemplate='gridItem'>
-          <div class='col-12 md:col-6'>
-            <div class='card m-2 flex flex-row flex-wrap justify-content-between'>
-              <i class='{{file.type | mimeIcon}} mr-2' style='font-size: 4rem'></i>
-              <div class='col bg-yellow-200'>
-                <div>{{file.name}}</div>
-                <div>{{file.desc}}</div>
+          <div class='col-12 md:col-6 xl:col-4'>
+            <div class='card m-2 p-1 flex flex-row flex-wrap justify-content-between'>
+              <div class='col-fixed pb-0'>
+                <i class='{{file.file_type | mimeIcon}}' style='font-size: 2.5rem'></i>
               </div>
-              <div class='ml-2'>
+              <div class='col pl-0 pt-1 pb-0 overflow-hidden'>
+                <div class='max-h-3rem overflow-hidden text-overflow-ellipsis'>
+                  {{file.file_desc ? file.file_desc : file.file_name}}
+                </div>
+              </div>
+              <div class='col-fixed pb-0 text-right'>
                 <p-button
                   icon='pi pi-cloud-download'
                   iconPos='top'
-                  styleClass='p-button-success w-5rem'
+                  styleClass='p-button-success w-4rem'
                   [badge]='file.downloads'
                   badgeClass='p-badge-warning'
                   pTooltip='Скачать'
                   tooltipPosition='left'
                   [showDelay]='1000'
-                  (onClick)='downloadFile(file.uuid)'
+                  (onClick)='downloadFile(file.file_uuid, file.file_name)'
                 ></p-button>
-                <div class='text-right'>
-                  {{file.size | filesize}}
+              </div>
+              <div class='col-12 flex flex-row flex-wrap justify-content-between py-1 text-sm'>
+                <div class='white-space-nowrap overflow-hidden text-overflow-ellipsis'>
+                  Загружен: <span class='font-light'>{{file.dt_cr | date:'d.MM.YYYY H:mm'}}</span>
                 </div>
+                <div>{{file.file_size | filesize}}</div>
               </div>
             </div>
           </div>
@@ -128,81 +142,14 @@
           </div>
         </ng-template>
       </p-dataView>
-    </div>
-    <div
-      *ngIf='false'
-      class='col-12'>
-      <p-table
-        responsiveLayout='stack'
-        styleClass='p-datatable-sm p-datatable-gridlines'
-        dataKey='id'
-        [columns]=columns
-        [value]=files
-        [totalRecords]=files.length
-        [paginator]=true
-        [first]=0
-        [rows]=rowsPerPageCount
-        [rowsPerPageOptions]=rowsPerPageOptions
-        [showCurrentPageReport]=true
-        currentPageReportTemplate='Записи с {first} по {last} из {totalRecords}'
-      >
-        <ng-template pTemplate='caption'>
-          <div class='flex align-items-center justify-content-between'>
-            <button
-              pButton
-              label='Загрузить'
-              icon='pi pi-upload'
-              class='p-button-success mr-2'
-            >
-            </button>
-            <span
-              class='p-input-icon-left'
-            >
-              <i class='pi pi-search'></i>
-              <input
-                pInputText
-                type='text'
-                placeholder='Поиск...' />
-            </span>
-          </div>
-        </ng-template>
-        <ng-template pTemplate='header' let-columns>
-          <tr>
-            <th
-              *ngFor='let col of columns'
-              pResizableColumn
-              [pSortableColumn]=col.field
-              [ngClass]=col.width>
-              {{col.header}}
-              <p-sortIcon [field]='col.field'></p-sortIcon>
-            </th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate='body' let-rowData let-columns='columns'>
-          <tr>
-            <td *ngFor='let col of columns' style='white-space: normal'>
-              <span class='p-column-title'>{{col.header}}</span>
-              {{rowData[col.field]}}
-            </td>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate='emptymessage'>
-          <tr>
-            <td colspan='7' class='text-center'>Нет данных для отображения</td>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate='paginatorleft'>
-          <p-button
-            type='button'
-            icon='pi pi-refresh'
-            styleClass='p-button-text'
-            pTooltip='Обновить'
-            tooltipPosition='right'
-            [showDelay]=250
-            (click)=refreshItems()>
-          </p-button>
-        </ng-template>
-      </p-table>
+      <avs-upload-file
+        [visible]=uploadDialog
+        (visibleChange)='uploadDialog = false'
+        (uploaded)='uploadResult($event)'
+        [category]=selectedCategory.key!
+      ></avs-upload-file>
     </div>
   </div>
 </div>
+
+

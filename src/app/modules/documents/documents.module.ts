@@ -16,6 +16,8 @@ import {StoreModule} from '@ngrx/store'
 import {docsFeatureKey, reducerDocs} from '@modules/documents/store/reducers'
 import {EffectsModule} from '@ngrx/effects'
 import {GetDocsEffect} from '@modules/documents/store/effects/docs.effect'
+import {FileUploadModule} from 'primeng/fileupload'
+import {StorageModule} from '@shared/modules/storage/storage.module'
 
 @NgModule({
   declarations: [MainComponent],
@@ -33,6 +35,8 @@ import {GetDocsEffect} from '@modules/documents/store/effects/docs.effect'
     DropdownModule,
     FormsModule,
     PipesModule,
+    FileUploadModule,
+    StorageModule,
   ],
 })
 export class DocumentsModule {}
