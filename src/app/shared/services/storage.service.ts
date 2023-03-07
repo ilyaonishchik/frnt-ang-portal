@@ -10,18 +10,61 @@ import {Observable} from 'rxjs'
 export class StorageService {
   constructor(private http: HttpClient) {}
 
-  uploadFile(file: any) {
-    const url = `${environment.urlApiStorage}/files/upload`
+  _uploadFile(file: any): void {
+    const url = `${environment.urlApiStorage}/files`
     const formData: FormData = new FormData()
-    formData.append('file', file, file.name)
+    formData.append('file_body', file, file.name)
+    formData.append('category', '1')
+    this.http.post<any>(url, formData).subscribe({
+      next: (r) => console.log(r),
+      error: (e) => console.log(e),
+    })
+  }
 
-    return this.http.post(url, formData)
+  uploadFile(
+    file_body: File,
+    category: string,
+    file_desc: string | null = null
+  ): Observable<any> {
+    const url = `${environment.urlApiStorage}/files`
+    const formData: FormData = new FormData()
+    formData.append('file_body', file_body, file_body.name)
+    formData.append('category', category)
+    if (file_desc) {
+      formData.append('file_desc', file_desc)
+    }
+    return this.http.post(url, formData, {
+      reportProgress: true,
+      observe: 'events',
+    })
+    // .pipe()
   }
 
   downloadFile(file_uuid: string): Observable<HttpResponse<Blob>> {
     const url = `${environment.urlApiStorage}/files/download/${file_uuid}`
 
     return this.http.get<Blob>(url, {
+      observe: 'response',
+      responseType: 'blob' as 'json',
+    })
+  }
+
+  _downloadFileStream(file_uuid: string): Observable<Blob> {
+    const url = `${environment.urlApiStorage}/files/downloads/${file_uuid}`
+
+    return this.http.get(url, {
+      // reportProgress: true,
+      // observe: 'events',
+      responseType: 'blob',
+    })
+  }
+
+  downloadFileStream(file_uuid: string): Observable<HttpResponse<Blob>> {
+    const url = `${environment.urlApiStorage}/files/downloads/${file_uuid}`
+
+    return this.http.get<Blob>(url, {
+      // reportProgress: true,
+      // observe: 'events',
       observe: 'response',
       responseType: 'blob' as 'json',
     })

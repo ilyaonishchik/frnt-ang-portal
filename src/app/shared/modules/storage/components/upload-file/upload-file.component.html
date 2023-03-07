@@ -1,0 +1,62 @@
+<p-dialog
+  [(visible)]=visible
+  (visibleChange)=onVisibleChange($event)
+  [style]="{'width': '90%', 'min-width': '35rem', 'max-width': '50rem'}"
+  [modal]=true
+  class='p-fluid'
+  header='Загрузка файла'
+>
+  <p-fileUpload
+    *ngIf='true'
+    #fileUpload
+    name='fileUpload'
+    [customUpload]='true'
+    (uploadHandler)='uploadFile($event)'
+  >
+    <ng-template let-file pTemplate='file' class='p-1'>
+      <div class='flex flex-row flex-wrap justify-content-between'>
+        <div class='col-fixed'>
+          <i class='{{file.type | mimeIcon}}' style='font-size: 2.5rem'></i>
+        </div>
+        <div class='col'>
+          <div class='text-lg'>{{file.name}}</div>
+          <div class='text-sm'>Размер файла: {{file.size | filesize}}</div>
+        </div>
+      </div>
+    </ng-template>
+  </p-fileUpload>
+  <form
+    [formGroup]='form'
+  >
+    <div class='field'>
+      <label for='comment'>Описание</label>
+      <textarea
+        id='comment'
+        pInputTextarea
+        rows='2'
+        cols='10'
+        formControlName='file_desc'
+      >
+      </textarea>
+      <ng-container
+        *ngIf="(f['file_desc'].dirty || f['file_desc'].touched) && f['file_desc'].invalid">
+        <avs-validate-input [errors]="f['file_desc'].errors"></avs-validate-input>
+      </ng-container>
+    </div>
+  </form>
+  <div>
+    <p-progressBar
+      *ngIf='progress > 0'
+      [value]=progress
+    ></p-progressBar>
+  </div>
+  <p-footer>
+    <div class='flex justify-content-end align-items-center'>
+      <button
+        pButton label='Закрыть' icon='pi pi-times'
+        class='p-button-outlined p-button-secondary'
+        (click)=onVisibleChange(false)
+      ></button>
+    </div>
+  </p-footer>
+</p-dialog>
