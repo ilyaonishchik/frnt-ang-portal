@@ -1,9 +1,6 @@
 import {Injectable} from '@angular/core'
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  CanMatch,
   Route,
   Router,
   RouterStateSnapshot,
@@ -14,11 +11,12 @@ import {map, Observable} from 'rxjs'
 import {Store} from '@ngrx/store'
 
 import {isSignedInSelector} from '@modules/auth/store/selectors'
+import {redirectAction} from '@modules/auth/store/actions/redirect.action'
 
 @Injectable({
   providedIn: 'root',
 })
-export class SignedInGuard implements CanActivate, CanActivateChild, CanMatch {
+export class SignedInGuard {
   constructor(private store: Store, private router: Router) {}
 
   canActivate(
@@ -36,6 +34,7 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanMatch {
           return true
         } else {
           return this.checkUrl(state.url)
+          // return createUrlTreeFromSnapshot(route, ['/error', 403])
         }
       })
     )
@@ -50,11 +49,8 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanMatch {
     | boolean
     | UrlTree {
     console.log(`SignedInGuard (canActivateChild): ${state.url}`)
-    return this.store.select(isSignedInSelector).pipe(
-      map((value) => {
-        return value
-      })
-    )
+    return this.store.select(isSignedInSelector)
+    // .pipe(map((value) => {return value}))
   }
 
   canMatch(
@@ -69,19 +65,23 @@ export class SignedInGuard implements CanActivate, CanActivateChild, CanMatch {
     return this.store.select(isSignedInSelector).pipe(
       map((value) => {
         if (!value) {
-          return this.checkUrl(segments[0].path)
+          // console.log(route.path, segments.join('/'))
+          this.store.dispatch(redirectAction({url: segments.join('/')}))
+          return this.router.createUrlTree(['/auth/sign-in'])
+          // return this.checkUrl(segments.join('/'))
         }
         return value
       })
     )
   }
 
-  checkUrl(url: string): boolean {
+  checkUrl(url: string): boolean | UrlTree {
     console.log(`checkUrl: ${url}`)
     if (url === '/') {
       this.router.navigateByUrl('/welcome').then()
     } else {
-      this.router.navigateByUrl('/auth/sign-in').then()
+      this.store.dispatch(redirectAction({url: url}))
+      return this.router.createUrlTree(['/auth', 'sign-in'])
     }
     return false
   }

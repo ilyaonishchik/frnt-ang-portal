@@ -64,6 +64,19 @@ export class AuthService {
   }
 
   isSignedIn(): Observable<boolean> {
+    console.log('AuthService.isSignedIn')
     return this.store.select(isSignedInSelector)
   }
+
+  // canMatch(
+  //   route: Route,
+  //   segments: UrlSegment[]
+  // ): Observable<boolean | UrlTree> | UrlTree {
+  //   return this.store.select(isSignedInSelector).pipe(
+  //     map((value) => {
+  //       console.log(value, route.path)
+  //       return value
+  //     })
+  //   )
+  // }
 }

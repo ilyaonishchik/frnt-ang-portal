@@ -1,11 +1,5 @@
 import {Injectable} from '@angular/core'
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Data,
-  Router,
-  UrlTree,
-} from '@angular/router'
+import {ActivatedRouteSnapshot, Data, Router, UrlTree} from '@angular/router'
 import {map, Observable} from 'rxjs'
 import {Store} from '@ngrx/store'
 import {currentUserSelector} from '@modules/auth/store/selectors'
@@ -15,7 +9,7 @@ import {environment} from 'environments/environment'
 @Injectable({
   providedIn: 'root',
 })
-export class PermissionGuard implements CanActivate {
+export class PermissionGuard {
   constructor(private store: Store, private router: Router) {}
 
   canActivate(
@@ -36,7 +30,7 @@ export class PermissionGuard implements CanActivate {
     )
   }
 
-  checkPermission(data: Data, user: IUser): boolean {
+  checkPermission(data: Data, user: IUser): boolean | UrlTree {
     console.log(`PermissionGuard (checkPermission): ${data['permission']}`)
     let result = false
     if (data['permission']) {
@@ -53,8 +47,9 @@ export class PermissionGuard implements CanActivate {
     } else {
       result = true
     }
+    console.log(`Grant permission: ${result}`)
     if (!result) {
-      this.router.navigateByUrl('/error/403').then()
+      return this.router.createUrlTree(['/error/403'])
     }
     return result
   }

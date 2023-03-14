@@ -19,28 +19,28 @@
     <app-menu-create
       *ngIf='dialog.action === 1'
       [visible]=true
-      (visibleChange)='hideDialog()'
+      (visibleChange)=hideDialog()
     ></app-menu-create>
 
     <app-menu-read
       *ngIf='dialog.action === 2'
       [visible]=true
-      (visibleChange)='hideDialog()'
+      (visibleChange)=hideDialog()
       [itemId]=dialog.id!
     ></app-menu-read>
 
     <app-menu-update
       *ngIf='dialog.action === 3'
       [visible]=true
-      (visibleChange)='hideDialog()'
+      (visibleChange)=hideDialog()
       [itemId]=dialog.id!
     ></app-menu-update>
 
     <app-menu-delete
       *ngIf='dialog.action === 4'
       [visible]=true
-      (visibleChange)='hideDialog()'
-      (clickCancel)='hideDialog()'
+      (visibleChange)=hideDialog()
+      (clickCancel)=hideDialog()
       [itemId]=dialog.id!
       [itemInfo]=dialog.confirm!
     ></app-menu-delete>

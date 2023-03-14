@@ -3,9 +3,9 @@ import {Store} from '@ngrx/store'
 import {Observable} from 'rxjs'
 
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
-import {IMenu} from '../../../../sections/portal/menus/interfaces/menu.interface'
 import {errorsSelector} from '../../store/selectors'
 import {createMenuAction} from '../../store/actions/menu.action'
+import {IMenu} from '@modules/admin/sections/portal/menus/interfaces/menu.interface'
 
 @Component({
   selector: 'app-menu-create',

@@ -65,6 +65,7 @@ export class SigninEffect {
           const getRedirectUrl$ = this.store
             .select(redirectUrlSelector)
             .subscribe((value) => {
+              console.log(value)
               this.router.navigateByUrl(value).then()
             })
           getRedirectUrl$.unsubscribe()

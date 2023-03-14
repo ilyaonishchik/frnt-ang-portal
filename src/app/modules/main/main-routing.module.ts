@@ -11,6 +11,7 @@ const routes: Routes = [
     path: '',
     component: DefaultComponent,
     canActivate: [SignedInGuard],
+    // canActivate: [() => inject(AuthService).isSignedIn()],
   },
 ]
 

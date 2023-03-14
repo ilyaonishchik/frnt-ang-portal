@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core'
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
-  CanMatch,
   Route,
   RouterStateSnapshot,
   UrlTree,
@@ -17,7 +15,7 @@ import {IAuthState} from '@modules/auth/interfaces/auth-state.interface'
 @Injectable({
   providedIn: 'root',
 })
-export class SignedOutGuard implements CanActivate, CanMatch {
+export class SignedOutGuard {
   constructor(private store: Store<IAuthState>, private location: Location) {}
 
   canActivate(

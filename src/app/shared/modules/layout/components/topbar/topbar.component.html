@@ -24,7 +24,7 @@
     class='layout-topbar-menu'
     [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
     <ng-container *ngIf='isSignedIn$ | async'>
-      <ng-container *ngIf='production === false'>
+      <ng-container>
         <button
           class='p-link layout-topbar-button'
           pTooltip='Документы'
@@ -32,10 +32,11 @@
           [routerLink]="'/docs'"
           [showDelay]=1000
         >
-          <i class='pi pi-inbox' pBadge severity='info' [value]="'1'"></i>
+<!--          <i class='pi pi-inbox' pBadge severity='info' [value]="'1'"></i>-->
+          <i class='pi pi-inbox'></i>
           <span>Документы</span>
         </button>
-        <button
+        <button *ngIf='production === false'
           class='p-link layout-topbar-button'
           pTooltip='Уведомления'
           tooltipPosition='bottom'
@@ -44,7 +45,7 @@
           <i class='pi pi-bell' pBadge severity='danger' [value]="'10'"></i>
           <span>Уведомления</span>
         </button>
-        <button
+        <button *ngIf='production === false'
           class='p-link layout-topbar-button'
           pTooltip='Сообщения'
           tooltipPosition='bottom'
@@ -122,10 +123,6 @@
     <p-button
       label='ОК'
       (click)='visibleProfile = false'
-    ></p-button>
-    <p-button
-      label='Документы'
-      [routerLink]="'/docs'"
     ></p-button>
   </ng-template>
 </p-sidebar>
