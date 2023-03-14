@@ -12,6 +12,7 @@ import {
   getCellsFailureAction,
   getCellsSuccessAction,
 } from './actions/cells.action'
+import {routerNavigationAction} from '@ngrx/router-store'
 
 export const pdpSrtFeatureKey = 'pdp-srt'
 
@@ -85,7 +86,8 @@ const pdpSrtReducer = createReducer(
       isLoading: false,
       cells: null,
     })
-  )
+  ),
+  on(routerNavigationAction, (): IPdpSrtState => initialState)
 )
 
 export function reducerPdpSrt(state: IPdpSrtState, action: Action) {
