@@ -15,22 +15,36 @@
     (actionDelete)=deleteItem($event)
   ></avs-table>
 
-<ng-container *ngIf='(dialog$ | async) as dialog'>
+  <ng-container *ngIf='(dialog$ | async) as dialog'>
 
-  <app-category-read
-    *ngIf='dialog.action === 2'
-    [visible]=true
-    (visibleChange)='hideDialog()'
-    [itemId]=dialog.id!
-  ></app-category-read>
+    <app-category-create
+      *ngIf='dialog.action === 1'
+      [visible]=true
+      (visibleChange)=hideDialog()
+    ></app-category-create>
 
-  <app-category-update
-    *ngIf='dialog.action === 3'
-    [visible]=true
-    (visibleChange)='hideDialog()'
-    [itemId]=dialog.id!
-  ></app-category-update>
+    <app-category-read
+      *ngIf='dialog.action === 2'
+      [visible]=true
+      (visibleChange)=hideDialog()
+      [itemId]=dialog.id!
+    ></app-category-read>
 
+    <app-category-update
+      *ngIf='dialog.action === 3'
+      [visible]=true
+      (visibleChange)=hideDialog()
+      [itemId]=dialog.id!
+    ></app-category-update>
 
-</ng-container>
+    <app-category-delete
+      *ngIf='dialog.action === 4'
+      [visible]=true
+      (visibleChange)=hideDialog()
+      (clickCancel)=hideDialog()
+      [itemId]=dialog.id!
+      [itemInfo]=dialog.confirm
+    ></app-category-delete>
+
+  </ng-container>
 </div>

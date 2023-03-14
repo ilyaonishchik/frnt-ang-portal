@@ -53,6 +53,6 @@ import {DeleteCategoryEffect} from '@modules/admin/components/docs/category/stor
     FormsModule,
     ButtonModule,
   ],
-  exports: [ReadComponent, UpdateComponent],
+  exports: [ReadComponent, UpdateComponent, CreateComponent, DeleteComponent],
 })
 export class CategoryModule {}
