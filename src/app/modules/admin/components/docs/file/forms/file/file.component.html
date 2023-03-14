@@ -1,0 +1,33 @@
+<form [formGroup]=formFile
+      (change)=onChangeValues()>
+  <div class='p-fluid grid formgrid'>
+    <div class='field col'>
+      <label for='file_name'>Название файла</label>
+      <input
+        id='file_name'
+        type='text'
+        pInputText
+        formControlName='file_name'
+        [readonly]=readOnly
+      >
+      <ng-container
+        *ngIf="(f['file_name'].dirty || f['file_name'].touched) && f['file_name'].invalid">
+        <avs-validate-input [errors]="f['file_name'].errors"></avs-validate-input>
+      </ng-container>
+    </div>
+  </div>
+  <div class='field'>
+    <label for='file_desc'>Описание</label>
+    <textarea
+      id='file_desc'
+      pInputTextarea
+      rows='2'
+      formControlName='file_desc'
+      [readonly]=readOnly>
+    </textarea>
+    <ng-container
+      *ngIf="(f['file_desc'].dirty || f['file_desc'].touched) && f['file_desc'].invalid">
+      <avs-validate-input [errors]="f['file_desc'].errors"></avs-validate-input>
+    </ng-container>
+  </div>
+</form>

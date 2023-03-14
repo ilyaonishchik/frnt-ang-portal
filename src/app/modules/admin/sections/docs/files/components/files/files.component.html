@@ -14,4 +14,37 @@
     (actionUpdate)=updateItem($event)
     (actionDelete)=deleteItem($event)
   ></avs-table>
+
+  <ng-container *ngIf='(dialog$ | async) as dialog'>
+
+    <app-file-create
+      *ngIf='dialog.action === 1'
+      [visible]=true
+      (visibleChange)=hideDialog()
+    ></app-file-create>
+
+    <app-file-read
+      *ngIf='dialog.action === 2'
+      [visible]=true
+      (visibleChange)=hideDialog()
+      [itemId]=dialog.id!
+    ></app-file-read>
+
+    <app-file-update
+      *ngIf='dialog.action === 3'
+      [visible]=true
+      (visibleChange)=hideDialog()
+      [itemId]=dialog.id!
+    ></app-file-update>
+
+    <app-file-delete
+      *ngIf='dialog.action === 4'
+      [visible]=true
+      (visibleChange)=hideDialog()
+      (clickCancel)=hideDialog()
+      [itemId]=dialog.id!
+      [itemInfo]=dialog.confirm
+    ></app-file-delete>
+
+  </ng-container>
 </div>

@@ -11,6 +11,7 @@ import {
 } from '@modules/admin/sections/docs/files/store/reducers'
 import {EffectsModule} from '@ngrx/effects'
 import {GetFilesEffect} from '@modules/admin/sections/docs/files/store/effects/files.effect'
+import {FileModule} from '@modules/admin/components/docs/file/file.module'
 
 @NgModule({
   declarations: [FilesComponent],
@@ -20,6 +21,7 @@ import {GetFilesEffect} from '@modules/admin/sections/docs/files/store/effects/f
     StoreModule.forFeature(filesFeatureKey, reducerFiles),
     EffectsModule.forFeature([GetFilesEffect]),
     AvsTableModule,
+    FileModule,
   ],
 })
 export class FilesModule {}
