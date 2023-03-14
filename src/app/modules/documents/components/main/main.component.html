@@ -12,7 +12,7 @@
         draggableScope='self'
         [droppableNodes]=false
         droppableScope='self'
-        (onNodeDrop)=showItems($event)
+        scrollHeight='calc(100vh - 20rem)'
         (onNodeSelect)='nodeSelect()'
       >
         <ng-template pTemplate='header'>
@@ -74,10 +74,11 @@
       >
         <ng-template pTemplate='header'>
           <div
-            class='flex flex-row justify-content-between'>
+            class='flex flex-row align-items-center justify-content-between'>
             <p-button
               label='Загрузить'
               icon='pi pi-cloud-upload'
+              [disabled]='canUpload === false'
               (onClick)='uploadDialog = !uploadDialog'
             ></p-button>
             <span
@@ -93,20 +94,42 @@
           </div>
         </ng-template>
         <ng-template let-file pTemplate='listItem'>
-          <div class='col-12'>
-            <i class='{{file.file_type | mimeIcon}} mr-1'></i>
-            {{file.file_name}} ({{file.file_size | filesize}})
-            {{file.downloads}}
+          <div class='col-fixed'>
+            <i class='{{file.file_type | mimeIcon}} m-1 text-5xl'></i>
+          </div>
+          <div class='col'>
+            <div class='text-lg'>
+              <div class='line-clamp-1'>
+                {{file.file_desc ? file.file_desc : file.file_name}}
+              </div>
+              <div class='flex justify-content-between font-light'>
+                <span class='text-sm'>Загружен: {{file.dt_cr | date:'d.MM.YYYY H:mm'}}</span>
+                <span class='text-sm ml-1'>Размер: {{file.file_size | filesize}}</span>
+              </div>
+            </div>
+          </div>
+          <div class='col-fixed'>
+            <p-button
+              icon='pi pi-cloud-download'
+              iconPos='top'
+              styleClass='p-button-success m-1 w-4rem'
+              [badge]='file.downloads'
+              badgeClass='p-badge-warning'
+              pTooltip='Скачать'
+              tooltipPosition='left'
+              [showDelay]='1000'
+              (onClick)='downloadFile(file.file_uuid, file.file_name)'
+            ></p-button>
           </div>
         </ng-template>
         <ng-template let-file pTemplate='gridItem'>
           <div class='col-12 md:col-6 xl:col-4'>
             <div class='card m-2 p-1 flex flex-row flex-wrap justify-content-between'>
               <div class='col-fixed pb-0'>
-                <i class='{{file.file_type | mimeIcon}}' style='font-size: 2.5rem'></i>
+                <i class='{{file.file_type | mimeIcon}} text-5xl'></i>
               </div>
               <div class='col pl-0 pt-1 pb-0 overflow-hidden'>
-                <div class='max-h-3rem overflow-hidden text-overflow-ellipsis'>
+                <div class='line-clamp-2'>
                   {{file.file_desc ? file.file_desc : file.file_name}}
                 </div>
               </div>

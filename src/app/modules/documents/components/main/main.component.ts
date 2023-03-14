@@ -1,18 +1,12 @@
-// import {saveAs} from 'file-saver'
-import {Component, OnDestroy, OnInit} from '@angular/core'
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core'
 import {IColumn} from '@shared/interfaces/column.interface'
 import {environment} from 'environments/environment'
-import {
-  LazyLoadEvent,
-  SelectItem,
-  TreeDragDropService,
-  TreeNode,
-} from 'primeng/api'
+import {LazyLoadEvent, SelectItem, TreeNode} from 'primeng/api'
+import {DataView} from 'primeng/dataview'
 import {DocsService} from '@modules/documents/services/docs.service'
 import {IFile} from '@modules/documents/interfaces/file.interface'
 import {StorageService} from '@shared/services/storage.service'
-import {Observable, Subscription, take} from 'rxjs'
-import {getFileName} from '@shared/functions/string.function'
+import {Observable, Subscription} from 'rxjs'
 import {Store} from '@ngrx/store'
 import {
   categoriesSelector,
@@ -25,14 +19,19 @@ import {
 } from '@modules/documents/store/actions/docs.actions'
 import {ICategory} from '@modules/documents/interfaces/category.interface'
 import {ITableItems} from '@shared/interfaces/table-items.interface'
+import {RbacService} from '@shared/services/rbac.service'
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
-  providers: [TreeDragDropService],
+  // providers: [TreeDragDropService],
 })
 export class MainComponent implements OnInit, OnDestroy {
+  @ViewChild('dv') dvFiles!: DataView
+
+  private emptyEvent!: LazyLoadEvent
+
   categoriesSubscription!: Subscription
   filesSubscription!: Subscription
   categories: TreeNode<string>[] = []
@@ -40,13 +39,11 @@ export class MainComponent implements OnInit, OnDestroy {
 
   isLoading$!: Observable<boolean>
 
-  // files: IFile[] = []
   files: ITableItems<IFile> = {items: [], count: 0, first: 0}
   progress = 0
-  // totalRecords = 0
-  // firstRecord = 0
 
   uploadDialog = false
+  canUpload = false
 
   storagePrefix = environment.urlApiStorage
   rowsPerPageCount: number = environment.rowsPerPageCount
@@ -67,59 +64,82 @@ export class MainComponent implements OnInit, OnDestroy {
   constructor(
     private docsService: DocsService,
     private storageService: StorageService,
+    private rbacService: RbacService,
     private store: Store
   ) {}
 
   ngOnInit() {
+    this.emptyEvent = {
+      first: 0,
+      rows: this.rowsPerPageCount,
+      sortField: this.sortField,
+      sortOrder: this.sortOrder,
+    }
     this.initializeValues()
     this.sortOptions = [
       {label: 'Имя по убыванию', value: '!name'},
       {label: 'Имя по возрастанию', value: 'name'},
     ]
+    this.store.dispatch(getCategoriesAction())
   }
 
   initializeValues(): void {
+    this.canUpload = this.rbacService.checkPermission('docs-file:upload')
     this.isLoading$ = this.store.select(isLoadingSelector)
+    // console.debug('Подписываемся на получение категорий...')
     this.categoriesSubscription = this.store
       .select(categoriesSelector)
       .subscribe((items: ICategory[] | null) => {
+        // console.debug('Получаем список категорий...')
         if (items) {
           this.categories = this.docsService.toTreeNode(items)
           this.selectedCategory = this.categories[0]
-          this.nodeSelect()
+        } else {
+          this.categories = []
+          this.selectedCategory = null
         }
       })
+    // console.log('Подписываемся на получение файлов...')
     this.filesSubscription = this.store
       .select(filesSelector)
       .subscribe((files) => {
-        // this.firstRecord = files.first
-        // this.totalRecords = files.count
+        // console.log('Список файлов получен')
+        // console.log(files.count)
         this.files = files
       })
-    this.refreshItems()
+    // this.refreshItems()
   }
 
   getFilesOfCategory(
     event: LazyLoadEvent | null,
     category: string | null = null
   ) {
-    if (!category) {
-      category = this.selectedCategory?.key ? this.selectedCategory.key : '0'
+    let new_category = ''
+    if (category) {
+      new_category = category
+    } else {
+      new_category = this.selectedCategory?.key
+        ? this.selectedCategory.key
+        : '0'
     }
+    // console.debug(
+    //   `Запрашиваем файлы из категории: ${new_category}, event.rows: ${event?.rows}`
+    // )
+    // if (event) {
+    //   if (event.rows) {
     this.store.dispatch(
       getFilesAction({
         event: event,
-        category_id: category,
+        category_id: new_category,
       })
     )
+    // }
+    // }
   }
 
   refreshItems(): void {
     this.store.dispatch(getCategoriesAction())
-  }
-
-  showItems(event: any): void {
-    console.log(event.dragNode.key)
+    this.nodeSelect()
   }
 
   expandAll() {
@@ -144,11 +164,11 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   nodeSelect(): void {
+    // console.log('nodeSelect: ', this.selectedCategory)
     if (this.selectedCategory && this.selectedCategory.key) {
-      this.getFilesOfCategory(
-        {sortField: this.sortField, first: 0},
-        this.selectedCategory.key
-      )
+      // console.log('Выбрали категорию...')
+      this.emptyEvent = {...this.emptyEvent, rows: this.dvFiles.rows}
+      this.getFilesOfCategory(this.emptyEvent, this.selectedCategory.key)
     }
   }
 
@@ -166,8 +186,10 @@ export class MainComponent implements OnInit, OnDestroy {
   onFilter(event: Event): void {
     let timeOut = 0
     let new_event: LazyLoadEvent = {
-      sortField: this.sortField,
       first: 0,
+      rows: this.emptyEvent.rows,
+      sortField: this.emptyEvent.sortField,
+      sortOrder: this.emptyEvent.sortOrder,
     }
     const filter = (event.target as HTMLInputElement).value
     if (filter) {
@@ -187,10 +209,10 @@ export class MainComponent implements OnInit, OnDestroy {
     }, timeOut)
   }
 
-  uploadFile(event: any): void {
-    console.log('Files: ', event.files)
-    // this.storageService.uploadFile(event.files[0])
-  }
+  // uploadFile(event: any): void {
+  //   console.log('Files: ', event.files)
+  //   // this.storageService.uploadFile(event.files[0])
+  // }
 
   // __downloadFile(s: string) {
   //   if (s) {
@@ -239,11 +261,6 @@ export class MainComponent implements OnInit, OnDestroy {
   //     })
   //   }
   // }
-
-  uploadProgress(event: any): void {
-    console.log(event)
-    this.progress = event
-  }
 
   ngOnDestroy(): void {
     if (this.filesSubscription) {

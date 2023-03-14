@@ -1,4 +1,5 @@
 import {Action, createReducer, on} from '@ngrx/store'
+import {routerNavigationAction} from '@ngrx/router-store'
 
 import {IDocsState} from '@modules/documents/interfaces/docs-state.interface'
 import {
@@ -54,6 +55,7 @@ const docsReducer = createReducer(
       ...state,
       isLoading: true,
       backendErrors: null,
+      files: {items: [], count: 0, first: 0},
     })
   ),
   on(
@@ -71,8 +73,10 @@ const docsReducer = createReducer(
       ...state,
       isLoading: false,
       backendErrors: action.errors,
+      files: {items: [], count: 0, first: 0},
     })
-  )
+  ),
+  on(routerNavigationAction, (): IDocsState => initialState)
 )
 
 export function reducerDocs(state: IDocsState, action: Action) {
