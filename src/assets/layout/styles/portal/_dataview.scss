@@ -23,3 +23,14 @@
   //margin-right: 0.5rem;
   //height: 2.357rem;
 }
+
+.p-selectbutton .p-button.p-highlight {
+  background: var(--blue-500);
+  border: 1px solid var(--blue-500);
+}
+
+.p-selectbutton .p-button.p-highlight:hover {
+  background: var(--blue-600);
+  //border-color: #4e555b;
+  //color: #ffffff;
+}
