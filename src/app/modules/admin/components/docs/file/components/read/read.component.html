@@ -1,42 +1,24 @@
-<p-dialog
+<app-modal-dialog
   [(visible)]=visible
   (visibleChange)=onVisibleChange($event)
-  [style]="{width: '60%'}"
-  [modal]=true
-  class='p-fluid'
-  header='Просмотр файла'
+  [errors]='validationErrors$ | async'
+  [isLoading]='isLoading$ | async'
+  dialogType=read
+  subject='файла'
 >
-  <avs-loading *ngIf='(isLoading$ | async)'></avs-loading>
-  <avs-validate-errors
-    *ngIf='validationErrors$ | async'
-    [errors]='validationErrors$ | async'
-  ></avs-validate-errors>
-  <ng-container *ngIf='(isLoading$ | async) === false'>
-    <app-file-form
-      *ngIf=item
-      [initialValues]=item
-      [readOnly]=true
-    ></app-file-form>
-  </ng-container>
-  <p-footer>
-    <div
-      *ngIf='(isLoading$ | async) === false && item'
-      class='flex justify-content-between'
-    >
-      <p-checkbox
-        class='align-content-start'
-        label='Активная'
-        [ngModel]=item.status
-        [binary]=true
-        [readonly]=true
-      ></p-checkbox>
-      <div>
-        <button
-          pButton label='Закрыть' icon='pi pi-times'
-          class='p-button-outlined p-button-secondary'
-          (click)=onVisibleChange(false)
-        ></button>
-      </div>
-    </div>
-  </p-footer>
-</p-dialog>
+  <app-file-form
+    *ngIf=item
+    slot='content'
+    [initialValues]=item
+    [readOnly]=true
+  ></app-file-form>
+  <p-checkbox
+    *ngIf=item
+    slot='status'
+    class='align-content-start'
+    label='Активная'
+    [ngModel]=item.status
+    [binary]=true
+    [readonly]=true
+  ></p-checkbox>
+</app-modal-dialog>

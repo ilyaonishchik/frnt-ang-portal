@@ -41,7 +41,6 @@
       *ngIf='dialog.action === 4'
       [visible]=true
       (visibleChange)=hideDialog()
-      (clickCancel)=hideDialog()
       [itemId]=dialog.id!
       [itemInfo]=dialog.confirm
     ></app-file-delete>

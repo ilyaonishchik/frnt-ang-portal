@@ -15,7 +15,6 @@ export class DeleteComponent implements OnInit {
   @Output() visibleChange = new EventEmitter<boolean>()
   @Input() itemId!: number
   @Input() itemInfo: string | number | undefined = undefined
-  @Output() clickCancel = new EventEmitter()
 
   validationErrors$!: Observable<IBackendErrors | null>
 
@@ -36,9 +35,5 @@ export class DeleteComponent implements OnInit {
 
   confirmDelete(): void {
     this.store.dispatch(deleteFileAction({id: this.itemId}))
-  }
-
-  cancelDelete(): void {
-    this.clickCancel.emit()
   }
 }
