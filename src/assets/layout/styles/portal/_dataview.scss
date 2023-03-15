@@ -10,18 +10,25 @@
   border-width: 0 1px 0 1px;
 }
 
-.p-dataview .p-paginator-bottom {
-  border-width: 1px;
-  border-bottom-left-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
-  flex-direction: row;
+@media (max-width: 1920px) {
+  .p-dataview .p-paginator-bottom {
+    border-width: 1px;
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    flex-direction: row;
+  }
 }
+
+//@media (max-width: 1200px) {
+//  .p-dataview .p-paginator-bottom {
+//    display: block;
+    //justify-content: center;
+  //}
+//}
 
 .p-paginator .p-dropdown {
   margin-left: 0;
   justify-content: center;
-  //margin-right: 0.5rem;
-  //height: 2.357rem;
 }
 
 .p-selectbutton .p-button.p-highlight {
