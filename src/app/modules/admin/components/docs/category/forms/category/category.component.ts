@@ -24,7 +24,7 @@ export class CategoryComponent implements OnInit {
 
   private initializeForm(): void {
     this.formCategory = this.fb.group({
-      parent: [this.initialValues.parent],
+      parent: [this.initialValues.parent, [Validators.min(0)]],
       cat_name: [
         this.initialValues.cat_name,
         [Validators.required, Validators.maxLength(255)],
