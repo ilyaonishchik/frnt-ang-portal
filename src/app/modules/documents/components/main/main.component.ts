@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core'
-import {IColumn} from '@shared/interfaces/column.interface'
 import {environment} from 'environments/environment'
 import {LazyLoadEvent, SelectItem, TreeNode} from 'primeng/api'
 import {DataView} from 'primeng/dataview'
@@ -34,8 +33,10 @@ export class MainComponent implements OnInit, OnDestroy {
 
   categoriesSubscription!: Subscription
   filesSubscription!: Subscription
+
   categories: TreeNode<string>[] = []
   selectedCategory: TreeNode | null = null
+  defaultCategory = '1'
 
   isLoading$!: Observable<boolean>
 
@@ -52,14 +53,15 @@ export class MainComponent implements OnInit, OnDestroy {
   filterTimeOut: any
 
   sortOptions: SelectItem[] = []
+  sortKey = ''
   sortOrder = 1
   sortField = 'file_name'
 
-  columns: IColumn[] = [
-    {field: 'file_name', header: 'Name'},
-    {field: 'file_size', header: 'Size'},
-    {field: 'file_type', header: 'Type'},
-  ]
+  // columns: IColumn[] = [
+  //   {field: 'file_name', header: 'Name'},
+  //   {field: 'file_size', header: 'Size'},
+  //   {field: 'file_type', header: 'Type'},
+  // ]
 
   constructor(
     private docsService: DocsService,
@@ -80,7 +82,9 @@ export class MainComponent implements OnInit, OnDestroy {
       {label: 'Имя по убыванию', value: '!name'},
       {label: 'Имя по возрастанию', value: 'name'},
     ]
-    this.store.dispatch(getCategoriesAction())
+    this.store.dispatch(
+      getCategoriesAction({category_id: this.defaultCategory})
+    )
   }
 
   initializeValues(): void {
@@ -114,31 +118,24 @@ export class MainComponent implements OnInit, OnDestroy {
     event: LazyLoadEvent | null,
     category: string | null = null
   ) {
-    let new_category = ''
-    if (category) {
-      new_category = category
-    } else {
-      new_category = this.selectedCategory?.key
-        ? this.selectedCategory.key
-        : '0'
-    }
-    // console.debug(
-    //   `Запрашиваем файлы из категории: ${new_category}, event.rows: ${event?.rows}`
-    // )
-    // if (event) {
-    //   if (event.rows) {
+    const new_category = category
+      ? category
+      : this.selectedCategory?.key
+      ? this.selectedCategory.key
+      : this.defaultCategory
+
     this.store.dispatch(
       getFilesAction({
         event: event,
         category_id: new_category,
       })
     )
-    // }
-    // }
   }
 
   refreshItems(): void {
-    this.store.dispatch(getCategoriesAction())
+    this.store.dispatch(
+      getCategoriesAction({category_id: this.defaultCategory})
+    )
     this.nodeSelect()
   }
 
@@ -262,18 +259,18 @@ export class MainComponent implements OnInit, OnDestroy {
   //   }
   // }
 
+  uploadResult(event: boolean): void {
+    if (event) {
+      this.nodeSelect()
+    }
+  }
+
   ngOnDestroy(): void {
     if (this.filesSubscription) {
       this.filesSubscription.unsubscribe()
     }
     if (this.categoriesSubscription) {
       this.categoriesSubscription.unsubscribe()
-    }
-  }
-
-  uploadResult(event: boolean): void {
-    if (event) {
-      this.nodeSelect()
     }
   }
 }

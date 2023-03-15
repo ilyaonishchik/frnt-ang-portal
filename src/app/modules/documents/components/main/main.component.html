@@ -12,7 +12,7 @@
         draggableScope='self'
         [droppableNodes]=false
         droppableScope='self'
-        scrollHeight='calc(100vh - 20rem)'
+        scrollHeight='calc(100vh - 19.6rem)'
         (onNodeSelect)='nodeSelect()'
       >
         <ng-template pTemplate='header'>
@@ -64,13 +64,13 @@
         [paginator]=true
         [rows]=rowsPerPageCount
         [rowsPerPageOptions]=rowsPerPageOptions
-        [showCurrentPageReport]=true
+        [showCurrentPageReport]=false
         filterBy='file_name'
         [sortField]=sortField
         [sortOrder]=sortOrder
         currentPageReportTemplate='Записи с {first} по {last} из {totalRecords}'
+        paginatorPosition='bottom'
         layout='grid'
-        emptyMessage='Нет документов для отображения'
       >
         <ng-template pTemplate='header'>
           <div
@@ -155,10 +155,11 @@
             </div>
           </div>
         </ng-template>
-        <ng-template pTemplate='paginatorLeft'>
+        <ng-template pTemplate='paginatorleft'>
           <div>
             <p-dropdown
-              [options]='sortOptions'
+              [options]=sortOptions
+              [(ngModel)]='sortKey'
               placeholder='Сортировка по имени'
               (onChange)='onSortChange($event)'>
             </p-dropdown>
@@ -174,5 +175,3 @@
     </div>
   </div>
 </div>
-
-

@@ -18,7 +18,7 @@ export class DocsService {
     this.fullUrl = `${environment.urlApiStorage}/files/category`
   }
 
-  getCategories(cat_id: number): Observable<ICategory[]> {
+  getCategories(cat_id: number | string): Observable<ICategory[]> {
     return this.http.get<ICategory[]>(
       `${environment.urlApiStorage}/categories/${cat_id}/tree`
     )

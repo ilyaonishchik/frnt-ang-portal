@@ -23,8 +23,8 @@ export class GetDocsEffect {
   getCategories$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getCategoriesAction),
-      switchMap(() => {
-        return this.docsService.getCategories(0).pipe(
+      switchMap(({category_id}) => {
+        return this.docsService.getCategories(category_id).pipe(
           map((response: ICategory[]) => {
             return getCategoriesSuccessAction({categories: response})
           }),

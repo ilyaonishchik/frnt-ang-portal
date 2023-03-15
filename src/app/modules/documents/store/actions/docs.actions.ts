@@ -7,7 +7,10 @@ import {IFile} from '@modules/documents/interfaces/file.interface'
 import {LazyLoadEvent} from 'primeng/api'
 import {ITableItems} from '@shared/interfaces/table-items.interface'
 
-export const getCategoriesAction = createAction(DocsActionTypes.GET_CATEGORIES)
+export const getCategoriesAction = createAction(
+  DocsActionTypes.GET_CATEGORIES,
+  props<{category_id: number | string}>()
+)
 
 export const getCategoriesSuccessAction = createAction(
   DocsActionTypes.GET_CATEGORIES_SUCCESS,
