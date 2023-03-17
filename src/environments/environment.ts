@@ -5,11 +5,12 @@
 export const environment = {
   production: false,
   title: 'Бизнес-портал',
-  version: '0.1.6',
+  version: '0.1.7',
   urlApi: '/api/v1',
   urlApiAuth: '/api/v1/auth',
   urlApiPdp: '/api/v1/sorting',
   urlApiStorage: '/api/v1/storage',
+  // urlApiStorage: 'http://172.16.190.221:8020/api/v1/storage',
   urlApiReport: '/api/v1/report',
 
   rowsPerPageCount: 15,
