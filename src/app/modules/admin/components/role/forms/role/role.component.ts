@@ -21,11 +21,11 @@ import {allPermissionsSelector} from '@shared/store/selectors/session.selectors'
   styleUrls: ['./role.component.scss'],
 })
 export class RoleComponent implements OnInit, OnDestroy {
-  @Input('readOnly') readOnlyProps = false
-  @Input('initialValues') initialValuesProps!: IRole
+  @Input() readOnly = false
+  @Input() initialValues!: IRole
 
-  @Output('changeValues') changeValuesEvent = new EventEmitter<IRole>()
-  @Output('formValid') formValidEvent = new EventEmitter<boolean>()
+  @Output() changeValues = new EventEmitter<IRole>()
+  @Output() formValid = new EventEmitter<boolean>()
 
   itemSubscription!: Subscription
   sourcePermissions: IPermission[] = []
@@ -42,7 +42,7 @@ export class RoleComponent implements OnInit, OnDestroy {
   private initializeForm(): void {
     this.formRole = this.fb.group({
       code: [
-        this.initialValuesProps.code,
+        this.initialValues.code,
         [
           Validators.required,
           Validators.minLength(3),
@@ -50,12 +50,12 @@ export class RoleComponent implements OnInit, OnDestroy {
         ],
       ],
       name: [
-        this.initialValuesProps.name,
+        this.initialValues.name,
         [Validators.required, Validators.maxLength(150)],
       ],
-      comment: [this.initialValuesProps.comment, [Validators.maxLength(200)]],
-      permissions: [this.initialValuesProps.permissions],
-      status: [this.initialValuesProps.status],
+      comment: [this.initialValues.comment, [Validators.maxLength(200)]],
+      permissions: [this.initialValues.permissions],
+      status: [this.initialValues.status],
     })
     this.onChangeValues()
   }
@@ -63,11 +63,11 @@ export class RoleComponent implements OnInit, OnDestroy {
   onChangeValues(): void {
     this.onValidateForm()
     this.changePermissions()
-    this.changeValuesEvent.emit(this.formRole.value)
+    this.changeValues.emit(this.formRole.value)
   }
 
   onValidateForm(): void {
-    this.formValidEvent.emit(this.formRole.valid)
+    this.formValid.emit(this.formRole.valid)
   }
 
   get f() {
@@ -75,7 +75,7 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   private initializeValues(): void {
-    this.targetPermissions.push(...this.initialValuesProps.permissions)
+    this.targetPermissions.push(...this.initialValues.permissions)
     this.itemSubscription = this.store
       .select(allPermissionsSelector)
       .subscribe((items: IPermission[] | null) => {

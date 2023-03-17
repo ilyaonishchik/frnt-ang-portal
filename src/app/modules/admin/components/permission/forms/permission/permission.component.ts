@@ -9,11 +9,11 @@ import {IPermission} from '@shared/interfaces/permission.interface'
   styleUrls: ['./permission.component.scss'],
 })
 export class PermissionComponent implements OnInit {
-  @Input('readOnly') readOnlyProps = false
-  @Input('initialValues') initialValuesProps!: IPermission
+  @Input() readOnly = false
+  @Input() initialValues!: IPermission
 
-  @Output('changeValues') changeValuesEvent = new EventEmitter<IPermission>()
-  @Output('formValid') formValidEvent = new EventEmitter<boolean>()
+  @Output() changeValues = new EventEmitter<IPermission>()
+  @Output() formValid = new EventEmitter<boolean>()
 
   formPermission!: FormGroup
   constructor(private fb: FormBuilder) {}
@@ -25,7 +25,7 @@ export class PermissionComponent implements OnInit {
   private initializeForm(): void {
     this.formPermission = this.fb.group({
       code: [
-        this.initialValuesProps.code,
+        this.initialValues.code,
         [
           Validators.required,
           Validators.minLength(3),
@@ -33,22 +33,22 @@ export class PermissionComponent implements OnInit {
         ],
       ],
       name: [
-        this.initialValuesProps.name,
+        this.initialValues.name,
         [Validators.required, Validators.maxLength(150)],
       ],
-      comment: [this.initialValuesProps.comment, [Validators.maxLength(200)]],
-      status: [this.initialValuesProps.status],
+      comment: [this.initialValues.comment, [Validators.maxLength(200)]],
+      status: [this.initialValues.status],
     })
     this.onChangeValues()
   }
 
   onChangeValues(): void {
     this.onValidateForm()
-    this.changeValuesEvent.emit(this.formPermission.value)
+    this.changeValues.emit(this.formPermission.value)
   }
 
   onValidateForm(): void {
-    this.formValidEvent.emit(this.formPermission.valid)
+    this.formValid.emit(this.formPermission.valid)
   }
 
   get f() {

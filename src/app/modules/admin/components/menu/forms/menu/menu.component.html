@@ -8,7 +8,7 @@
         type='text'
         pInputText
         formControlName='label'
-        [readonly]=readOnlyProps
+        [readonly]=readOnly
       >
       <ng-container
         *ngIf="(f['label'].dirty || f['label'].touched) && f['label'].invalid">
@@ -21,7 +21,7 @@
         id='type'
         formControlName='type'
         [options]=menuTypes
-        [readonly]=readOnlyProps
+        [readonly]=readOnly
         (ngModelChange)='onChangeValues()'
       >
       </p-dropdown>
@@ -37,7 +37,7 @@
         type='text'
         pInputText
         formControlName='link'
-        [readonly]=readOnlyProps
+        [readonly]=readOnly
       >
       <ng-container
         *ngIf="(f['link'].dirty || f['link'].touched) && f['link'].invalid">
@@ -53,7 +53,7 @@
         type='text'
         pInputText
         formControlName='permission'
-        [readonly]=readOnlyProps
+        [readonly]=readOnly
       >
       <ng-container
         *ngIf="(f['permission'].dirty || f['permission'].touched) && f['permission'].invalid">
@@ -67,7 +67,7 @@
         type='text'
         pInputText
         formControlName='icon'
-        [readonly]=readOnlyProps
+        [readonly]=readOnly
       >
       <ng-container
         *ngIf="(f['icon'].dirty || f['icon'].touched) && f['icon'].invalid">
@@ -86,7 +86,7 @@
         [max]=999
         [allowEmpty]=true
         [showButtons]=true
-        [readonly]=readOnlyProps
+        [readonly]=readOnly
         (ngModelChange)='onChangeValues()'
       >
       </p-inputNumber>
@@ -105,7 +105,7 @@
         [max]=999
         [allowEmpty]=false
         [showButtons]=true
-        [readonly]=readOnlyProps
+        [readonly]=readOnly
         (ngModelChange)='onChangeValues()'
       >
       </p-inputNumber>
@@ -123,7 +123,7 @@
       rows='3'
       cols='20'
       formControlName='comment'
-      [readonly]=readOnlyProps>
+      [readonly]=readOnly>
     </textarea>
     <ng-container
       *ngIf="(f['comment'].dirty || f['comment'].touched) && f['comment'].invalid">

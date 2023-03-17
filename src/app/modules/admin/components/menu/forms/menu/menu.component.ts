@@ -1,8 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
-
-import {IMenu} from '../../../../sections/portal/menus/interfaces/menu.interface'
 import {SelectItem} from 'primeng/api'
+import {IMenu} from '@modules/admin/sections/portal/menus/interfaces/menu.interface'
 
 @Component({
   selector: 'app-menu-form',
@@ -10,11 +9,11 @@ import {SelectItem} from 'primeng/api'
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit {
-  @Input('readOnly') readOnlyProps = false
-  @Input('initialValues') initialValuesProps!: IMenu
+  @Input() readOnly = false
+  @Input() initialValues!: IMenu
 
-  @Output('changeValues') changeValuesEvent = new EventEmitter<IMenu>()
-  @Output('formValid') formValidEvent = new EventEmitter<boolean>()
+  @Output() changeValues = new EventEmitter<IMenu>()
+  @Output() formValid = new EventEmitter<boolean>()
 
   formMenu!: FormGroup
   menuTypes: SelectItem[] = []
@@ -27,28 +26,25 @@ export class MenuComponent implements OnInit {
 
   private initializeForm(): void {
     this.formMenu = this.fb.group({
-      parent: [this.initialValuesProps.parent, [Validators.min(0)]],
-      type: [this.initialValuesProps.type, [Validators.required]],
+      parent: [this.initialValues.parent, [Validators.min(0)]],
+      type: [this.initialValues.type, [Validators.required]],
       label: [
-        this.initialValuesProps.label,
+        this.initialValues.label,
         [Validators.required, Validators.maxLength(100)],
       ],
-      icon: [this.initialValuesProps.icon, [Validators.maxLength(50)]],
+      icon: [this.initialValues.icon, [Validators.maxLength(50)]],
       link: [
-        this.initialValuesProps.link,
+        this.initialValues.link,
         [Validators.minLength(1), Validators.maxLength(200)],
       ],
-      permission: [
-        this.initialValuesProps.permission,
-        [Validators.maxLength(100)],
-      ],
-      comment: [this.initialValuesProps.comment, [Validators.maxLength(200)]],
+      permission: [this.initialValues.permission, [Validators.maxLength(100)]],
+      comment: [this.initialValues.comment, [Validators.maxLength(200)]],
       sort: [
-        this.initialValuesProps.sort,
+        this.initialValues.sort,
         [Validators.required, Validators.min(0), Validators.max(999)],
       ],
-      separator: [this.initialValuesProps.separator],
-      status: [this.initialValuesProps.status],
+      separator: [this.initialValues.separator],
+      status: [this.initialValues.status],
     })
     this.menuTypes = [
       {label: 'Меню админки', value: 1},
@@ -60,11 +56,11 @@ export class MenuComponent implements OnInit {
 
   onChangeValues(): void {
     this.onValidateForm()
-    this.changeValuesEvent.emit(this.formMenu.value)
+    this.changeValues.emit(this.formMenu.value)
   }
 
   onValidateForm(): void {
-    this.formValidEvent.emit(this.formMenu.valid)
+    this.formValid.emit(this.formMenu.valid)
   }
 
   get f() {

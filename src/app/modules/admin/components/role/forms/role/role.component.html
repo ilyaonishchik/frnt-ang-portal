@@ -8,7 +8,7 @@
         type='text'
         pInputText
         formControlName='code'
-        [readonly]=readOnlyProps
+        [readonly]=readOnly
       >
       <ng-container
         *ngIf="(f['code'].dirty || f['code'].touched) && f['code'].invalid">
@@ -22,7 +22,7 @@
         type='text'
         pInputText
         formControlName='name'
-        [readonly]=readOnlyProps
+        [readonly]=readOnly
       >
       <ng-container
         *ngIf="(f['name'].dirty || f['name'].touched) && f['name'].invalid">
@@ -38,7 +38,7 @@
       rows='3'
       cols='20'
       formControlName='comment'
-      [readonly]=readOnlyProps>
+      [readonly]=readOnly>
     </textarea>
     <ng-container
       *ngIf="(f['comment'].dirty || f['comment'].touched) && f['comment'].invalid">
@@ -63,7 +63,7 @@
           [dragdrop]=false
           [responsive]=true
           filterBy='code,name'
-          [disabled]=readOnlyProps
+          [disabled]=readOnly
         >
           <ng-template let-permission pTemplate='item'>
             <div

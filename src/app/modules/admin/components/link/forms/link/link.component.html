@@ -7,7 +7,7 @@
       type='text'
       pInputText
       formControlName='name'
-      [readonly]=readOnlyProps
+      [readonly]=readOnly
     >
     <ng-container
       *ngIf="(f['name'].dirty || f['name'].touched) && f['name'].invalid">
@@ -21,7 +21,7 @@
       type='text'
       pInputText
       formControlName='website'
-      [readonly]=readOnlyProps
+      [readonly]=readOnly
     >
     <ng-container
       *ngIf="(f['website'].dirty || f['website'].touched) && f['website'].invalid">
@@ -38,7 +38,7 @@
       [max]=999
       [allowEmpty]=false
       [showButtons]=true
-      [readonly]=readOnlyProps
+      [readonly]=readOnly
       (ngModelChange)='onChangeValues()'
     >
     </p-inputNumber>
@@ -55,7 +55,7 @@
       rows='3'
       cols='20'
       formControlName='comment'
-      [readonly]=readOnlyProps>
+      [readonly]=readOnly>
     </textarea>
     <ng-container
       *ngIf="(f['comment'].dirty || f['comment'].touched) && f['comment'].invalid">

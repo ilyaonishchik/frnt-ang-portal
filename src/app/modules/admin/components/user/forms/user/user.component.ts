@@ -36,8 +36,8 @@ export class UserComponent implements OnInit, OnDestroy {
   @Input() crudAction: TCrudAction = TCrudAction.NONE
   @Input() initialValues!: IUser
 
-  @Output('changeValues') changeValuesEvent = new EventEmitter<IUser>()
-  @Output('formValid') formValidEvent = new EventEmitter<boolean>()
+  @Output() changeValues = new EventEmitter<IUser>()
+  @Output() formValid = new EventEmitter<boolean>()
 
   formUser!: FormGroup
   subdivisions: SelectItem[] = []
@@ -49,10 +49,7 @@ export class UserComponent implements OnInit, OnDestroy {
   targetRoles: IRole[] = []
   targetPermissions: IPermission[] = []
 
-  constructor(
-    private fb: FormBuilder,
-    private store: Store // private storage: StorageService
-  ) {}
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
     this.initializeValues()
@@ -145,7 +142,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.onValidateForm()
     this.changeRoles()
     this.changePermissions()
-    this.changeValuesEvent.emit(this.formUser.value)
+    this.changeValues.emit(this.formUser.value)
   }
 
   get f() {
@@ -153,7 +150,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   onValidateForm(): void {
-    this.formValidEvent.emit(this.formUser.valid)
+    this.formValid.emit(this.formUser.valid)
   }
 
   changeRoles(): void {

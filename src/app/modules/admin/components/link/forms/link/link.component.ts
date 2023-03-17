@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
-
-import {ILink} from '../../../../sections/portal/links/interfaces/link.interface'
+import {ILink} from '@modules/admin/sections/portal/links/interfaces/link.interface'
 
 @Component({
   selector: 'app-link-form',
@@ -9,11 +8,11 @@ import {ILink} from '../../../../sections/portal/links/interfaces/link.interface
   styleUrls: ['./link.component.scss'],
 })
 export class LinkComponent implements OnInit {
-  @Input('readOnly') readOnlyProps = false
-  @Input('initialValues') initialValuesProps!: ILink
+  @Input() readOnly = false
+  @Input() initialValues!: ILink
 
-  @Output('changeValues') changeValuesEvent = new EventEmitter<ILink>()
-  @Output('formValid') formValidEvent = new EventEmitter<boolean>()
+  @Output() changeValues = new EventEmitter<ILink>()
+  @Output() formValid = new EventEmitter<boolean>()
 
   formLink!: FormGroup
   constructor(private fb: FormBuilder) {}
@@ -25,34 +24,34 @@ export class LinkComponent implements OnInit {
   initializeForm(): void {
     this.formLink = this.fb.group({
       name: [
-        this.initialValuesProps.name,
+        this.initialValues.name,
         [Validators.required, Validators.maxLength(150)],
       ],
       website: [
-        this.initialValuesProps.website,
+        this.initialValues.website,
         [
           Validators.required,
           Validators.minLength(10),
           Validators.maxLength(150),
         ],
       ],
-      comment: [this.initialValuesProps.comment, [Validators.maxLength(200)]],
+      comment: [this.initialValues.comment, [Validators.maxLength(200)]],
       sort: [
-        this.initialValuesProps.sort,
+        this.initialValues.sort,
         [Validators.required, Validators.min(0), Validators.max(999)],
       ],
-      status: [this.initialValuesProps.status],
+      status: [this.initialValues.status],
     })
     this.onChangeValues()
   }
 
   onChangeValues(): void {
     this.onValidateForm()
-    this.changeValuesEvent.emit(this.formLink.value)
+    this.changeValues.emit(this.formLink.value)
   }
 
   onValidateForm(): void {
-    this.formValidEvent.emit(this.formLink.valid)
+    this.formValid.emit(this.formLink.valid)
   }
 
   get f() {
