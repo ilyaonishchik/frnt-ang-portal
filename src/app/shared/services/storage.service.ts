@@ -2,12 +2,14 @@ import {Injectable} from '@angular/core'
 import {HttpClient, HttpResponse} from '@angular/common/http'
 
 import {environment} from 'environments/environment'
-import {Observable} from 'rxjs'
+import {Observable, Subject, takeUntil} from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
+  unsubscribeUploading = new Subject<void>()
+
   constructor(private http: HttpClient) {}
 
   _uploadFile(file: any): void {
@@ -33,11 +35,18 @@ export class StorageService {
     if (file_desc) {
       formData.append('file_desc', file_desc)
     }
-    return this.http.post(url, formData, {
-      reportProgress: true,
-      observe: 'events',
-    })
-    // .pipe()
+    return this.http
+      .post(url, formData, {
+        reportProgress: true,
+        observe: 'events',
+      })
+      .pipe(
+        takeUntil(this.unsubscribeUploading)
+        // catchError((error) => {
+        //   console.error(error)
+        //   return throwError(error)
+        // })
+      )
   }
 
   downloadFile(file_uuid: string): Observable<HttpResponse<Blob>> {
@@ -68,5 +77,10 @@ export class StorageService {
       observe: 'response',
       responseType: 'blob' as 'json',
     })
+  }
+
+  cancelUploading(): void {
+    console.warn('Uploading file canceled')
+    this.unsubscribeUploading.next()
   }
 }

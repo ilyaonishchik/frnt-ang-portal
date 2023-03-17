@@ -26,11 +26,12 @@
     </div>
   </form>
   <p-fileUpload
-    *ngIf='true'
+    *ngIf=true
     #fileUpload
     name='fileUpload'
-    [customUpload]='true'
-    (uploadHandler)='uploadFile($event)'
+    [customUpload]=true
+    (uploadHandler)=uploadFile($event)
+    (onClear)=cancelUploading()
   >
     <ng-template let-file pTemplate='file' class='p-1'>
       <div class='flex flex-row flex-wrap justify-content-between'>
@@ -38,15 +39,15 @@
           <i class='{{file.type | mimeIcon}}' style='font-size: 2.5rem'></i>
         </div>
         <div class='col'>
-          <div class='text-lg'>{{file.name}}</div>
+          <div class='text-lg line-clamp-1'>{{file.name}}</div>
           <div class='text-sm'>Размер файла: {{file.size | filesize}}</div>
         </div>
       </div>
     </ng-template>
   </p-fileUpload>
-  <div>
+  <div class='mt-1'>
     <p-progressBar
-      *ngIf='progress > 0'
+      *ngIf='progress >= 0'
       [value]=progress
     ></p-progressBar>
   </div>
