@@ -10,6 +10,9 @@ export function responseToErrors(response: HttpErrorResponse): IBackendErrors {
     case 400:
       errors['_'] = response.error.message
       break
+    case 403:
+      errors['_'] = response.error.detail
+      break
     case 404:
       errors['_'] = `Ресурс не найден: ${response.url}`
       break

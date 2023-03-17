@@ -61,6 +61,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
               if (authRequest.url.includes('auth/refresh')) {
                 this.store.dispatch(signoutAction())
               }
+              this.showMessage(responseToErrors(error))
               break
             default:
               this.showMessage(responseToErrors(error))
