@@ -10,10 +10,13 @@ export class ToastService {
 
   showBackendErrors(payload: IBackendErrors): void {
     const msg: Message = {key: 'main', severity: 'error', summary: 'Ошибка'}
-
     for (const key in payload) {
       if (key === '_') {
-        msg.detail = payload[key].toString()
+        if (payload[key]) {
+          msg.detail = payload[key].toString()
+        } else {
+          msg.detail = 'undefined'
+        }
       } else {
         msg.detail = `${key}: ${payload[key]}`
       }
