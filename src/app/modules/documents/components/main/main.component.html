@@ -12,7 +12,7 @@
         draggableScope='self'
         [droppableNodes]=false
         droppableScope='self'
-        scrollHeight='calc(100vh - 19.6rem)'
+        scrollHeight='calc(100vh - 18.5rem)'
         (onNodeSelect)='nodeSelect()'
       >
         <ng-template pTemplate='header'>
@@ -82,7 +82,7 @@
               (onClick)='uploadDialog = !uploadDialog'
             ></p-button>
             <span
-              class='p-input-icon-left'>
+              class='p-input-icon-right'>
               <i class='pi pi-search'></i>
               <input
                 type='search'
@@ -94,37 +94,41 @@
           </div>
         </ng-template>
         <ng-template let-file pTemplate='listItem'>
-          <div class='col-fixed'>
-            <i class='{{file.file_type | mimeIcon}} m-1 text-5xl'></i>
-          </div>
-          <div class='col'>
-            <div class='text-lg'>
-              <div class='line-clamp-1'>
-                {{file.file_desc ? file.file_desc : file.file_name}}
+          <div class='col-12'>
+            <div class='flex flex-row flex-wrap justify-content-between align-items-center'>
+              <div class='col-fixed p-0'>
+                <i class='{{file.file_type | mimeIcon}} m-1 text-5xl'></i>
               </div>
-              <div class='flex justify-content-between font-light'>
-                <span class='text-sm'>Загружен: {{file.dt_cr | date:'d.MM.YYYY H:mm'}}</span>
-                <span class='text-sm ml-1'>Размер: {{file.file_size | filesize}}</span>
+              <div class='col p-0'>
+                <div class='text-lg'>
+                  <div class='line-clamp-1'>
+                    {{file.file_desc ? file.file_desc : file.file_name}}
+                  </div>
+                  <div class='flex justify-content-between font-light'>
+                    <span class='text-sm'>Загружен: {{file.dt_cr | date:'d.MM.YYYY H:mm'}}</span>
+                    <span class='text-sm ml-1'>Размер: {{file.file_size | filesize}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class='col-fixed p-0'>
+                <p-button
+                  icon='pi pi-cloud-download'
+                  iconPos='top'
+                  styleClass='p-button-success m-1 w-4rem'
+                  [badge]='file.downloads'
+                  badgeClass='p-badge-warning'
+                  pTooltip='Скачать'
+                  tooltipPosition='left'
+                  [showDelay]='1000'
+                  (onClick)='downloadFile(file.file_uuid, file.file_name)'
+                ></p-button>
               </div>
             </div>
-          </div>
-          <div class='col-fixed'>
-            <p-button
-              icon='pi pi-cloud-download'
-              iconPos='top'
-              styleClass='p-button-success m-1 w-4rem'
-              [badge]='file.downloads'
-              badgeClass='p-badge-warning'
-              pTooltip='Скачать'
-              tooltipPosition='left'
-              [showDelay]='1000'
-              (onClick)='downloadFile(file.file_uuid, file.file_name)'
-            ></p-button>
           </div>
         </ng-template>
         <ng-template let-file pTemplate='gridItem'>
           <div class='col-12 md:col-6 xl:col-4'>
-            <div class='card m-2 p-1 flex flex-row flex-wrap justify-content-between'>
+            <div class='card m-1 p-1 flex flex-row flex-wrap justify-content-between'>
               <div class='col-fixed pb-0'>
                 <i class='{{file.file_type | mimeIcon}} text-5xl'></i>
               </div>

@@ -24,7 +24,6 @@ import {RbacService} from '@shared/services/rbac.service'
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
-  // providers: [TreeDragDropService],
 })
 export class MainComponent implements OnInit, OnDestroy {
   @ViewChild('dv') dvFiles!: DataView
@@ -79,8 +78,10 @@ export class MainComponent implements OnInit, OnDestroy {
     }
     this.initializeValues()
     this.sortOptions = [
-      {label: 'Имя по убыванию', value: '!name'},
-      {label: 'Имя по возрастанию', value: 'name'},
+      {label: 'Имя по убыванию', value: '!file_name'},
+      {label: 'Имя по возрастанию', value: 'file_name'},
+      {label: 'Сперва новые', value: '!dt_cr'},
+      {label: 'Сперва старые', value: 'dt_cr'},
     ]
     this.store.dispatch(
       getCategoriesAction({category_id: this.defaultCategory})
@@ -89,6 +90,9 @@ export class MainComponent implements OnInit, OnDestroy {
 
   initializeValues(): void {
     this.canUpload = this.rbacService.checkPermission('docs-file:upload')
+    if (this.rbacService.checkPermission('docs-category:read:all')) {
+      this.defaultCategory = '0'
+    }
     this.isLoading$ = this.store.select(isLoadingSelector)
     // console.debug('Подписываемся на получение категорий...')
     this.categoriesSubscription = this.store
