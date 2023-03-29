@@ -1,10 +1,10 @@
 import {Action, createReducer, on} from '@ngrx/store'
-import {routerNavigationAction} from '@ngrx/router-store'
 
 import {
   getMenusAction,
   getMenusSuccessAction,
   getMenusFailureAction,
+  clearMenusStateAction,
 } from './actions/menus.action'
 import {
   dialogCancelAction,
@@ -70,7 +70,7 @@ const menusReducer = createReducer(
       backendErrors: null,
     })
   ),
-  on(routerNavigationAction, (): IMenusState => initialState)
+  on(clearMenusStateAction, (): IMenusState => initialState)
 )
 
 export function reducerMenus(state: IMenusState, action: Action) {

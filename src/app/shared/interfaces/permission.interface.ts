@@ -3,12 +3,12 @@ export interface IPermission {
   code: string
   name: string
   comment: string | null
-  status: number
+  status: boolean
 }
 
 export interface IPermissionSave {
   code: string
   name: string
   comment: string | null
-  status: number
+  status: boolean
 }

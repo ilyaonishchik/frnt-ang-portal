@@ -15,7 +15,9 @@
           <span class='text-600 font-medium'>Заполните учетные данные.</span>
         </div>
         <div class='w-11 lg:w-10 mx-auto'>
-          <form [formGroup]='signUpForm' (ngSubmit)='submitSignUp()'>
+          <form
+            [formGroup]=signUpForm
+            (ngSubmit)=submitSignUp()>
             <div class='field'>
               <label for='username' class='block text-900 text-xl font-medium'>Пользователь</label>
               <input
@@ -28,7 +30,7 @@
                 class='w-full p-3'>
               <ng-container
                 *ngIf="(f['username'].dirty || f['username'].touched) && f['username'].invalid">
-                <avs-validate-input [errors]="f['username'].errors"></avs-validate-input>
+                <app-validate-input [errors]="f['username'].errors"></app-validate-input>
               </ng-container>
             </div>
             <div class='field'>
@@ -40,7 +42,7 @@
                 pInputText
                 class='w-full p-3'>
               <ng-container *ngIf="(f['email'].dirty || f['email'].touched) && f['email'].invalid">
-                <avs-validate-input [errors]="f['email'].errors"></avs-validate-input>
+                <app-validate-input [errors]="f['email'].errors"></app-validate-input>
               </ng-container>
             </div>
             <div class='field'>
@@ -54,7 +56,7 @@
               </p-password>
               <ng-container
                 *ngIf="(f['password'].dirty || f['password'].touched) && f['password'].invalid">
-                <avs-validate-input [errors]="f['password'].errors"></avs-validate-input>
+                <app-validate-input [errors]="f['password'].errors"></app-validate-input>
               </ng-container>
             </div>
             <div class='field'>
@@ -69,7 +71,7 @@
               </p-password>
               <ng-container
                 *ngIf="(f['password2'].dirty || f['password2'].touched) && f['password2'].invalid">
-                <avs-validate-input [errors]="f['password2'].errors"></avs-validate-input>
+                <app-validate-input [errors]="f['password2'].errors"></app-validate-input>
               </ng-container>
             </div>
             <button

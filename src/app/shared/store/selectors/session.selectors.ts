@@ -15,3 +15,8 @@ export const allPermissionsSelector = createSelector(
   sessionFeatureSelector,
   (sessionState: ISessionState) => sessionState.allPermissions
 )
+
+export const clientSelector = createSelector(
+  sessionFeatureSelector,
+  (sessionState: ISessionState) => sessionState.client
+)

@@ -6,5 +6,6 @@ export interface IFile {
   file_size: number
   file_type: string
   dt_cr: string
+  username: string
   downloads: number
 }

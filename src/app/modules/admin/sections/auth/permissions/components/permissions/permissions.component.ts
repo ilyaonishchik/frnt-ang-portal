@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, OnDestroy, OnInit} from '@angular/core'
 import {Observable} from 'rxjs'
-
 import {Store} from '@ngrx/store'
-
 import {LazyLoadEvent} from 'primeng/api'
 
 import {IColumn} from '@shared/interfaces/column.interface'
-import {getPermissionsAction} from '../../store/actions/permissions.action'
+import {
+  clearPermissionsStateAction,
+  getPermissionsAction,
+} from '../../store/actions/permissions.action'
 
 import {
   dialogActionSelector,
@@ -28,38 +29,42 @@ import {TCrudAction} from '@shared/types/crud-action.type'
   templateUrl: './permissions.component.html',
   styleUrls: ['./permissions.component.scss'],
 })
-export class PermissionsComponent implements OnInit {
-  columns: IColumn[]
-  crudName: string
-  keyField: string
-  sortField: string
-  confirmField: string
-
+export class PermissionsComponent implements OnInit, OnDestroy {
   isLoading$!: Observable<boolean>
   items$!: Observable<ITableItems<IPermission> | null>
   dialog$!: Observable<ICrudAction | null>
 
-  constructor(private store: Store) {
+  subjectName = 'разрешения'
+  columns!: IColumn[]
+  crudName = 'admin:permission'
+  keyField = 'id'
+  sortField = 'id'
+  confirmField = 'code'
+
+  constructor(private store: Store) {}
+
+  ngOnInit(): void {
+    this.initializeParams()
+    this.initializeSubscriptions()
+    this.initializeValues()
+  }
+
+  private initializeParams(): void {
     this.columns = [
       {field: 'id', header: 'ID', width: 'w-1rem'},
       {field: 'code', header: 'Код'},
       {field: 'name', header: 'Наименование'},
     ]
-    this.crudName = 'permission'
-    this.keyField = 'id'
-    this.sortField = 'id'
-    this.confirmField = 'code'
   }
 
-  ngOnInit(): void {
-    this.initializeValues()
-    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
-  }
-
-  private initializeValues(): void {
+  private initializeSubscriptions(): void {
     this.isLoading$ = this.store.select(isLoadingSelector)
     this.items$ = this.store.select(permissionsSelector)
     this.dialog$ = this.store.select(dialogActionSelector)
+  }
+
+  private initializeValues(): void {
+    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
   }
 
   loadItems(
@@ -106,5 +111,9 @@ export class PermissionsComponent implements OnInit {
 
   hideDialog(): void {
     this.store.dispatch(dialogCancelAction())
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(clearPermissionsStateAction())
   }
 }

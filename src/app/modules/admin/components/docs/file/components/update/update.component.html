@@ -1,11 +1,11 @@
 <app-modal-dialog
   [(visible)]=visible
   (visibleChange)=onVisibleChange($event)
-  (saveItem)='saveItem()'
+  (saveItem)=saveItem()
   [errors]='validationErrors$ | async'
   [isLoading]='isLoading$ | async'
   dialogType='update'
-  subject='файла'
+  [subject]=subjectName
 >
   <app-file-form
     *ngIf=item

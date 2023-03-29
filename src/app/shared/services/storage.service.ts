@@ -26,9 +26,13 @@ export class StorageService {
   uploadFile(
     file_body: File,
     category: string,
-    file_desc: string | null = null
+    file_desc: string | null = null,
+    ip_from_grd = false
   ): Observable<any> {
-    const url = `${environment.urlApiStorage}/files`
+    let url = `${environment.urlApiStorage}/files`
+    if (ip_from_grd) {
+      url = `${environment.urlApiStorageGRD}/files`
+    }
     const formData: FormData = new FormData()
     formData.append('file_body', file_body, file_body.name)
     formData.append('category', category)
@@ -49,13 +53,28 @@ export class StorageService {
       )
   }
 
-  downloadFile(file_uuid: string): Observable<HttpResponse<Blob>> {
+  _downloadFile(file_uuid: string): Observable<HttpResponse<Blob>> {
     const url = `${environment.urlApiStorage}/files/download/${file_uuid}`
 
     return this.http.get<Blob>(url, {
       observe: 'response',
       responseType: 'blob' as 'json',
     })
+  }
+
+  downloadFile(
+    file_uuid: string,
+    file_name: string,
+    ip_from_grd = false
+  ): void {
+    let url = environment.urlApiStorage
+    if (ip_from_grd) {
+      url = environment.urlApiStorageGRD
+    }
+    const link = document.createElement('a')
+    link.href = `${url}/files/download/${file_uuid}`
+    link.download = file_name
+    link.click()
   }
 
   _downloadFileStream(file_uuid: string): Observable<Blob> {

@@ -10,6 +10,9 @@ import {
   getAllRolesAction,
   getAllRolesFailureAction,
   getAllRolesSuccessAction,
+  getClientInfoAction,
+  getClientInfoFailureAction,
+  getClientInfoSuccessAction,
 } from '../actions/session.actions'
 
 export const sessionFeatureKey = 'session'
@@ -19,6 +22,7 @@ const initialState: ISessionState = {
   backendErrors: null,
   allRoles: null,
   allPermissions: null,
+  client: null,
 }
 
 const sessionReducer = createReducer(
@@ -81,6 +85,30 @@ const sessionReducer = createReducer(
     (state): ISessionState => ({
       ...state,
       allRoles: null,
+    })
+  ),
+  on(
+    getClientInfoAction,
+    (state): ISessionState => ({
+      ...state,
+      isLoading: true,
+      client: null,
+    })
+  ),
+  on(
+    getClientInfoSuccessAction,
+    (state, action): ISessionState => ({
+      ...state,
+      isLoading: false,
+      client: action.client,
+    })
+  ),
+  on(
+    getClientInfoFailureAction,
+    (state, action): ISessionState => ({
+      ...state,
+      isLoading: false,
+      backendErrors: action.errors,
     })
   )
 )

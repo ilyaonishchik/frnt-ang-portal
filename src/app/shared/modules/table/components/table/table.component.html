@@ -78,19 +78,19 @@
       </td>
       <td class='text-center'>
         <span class='p-column-title'>Статус</span>
-        <avs-table-columns-status
+        <app-table-columns-status
           [status]="rowData['status']"
-        ></avs-table-columns-status>
+        ></app-table-columns-status>
       </td>
       <td class='text-center'>
         <span class='p-column-title'>Операции</span>
-        <avs-table-columns-actions
+        <app-table-columns-actions
           [crud]=crud
           (clickRead)=readItem(rowData[dt.dataKey])
           (clickUpdate)=updateItem(rowData[dt.dataKey])
           (clickDelete)=deleteItem(rowData)
         >
-        </avs-table-columns-actions>
+        </app-table-columns-actions>
       </td>
     </tr>
   </ng-template>

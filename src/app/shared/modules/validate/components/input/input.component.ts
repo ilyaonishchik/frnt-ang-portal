@@ -2,7 +2,7 @@ import {Component, Input, OnChanges} from '@angular/core'
 import {ValidationErrors} from '@angular/forms'
 
 @Component({
-  selector: 'avs-validate-input',
+  selector: 'app-validate-input',
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss'],
 })

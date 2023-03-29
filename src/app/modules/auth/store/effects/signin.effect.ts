@@ -60,12 +60,9 @@ export class SigninEffect {
       this.actions$.pipe(
         ofType(signinSuccessAction),
         tap(() => {
-          // this.store.dispatch(getAllRolesAction())
-          // this.store.dispatch(getAllPermissionsAction())
           const getRedirectUrl$ = this.store
             .select(redirectUrlSelector)
             .subscribe((value) => {
-              console.log(value)
               this.router.navigateByUrl(value).then()
             })
           getRedirectUrl$.unsubscribe()

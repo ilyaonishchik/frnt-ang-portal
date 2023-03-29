@@ -8,4 +8,8 @@ export enum SessionActionTypes {
   GET_ALL_PERMISSIONS_SUCCESS = '[Session] Get all permissions success',
   GET_ALL_PERMISSIONS_FAILURE = '[Session] Get all permissions failure',
   CLEAR_PERMISSIONS = '[Session] Clear permissions list',
+
+  GET_CLIENT_INFO = '[Session] Get client info',
+  GET_CLIENT_INFO_SUCCESS = '[Session] Get client info success',
+  GET_CLIENT_INFO_FAILURE = '[Session] Get client info failure',
 }

@@ -1,8 +1,9 @@
-import {IPermissionsState} from '../interfaces/permissions-state.interface'
 import {Action, createReducer, on} from '@ngrx/store'
-import {routerNavigationAction} from '@ngrx/router-store'
+
+import {IPermissionsState} from '../interfaces/permissions-state.interface'
 
 import {
+  clearPermissionsStateAction,
   getPermissionsAction,
   getPermissionsFailureAction,
   getPermissionsSuccessAction,
@@ -71,7 +72,7 @@ const permissionsReducer = createReducer(
       backendErrors: null,
     })
   ),
-  on(routerNavigationAction, (): IPermissionsState => initialState)
+  on(clearPermissionsStateAction, (): IPermissionsState => initialState)
 )
 
 export function reducerPermissions(state: IPermissionsState, action: Action) {

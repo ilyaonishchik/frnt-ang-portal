@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, OnDestroy, OnInit} from '@angular/core'
 import {IColumn} from '@shared/interfaces/column.interface'
 import {Observable} from 'rxjs'
 import {ITableItems} from '@shared/interfaces/table-items.interface'
@@ -11,7 +11,10 @@ import {
 } from '@modules/admin/sections/docs/categories/store/selectors'
 import {LazyLoadEvent} from 'primeng/api'
 import {TCrudAction} from '@shared/types/crud-action.type'
-import {getCategoriesAction} from '@modules/admin/sections/docs/categories/store/actions/categories.action'
+import {
+  clearCategoriesStateAction,
+  getCategoriesAction,
+} from '@modules/admin/sections/docs/categories/store/actions/categories.action'
 import {IDeleteEvent} from '@shared/interfaces/event.interface'
 import {
   dialogCancelAction,
@@ -24,39 +27,43 @@ import {ICategory} from '@modules/admin/sections/docs/categories/interfaces/cate
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.scss'],
 })
-export class CategoriesComponent implements OnInit {
-  columns: IColumn[]
-  crudName: string
-  keyField: string
-  sortField: string
-  confirmField: string
-
+export class CategoriesComponent implements OnInit, OnDestroy {
   isLoading$!: Observable<boolean>
   items$!: Observable<ITableItems<ICategory> | null>
   dialog$!: Observable<ICrudAction | null>
 
-  constructor(private store: Store) {
+  subjectName = 'категории'
+  columns!: IColumn[]
+  crudName = 'admin:docs-category'
+  keyField = 'id'
+  sortField = 'id'
+  confirmField = 'cat_name'
+
+  constructor(private store: Store) {}
+
+  ngOnInit(): void {
+    this.initializeValues()
+    this.initializeSubscriptions()
+    this.fetchData()
+  }
+
+  private initializeValues() {
     this.columns = [
       {field: 'id', header: 'ID', width: 'w-1rem'},
       {field: 'parent', header: 'Parent', width: 'w-2rem'},
       {field: 'cat_name', header: 'Наименование'},
       {field: 'cat_desc', header: 'Описание'},
     ]
-    this.crudName = 'docs-category'
-    this.keyField = 'id'
-    this.sortField = 'id'
-    this.confirmField = 'cat_name'
   }
 
-  ngOnInit(): void {
-    this.initializeValues()
-    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
-  }
-
-  private initializeValues() {
+  private initializeSubscriptions(): void {
     this.isLoading$ = this.store.select(isLoadingSelector)
     this.items$ = this.store.select(categoriesSelector)
     this.dialog$ = this.store.select(dialogActionSelector)
+  }
+
+  private fetchData(): void {
+    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
   }
 
   loadItems(
@@ -103,5 +110,9 @@ export class CategoriesComponent implements OnInit {
 
   hideDialog(): void {
     this.store.dispatch(dialogCancelAction())
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(clearCategoriesStateAction())
   }
 }

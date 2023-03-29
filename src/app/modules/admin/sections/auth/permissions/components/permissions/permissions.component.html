@@ -1,5 +1,5 @@
 <div class='card mb-0'>
-  <avs-table
+  <app-table
     [columns]=columns
     [data]='(items$ | async)!'
     (lazyLoad)=loadItems($event)
@@ -13,34 +13,38 @@
     (actionRead)=readItem($event)
     (actionUpdate)=updateItem($event)
     (actionDelete)=deleteItem($event)
-  ></avs-table>
+  ></app-table>
 
   <ng-container *ngIf='(dialog$ | async) as dialog'>
     <app-permission-create
       *ngIf='dialog.action === 1'
       [visible]=true
-      (visibleChange)='hideDialog()'
+      (visibleChange)=hideDialog()
+      [subjectName]=subjectName
     ></app-permission-create>
 
     <app-permission-read
       *ngIf='dialog.action === 2'
       [visible]=true
-      (visibleChange)='hideDialog()'
+      (visibleChange)=hideDialog()
+      [subjectName]=subjectName
       [itemId]=dialog.id!
     ></app-permission-read>
 
     <app-permission-update
       *ngIf='dialog.action === 3'
       [visible]=true
-      (visibleChange)='hideDialog()'
+      (visibleChange)=hideDialog()
+      [subjectName]=subjectName
       [itemId]=dialog.id!
     ></app-permission-update>
 
     <app-permission-delete
       *ngIf='dialog.action === 4'
       [visible]=true
-      (visibleChange)='hideDialog()'
-      (clickCancel)='hideDialog()'
+      (visibleChange)=hideDialog()
+      (clickCancel)=hideDialog()
+      [subjectName]=subjectName
       [itemId]=dialog.id!
       [itemInfo]=dialog.confirm!
     ></app-permission-delete>

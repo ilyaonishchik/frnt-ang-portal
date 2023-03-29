@@ -13,7 +13,7 @@ export interface IUser {
   permissions: IPermission[]
   verify: string | null
   last_login: string | null
-  status: number
+  status: boolean
 }
 
 // export interface IUserCreate {
@@ -38,7 +38,7 @@ export interface IUserSave {
   sd_id: number | null
   roles: number[]
   permissions: number[]
-  status: number
+  status: boolean
 }
 
 // interface ICurrentUser {

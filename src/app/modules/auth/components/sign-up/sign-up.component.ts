@@ -16,9 +16,10 @@ import {CustomValidators} from '@shared/validators/custom'
   styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent implements OnInit {
+  isSubmitting$!: Observable<boolean>
+
   projectTitle: string = environment.title
   signUpForm!: FormGroup
-  isSubmitting$!: Observable<boolean>
 
   constructor(
     private store: Store,
@@ -27,8 +28,8 @@ export class SignUpComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initializeSubscriptions()
     this.initializeForm()
-    this.initializeValues()
   }
 
   private initializeForm(): void {
@@ -59,20 +60,23 @@ export class SignUpComponent implements OnInit {
     )
   }
 
-  private initializeValues(): void {
+  private initializeSubscriptions(): void {
     this.isSubmitting$ = this.store.select(isSubmittingSelector)
   }
 
-  get f() {
-    return this.signUpForm.controls
-  }
-
   submitSignUp(): void {
+    if (this.signUpForm.value.email === '') {
+      this.signUpForm.value.email = null
+    }
     const request: ISignupRequest = this.signUpForm.value
     this.store.dispatch(signupAction({request: request}))
   }
 
   resetForm(): void {
     this.signUpForm.reset()
+  }
+
+  get f() {
+    return this.signUpForm.controls
   }
 }

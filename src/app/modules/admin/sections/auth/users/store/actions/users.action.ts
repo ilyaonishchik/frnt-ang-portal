@@ -21,3 +21,5 @@ export const getUsersFailureAction = createAction(
   UsersActionTypes.GET_USERS_FAILURE,
   props<{errors: IBackendErrors}>()
 )
+
+export const clearUsersStateAction = createAction(UsersActionTypes.CLEAR_STATE)

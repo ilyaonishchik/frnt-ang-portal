@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, OnDestroy, OnInit} from '@angular/core'
 import {IColumn} from '@shared/interfaces/column.interface'
 import {Observable} from 'rxjs'
 import {ITableItems} from '@shared/interfaces/table-items.interface'
@@ -17,25 +17,37 @@ import {
   isLoadingSelector,
 } from '@modules/admin/sections/docs/files/store/selectors'
 import {LazyLoadEvent} from 'primeng/api'
-import {getFilesAction} from '@modules/admin/sections/docs/files/store/actions/files.action'
+import {
+  clearFilesStateAction,
+  getFilesAction,
+} from '@modules/admin/sections/docs/files/store/actions/files.action'
 
 @Component({
   selector: 'app-files',
   templateUrl: './files.component.html',
   styleUrls: ['./files.component.scss'],
 })
-export class FilesComponent implements OnInit {
-  columns: IColumn[]
-  crudName: string
-  keyField: string
-  sortField: string
-  confirmField: string
-
+export class FilesComponent implements OnInit, OnDestroy {
   isLoading$!: Observable<boolean>
   items$!: Observable<ITableItems<IFile> | null>
   dialog$!: Observable<ICrudAction | null>
 
-  constructor(private store: Store) {
+  subjectName = 'файла'
+  columns!: IColumn[]
+  crudName = 'admin:docs-file'
+  keyField = 'id'
+  sortField = 'id'
+  confirmField = 'file_name'
+
+  constructor(private store: Store) {}
+
+  ngOnInit(): void {
+    this.initializeValues()
+    this.initializeSubscriptions()
+    this.fetchData()
+  }
+
+  private initializeValues() {
     this.columns = [
       {field: 'id', header: 'ID', width: 'w-1rem'},
       {field: 'file_type', header: 'Тип', width: 'w-1rem', pipe: 'mimeicon'},
@@ -44,21 +56,16 @@ export class FilesComponent implements OnInit {
       {field: 'file_size', header: 'Размер', width: 'w-1rem', pipe: 'filesize'},
       {field: 'downloads', header: 'Скачано', width: 'w-1rem'},
     ]
-    this.crudName = 'docs-file'
-    this.keyField = 'id'
-    this.sortField = 'id'
-    this.confirmField = 'file_name'
   }
 
-  ngOnInit(): void {
-    this.initializeValues()
-    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
-  }
-
-  private initializeValues() {
+  private initializeSubscriptions(): void {
     this.isLoading$ = this.store.select(isLoadingSelector)
     this.items$ = this.store.select(filesSelector)
     this.dialog$ = this.store.select(dialogActionSelector)
+  }
+
+  private fetchData(): void {
+    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
   }
 
   loadItems(
@@ -105,5 +112,9 @@ export class FilesComponent implements OnInit {
 
   hideDialog(): void {
     this.store.dispatch(dialogCancelAction())
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(clearFilesStateAction())
   }
 }

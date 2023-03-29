@@ -10,11 +10,6 @@ import {
   signinFailureAction,
   signinSuccessAction,
 } from './actions/signin.action'
-// import {
-//   getCurrentUserAction,
-//   getCurrentUserFailureAction,
-//   getCurrentUserSuccessAction,
-// } from './actions/get-current-user.action'
 import {
   signoutAction,
   signoutFailureAction,

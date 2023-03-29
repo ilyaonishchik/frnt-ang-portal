@@ -21,7 +21,7 @@
       </textarea>
       <ng-container
         *ngIf="(f['file_desc'].dirty || f['file_desc'].touched) && f['file_desc'].invalid">
-        <avs-validate-input [errors]="f['file_desc'].errors"></avs-validate-input>
+        <app-validate-input [errors]="f['file_desc'].errors"></app-validate-input>
       </ng-container>
     </div>
   </form>

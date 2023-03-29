@@ -27,7 +27,7 @@ export class SignedInGuard {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log(`SignedInGuard (canActivate): ${state.url}`)
+    // console.log(`SignedInGuard (canActivate): ${state.url} from: ${this.router.url}`)
     return this.store.select(isSignedInSelector).pipe(
       map((value) => {
         if (value) {
@@ -48,7 +48,7 @@ export class SignedInGuard {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log(`SignedInGuard (canActivateChild): ${state.url}`)
+    // console.log(`SignedInGuard (canActivateChild): ${state.url}`)
     return this.store.select(isSignedInSelector)
     // .pipe(map((value) => {return value}))
   }
@@ -61,15 +61,20 @@ export class SignedInGuard {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log(`SignedInGuard (canMatch): ${route.path}`)
+    // console.log(
+    //   `SignedInGuard (canMatch): /${segments.join('/')} from: ${
+    //     this.router.url
+    //   }`
+    // )
     return this.store.select(isSignedInSelector).pipe(
       map((value) => {
         if (!value) {
           // console.log(route.path, segments.join('/'))
           this.store.dispatch(redirectAction({url: segments.join('/')}))
-          return this.router.createUrlTree(['/auth/sign-in'])
+          return this.router.createUrlTree(['/auth', 'sign-in'])
           // return this.checkUrl(segments.join('/'))
         }
+        // return this.checkNavigate(`/${segments.join('/')}`)
         return value
       })
     )
@@ -78,11 +83,19 @@ export class SignedInGuard {
   checkUrl(url: string): boolean | UrlTree {
     console.log(`checkUrl: ${url}`)
     if (url === '/') {
-      this.router.navigateByUrl('/welcome').then()
+      return this.router.createUrlTree(['/welcome'])
     } else {
-      this.store.dispatch(redirectAction({url: url}))
-      return this.router.createUrlTree(['/auth', 'sign-in'])
+      if (url === this.router.url) {
+        return false
+      } else {
+        this.store.dispatch(redirectAction({url: url}))
+        return this.router.createUrlTree(['/auth', 'sign-in'])
+      }
     }
-    return false
   }
+
+  // private checkNavigate(url: string): boolean {
+  //   console.log(`${url} !== ${this.router.url}`)
+  //   return url !== this.router.url
+  // }
 }

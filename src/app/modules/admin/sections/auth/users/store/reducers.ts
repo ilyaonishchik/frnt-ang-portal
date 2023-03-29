@@ -1,9 +1,9 @@
 import {Action, createReducer, on} from '@ngrx/store'
-import {routerNavigationAction} from '@ngrx/router-store'
 
 import {IUsersState} from '../interfaces/users-state.interface'
 
 import {
+  clearUsersStateAction,
   getUsersAction,
   getUsersFailureAction,
   getUsersSuccessAction,
@@ -70,7 +70,7 @@ const usersReducer = createReducer(
       crud: null,
     })
   ),
-  on(routerNavigationAction, (): IUsersState => initialState)
+  on(clearUsersStateAction, (): IUsersState => initialState)
 )
 
 export function reducerUsers(state: IUsersState, action: Action) {

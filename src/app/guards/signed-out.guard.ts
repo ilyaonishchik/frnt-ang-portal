@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core'
 import {
-  ActivatedRouteSnapshot,
-  Route,
-  RouterStateSnapshot,
+  // ActivatedRouteSnapshot,
+  // Route,
+  // RouterStateSnapshot,
   UrlTree,
 } from '@angular/router'
 import {Location} from '@angular/common'
@@ -18,15 +18,14 @@ import {IAuthState} from '@modules/auth/interfaces/auth-state.interface'
 export class SignedOutGuard {
   constructor(private store: Store<IAuthState>, private location: Location) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ):
+  canActivate(): // route: ActivatedRouteSnapshot,
+  // state: RouterStateSnapshot
+
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log(`SignedOutGuard (canActivate): ${state.url}`)
+    // console.log(`SignedOutGuard (canActivate): ${state.url}`)
     return this.store.select(isAnonymousSelector).pipe(
       map((value) => {
         if (value) {
@@ -39,14 +38,13 @@ export class SignedOutGuard {
     )
   }
 
-  canMatch(
-    route: Route
-  ):
+  canMatch(): // route: Route
+
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log(`SignedOutGuard (canMatch): ${route.path}`)
+    // console.log(`SignedOutGuard (canMatch): ${route.path}`)
     return this.store.select(isAnonymousSelector).pipe(
       map((value) => {
         if (!value) {

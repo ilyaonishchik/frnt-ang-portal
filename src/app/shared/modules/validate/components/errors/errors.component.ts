@@ -4,7 +4,7 @@ import {Message} from 'primeng/api'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 
 @Component({
-  selector: 'avs-validate-errors',
+  selector: 'app-validate-errors',
   templateUrl: './errors.component.html',
   styleUrls: ['./errors.component.scss'],
 })

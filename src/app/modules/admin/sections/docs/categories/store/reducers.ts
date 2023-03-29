@@ -1,6 +1,5 @@
 import {ICategoriesState} from '../interfaces/categories-state.interface'
 import {Action, createReducer, on} from '@ngrx/store'
-import {routerNavigationAction} from '@ngrx/router-store'
 
 import {
   dialogCancelAction,
@@ -8,6 +7,7 @@ import {
   dialogShowAction,
 } from '@shared/store/actions/dialog.action'
 import {
+  clearCategoriesStateAction,
   getCategoriesAction,
   getCategoriesFailureAction,
   getCategoriesSuccessAction,
@@ -70,7 +70,7 @@ const categoriesReducer = createReducer(
       backendErrors: null,
     })
   ),
-  on(routerNavigationAction, (): ICategoriesState => initialState)
+  on(clearCategoriesStateAction, (): ICategoriesState => initialState)
 )
 
 export function reducerCategories(state: ICategoriesState, action: Action) {

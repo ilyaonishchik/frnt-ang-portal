@@ -4,7 +4,7 @@
   (saveItem)=saveItem()
   [errors]='validationErrors$ | async'
   dialogType='create'
-  subject='файла'
+  [subject]=subjectName
 >
   <app-file-form
     slot='content'

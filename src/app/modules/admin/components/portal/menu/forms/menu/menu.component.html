@@ -1,0 +1,133 @@
+<form [formGroup]=formMenu
+      (change)='onChangeValues()'>
+  <div class='p-fluid grid formgrid'>
+    <div class='field col'>
+      <label for='label'>Наименование</label>
+      <input
+        id='label'
+        type='text'
+        pInputText
+        formControlName='label'
+        [readonly]=readOnly
+      >
+      <ng-container
+        *ngIf="(f['label'].dirty || f['label'].touched) && f['label'].invalid">
+        <app-validate-input [errors]="f['label'].errors"></app-validate-input>
+      </ng-container>
+    </div>
+    <div class='field col'>
+      <label for='type'>Тип</label>
+      <p-dropdown
+        id='type'
+        formControlName='type'
+        [options]=menuTypes
+        [readonly]=readOnly
+        (ngModelChange)='onChangeValues()'
+      >
+      </p-dropdown>
+      <ng-container
+        *ngIf="(f['type'].dirty || f['type'].touched) && f['type'].invalid">
+        <app-validate-input [errors]="f['type'].errors"></app-validate-input>
+      </ng-container>
+    </div>
+    <div class='field col'>
+      <label for='link'>Ссылка</label>
+      <input
+        id='link'
+        type='text'
+        pInputText
+        formControlName='link'
+        [readonly]=readOnly
+      >
+      <ng-container
+        *ngIf="(f['link'].dirty || f['link'].touched) && f['link'].invalid">
+        <app-validate-input [errors]="f['link'].errors"></app-validate-input>
+      </ng-container>
+    </div>
+  </div>
+  <div class='p-fluid grid formgrid'>
+    <div class='field col'>
+      <label for='permission'>Разрешение</label>
+      <input
+        id='permission'
+        type='text'
+        pInputText
+        formControlName='permission'
+        [readonly]=readOnly
+      >
+      <ng-container
+        *ngIf="(f['permission'].dirty || f['permission'].touched) && f['permission'].invalid">
+        <app-validate-input [errors]="f['permission'].errors"></app-validate-input>
+      </ng-container>
+    </div>
+    <div class='field col'>
+      <label for='icon'>Иконка</label>
+      <input
+        id='icon'
+        type='text'
+        pInputText
+        formControlName='icon'
+        [readonly]=readOnly
+      >
+      <ng-container
+        *ngIf="(f['icon'].dirty || f['icon'].touched) && f['icon'].invalid">
+        <app-validate-input [errors]="f['icon'].errors"></app-validate-input>
+      </ng-container>
+    </div>
+  </div>
+  <div class='p-fluid grid formgrid'>
+    <div class='field col'>
+      <label for='parent'>Родитель</label>
+      <p-inputNumber
+        id='parent'
+        inputId='parent'
+        formControlName='parent'
+        [min]=1
+        [max]=999
+        [allowEmpty]=true
+        [showButtons]=true
+        [readonly]=readOnly
+        (ngModelChange)='onChangeValues()'
+      >
+      </p-inputNumber>
+      <ng-container
+        *ngIf="(f['parent'].dirty || f['parent'].touched) && f['parent'].invalid">
+        <app-validate-input [errors]="f['parent'].errors"></app-validate-input>
+      </ng-container>
+    </div>
+    <div class='field col'>
+      <label for='sort'>Очередность</label>
+      <p-inputNumber
+        id='sort'
+        inputId='sort'
+        formControlName='sort'
+        [min]=0
+        [max]=999
+        [allowEmpty]=false
+        [showButtons]=true
+        [readonly]=readOnly
+        (ngModelChange)='onChangeValues()'
+      >
+      </p-inputNumber>
+      <ng-container
+        *ngIf="(f['sort'].dirty || f['sort'].touched) && f['sort'].invalid">
+        <app-validate-input [errors]="f['sort'].errors"></app-validate-input>
+      </ng-container>
+    </div>
+  </div>
+  <div class='field'>
+    <label for='comment'>Описание</label>
+    <textarea
+      id='comment'
+      pInputTextarea
+      rows='3'
+      cols='20'
+      formControlName='comment'
+      [readonly]=readOnly>
+    </textarea>
+    <ng-container
+      *ngIf="(f['comment'].dirty || f['comment'].touched) && f['comment'].invalid">
+      <app-validate-input [errors]="f['comment'].errors"></app-validate-input>
+    </ng-container>
+  </div>
+</form>

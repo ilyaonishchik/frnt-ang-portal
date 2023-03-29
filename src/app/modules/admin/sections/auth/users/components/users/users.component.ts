@@ -8,7 +8,10 @@ import {ITableItems} from '@shared/interfaces/table-items.interface'
 import {ICrudAction} from '@shared/interfaces/crud-action.interface'
 import {IUser} from '@shared/interfaces/user.interface'
 import {TCrudAction} from '@shared/types/crud-action.type'
-import {getUsersAction} from '../../store/actions/users.action'
+import {
+  clearUsersStateAction,
+  getUsersAction,
+} from '../../store/actions/users.action'
 import {
   dialogCancelAction,
   dialogShowAction,
@@ -32,33 +35,43 @@ import {
   styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent implements OnInit, OnDestroy {
-  columns: IColumn[] = [
-    {field: 'id', header: 'ID', width: 'w-1rem'},
-    {field: 'username', header: 'Имя пользователя'},
-    {field: 'email', header: 'E-Mail'},
-  ]
-  crudName = 'user'
-  keyField = 'id'
-  sortField = 'id'
-  confirmField = 'username'
-
   isLoading$!: Observable<boolean>
   items$!: Observable<ITableItems<IUser> | null>
   dialog$!: Observable<ICrudAction | null>
+
+  subjectName = 'пользователя'
+  columns!: IColumn[]
+  crudName = 'admin:user'
+  keyField = 'id'
+  sortField = 'id'
+  confirmField = 'username'
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.initializeValues()
-    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
+    this.initializeSubscriptions()
+    this.fetchData()
   }
 
   private initializeValues(): void {
+    this.columns = [
+      {field: 'id', header: 'ID', width: 'w-1rem'},
+      {field: 'username', header: 'Имя пользователя'},
+      {field: 'email', header: 'E-Mail'},
+    ]
+  }
+
+  private initializeSubscriptions(): void {
     this.isLoading$ = this.store.select(isLoadingSelector)
     this.items$ = this.store.select(usersSelector)
     this.dialog$ = this.store.select(dialogActionSelector)
+  }
+
+  private fetchData(): void {
     this.store.dispatch(getAllRolesAction())
     this.store.dispatch(getAllPermissionsAction())
+    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
   }
 
   loadItems(
@@ -105,5 +118,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.store.dispatch(clearRolesAction())
     this.store.dispatch(clearPermissionsAction())
+    this.store.dispatch(clearUsersStateAction())
   }
 }

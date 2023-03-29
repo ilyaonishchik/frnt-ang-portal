@@ -1,0 +1,42 @@
+<p-dialog
+  [(visible)]=visible
+  (visibleChange)=onVisibleChange($event)
+  [style]="{width: '60%'}"
+  [modal]=true
+  class='p-fluid'
+  header='Просмотр ссылки'
+>
+  <app-loading *ngIf='(isLoading$ | async)'></app-loading>
+  <app-validate-errors
+    *ngIf='validationErrors$ | async'
+    [errors]='validationErrors$ | async'
+  ></app-validate-errors>
+  <ng-container *ngIf='(isLoading$ | async) === false'>
+    <app-link-form
+      *ngIf=item
+      [initialValues]=item
+      [readOnly]=true
+    ></app-link-form>
+  </ng-container>
+  <p-footer>
+    <div
+      *ngIf='(isLoading$ | async) === false && item'
+      class='flex justify-content-between'
+    >
+      <p-checkbox
+        class='align-content-start'
+        label='Активная'
+        [ngModel]=item.status
+        [binary]=true
+        [readonly]=true
+      ></p-checkbox>
+      <div>
+        <button
+          pButton label='Закрыть' icon='pi pi-times'
+          class='p-button-outlined p-button-secondary'
+          (click)=onVisibleChange(false)
+        ></button>
+      </div>
+    </div>
+  </p-footer>
+</p-dialog>

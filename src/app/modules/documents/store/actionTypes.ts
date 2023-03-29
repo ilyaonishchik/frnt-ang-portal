@@ -6,4 +6,6 @@ export enum DocsActionTypes {
   GET_FILES = '[Docs] Get files',
   GET_FILES_SUCCESS = '[Docs] Get files success',
   GET_FILES_FAILURE = '[Docs] Get files failure',
+
+  CLEAR_STATE = '[Docs] Clear state',
 }

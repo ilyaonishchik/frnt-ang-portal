@@ -12,18 +12,21 @@ import {StorageService} from '@shared/services/storage.service'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import {HttpEvent, HttpEventType} from '@angular/common/http'
 import {FileUpload} from 'primeng/fileupload'
+import {IClient} from '@shared/interfaces/client.interface'
 
 @Component({
-  selector: 'avs-upload-file',
+  selector: 'app-upload-file',
   templateUrl: './upload-file.component.html',
   styleUrls: ['./upload-file.component.scss'],
 })
 export class UploadFileComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('fileUpload') fileUpload!: FileUpload
   @Input() visible = false
+  @Input() category = '0'
+  @Input() client: IClient = {host: '127.0.0.1'}
+
   @Output() visibleChange = new EventEmitter<boolean>()
   @Output() uploaded = new EventEmitter<boolean>()
-  @Input() category = '0'
 
   form!: FormGroup
   progress = -1
@@ -53,7 +56,12 @@ export class UploadFileComponent implements OnInit, OnChanges, OnDestroy {
       this.fileUpload.disabled = true
       this.progress = 0
       this.storageService
-        .uploadFile(event.files[0], this.category, this.form.value.file_desc)
+        .uploadFile(
+          event.files[0],
+          this.category,
+          this.form.value.file_desc
+          // ipFromGrodno(this.client.host)
+        )
         .subscribe({
           next: (event: HttpEvent<any>) => {
             switch (event.type) {

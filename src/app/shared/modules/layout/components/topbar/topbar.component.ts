@@ -10,6 +10,8 @@ import {
   isSignedInSelector,
 } from '@modules/auth/store/selectors'
 import {signoutAction} from '@modules/auth/store/actions/signout.action'
+import {Router} from '@angular/router'
+import {AuthService} from '@modules/auth/services/auth.service'
 
 @Component({
   selector: 'app-topbar',
@@ -24,6 +26,7 @@ export class TopbarComponent implements OnInit {
 
   isSignedIn$!: Observable<boolean>
   isAnonymous$!: Observable<boolean>
+  isAdminView$!: Observable<boolean>
 
   items!: MenuItem[]
 
@@ -33,14 +36,30 @@ export class TopbarComponent implements OnInit {
 
   @ViewChild('topbarmenu') menu!: ElementRef
 
-  constructor(private store: Store, public layoutService: LayoutService) {}
+  constructor(
+    private store: Store,
+    public layoutService: LayoutService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.isSignedIn$ = this.store.select(isSignedInSelector)
-    this.isAnonymous$ = this.store.select(isAnonymousSelector)
+    this.initializeSubscription()
   }
 
   logout(): void {
     this.store.dispatch(signoutAction())
+  }
+
+  openLink(s: string) {
+    if (this.router.url !== s) {
+      this.router.navigateByUrl(s)
+    }
+  }
+
+  private initializeSubscription(): void {
+    this.isSignedIn$ = this.store.select(isSignedInSelector)
+    this.isAnonymous$ = this.store.select(isAnonymousSelector)
+    this.isAdminView$ = this.authService.checkPermission('admin:panel:view')
   }
 }

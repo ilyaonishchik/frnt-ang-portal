@@ -13,5 +13,5 @@ export interface ISignupResponse {
   permissions: IPermission[]
   verify: string | null
   last_login: string | null
-  status: number
+  status: boolean
 }

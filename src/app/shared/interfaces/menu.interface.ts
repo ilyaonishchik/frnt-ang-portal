@@ -10,6 +10,6 @@ export interface IMenu {
   items?: IMenu[]
 }
 
-export interface IMenus {
-  items: IMenu[]
-}
+// export interface IMenus {
+//   items: IMenu[]
+// }

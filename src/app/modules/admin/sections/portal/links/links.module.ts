@@ -9,7 +9,7 @@ import {LinksComponent} from './components/links/links.component'
 import {linksFeatureKey, reducerLinks} from './store/reducers'
 import {GetLinksEffect} from './store/effects/links.effect'
 import {AvsTableModule} from '@shared/modules/table/table.module'
-import {LinkModule} from '../../../components/link/link.module'
+import {LinkModule} from '../../../components/portal/link/link.module'
 
 @NgModule({
   declarations: [LinksComponent],

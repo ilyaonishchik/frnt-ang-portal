@@ -21,3 +21,5 @@ export const getMenusFailureAction = createAction(
   MenusActionTypes.GET_MENUS_FAILURE,
   props<{errors: IBackendErrors}>()
 )
+
+export const clearMenusStateAction = createAction(MenusActionTypes.CLEAR_STATE)

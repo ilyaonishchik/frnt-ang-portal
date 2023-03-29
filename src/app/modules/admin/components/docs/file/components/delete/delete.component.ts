@@ -12,19 +12,21 @@ import {deleteFileAction} from '@modules/admin/components/docs/file/store/action
 })
 export class DeleteComponent implements OnInit {
   @Input() visible = false
-  @Output() visibleChange = new EventEmitter<boolean>()
+  @Input() subjectName = ''
   @Input() itemId!: number
   @Input() itemInfo: string | number | undefined = undefined
+
+  @Output() visibleChange = new EventEmitter<boolean>()
 
   validationErrors$!: Observable<IBackendErrors | null>
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.initializeValues()
+    this.initializeSubscriptions()
   }
 
-  private initializeValues() {
+  private initializeSubscriptions(): void {
     this.validationErrors$ = this.store.select(errorsSelector)
   }
 

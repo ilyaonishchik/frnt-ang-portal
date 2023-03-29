@@ -103,8 +103,8 @@
   </div>
 </div>
 
-<avs-loading *ngIf='isLoading$ | async'></avs-loading>
-<avs-validate-errors [errors]='errors$ | async'></avs-validate-errors>
+<app-loading *ngIf='isLoading$ | async'></app-loading>
+<app-validate-errors [errors]='errors$ | async'></app-validate-errors>
 
 <ng-container *ngIf='(isLoading$ | async) === false'>
   <p-messages *ngIf='!selectedPeriodical && (periodicals$ | async)' severity='info'>

@@ -28,7 +28,7 @@ export class MenuService {
   }
 
   getItems(menuType: number): Observable<IMenu[]> {
-    const menuUrl = `${environment.urlApi}/core/menus/show/${menuType}`
+    const menuUrl = `${environment.urlApiCore}/menus/show/${menuType}`
     return this.http.get<IMenu[]>(menuUrl)
   }
 }

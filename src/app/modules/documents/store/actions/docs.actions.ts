@@ -36,3 +36,5 @@ export const getFilesFailureAction = createAction(
   DocsActionTypes.GET_FILES_FAILURE,
   props<{errors: IBackendErrors}>()
 )
+
+export const clearDocsStateAction = createAction(DocsActionTypes.CLEAR_STATE)

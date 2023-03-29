@@ -14,7 +14,7 @@ import {DialogModule} from 'primeng/dialog'
 
 import {AvsTableModule} from '@shared/modules/table/table.module'
 import {PermissionsRoutingModule} from './permissions-routing.module'
-import {PermissionModule} from '../../../components/permission/permission.module'
+import {PermissionModule} from '../../../components/auth/permission/permission.module'
 
 import {GetPermissionsEffect} from './store/effects/permissions.effect'
 import {PermissionsComponent} from './components/permissions/permissions.component'

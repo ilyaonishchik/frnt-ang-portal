@@ -1,0 +1,26 @@
+<app-modal-dialog
+  [(visible)]=visible
+  (visibleChange)=onVisibleChange($event)
+  (saveItem)=saveItem()
+  [errors]='validationErrors$ | async'
+  [isLoading]='isLoading$ | async'
+  dialogType='update'
+  [subject]=subjectName
+>
+  <app-user-form
+    *ngIf=item
+    slot='content'
+    [initialValues]=item
+    [crudAction]=crudAction
+    (changeValues)=changeItem($event)
+    (formValid)=onValidate($event)
+  ></app-user-form>
+  <p-checkbox
+    *ngIf='item'
+    slot='status'
+    label='Активная'
+    [(ngModel)]=item.status
+    [binary]=true
+    (ngModelChange)=changeStatus($event)
+  ></p-checkbox>
+</app-modal-dialog>

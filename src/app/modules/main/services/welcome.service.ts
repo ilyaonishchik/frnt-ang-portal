@@ -12,6 +12,6 @@ export class WelcomeService {
   constructor(private http: HttpClient) {}
 
   getLinks(): Observable<ILink[]> {
-    return this.http.get<ILink[]>(`${environment.urlApi}/core/links/show`)
+    return this.http.get<ILink[]>(`${environment.urlApiCore}/links/show`)
   }
 }

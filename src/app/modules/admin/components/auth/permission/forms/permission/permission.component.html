@@ -1,0 +1,48 @@
+<form [formGroup]=formPermission
+      (change)='onChangeValues()'>
+  <div class='p-fluid grid formgrid'>
+    <div class='field col-4'>
+      <label for='code'>Код</label>
+      <input
+        id='code'
+        type='text'
+        pInputText
+        formControlName='code'
+        [readonly]=readOnly
+      >
+      <ng-container
+        *ngIf="(f['code'].dirty || f['code'].touched) && f['code'].invalid">
+        <app-validate-input [errors]="f['code'].errors"></app-validate-input>
+      </ng-container>
+    </div>
+    <div class='field col-8'>
+      <label for='name'>Наименование</label>
+      <input
+        id='name'
+        type='text'
+        pInputText
+        formControlName='name'
+        [readonly]=readOnly
+      >
+      <ng-container
+        *ngIf="(f['name'].dirty || f['name'].touched) && f['name'].invalid">
+        <app-validate-input [errors]="f['name'].errors"></app-validate-input>
+      </ng-container>
+    </div>
+  </div>
+  <div class='field'>
+    <label for='comment'>Описание</label>
+    <textarea
+      id='comment'
+      pInputTextarea
+      rows='3'
+      cols='20'
+      formControlName='comment'
+      [readonly]=readOnly>
+    </textarea>
+    <ng-container
+      *ngIf="(f['comment'].dirty || f['comment'].touched) && f['comment'].invalid">
+      <app-validate-input [errors]="f['comment'].errors"></app-validate-input>
+    </ng-container>
+  </div>
+</form>

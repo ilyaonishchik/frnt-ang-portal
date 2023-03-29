@@ -1,6 +1,6 @@
 import {Action, createReducer, on} from '@ngrx/store'
 import {IFileState} from '@modules/admin/components/docs/file/interfaces/file-state.interface'
-import {routerNavigationAction} from '@ngrx/router-store'
+
 import {
   createFileAction,
   createFileFailureAction,
@@ -126,15 +126,7 @@ const fileReducer = createReducer(
       backendErrors: action.errors,
     })
   ),
-  on(
-    dialogCancelAction,
-    (state): IFileState => ({
-      ...state,
-      item: null,
-      backendErrors: null,
-    })
-  ),
-  on(routerNavigationAction, (): IFileState => initialState)
+  on(dialogCancelAction, (): IFileState => initialState)
 )
 
 export function reducerFile(state: IFileState, action: Action) {

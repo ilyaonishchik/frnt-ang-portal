@@ -1,6 +1,12 @@
 .layout-topbar {
   height: 4rem;
 
+  .layout-topbar-menu {
+    .layout-topbar-button {
+      margin-left: 0.5rem;
+    }
+  }
+
   .layout-topbar-logo {
     width: $menuWidth;
   }
@@ -31,9 +37,8 @@
           font-size: 1.25rem;
           margin-right: 1rem;
         }
+        padding: 0.5rem;
       }
     }
   }
 }
-
-

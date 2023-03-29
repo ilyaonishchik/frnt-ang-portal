@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core'
 import {Store} from '@ngrx/store'
-import {Observable, Subscription} from 'rxjs'
+import {Observable, Subject, takeUntil} from 'rxjs'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 import {ICategory} from '@modules/admin/sections/docs/categories/interfaces/category.interface'
 import {
@@ -24,35 +24,29 @@ import {getCategoryAction} from '@modules/admin/components/docs/category/store/a
 })
 export class ReadComponent implements OnInit, OnDestroy {
   @Input() visible = false
-  @Output() visibleChange = new EventEmitter<boolean>()
   @Input() itemId!: number
 
-  item!: ICategory
-  itemSubscription!: Subscription
+  @Output() visibleChange = new EventEmitter<boolean>()
 
+  private readonly unsubscribe$: Subject<void> = new Subject()
   isLoading$!: Observable<boolean>
   validationErrors$!: Observable<IBackendErrors | null>
+
+  item!: ICategory
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.initializeValues()
+    this.initializeSubscriptions()
     this.fetchData()
-    this.initializeListeners()
   }
 
-  private initializeValues(): void {
+  private initializeSubscriptions(): void {
     this.isLoading$ = this.store.select(isLoadingSelector)
     this.validationErrors$ = this.store.select(errorsSelector)
-  }
-
-  private fetchData(): void {
-    this.store.dispatch(getCategoryAction({id: this.itemId}))
-  }
-
-  private initializeListeners(): void {
-    this.itemSubscription = this.store
+    this.store
       .select(categorySelector)
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe((item: ICategory | null) => {
         if (item) {
           this.item = item
@@ -60,14 +54,21 @@ export class ReadComponent implements OnInit, OnDestroy {
       })
   }
 
+  private fetchData(): void {
+    this.store.dispatch(getCategoryAction({id: this.itemId}))
+  }
+
   onVisibleChange(value: boolean): void {
     this.visible = value
     this.visibleChange.emit(value)
   }
 
+  private finalizeSubscriptions(): void {
+    this.unsubscribe$.next()
+    this.unsubscribe$.complete()
+  }
+
   ngOnDestroy(): void {
-    if (this.itemSubscription) {
-      this.itemSubscription.unsubscribe()
-    }
+    this.finalizeSubscriptions()
   }
 }

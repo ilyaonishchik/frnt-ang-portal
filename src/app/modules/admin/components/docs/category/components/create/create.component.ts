@@ -13,14 +13,23 @@ import {createCategoryAction} from '@modules/admin/components/docs/category/stor
 })
 export class CreateComponent implements OnInit {
   @Input() visible = false
+
   @Output() visibleChange = new EventEmitter<boolean>()
 
-  item: ICategory
   validationErrors$!: Observable<IBackendErrors | null>
+
+  item!: ICategory
   formValid = false
   statusItem = true
 
-  constructor(private store: Store) {
+  constructor(private store: Store) {}
+
+  ngOnInit(): void {
+    this.initializeValues()
+    this.initializeSubscriptions()
+  }
+
+  private initializeValues(): void {
     this.item = {
       id: 0,
       parent: null,
@@ -31,11 +40,7 @@ export class CreateComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.initializeValues()
-  }
-
-  private initializeValues() {
+  private initializeSubscriptions(): void {
     this.validationErrors$ = this.store.select(errorsSelector)
   }
 

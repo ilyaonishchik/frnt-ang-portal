@@ -12,9 +12,10 @@ import {deleteCategoryAction} from '@modules/admin/components/docs/category/stor
 })
 export class DeleteComponent implements OnInit {
   @Input() visible = false
-  @Output() visibleChange = new EventEmitter<boolean>()
   @Input() itemId!: number
   @Input() itemInfo: string | number | undefined = undefined
+
+  @Output() visibleChange = new EventEmitter<boolean>()
   @Output() clickCancel = new EventEmitter()
 
   validationErrors$!: Observable<IBackendErrors | null>
@@ -22,10 +23,10 @@ export class DeleteComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.initializeValues()
+    this.initializeSubscriptions()
   }
 
-  private initializeValues(): void {
+  private initializeSubscriptions(): void {
     this.validationErrors$ = this.store.select(errorsSelector)
   }
 

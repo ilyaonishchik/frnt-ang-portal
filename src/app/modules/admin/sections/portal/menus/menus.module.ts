@@ -9,7 +9,7 @@ import {MenusComponent} from './components/menus/menus.component'
 import {AvsTableModule} from '@shared/modules/table/table.module'
 import {menusFeatureKey, reducerMenus} from './store/reducers'
 import {GetMenusEffect} from './store/effects/links.effect'
-import {MenuModule} from '../../../components/menu/menu.module'
+import {MenuModule} from '../../../components/portal/menu/menu.module'
 
 @NgModule({
   declarations: [MenusComponent],

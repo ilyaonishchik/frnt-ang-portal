@@ -11,7 +11,10 @@ import {
   isLoadingSelector,
   rolesSelector,
 } from '../../store/selectors'
-import {getRolesAction} from '../../store/actions/roles.action'
+import {
+  clearRolesStateAction,
+  getRolesAction,
+} from '../../store/actions/roles.action'
 import {ITableItems} from '@shared/interfaces/table-items.interface'
 import {IRole} from '@shared/interfaces/role.interface'
 import {ICrudAction} from '@shared/interfaces/crud-action.interface'
@@ -32,38 +35,42 @@ import {
   styleUrls: ['./roles.component.scss'],
 })
 export class RolesComponent implements OnInit, OnDestroy {
-  columns: IColumn[]
-  crudName: string
-  keyField: string
-  sortField: string
-  confirmField: string
-
   isLoading$!: Observable<boolean>
   items$!: Observable<ITableItems<IRole> | null>
   dialog$!: Observable<ICrudAction | null>
 
-  constructor(private store: Store) {
+  subjectName = 'роли'
+  columns!: IColumn[]
+  crudName = 'admin:role'
+  keyField = 'id'
+  sortField = 'id'
+  confirmField = 'code'
+
+  constructor(private store: Store) {}
+
+  ngOnInit(): void {
+    this.initializeParams()
+    this.initializeSubscriptions()
+    this.initializeValues()
+  }
+
+  private initializeParams(): void {
     this.columns = [
       {field: 'id', header: 'ID', width: 'w-1rem'},
       {field: 'code', header: 'Код'},
       {field: 'name', header: 'Наименование'},
     ]
-    this.crudName = 'role'
-    this.keyField = 'id'
-    this.sortField = 'id'
-    this.confirmField = 'code'
   }
 
-  ngOnInit(): void {
-    this.initializeValues()
-    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
-  }
-
-  private initializeValues(): void {
+  private initializeSubscriptions(): void {
     this.isLoading$ = this.store.select(isLoadingSelector)
     this.items$ = this.store.select(rolesSelector)
     this.dialog$ = this.store.select(dialogActionSelector)
+  }
+
+  private initializeValues(): void {
     this.store.dispatch(getAllPermissionsAction())
+    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
   }
 
   loadItems(
@@ -109,5 +116,6 @@ export class RolesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.store.dispatch(clearPermissionsAction())
+    this.store.dispatch(clearRolesStateAction())
   }
 }

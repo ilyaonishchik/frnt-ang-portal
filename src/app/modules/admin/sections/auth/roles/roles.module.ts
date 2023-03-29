@@ -10,7 +10,7 @@ import {InputTextModule} from 'primeng/inputtext'
 import {TooltipModule} from 'primeng/tooltip'
 
 import {AvsTableModule} from '@shared/modules/table/table.module'
-import {RoleModule} from '../../../components/role/role.module'
+import {RoleModule} from '../../../components/auth/role/role.module'
 import {RolesRoutingModule} from './roles-routing.module'
 
 import {RolesComponent} from './components/roles/roles.component'

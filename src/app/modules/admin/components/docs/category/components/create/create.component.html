@@ -6,10 +6,10 @@
   class='p-fluid'
   header='Создание категории'
 >
-  <avs-validate-errors
+  <app-validate-errors
     *ngIf='validationErrors$ | async'
     [errors]='validationErrors$ | async'
-  ></avs-validate-errors>
+  ></app-validate-errors>
   <app-category-form
     [initialValues]=item
     (changeValues)=changeItem($event)

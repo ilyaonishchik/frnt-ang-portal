@@ -1,16 +1,19 @@
 export const environment = {
   production: true,
   title: 'Бизнес-портал',
-  version: '0.1.7',
+  version: '0.1.8',
   urlApi: '/api/v1',
+  urlApiCore: '/api/v1/core',
   urlApiAuth: '/api/v1/auth',
   urlApiPdp: '/api/v1/sorting',
   urlApiStorage: '/api/v1/storage',
+  urlApiStorageGRD: '/api/v1/storage',
+  // urlApiStorageGRD: 'http://172.16.190.221:8020/api/v1/storage',
   urlApiReport: '/api/v1/report',
 
   rowsPerPageCount: 15,
   rowsPerPageOptions: [10, 15, 20, 25],
 
-  adminRoleCode: 'role:administrator',
-  adminPermissionCode: 'permission:administrator',
+  adminRoleCode: 'base:role:admin',
+  adminPermissionCode: 'base:permission:admin',
 }

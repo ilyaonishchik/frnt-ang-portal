@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core'
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http'
-import {Observable} from 'rxjs'
+import {map, Observable} from 'rxjs'
 
 import {environment} from 'environments/environment'
 import {ISignupRequest} from '../interfaces/signup-request.interface'
@@ -11,7 +11,11 @@ import {IToken} from '../interfaces/token.interface'
 import {IVerifyResponse} from '../interfaces/verify-response.interface'
 import {IUser, IUserReset} from '@shared/interfaces/user.interface'
 import {Store} from '@ngrx/store'
-import {isSignedInSelector} from '@modules/auth/store/selectors'
+import {
+  currentUserSelector,
+  isSignedInSelector,
+} from '@modules/auth/store/selectors'
+import {IItemCRUD} from '@shared/interfaces/rbac.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +24,7 @@ export class AuthService {
   constructor(private http: HttpClient, private store: Store) {}
 
   getCurrentUser(): Observable<IUser> {
+    console.log('AuthService: getCurrentUser')
     return this.http.get<IUser>(`${environment.urlApiAuth}/users/me`)
   }
 
@@ -28,7 +33,6 @@ export class AuthService {
       `${environment.urlApiAuth}/signup`,
       data
     )
-    // .pipe(map((response: ISignupResponse) => response))
   }
 
   signIn(data: ISigninRequest): Observable<ISigninResponse> {
@@ -46,7 +50,6 @@ export class AuthService {
       params,
       httpOptions
     )
-    // .pipe(map((response: ISigninResponse) => response))
   }
 
   resetPassword(user: IUserReset): Observable<any> {
@@ -63,20 +66,79 @@ export class AuthService {
     )
   }
 
-  isSignedIn(): Observable<boolean> {
-    console.log('AuthService.isSignedIn')
+  private isSignedIn(): Observable<boolean> {
     return this.store.select(isSignedInSelector)
   }
 
-  // canMatch(
-  //   route: Route,
-  //   segments: UrlSegment[]
-  // ): Observable<boolean | UrlTree> | UrlTree {
-  //   return this.store.select(isSignedInSelector).pipe(
-  //     map((value) => {
-  //       console.log(value, route.path)
-  //       return value
-  //     })
-  //   )
-  // }
+  checkPermission(code: string): Observable<boolean> {
+    console.log(`Auth service: checkPermission(${code})`)
+    return this.store.select(currentUserSelector).pipe(
+      map((user) => {
+        if (user) {
+          if (
+            user.permissions.findIndex((item) => {
+              return item.code === environment.adminPermissionCode
+            }) != -1
+          ) {
+            return true
+          } else {
+            return (
+              user.permissions.findIndex((item) => {
+                return item.code === code
+              }) != -1
+            )
+          }
+        } else {
+          return false
+        }
+      })
+    )
+  }
+
+  getCRUDPermissions(item: string | null): Observable<IItemCRUD> {
+    return this.store.select(currentUserSelector).pipe(
+      map((user) => {
+        if (user) {
+          if (
+            user.permissions.findIndex((item) => {
+              return item.code === environment.adminPermissionCode
+            }) != -1
+          ) {
+            return {
+              create: true,
+              read: true,
+              update: true,
+              delete: true,
+            }
+          } else {
+            return {
+              create:
+                user.permissions.findIndex((permission) => {
+                  return permission.code === `${item}:create`
+                }) != -1,
+              read:
+                user.permissions.findIndex((permission) => {
+                  return permission.code === `${item}:read`
+                }) != -1,
+              update:
+                user.permissions.findIndex((permission) => {
+                  return permission.code === `${item}:update`
+                }) != -1,
+              delete:
+                user.permissions.findIndex((permission) => {
+                  return permission.code === `${item}:delete`
+                }) != -1,
+            }
+          }
+        } else {
+          return {
+            create: false,
+            read: false,
+            update: false,
+            delete: false,
+          }
+        }
+      })
+    )
+  }
 }

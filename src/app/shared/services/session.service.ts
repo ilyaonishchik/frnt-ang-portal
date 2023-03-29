@@ -6,6 +6,7 @@ import {environment} from 'environments/environment'
 import {IResponseItems} from '../interfaces/response-items.interface'
 import {IRole} from '../interfaces/role.interface'
 import {IPermission} from '../interfaces/permission.interface'
+import {IClient} from '@shared/interfaces/client.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +24,9 @@ export class SessionService {
     return this.http
       .get<IResponseItems<IPermission>>(`${environment.urlApiAuth}/permissions`)
       .pipe(map((response: IResponseItems<IPermission>) => response.results))
+  }
+
+  getClientInfo(): Observable<IClient> {
+    return this.http.get<IClient>(`${environment.urlApiCore}/client`)
   }
 }

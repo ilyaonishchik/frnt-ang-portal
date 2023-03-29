@@ -1,8 +1,9 @@
-import {IRolesState} from '../interfaces/roles-state.interface'
 import {Action, createReducer, on} from '@ngrx/store'
-import {routerNavigationAction} from '@ngrx/router-store'
+
+import {IRolesState} from '../interfaces/roles-state.interface'
 
 import {
+  clearRolesStateAction,
   getRolesAction,
   getRolesFailureAction,
   getRolesSuccessAction,
@@ -69,7 +70,7 @@ const rolesReducer = createReducer(
       crud: null,
     })
   ),
-  on(routerNavigationAction, (): IRolesState => initialState)
+  on(clearRolesStateAction, (): IRolesState => initialState)
 )
 
 export function reducerRoles(state: IRolesState, action: Action) {

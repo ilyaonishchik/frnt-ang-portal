@@ -1,8 +1,8 @@
 import {Action, createReducer, on} from '@ngrx/store'
-import {routerNavigationAction} from '@ngrx/router-store'
 
 import {IDocsState} from '@modules/documents/interfaces/docs-state.interface'
 import {
+  clearDocsStateAction,
   getCategoriesAction,
   getCategoriesFailureAction,
   getCategoriesSuccessAction,
@@ -76,7 +76,7 @@ const docsReducer = createReducer(
       files: {items: [], count: 0, first: 0},
     })
   ),
-  on(routerNavigationAction, (): IDocsState => initialState)
+  on(clearDocsStateAction, () => initialState)
 )
 
 export function reducerDocs(state: IDocsState, action: Action) {

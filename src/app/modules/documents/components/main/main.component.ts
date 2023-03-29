@@ -1,24 +1,26 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core'
-import {environment} from 'environments/environment'
+import {Observable, Subject, takeUntil} from 'rxjs'
+import {Store} from '@ngrx/store'
 import {LazyLoadEvent, SelectItem, TreeNode} from 'primeng/api'
 import {DataView} from 'primeng/dataview'
+
+import {environment} from 'environments/environment'
 import {DocsService} from '@modules/documents/services/docs.service'
 import {IFile} from '@modules/documents/interfaces/file.interface'
 import {StorageService} from '@shared/services/storage.service'
-import {Observable, Subscription} from 'rxjs'
-import {Store} from '@ngrx/store'
 import {
   categoriesSelector,
   filesSelector,
   isLoadingSelector,
 } from '@modules/documents/store/selectors'
 import {
+  clearDocsStateAction,
   getCategoriesAction,
   getFilesAction,
 } from '@modules/documents/store/actions/docs.actions'
 import {ICategory} from '@modules/documents/interfaces/category.interface'
 import {ITableItems} from '@shared/interfaces/table-items.interface'
-import {RbacService} from '@shared/services/rbac.service'
+import {AuthService} from '@modules/auth/services/auth.service'
 
 @Component({
   selector: 'app-main',
@@ -29,21 +31,19 @@ export class MainComponent implements OnInit, OnDestroy {
   @ViewChild('dv') dvFiles!: DataView
 
   private emptyEvent!: LazyLoadEvent
-
-  categoriesSubscription!: Subscription
-  filesSubscription!: Subscription
+  private readonly unsubscribe$: Subject<void> = new Subject()
 
   categories: TreeNode<string>[] = []
   selectedCategory: TreeNode | null = null
-  defaultCategory = '1'
+  defaultCategory = ''
 
   isLoading$!: Observable<boolean>
+  canUpload$!: Observable<boolean>
 
   files: ITableItems<IFile> = {items: [], count: 0, first: 0}
   progress = 0
 
   uploadDialog = false
-  canUpload = false
 
   storagePrefix = environment.urlApiStorage
   rowsPerPageCount: number = environment.rowsPerPageCount
@@ -56,49 +56,49 @@ export class MainComponent implements OnInit, OnDestroy {
   sortOrder = 1
   sortField = 'file_name'
 
-  // columns: IColumn[] = [
-  //   {field: 'file_name', header: 'Name'},
-  //   {field: 'file_size', header: 'Size'},
-  //   {field: 'file_type', header: 'Type'},
-  // ]
-
   constructor(
     private docsService: DocsService,
+    private authService: AuthService,
     private storageService: StorageService,
-    private rbacService: RbacService,
     private store: Store
   ) {}
 
   ngOnInit() {
+    this.initializeValues()
+    this.initializeSubscriptions()
+    this.dispatchValues()
+  }
+
+  private initializeValues(): void {
     this.emptyEvent = {
       first: 0,
       rows: this.rowsPerPageCount,
       sortField: this.sortField,
       sortOrder: this.sortOrder,
     }
-    this.initializeValues()
     this.sortOptions = [
       {label: 'Имя по убыванию', value: '!file_name'},
       {label: 'Имя по возрастанию', value: 'file_name'},
       {label: 'Сперва новые', value: '!dt_cr'},
       {label: 'Сперва старые', value: 'dt_cr'},
     ]
-    this.store.dispatch(
-      getCategoriesAction({category_id: this.defaultCategory})
-    )
   }
 
-  initializeValues(): void {
-    this.canUpload = this.rbacService.checkPermission('docs-file:upload')
-    if (this.rbacService.checkPermission('docs-category:read:all')) {
-      this.defaultCategory = '0'
-    }
+  private initializeSubscriptions(): void {
     this.isLoading$ = this.store.select(isLoadingSelector)
-    // console.debug('Подписываемся на получение категорий...')
-    this.categoriesSubscription = this.store
+    this.canUpload$ = this.authService.checkPermission('front:docs-file:upload')
+
+    this.authService
+      .checkPermission('front:docs-categories:view-all')
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((value) => {
+        this.defaultCategory = value ? '0' : '1'
+      })
+
+    this.store
       .select(categoriesSelector)
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe((items: ICategory[] | null) => {
-        // console.debug('Получаем список категорий...')
         if (items) {
           this.categories = this.docsService.toTreeNode(items)
           this.selectedCategory = this.categories[0]
@@ -107,15 +107,19 @@ export class MainComponent implements OnInit, OnDestroy {
           this.selectedCategory = null
         }
       })
-    // console.log('Подписываемся на получение файлов...')
-    this.filesSubscription = this.store
+
+    this.store
       .select(filesSelector)
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe((files) => {
-        // console.log('Список файлов получен')
-        // console.log(files.count)
         this.files = files
       })
-    // this.refreshItems()
+  }
+
+  private dispatchValues(): void {
+    this.store.dispatch(
+      getCategoriesAction({category_id: this.defaultCategory})
+    )
   }
 
   getFilesOfCategory(
@@ -165,9 +169,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   nodeSelect(): void {
-    // console.log('nodeSelect: ', this.selectedCategory)
     if (this.selectedCategory && this.selectedCategory.key) {
-      // console.log('Выбрали категорию...')
       this.emptyEvent = {...this.emptyEvent, rows: this.dvFiles.rows}
       this.getFilesOfCategory(this.emptyEvent, this.selectedCategory.key)
     }
@@ -234,11 +236,8 @@ export class MainComponent implements OnInit, OnDestroy {
   //   }
   // }
 
-  downloadFile(uuid: string, name: string) {
-    const link = document.createElement('a')
-    link.href = `${environment.urlApiStorage}/files/download/${uuid}`
-    link.download = name
-    link.click()
+  downloadFile(uuid: string, name: string): void {
+    this.storageService.downloadFile(uuid, name)
   }
 
   // ___downloadFileStream(s: string) {
@@ -269,12 +268,13 @@ export class MainComponent implements OnInit, OnDestroy {
     }
   }
 
+  private finalizeSubscriptions(): void {
+    this.unsubscribe$.next()
+    this.unsubscribe$.complete()
+  }
+
   ngOnDestroy(): void {
-    if (this.filesSubscription) {
-      this.filesSubscription.unsubscribe()
-    }
-    if (this.categoriesSubscription) {
-      this.categoriesSubscription.unsubscribe()
-    }
+    this.finalizeSubscriptions()
+    this.store.dispatch(clearDocsStateAction())
   }
 }

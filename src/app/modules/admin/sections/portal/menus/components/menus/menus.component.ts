@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, OnDestroy, OnInit} from '@angular/core'
 import {Observable} from 'rxjs'
 import {Store} from '@ngrx/store'
 import {LazyLoadEvent} from 'primeng/api'
@@ -18,25 +18,37 @@ import {
   dialogShowAction,
 } from '@shared/store/actions/dialog.action'
 import {IDeleteEvent} from '@shared/interfaces/event.interface'
-import {getMenusAction} from '../../store/actions/menus.action'
+import {
+  clearMenusStateAction,
+  getMenusAction,
+} from '../../store/actions/menus.action'
 
 @Component({
   selector: 'app-menus',
   templateUrl: './menus.component.html',
   styleUrls: ['./menus.component.scss'],
 })
-export class MenusComponent implements OnInit {
-  columns: IColumn[]
-  crudName: string
-  keyField: string
-  sortField: string
-  confirmField: string
-
+export class MenusComponent implements OnInit, OnDestroy {
   isLoading$!: Observable<boolean>
   items$!: Observable<ITableItems<IMenu> | null>
   dialog$!: Observable<ICrudAction | null>
 
-  constructor(private store: Store) {
+  subjectName = 'пункта меню'
+  columns!: IColumn[]
+  crudName = 'admin:core-menu'
+  keyField = 'id'
+  sortField = 'id'
+  confirmField = 'label'
+
+  constructor(private store: Store) {}
+
+  ngOnInit(): void {
+    this.initializeValues()
+    this.initializeSubscriptions()
+    this.fetchData()
+  }
+
+  private initializeValues(): void {
     this.columns = [
       {field: 'id', header: 'ID', width: 'w-1rem'},
       {field: 'label', header: 'Наименование'},
@@ -44,21 +56,16 @@ export class MenusComponent implements OnInit {
       {field: 'permission', header: 'Разрешение'},
       {field: 'icon', header: 'Иконка'},
     ]
-    this.crudName = 'menu'
-    this.keyField = 'id'
-    this.sortField = 'id'
-    this.confirmField = 'label'
   }
 
-  ngOnInit(): void {
-    this.initializeValues()
-    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
-  }
-
-  private initializeValues(): void {
+  private initializeSubscriptions(): void {
     this.isLoading$ = this.store.select(isLoadingSelector)
     this.items$ = this.store.select(menusSelector)
     this.dialog$ = this.store.select(dialogActionSelector)
+  }
+
+  private fetchData(): void {
+    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
   }
 
   loadItems(
@@ -100,5 +107,9 @@ export class MenusComponent implements OnInit {
 
   hideDialog(): void {
     this.store.dispatch(dialogCancelAction())
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(clearMenusStateAction())
   }
 }

@@ -6,7 +6,7 @@ export interface IRole {
   name: string
   comment: string | null
   permissions: IPermission[]
-  status: number
+  status: boolean
 }
 
 export interface IRoleSave {
@@ -14,5 +14,5 @@ export interface IRoleSave {
   name: string
   comment: string | null
   permissions: number[]
-  status: number
+  status: boolean
 }

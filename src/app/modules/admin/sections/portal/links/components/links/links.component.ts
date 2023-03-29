@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, OnDestroy, OnInit} from '@angular/core'
 import {Observable} from 'rxjs'
 
 import {Store} from '@ngrx/store'
@@ -16,7 +16,10 @@ import {
   linksSelector,
 } from '../../store/selectors'
 
-import {getLinksAction} from '../../store/actions/links.action'
+import {
+  clearLinksStateAction,
+  getLinksAction,
+} from '../../store/actions/links.action'
 import {
   dialogCancelAction,
   dialogShowAction,
@@ -28,39 +31,43 @@ import {IDeleteEvent} from '@shared/interfaces/event.interface'
   templateUrl: './links.component.html',
   styleUrls: ['./links.component.scss'],
 })
-export class LinksComponent implements OnInit {
-  columns: IColumn[]
-  crudName: string
-  keyField: string
-  sortField: string
-  confirmField: string
-
+export class LinksComponent implements OnInit, OnDestroy {
   isLoading$!: Observable<boolean>
   items$!: Observable<ITableItems<ILink> | null>
   dialog$!: Observable<ICrudAction | null>
 
-  constructor(private store: Store) {
+  subjectName = 'ссылки'
+  columns!: IColumn[]
+  crudName = 'admin:core-link'
+  keyField = 'id'
+  sortField = 'id'
+  confirmField = 'name'
+
+  constructor(private store: Store) {}
+
+  ngOnInit(): void {
+    this.initializeValues()
+    this.initializeSubscriptions()
+    this.fetchData()
+  }
+
+  private initializeValues(): void {
     this.columns = [
       {field: 'id', header: 'ID', width: 'w-1rem'},
       {field: 'name', header: 'Наименование'},
       {field: 'comment', header: 'Описание'},
       {field: 'sort', header: 'Очередность'},
     ]
-    this.crudName = 'link'
-    this.keyField = 'id'
-    this.sortField = 'id'
-    this.confirmField = 'name'
   }
 
-  ngOnInit(): void {
-    this.initializeValues()
-    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
-  }
-
-  private initializeValues(): void {
+  private initializeSubscriptions(): void {
     this.isLoading$ = this.store.select(isLoadingSelector)
     this.items$ = this.store.select(linksSelector)
     this.dialog$ = this.store.select(dialogActionSelector)
+  }
+
+  private fetchData(): void {
+    this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
   }
 
   loadItems(
@@ -102,5 +109,9 @@ export class LinksComponent implements OnInit {
 
   hideDialog(): void {
     this.store.dispatch(dialogCancelAction())
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(clearLinksStateAction())
   }
 }

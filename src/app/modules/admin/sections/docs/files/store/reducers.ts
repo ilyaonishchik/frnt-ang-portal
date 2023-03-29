@@ -1,6 +1,5 @@
 import {IFilesState} from '../interfaces/files-state.interface'
 import {Action, createReducer, on} from '@ngrx/store'
-import {routerNavigationAction} from '@ngrx/router-store'
 
 import {
   dialogCancelAction,
@@ -8,6 +7,7 @@ import {
   dialogShowAction,
 } from '@shared/store/actions/dialog.action'
 import {
+  clearFilesStateAction,
   getFilesAction,
   getFilesFailureAction,
   getFilesSuccessAction,
@@ -70,7 +70,7 @@ const filesReducer = createReducer(
       backendErrors: null,
     })
   ),
-  on(routerNavigationAction, (): IFilesState => initialState)
+  on(clearFilesStateAction, (): IFilesState => initialState)
 )
 
 export function reducerFiles(state: IFilesState, action: Action) {

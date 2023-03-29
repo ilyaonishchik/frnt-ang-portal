@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core'
 import {ICategory} from '@modules/admin/sections/docs/categories/interfaces/category.interface'
-import {Observable, Subscription} from 'rxjs'
+import {Observable, Subject, takeUntil} from 'rxjs'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 import {Store} from '@ngrx/store'
 import {
@@ -27,43 +27,41 @@ import {
 })
 export class UpdateComponent implements OnInit, OnDestroy {
   @Input() visible = false
-  @Output() visibleChange = new EventEmitter<boolean>()
   @Input() itemId!: number
 
-  item!: ICategory
-  itemSubscription!: Subscription
+  @Output() visibleChange = new EventEmitter<boolean>()
 
+  private readonly unsubscribe$: Subject<void> = new Subject()
   isLoading$!: Observable<boolean>
   validationErrors$!: Observable<IBackendErrors | null>
+
+  item!: ICategory
   formValid = false
   statusItem = false
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.initializeValues()
+    this.initializeSubscriptions()
     this.fetchData()
-    this.initializeListeners()
   }
 
-  private initializeValues(): void {
+  private initializeSubscriptions(): void {
     this.isLoading$ = this.store.select(isLoadingSelector)
     this.validationErrors$ = this.store.select(errorsSelector)
-  }
-
-  private fetchData(): void {
-    this.store.dispatch(getCategoryAction({id: this.itemId}))
-  }
-
-  private initializeListeners(): void {
-    this.itemSubscription = this.store
+    this.store
       .select(categorySelector)
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe((item: ICategory | null) => {
         if (item) {
           this.item = {...item}
           this.statusItem = item.status
         }
       })
+  }
+
+  private fetchData(): void {
+    this.store.dispatch(getCategoryAction({id: this.itemId}))
   }
 
   saveItem(): void {
@@ -87,13 +85,16 @@ export class UpdateComponent implements OnInit, OnDestroy {
     this.item = {...value, status: this.statusItem}
   }
 
-  changeStatus(event: boolean) {
+  changeStatus(event: boolean): void {
     this.statusItem = event
   }
 
+  private finalizeSubscriptions(): void {
+    this.unsubscribe$.next()
+    this.unsubscribe$.complete()
+  }
+
   ngOnDestroy(): void {
-    if (this.itemSubscription) {
-      this.itemSubscription.unsubscribe()
-    }
+    this.finalizeSubscriptions()
   }
 }

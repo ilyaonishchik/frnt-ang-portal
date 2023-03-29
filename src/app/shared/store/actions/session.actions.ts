@@ -4,6 +4,7 @@ import {SessionActionTypes} from '../types/session-action.type'
 import {IRole} from '../../interfaces/role.interface'
 import {IPermission} from '../../interfaces/permission.interface'
 import {IBackendErrors} from '../../interfaces/backend-errors.interface'
+import {IClient} from '@shared/interfaces/client.interface'
 
 export const getAllPermissionsAction = createAction(
   SessionActionTypes.GET_ALL_PERMISSIONS
@@ -32,6 +33,20 @@ export const getAllRolesSuccessAction = createAction(
 
 export const getAllRolesFailureAction = createAction(
   SessionActionTypes.GET_ALL_ROLES_FAILURE,
+  props<{errors: IBackendErrors}>()
+)
+
+export const getClientInfoAction = createAction(
+  SessionActionTypes.GET_CLIENT_INFO
+)
+
+export const getClientInfoSuccessAction = createAction(
+  SessionActionTypes.GET_CLIENT_INFO_SUCCESS,
+  props<{client: IClient}>()
+)
+
+export const getClientInfoFailureAction = createAction(
+  SessionActionTypes.GET_CLIENT_INFO_FAILURE,
   props<{errors: IBackendErrors}>()
 )
 

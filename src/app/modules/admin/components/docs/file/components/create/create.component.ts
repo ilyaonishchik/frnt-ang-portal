@@ -13,14 +13,24 @@ import {createFileAction} from '@modules/admin/components/docs/file/store/action
 })
 export class CreateComponent implements OnInit {
   @Input() visible = false
+  @Input() subjectName = ''
+
   @Output() visibleChange = new EventEmitter<boolean>()
 
-  item: IFile
   validationErrors$!: Observable<IBackendErrors | null>
+
+  item!: IFile
   formValid = false
   statusItem = true
 
-  constructor(private store: Store) {
+  constructor(private store: Store) {}
+
+  ngOnInit(): void {
+    this.initializeValues()
+    this.initializeSubscriptions()
+  }
+
+  private initializeValues(): void {
     this.item = {
       id: 0,
       file_name: '',
@@ -28,17 +38,12 @@ export class CreateComponent implements OnInit {
       file_desc: null,
       file_ext: null,
       file_size: 0,
-      // user_id: 0,
       downloads: 0,
       status: true,
     }
   }
 
-  ngOnInit(): void {
-    this.initializeValues()
-  }
-
-  private initializeValues() {
+  private initializeSubscriptions(): void {
     this.validationErrors$ = this.store.select(errorsSelector)
   }
 

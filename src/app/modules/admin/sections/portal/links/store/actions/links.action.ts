@@ -21,3 +21,5 @@ export const getLinksFailureAction = createAction(
   LinksActionTypes.GET_LINKS_FAILURE,
   props<{errors: IBackendErrors}>()
 )
+
+export const clearLinksStateAction = createAction(LinksActionTypes.CLEAR_STATE)

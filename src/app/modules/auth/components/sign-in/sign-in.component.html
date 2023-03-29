@@ -28,7 +28,7 @@
                 class='w-full p-3'>
               <ng-container
                 *ngIf="(f['username'].dirty || f['username'].touched) && f['username'].invalid">
-                <avs-validate-input [errors]="f['username'].errors"></avs-validate-input>
+                <app-validate-input [errors]="f['username'].errors"></app-validate-input>
               </ng-container>
             </div>
             <div class='field'>
@@ -43,7 +43,7 @@
               </p-password>
               <ng-container
                 *ngIf="(f['password'].dirty || f['password'].touched) && f['password'].invalid">
-                <avs-validate-input [errors]="f['password'].errors"></avs-validate-input>
+                <app-validate-input [errors]="f['password'].errors"></app-validate-input>
               </ng-container>
             </div>
             <div class='flex align-items-center mb-3'>

@@ -1,0 +1,23 @@
+<app-modal-dialog
+  [(visible)]=visible
+  (visibleChange)=onVisibleChange($event)
+  (saveItem)=saveItem()
+  [errors]='validationErrors$ | async'
+  dialogType='create'
+  [subject]=subjectName
+>
+  <app-permission-form
+    slot='content'
+    [initialValues]=item
+    (changeValues)=changeItem($event)
+    (formValid)=onValidate($event)
+  ></app-permission-form>
+  <p-checkbox
+    slot='status'
+    class='align-content-start'
+    label='Активная'
+    [(ngModel)]=item.status
+    [binary]=true
+    (ngModelChange)=changeStatus($event)
+  ></p-checkbox>
+</app-modal-dialog>

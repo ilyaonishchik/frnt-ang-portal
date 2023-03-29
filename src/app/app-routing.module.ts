@@ -1,10 +1,10 @@
-import {NgModule} from '@angular/core'
+import {inject, NgModule} from '@angular/core'
 import {RouterModule, Routes} from '@angular/router'
 
 import {LayoutComponent} from '@shared/modules/layout/components/layout/layout.component'
 import {SignedOutGuard} from '@guards/signed-out.guard'
 import {SignedInGuard} from '@guards/signed-in.guard'
-import {PermissionGuard} from '@guards/permission.guard'
+import {AuthService} from '@modules/auth/services/auth.service'
 
 const routes: Routes = [
   {
@@ -20,16 +20,18 @@ const routes: Routes = [
         path: 'admin',
         // canMatch: [() => inject(AuthService).isSignedIn()],
         canMatch: [SignedInGuard],
-        canActivate: [SignedInGuard, PermissionGuard],
-        data: {permission: 'admin-panel:view'},
+        canActivate: [
+          () => inject(AuthService).checkPermission('admin:panel:view'),
+        ],
         loadChildren: () =>
           import('./modules/admin/admin.module').then((m) => m.AdminModule),
       },
       {
         path: 'docs',
         canMatch: [SignedInGuard],
-        canActivate: [SignedInGuard, PermissionGuard],
-        data: {permission: 'docs:module'},
+        canActivate: [
+          () => inject(AuthService).checkPermission('front:module:docs'),
+        ],
         loadChildren: () =>
           import('./modules/documents/documents.module').then(
             (m) => m.DocumentsModule
@@ -38,8 +40,9 @@ const routes: Routes = [
       {
         path: 'podpiska',
         canMatch: [SignedInGuard],
-        canActivate: [SignedInGuard, PermissionGuard],
-        data: {permission: 'podpiska:module'},
+        canActivate: [
+          () => inject(AuthService).checkPermission('front:module:podpiska'),
+        ],
         loadChildren: () =>
           import('./modules/podpiska/podpiska.module').then(
             (m) => m.PodpiskaModule
@@ -48,7 +51,6 @@ const routes: Routes = [
       {
         path: 'profile',
         canMatch: [SignedInGuard],
-        canActivate: [SignedInGuard],
         loadChildren: () =>
           import('./modules/profile/profile.module').then(
             (m) => m.ProfileModule

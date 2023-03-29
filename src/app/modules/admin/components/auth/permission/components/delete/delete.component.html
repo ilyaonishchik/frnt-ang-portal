@@ -1,0 +1,10 @@
+<app-modal-dialog
+  [visible]=visible
+  (visibleChange)='onVisibleChange($event)'
+  [errors]='validationErrors$ | async'
+  (deleteItem)='confirmDelete()'
+  [itemInfo]=itemInfo
+  dialogType='delete'
+  [subject]=subjectName
+>
+</app-modal-dialog>

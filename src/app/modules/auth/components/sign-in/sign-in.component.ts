@@ -15,19 +15,16 @@ import {environment} from 'environments/environment'
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements OnInit {
+  isSubmitting$!: Observable<boolean>
+
   projectTitle: string = environment.title
   signInForm!: FormGroup
-  isSubmitting$!: Observable<boolean>
 
   constructor(private store: Store, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.initializeForm()
-    this.initializeValues()
-  }
-
-  get f() {
-    return this.signInForm.controls
+    this.initializeSubscriptions()
   }
 
   private initializeForm(): void {
@@ -38,7 +35,7 @@ export class SignInComponent implements OnInit {
     })
   }
 
-  private initializeValues(): void {
+  private initializeSubscriptions(): void {
     this.isSubmitting$ = this.store.select(isSubmittingSelector)
   }
 
@@ -49,5 +46,9 @@ export class SignInComponent implements OnInit {
   submitSignIn(): void {
     const request: ISigninRequest = this.signInForm.value
     this.store.dispatch(signinAction({request}))
+  }
+
+  get f() {
+    return this.signInForm.controls
   }
 }

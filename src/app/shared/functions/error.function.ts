@@ -22,6 +22,9 @@ export function responseToErrors(response: HttpErrorResponse): IBackendErrors {
           capitalize((response.error as IValidateErrorResponse).detail[key].msg)
       }
       break
+    case 504:
+      errors['_'] = response.statusText
+      break
     default:
       errors['_error_'] = response.statusText
   }

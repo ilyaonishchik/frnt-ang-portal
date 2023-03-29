@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core'
 import {Store} from '@ngrx/store'
-import {Observable, Subscription} from 'rxjs'
+import {Observable, Subject, takeUntil} from 'rxjs'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 import {IFile} from '@modules/admin/sections/docs/files/interfaces/file.interface'
 import {
@@ -27,14 +27,16 @@ import {
 })
 export class UpdateComponent implements OnInit, OnDestroy {
   @Input() visible = false
-  @Output() visibleChange = new EventEmitter<boolean>()
+  @Input() subjectName = ''
   @Input() itemId!: number
 
-  item!: IFile
-  itemSubscription!: Subscription
+  @Output() visibleChange = new EventEmitter<boolean>()
 
+  private readonly unsubscribe$: Subject<void> = new Subject()
   isLoading$!: Observable<boolean>
   validationErrors$!: Observable<IBackendErrors | null>
+
+  item!: IFile
   formValid = false
   statusItem = false
 
@@ -43,27 +45,24 @@ export class UpdateComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initializeValues()
     this.fetchData()
-    this.initializeListeners()
   }
 
   private initializeValues(): void {
     this.isLoading$ = this.store.select(isLoadingSelector)
     this.validationErrors$ = this.store.select(errorsSelector)
-  }
-
-  private fetchData(): void {
-    this.store.dispatch(getFileAction({id: this.itemId}))
-  }
-
-  private initializeListeners(): void {
-    this.itemSubscription = this.store
+    this.store
       .select(fileSelector)
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe((item: IFile | null) => {
         if (item) {
           this.item = {...item}
           this.statusItem = item.status
         }
       })
+  }
+
+  private fetchData(): void {
+    this.store.dispatch(getFileAction({id: this.itemId}))
   }
 
   saveItem(): void {
@@ -89,9 +88,12 @@ export class UpdateComponent implements OnInit, OnDestroy {
     this.statusItem = event
   }
 
+  private finalizeSubscriptions(): void {
+    this.unsubscribe$.next()
+    this.unsubscribe$.complete()
+  }
+
   ngOnDestroy(): void {
-    if (this.itemSubscription) {
-      this.itemSubscription.unsubscribe()
-    }
+    this.finalizeSubscriptions()
   }
 }

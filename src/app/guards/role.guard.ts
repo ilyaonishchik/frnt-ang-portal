@@ -60,7 +60,7 @@ export class RoleGuard {
   }
 
   checkRole(data: Data, user: IUser): boolean {
-    console.log(`RoleGuard (checkRole): ${data['role']}`)
+    // console.log(`RoleGuard (checkRole): ${data['role']}`)
     let result = false
     if (data['role']) {
       for (const key in user.roles) {

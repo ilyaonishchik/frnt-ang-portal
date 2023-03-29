@@ -1,5 +1,5 @@
 <div class='card mb-0'>
-  <avs-table
+  <app-table
     [columns]=columns
     [data]='(items$ | async)!'
     (lazyLoad)=loadItems($event)
@@ -13,34 +13,38 @@
     (actionRead)=readItem($event)
     (actionUpdate)=updateItem($event)
     (actionDelete)=deleteItem($event)
-  ></avs-table>
+  ></app-table>
 
   <ng-container *ngIf='(dialog$ | async) as dialog'>
     <app-role-create
       *ngIf='dialog.action === 1'
       [visible]=true
-      (visibleChange)='hideDialog()'
+      (visibleChange)=hideDialog()
+      [subjectName]=subjectName
     ></app-role-create>
 
     <app-role-read
       *ngIf='dialog.action === 2'
       [visible]=true
-      (visibleChange)='hideDialog()'
+      (visibleChange)=hideDialog()
+      [subjectName]=subjectName
       [itemId]=dialog.id!
     ></app-role-read>
 
     <app-role-update
       *ngIf='dialog.action === 3'
       [visible]=true
-      (visibleChange)='hideDialog()'
+      (visibleChange)=hideDialog()
+      [subjectName]=subjectName
       [itemId]=dialog.id!
     ></app-role-update>
 
     <app-role-delete
       *ngIf='dialog.action === 4'
       [visible]=true
-      (visibleChange)='hideDialog()'
-      (clickCancel)='hideDialog()'
+      (visibleChange)=hideDialog()
+      (clickCancel)=hideDialog()
+      [subjectName]=subjectName
       [itemId]=dialog.id!
       [itemInfo]=dialog.confirm!
     ></app-role-delete>

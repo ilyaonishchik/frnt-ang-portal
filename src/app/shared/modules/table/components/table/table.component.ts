@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -13,19 +14,22 @@ import {ITableItems} from '@shared/interfaces/table-items.interface'
 import {IColumn} from '@shared/interfaces/column.interface'
 import {environment} from 'environments/environment'
 import {IItemCRUD} from '@shared/interfaces/rbac.interface'
-import {RbacService} from '@shared/services/rbac.service'
 import {IDeleteEvent} from '@shared/interfaces/event.interface'
 import {ToastService} from '@shared/services/toast.service'
+import {AuthService} from '@modules/auth/services/auth.service'
+import {Subject, takeUntil} from 'rxjs'
 
 @Component({
-  selector: 'avs-table',
+  selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnDestroy {
   notPermission = 'У Вас нет прав для выполнения данной операции.'
   rowsPerPageCount: number = environment.rowsPerPageCount
   rowsPerPageOptions: number[] = environment.rowsPerPageOptions
+
+  private readonly unsubscribe$: Subject<void> = new Subject()
 
   crud!: IItemCRUD
   filterValue: string | null = null
@@ -49,12 +53,21 @@ export class TableComponent implements OnInit {
   @Output() actionDelete = new EventEmitter<IDeleteEvent>()
 
   constructor(
-    private rbacService: RbacService,
+    private authService: AuthService,
     private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
-    this.crud = this.rbacService.getItemCRUD(this.crudName)
+    this.initializeSubscriptions()
+  }
+
+  private initializeSubscriptions() {
+    this.authService
+      .getCRUDPermissions(this.crudName)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((value) => {
+        this.crud = value
+      })
   }
 
   loadItems(event: LazyLoadEvent): void {
@@ -124,5 +137,10 @@ export class TableComponent implements OnInit {
 
   refreshItems(): void {
     this.table._filter()
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next()
+    this.unsubscribe$.complete()
   }
 }

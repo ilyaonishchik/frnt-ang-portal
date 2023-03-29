@@ -1,0 +1,24 @@
+<app-modal-dialog
+  [(visible)]=visible
+  (visibleChange)=onVisibleChange($event)
+  [errors]='validationErrors$ | async'
+  [isLoading]='isLoading$ | async'
+  dialogType=read
+  [subject]=subjectName
+>
+  <app-role-form
+    *ngIf=item
+    slot='content'
+    [initialValues]=item
+    [readOnly]=true
+  ></app-role-form>
+  <p-checkbox
+    *ngIf=item
+    slot='status'
+    class='align-content-start'
+    label='Активная'
+    [ngModel]=item.status
+    [binary]=true
+    [readonly]=true
+  ></p-checkbox>
+</app-modal-dialog>

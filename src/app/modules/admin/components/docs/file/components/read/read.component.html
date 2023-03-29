@@ -4,7 +4,7 @@
   [errors]='validationErrors$ | async'
   [isLoading]='isLoading$ | async'
   dialogType=read
-  subject='файла'
+  [subject]=subjectName
 >
   <app-file-form
     *ngIf=item

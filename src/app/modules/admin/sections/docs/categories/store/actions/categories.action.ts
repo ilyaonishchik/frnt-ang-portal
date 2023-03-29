@@ -21,3 +21,7 @@ export const getCategoriesFailureAction = createAction(
   CategoriesActionTypes.GET_CATEGORIES_FAILURE,
   props<{errors: IBackendErrors}>()
 )
+
+export const clearCategoriesStateAction = createAction(
+  CategoriesActionTypes.CLEAR_STATE
+)

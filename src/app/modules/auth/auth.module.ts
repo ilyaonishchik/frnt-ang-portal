@@ -16,7 +16,6 @@ import {AuthRoutingModule} from './auth-routing.module'
 import {ValidateModule} from '@shared/modules/validate/validate.module'
 
 import {AuthService} from './services/auth.service'
-import {PersistenceService} from '@shared/services/persistence.service'
 
 import {SignInComponent} from './components/sign-in/sign-in.component'
 import {SignUpComponent} from './components/sign-up/sign-up.component'
@@ -49,6 +48,6 @@ import {SigninEffect} from './store/effects/signin.effect'
     ReactiveFormsModule,
     ValidateModule,
   ],
-  providers: [AuthService, PersistenceService],
+  providers: [AuthService],
 })
 export class AuthModule {}

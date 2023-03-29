@@ -21,3 +21,5 @@ export const getFilesFailureAction = createAction(
   FilesActionTypes.GET_FILES_FAILURE,
   props<{errors: IBackendErrors}>()
 )
+
+export const clearFilesStateAction = createAction(FilesActionTypes.CLEAR_STATE)

@@ -6,7 +6,7 @@ import {StoreModule} from '@ngrx/store'
 
 import {AvsTableModule} from '@shared/modules/table/table.module'
 import {UsersRoutingModule} from './users-routing.module'
-import {UserModule} from '../../../components/user/user.module'
+import {UserModule} from '../../../components/auth/user/user.module'
 
 import {GetUsersEffect} from './store/effects/users.effect'
 import {reducerUsers, usersFeatureKey} from './store/reducers'

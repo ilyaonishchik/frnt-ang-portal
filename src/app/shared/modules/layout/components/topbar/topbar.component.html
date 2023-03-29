@@ -8,14 +8,14 @@
     *ngIf='isSignedIn$ | async'
     #menubutton
     class='p-link layout-menu-button layout-topbar-button'
-    (click)='layoutService.onMenuToggle()'>
+    (click)=layoutService.onMenuToggle()>
     <i class='pi pi-bars'></i>
   </button>
 
   <button
     #topbarmenubutton
     class='p-link layout-topbar-menu-button layout-topbar-button'
-    (click)='layoutService.showProfileSidebar()'>
+    (click)=layoutService.showProfileSidebar()>
     <i class='pi pi-ellipsis-v'></i>
   </button>
 
@@ -29,7 +29,7 @@
           class='p-link layout-topbar-button'
           pTooltip='Документы'
           tooltipPosition='bottom'
-          [routerLink]="'/docs'"
+          routerLink='/docs'
           [showDelay]=1000
         >
 <!--          <i class='pi pi-inbox' pBadge severity='info' [value]="'1'"></i>-->
@@ -68,11 +68,12 @@
         <span>Профиль</span>
       </button>
       <button
+        *ngIf='isAdminView$ | async'
         class='p-link layout-topbar-button'
         pTooltip='Админка'
         tooltipPosition='bottom'
         [showDelay]=1000
-        [routerLink]="'/admin'">
+        routerLink='/admin'>
         <i class='pi pi-cog'></i>
         <span>Админка</span>
       </button>
@@ -92,7 +93,7 @@
         pTooltip='Авторизация'
         tooltipPosition='bottom'
         [showDelay]=1000
-        [routerLink]="'/auth/sign-in'">
+        routerLink='/auth/sign-in'>
         <i class='pi pi-sign-in'></i>
         <span>Войти</span>
       </button>
@@ -101,7 +102,7 @@
         pTooltip='Регистрация'
         tooltipPosition='bottom'
         [showDelay]=1000
-        [routerLink]="'/auth/sign-up'">
+        routerLink='/auth/sign-up'>
         <i class='pi pi-user-plus'></i>
         <span>Регистрация</span>
       </button>

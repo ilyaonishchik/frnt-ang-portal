@@ -1,16 +1,16 @@
 <p-dialog
   [(visible)]=visible
   (visibleChange)=onVisibleChange($event)
-  [style]="{'width': '90%', 'min-width': '35rem', 'max-width': '50rem'}"
+  [style]="{'width': '90%', 'min-width': '35rem', 'max-width': '70rem'}"
   [modal]=true
   class='p-fluid'
   [header]=header
 >
-  <avs-loading *ngIf=isLoading></avs-loading>
-  <avs-validate-errors
+  <app-loading *ngIf=isLoading></app-loading>
+  <app-validate-errors
     *ngIf=errors
     [errors]=errors
-  ></avs-validate-errors>
+  ></app-validate-errors>
   <ng-container *ngIf='isLoading === false'>
     <ng-content select='[slot=content]'></ng-content>
   </ng-container>
@@ -56,12 +56,12 @@
           <button
             pButton label='Нет' icon='pi pi-times'
             class='p-button-outlined p-button-info'
-            (click)='onVisibleChange(false)'
+            (click)=onVisibleChange(false)
           ></button>
           <button
             pButton label='Да' icon='pi pi-check'
             class='p-button-outlined p-button-danger'
-            (click)='onDeleteItem()'
+            (click)=onDeleteItem()
           ></button>
         </ng-container>
       </div>

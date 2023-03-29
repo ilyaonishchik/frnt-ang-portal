@@ -6,7 +6,7 @@ import {IPeriodical} from '../../interfaces/periodical.interface'
 
 export const getPeriodicalsAction = createAction(
   PdpSrtActionTypes.GET_PERIODICALS,
-  props<{date: Date}>()
+  props<{subdivision: number; date: Date}>()
 )
 
 export const getPeriodicalsSuccessAction = createAction(

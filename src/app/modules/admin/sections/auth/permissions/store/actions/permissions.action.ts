@@ -21,3 +21,7 @@ export const getPermissionsFailureAction = createAction(
   PermissionsActionTypes.GET_PERMISSIONS_FAILURE,
   props<{errors: IBackendErrors}>()
 )
+
+export const clearPermissionsStateAction = createAction(
+  PermissionsActionTypes.CLEAR_STATE
+)

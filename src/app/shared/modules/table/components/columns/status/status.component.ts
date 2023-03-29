@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core'
 
 @Component({
-  selector: 'avs-table-columns-status',
+  selector: 'app-table-columns-status',
   templateUrl: './status.component.html',
   styleUrls: ['./status.component.scss'],
 })

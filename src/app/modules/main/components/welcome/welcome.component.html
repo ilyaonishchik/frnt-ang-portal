@@ -1,6 +1,6 @@
 <div class='content'>
   <div class='title'>Часто используемые ресурсы</div>
-  <avs-loading *ngIf="isLoadings$ | async"></avs-loading>
+  <app-loading *ngIf="isLoadings$ | async"></app-loading>
   <div class='card-container'>
     <button
       *ngFor='let link of (links$ | async)'

@@ -6,11 +6,11 @@
   class='p-fluid'
   header='Просмотр категории'
 >
-  <avs-loading *ngIf='(isLoading$ | async)'></avs-loading>
-  <avs-validate-errors
+  <app-loading *ngIf='(isLoading$ | async)'></app-loading>
+  <app-validate-errors
     *ngIf='validationErrors$ | async'
     [errors]='validationErrors$ | async'
-  ></avs-validate-errors>
+  ></app-validate-errors>
   <ng-container *ngIf='(isLoading$ | async) === false'>
     <app-category-form
       *ngIf=item

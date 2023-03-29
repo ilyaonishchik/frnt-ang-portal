@@ -21,3 +21,5 @@ export const getRolesFailureAction = createAction(
   RolesActionTypes.GET_ROLES_FAILURE,
   props<{errors: IBackendErrors}>()
 )
+
+export const clearRolesStateAction = createAction(RolesActionTypes.CLEAR_STATE)

@@ -1,10 +1,10 @@
 import {Action, createReducer, on} from '@ngrx/store'
-import {routerNavigationAction} from '@ngrx/router-store'
 
 import {
   getLinksAction,
   getLinksSuccessAction,
   getLinksFailureAction,
+  clearLinksStateAction,
 } from './actions/links.action'
 import {
   dialogCancelAction,
@@ -70,7 +70,7 @@ const linksReducer = createReducer(
       backendErrors: null,
     })
   ),
-  on(routerNavigationAction, (): ILinksState => initialState)
+  on(clearLinksStateAction, (): ILinksState => initialState)
 )
 
 export function reducerLinks(state: ILinksState, action: Action) {

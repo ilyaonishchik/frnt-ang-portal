@@ -52,7 +52,7 @@
       </p-tree>
     </div>
     <div class='col-12 lg:col-8 xl:col-9' *ngIf='selectedCategory'>
-      <h4>Документы: {{selectedCategory.label}}</h4>
+      <h4>Раздел: {{selectedCategory.label}}</h4>
       <p-dataView
         #dv
         [value]=files.items
@@ -76,9 +76,9 @@
           <div
             class='flex flex-row align-items-center justify-content-between'>
             <p-button
+              *ngIf='canUpload$ | async'
               label='Загрузить'
               icon='pi pi-cloud-upload'
-              [disabled]='canUpload === false'
               (onClick)='uploadDialog = !uploadDialog'
             ></p-button>
             <span
@@ -105,7 +105,7 @@
                     {{file.file_desc ? file.file_desc : file.file_name}}
                   </div>
                   <div class='flex justify-content-between font-light'>
-                    <span class='text-sm'>Загружен: {{file.dt_cr | date:'d.MM.YYYY H:mm'}}</span>
+                    <span class='text-sm'>Загружен: {{file.dt_cr | date:'d.MM.YYYY H:mm'}} ({{file.username}})</span>
                     <span class='text-sm ml-1'>Размер: {{file.file_size | filesize}}</span>
                   </div>
                 </div>
@@ -153,6 +153,7 @@
               <div class='col-12 flex flex-row flex-wrap justify-content-between py-1 text-sm'>
                 <div class='white-space-nowrap overflow-hidden text-overflow-ellipsis'>
                   Загружен: <span class='font-light'>{{file.dt_cr | date:'d.MM.YYYY H:mm'}}</span>
+                  ({{file.username}})
                 </div>
                 <div>{{file.file_size | filesize}}</div>
               </div>
@@ -170,12 +171,12 @@
           </div>
         </ng-template>
       </p-dataView>
-      <avs-upload-file
+      <app-upload-file
         [visible]=uploadDialog
         (visibleChange)='uploadDialog = false'
         (uploaded)='uploadResult($event)'
         [category]=selectedCategory.key!
-      ></avs-upload-file>
+      ></app-upload-file>
     </div>
   </div>
 </div>
