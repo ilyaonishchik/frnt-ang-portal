@@ -51,6 +51,7 @@ export class MenusComponent implements OnInit, OnDestroy {
   private initializeValues(): void {
     this.columns = [
       {field: 'id', header: 'ID', width: 'w-1rem'},
+      {field: 'parent', header: 'Родитель', width: 'w-2rem'},
       {field: 'label', header: 'Наименование'},
       {field: 'link', header: 'Ссылка'},
       {field: 'permission', header: 'Разрешение'},

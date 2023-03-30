@@ -50,7 +50,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   private initializeValues() {
     this.columns = [
       {field: 'id', header: 'ID', width: 'w-1rem'},
-      {field: 'parent', header: 'Parent', width: 'w-2rem'},
+      {field: 'parent', header: 'Родитель', width: 'w-2rem'},
       {field: 'cat_name', header: 'Наименование'},
       {field: 'cat_desc', header: 'Описание'},
     ]
