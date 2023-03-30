@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'users',
     canActivate: [
-      () => inject(AuthService).checkPermission('admin:users:view'),
+      () => inject(AuthService).checkPermission('admin:users:view', true),
     ],
     loadChildren: () =>
       import('./sections/auth/users/users.module').then((m) => m.UsersModule),
@@ -19,7 +19,7 @@ const routes: Routes = [
   {
     path: 'roles',
     canActivate: [
-      () => inject(AuthService).checkPermission('admin:roles:view'),
+      () => inject(AuthService).checkPermission('admin:roles:view', true),
     ],
     loadChildren: () =>
       import('./sections/auth/roles/roles.module').then((m) => m.RolesModule),
@@ -27,7 +27,7 @@ const routes: Routes = [
   {
     path: 'permissions',
     canActivate: [
-      () => inject(AuthService).checkPermission('admin:permissions:view'),
+      () => inject(AuthService).checkPermission('admin:permissions:view', true),
     ],
     loadChildren: () =>
       import('./sections/auth/permissions/permissions.module').then(
@@ -37,7 +37,7 @@ const routes: Routes = [
   {
     path: 'links',
     canActivate: [
-      () => inject(AuthService).checkPermission('admin:core-links:view'),
+      () => inject(AuthService).checkPermission('admin:core-links:view', true),
     ],
     loadChildren: () =>
       import('./sections/portal/links/links.module').then((m) => m.LinksModule),
@@ -45,7 +45,7 @@ const routes: Routes = [
   {
     path: 'menus',
     canActivate: [
-      () => inject(AuthService).checkPermission('admin:core-menus:view'),
+      () => inject(AuthService).checkPermission('admin:core-menus:view', true),
     ],
     loadChildren: () =>
       import('./sections/portal/menus/menus.module').then((m) => m.MenusModule),
@@ -57,7 +57,10 @@ const routes: Routes = [
         path: 'categories',
         canActivate: [
           () =>
-            inject(AuthService).checkPermission('admin:docs-categories:view'),
+            inject(AuthService).checkPermission(
+              'admin:docs-categories:view',
+              true
+            ),
         ],
         loadChildren: () =>
           import('./sections/docs/categories/categories.module').then(
@@ -67,7 +70,8 @@ const routes: Routes = [
       {
         path: 'files',
         canActivate: [
-          () => inject(AuthService).checkPermission('admin:docs-files:view'),
+          () =>
+            inject(AuthService).checkPermission('admin:docs-files:view', true),
         ],
         loadChildren: () =>
           import('./sections/docs/files/files.module').then(

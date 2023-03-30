@@ -16,12 +16,17 @@ import {
   isSignedInSelector,
 } from '@modules/auth/store/selectors'
 import {IItemCRUD} from '@shared/interfaces/rbac.interface'
+import {Router} from '@angular/router'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store,
+    private router: Router
+  ) {}
 
   getCurrentUser(): Observable<IUser> {
     console.log('AuthService: getCurrentUser')
@@ -70,27 +75,29 @@ export class AuthService {
     return this.store.select(isSignedInSelector)
   }
 
-  checkPermission(code: string): Observable<boolean> {
-    console.log(`Auth service: checkPermission(${code})`)
+  checkPermission(code: string, goHome = false): Observable<boolean> {
+    console.log(`AuthService: checkPermission(${code}) goHome(${goHome})`)
     return this.store.select(currentUserSelector).pipe(
       map((user) => {
+        let result = false
         if (user) {
           if (
             user.permissions.findIndex((item) => {
-              return item.code === environment.adminPermissionCode
+              result = item.code === environment.adminPermissionCode
             }) != -1
           ) {
-            return true
+            result = true
           } else {
-            return (
+            result =
               user.permissions.findIndex((item) => {
                 return item.code === code
               }) != -1
-            )
           }
-        } else {
-          return false
         }
+        if (!result && goHome) {
+          this.router.navigateByUrl('/').then()
+        }
+        return result
       })
     )
   }

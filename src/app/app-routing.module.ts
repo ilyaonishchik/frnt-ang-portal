@@ -18,10 +18,9 @@ const routes: Routes = [
       },
       {
         path: 'admin',
-        // canMatch: [() => inject(AuthService).isSignedIn()],
         canMatch: [SignedInGuard],
         canActivate: [
-          () => inject(AuthService).checkPermission('admin:panel:view'),
+          () => inject(AuthService).checkPermission('admin:panel:view', true),
         ],
         loadChildren: () =>
           import('./modules/admin/admin.module').then((m) => m.AdminModule),
@@ -30,7 +29,7 @@ const routes: Routes = [
         path: 'docs',
         canMatch: [SignedInGuard],
         canActivate: [
-          () => inject(AuthService).checkPermission('front:module:docs'),
+          () => inject(AuthService).checkPermission('front:module:docs', true),
         ],
         loadChildren: () =>
           import('./modules/documents/documents.module').then(
@@ -41,7 +40,8 @@ const routes: Routes = [
         path: 'podpiska',
         canMatch: [SignedInGuard],
         canActivate: [
-          () => inject(AuthService).checkPermission('front:module:podpiska'),
+          () =>
+            inject(AuthService).checkPermission('front:module:podpiska', true),
         ],
         loadChildren: () =>
           import('./modules/podpiska/podpiska.module').then(

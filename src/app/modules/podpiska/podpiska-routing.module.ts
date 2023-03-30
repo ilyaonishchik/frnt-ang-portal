@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: 'sorting',
     canActivate: [
-      () => inject(AuthService).checkPermission('front:podpiska:sorting'),
+      () => inject(AuthService).checkPermission('front:podpiska:sorting', true),
     ],
     loadChildren: () =>
       import('./modules/sorting/sorting.module').then((m) => m.SortingModule),
