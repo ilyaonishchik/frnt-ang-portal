@@ -8,11 +8,11 @@ import {
 } from './actions/periodicals.action'
 import {
   clearCellsAction,
+  clearPdpSrtStateAction,
   getCellsAction,
   getCellsFailureAction,
   getCellsSuccessAction,
 } from './actions/cells.action'
-import {routerNavigationAction} from '@ngrx/router-store'
 
 export const pdpSrtFeatureKey = 'pdp-srt'
 
@@ -87,7 +87,7 @@ const pdpSrtReducer = createReducer(
       cells: null,
     })
   ),
-  on(routerNavigationAction, (): IPdpSrtState => initialState)
+  on(clearPdpSrtStateAction, () => initialState)
 )
 
 export function reducerPdpSrt(state: IPdpSrtState, action: Action) {

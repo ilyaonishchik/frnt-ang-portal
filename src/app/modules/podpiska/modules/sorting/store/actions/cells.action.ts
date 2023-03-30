@@ -23,3 +23,7 @@ export const clearCellsAction = createAction(
   PdpSrtActionTypes.CLEAR_CELLS,
   props<{digitsExist: boolean}>()
 )
+
+export const clearPdpSrtStateAction = createAction(
+  PdpSrtActionTypes.CLEAR_STATE
+)

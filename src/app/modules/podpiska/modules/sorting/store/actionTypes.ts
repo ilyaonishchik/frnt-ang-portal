@@ -8,4 +8,5 @@ export enum PdpSrtActionTypes {
   GET_CELLS_FAILURE = '[PdpSrt] Get cells failure',
 
   CLEAR_CELLS = '[PdpSrt] Clear cells',
+  CLEAR_STATE = '[PdpSrt] Clear state',
 }

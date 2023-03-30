@@ -14,12 +14,12 @@ import {IPeriodical} from '../../interfaces/periodical.interface'
 import {ICell} from '../../interfaces/cell.interface'
 import {
   clearCellsAction,
+  clearPdpSrtStateAction,
   getCellsAction,
 } from '../../store/actions/cells.action'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 import {SerialService} from '@shared/services/serial.service'
 import {ReportService} from '@shared/services/report.service'
-import {PersistenceService} from '@shared/services/persistence.service'
 import {currentUserSelector} from '@modules/auth/store/selectors'
 
 @Component({
@@ -48,8 +48,7 @@ export class SortingComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private serialService: SerialService,
-    private reportService: ReportService,
-    private persistenceService: PersistenceService
+    private reportService: ReportService
   ) {}
 
   ngOnInit(): void {
@@ -193,5 +192,6 @@ export class SortingComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.finalizeSubscriptions()
     this.store.dispatch(clearCellsAction({digitsExist: this.digitsExist}))
+    this.store.dispatch(clearPdpSrtStateAction())
   }
 }
