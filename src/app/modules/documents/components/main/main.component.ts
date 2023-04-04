@@ -124,7 +124,8 @@ export class MainComponent implements OnInit, OnDestroy {
 
   getFilesOfCategory(
     event: LazyLoadEvent | null,
-    category: string | null = null
+    category: string | null = null,
+    use_cache = true
   ) {
     const new_category = category
       ? category
@@ -136,6 +137,7 @@ export class MainComponent implements OnInit, OnDestroy {
       getFilesAction({
         event: event,
         category_id: new_category,
+        use_cache,
       })
     )
   }
@@ -168,10 +170,14 @@ export class MainComponent implements OnInit, OnDestroy {
     }
   }
 
-  nodeSelect(): void {
+  nodeSelect(use_cache = true): void {
     if (this.selectedCategory && this.selectedCategory.key) {
       this.emptyEvent = {...this.emptyEvent, rows: this.dvFiles.rows}
-      this.getFilesOfCategory(this.emptyEvent, this.selectedCategory.key)
+      this.getFilesOfCategory(
+        this.emptyEvent,
+        this.selectedCategory.key,
+        use_cache
+      )
     }
   }
 
@@ -264,7 +270,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   uploadResult(event: boolean): void {
     if (event) {
-      this.nodeSelect()
+      this.nodeSelect(false)
     }
   }
 

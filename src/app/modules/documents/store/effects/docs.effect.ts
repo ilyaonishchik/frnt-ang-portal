@@ -43,8 +43,8 @@ export class GetDocsEffect {
   getFiles$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getFilesAction),
-      switchMap(({event, category_id}) => {
-        return this.docsService.getFiles(event, category_id).pipe(
+      switchMap(({event, category_id, use_cache}) => {
+        return this.docsService.getFiles(event, category_id, use_cache).pipe(
           map((response: IResponseItems<IFile>) => {
             return getFilesSuccessAction({
               files: {

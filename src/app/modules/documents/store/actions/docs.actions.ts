@@ -24,7 +24,11 @@ export const getCategoriesFailureAction = createAction(
 
 export const getFilesAction = createAction(
   DocsActionTypes.GET_FILES,
-  props<{event: LazyLoadEvent | null; category_id: number | string}>()
+  props<{
+    event: LazyLoadEvent | null
+    category_id: number | string
+    use_cache: boolean
+  }>()
 )
 
 export const getFilesSuccessAction = createAction(

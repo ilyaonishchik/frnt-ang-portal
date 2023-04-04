@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core'
-import {HttpClient} from '@angular/common/http'
+import {HttpClient, HttpHeaders} from '@angular/common/http'
 import {ICategory} from '@modules/documents/interfaces/category.interface'
 import {LazyLoadEvent, TreeNode} from 'primeng/api'
 import {IFile} from '@modules/documents/interfaces/file.interface'
@@ -26,12 +26,21 @@ export class DocsService {
 
   getFiles(
     event: LazyLoadEvent | null,
-    category_id: number | string
+    category_id: number | string,
+    use_cache: boolean
   ): Observable<IResponseItems<IFile>> {
     this.previousEvent = eventAction(event, this.previousEvent, 2)
+    let headers = new HttpHeaders()
+    if (!use_cache) {
+      headers = headers.append('Cache-Control', 'no-cache')
+    }
+    console.log(headers)
     return this.http.get<IResponseItems<IFile>>(
       `${this.fullUrl}/${category_id}`,
-      {params: eventToParams(this.previousEvent)}
+      {
+        headers: headers,
+        params: eventToParams(this.previousEvent),
+      }
     )
   }
 
