@@ -56,12 +56,7 @@ export class UploadFileComponent implements OnInit, OnChanges, OnDestroy {
       this.fileUpload.disabled = true
       this.progress = 0
       this.storageService
-        .uploadFile(
-          event.files[0],
-          this.category,
-          this.form.value.file_desc
-          // ipFromGrodno(this.client.host)
-        )
+        .uploadFile(event.files[0], this.category, this.form.value.file_desc)
         .subscribe({
           next: (event: HttpEvent<any>) => {
             switch (event.type) {

@@ -11,8 +11,7 @@ export const environment = {
   urlApiAuth: '/api/v1/auth',
   urlApiPdp: '/api/v1/sorting',
   urlApiStorage: '/api/v1/storage',
-  urlApiStorageGRD: '/api/v1/storage',
-  // urlApiStorageGRD: 'http://172.16.190.221:8020/api/v1/storage',
+  urlApiCatalog: '/api/v1/catalog',
   urlApiReport: '/api/v1/report',
 
   rowsPerPageCount: 15,
