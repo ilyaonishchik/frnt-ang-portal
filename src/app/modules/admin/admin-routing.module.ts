@@ -80,6 +80,18 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'catalog',
+    children: [
+      {
+        path: 'subdivisions',
+        loadChildren: () =>
+          import('./sections/catalog/subdivisions/subdivisions.module').then(
+            (m) => m.SubdivisionsModule
+          ),
+      },
+    ],
+  },
 ]
 
 @NgModule({
