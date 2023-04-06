@@ -1,14 +1,15 @@
 .layout-topbar {
-  height: 4rem;
+  height: 3rem;
+  padding: 0 1rem;
 
   .layout-topbar-menu {
     .layout-topbar-button {
-      margin-left: 0.5rem;
+      margin-left: 0.2rem;
     }
   }
 
   .layout-topbar-logo {
-    width: $menuWidth;
+    width: calc($menuWidth - 2rem);
   }
 
   .layout-topbar-button {
