@@ -19,28 +19,32 @@
     <app-link-create
       *ngIf='dialog.action === 1'
       [visible]=true
-      (visibleChange)='hideDialog()'
+      (visibleChange)=hideDialog()
+      [subjectName]=subjectName
     ></app-link-create>
 
     <app-link-read
       *ngIf='dialog.action === 2'
       [visible]=true
-      (visibleChange)='hideDialog()'
+      (visibleChange)=hideDialog()
+      [subjectName]=subjectName
       [itemId]=dialog.id!
     ></app-link-read>
 
     <app-link-update
       *ngIf='dialog.action === 3'
       [visible]=true
-      (visibleChange)='hideDialog()'
+      (visibleChange)=hideDialog()
+      [subjectName]=subjectName
       [itemId]=dialog.id!
     ></app-link-update>
 
     <app-link-delete
       *ngIf='dialog.action === 4'
       [visible]=true
-      (visibleChange)='hideDialog()'
-      (clickCancel)='hideDialog()'
+      (visibleChange)=hideDialog()
+      (clickCancel)=hideDialog()
+      [subjectName]=subjectName
       [itemId]=dialog.id!
       [itemInfo]=dialog.confirm!
     ></app-link-delete>

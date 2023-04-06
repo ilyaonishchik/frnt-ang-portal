@@ -21,12 +21,14 @@
       *ngIf='dialog.action === 1'
       [visible]=true
       (visibleChange)=hideDialog()
+      [subjectName]=subjectName
     ></app-category-create>
 
     <app-category-read
       *ngIf='dialog.action === 2'
       [visible]=true
       (visibleChange)=hideDialog()
+      [subjectName]=subjectName
       [itemId]=dialog.id!
     ></app-category-read>
 
@@ -34,6 +36,7 @@
       *ngIf='dialog.action === 3'
       [visible]=true
       (visibleChange)=hideDialog()
+      [subjectName]=subjectName
       [itemId]=dialog.id!
     ></app-category-update>
 
@@ -42,6 +45,7 @@
       [visible]=true
       (visibleChange)=hideDialog()
       (clickCancel)=hideDialog()
+      [subjectName]=subjectName
       [itemId]=dialog.id!
       [itemInfo]=dialog.confirm
     ></app-category-delete>

@@ -19,28 +19,32 @@
     <app-user-create
       *ngIf='dialog.action === 1'
       [visible]=true
-      (visibleChange)='hideDialog()'
+      (visibleChange)=hideDialog()
+      [subjectName]=subjectName
     ></app-user-create>
 
     <app-user-read
       *ngIf='dialog.action === 2'
       [visible]=true
-      (visibleChange)='hideDialog()'
+      (visibleChange)=hideDialog()
+      [subjectName]=subjectName
       [itemId]=dialog.id!
     ></app-user-read>
 
     <app-user-update
       *ngIf='dialog.action === 3'
       [visible]=true
-      (visibleChange)='hideDialog()'
+      (visibleChange)=hideDialog()
+      [subjectName]=subjectName
       [itemId]=dialog.id!
     ></app-user-update>
 
     <app-user-delete
       *ngIf='dialog.action === 4'
       [visible]=true
-      (visibleChange)='hideDialog()'
-      (clickCancel)='hideDialog()'
+      (visibleChange)=hideDialog()
+      (clickCancel)=hideDialog()
+      [subjectName]=subjectName
       [itemId]=dialog.id!
       [itemInfo]=dialog.confirm!
     ></app-user-delete>
