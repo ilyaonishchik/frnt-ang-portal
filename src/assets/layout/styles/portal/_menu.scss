@@ -1,7 +1,7 @@
 .layout-sidebar {
-  height: calc(100vh - 4rem);
-  top: 3.5rem;
-  left: 0.5rem;
+  height: calc(100vh - $topBarHeight - $spacing - $spacing);
+  top: $topBarHeight + $spacing;
+  left: $spacing;
   width: $menuWidth;
 }
 
@@ -13,6 +13,7 @@
   ul {
     a {
       &.active-route {
+        font-weight: 500;
         background-color: rgba(0, 0, 0, .05);
       }
     }

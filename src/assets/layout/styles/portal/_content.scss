@@ -1,3 +1,6 @@
 .layout-main-container {
-    padding: 3.5rem 0.5rem 1rem 2rem;
+  padding-top: $topBarHeight + $spacing;
+  padding-right: $spacing;
+  padding-bottom: 1rem;
+  padding-left: $spacing;
 }

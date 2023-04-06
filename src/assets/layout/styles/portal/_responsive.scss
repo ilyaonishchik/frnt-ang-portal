@@ -3,17 +3,17 @@
     &.layout-overlay {
       .layout-main-container {
     //    margin-left: 0;
-        padding-left: 0.5rem;
+        padding-left: $spacing;
       }
     }
 
     &.layout-static {
       .layout-main-container {
-        margin-left: calc($menuWidth - 1rem);
+        margin-left: calc($menuWidth + $spacing);
       }
       &.layout-static-inactive {
         .layout-main-container {
-          padding-left: 0.5rem;
+          padding-left: $spacing;
         }
       }
     }
@@ -23,7 +23,7 @@
 @media (max-width: 991px) {
   .layout-wrapper {
     .layout-main-container {
-      padding-left: 0.5rem;
+      padding-left: $spacing;
     }
   }
 }
