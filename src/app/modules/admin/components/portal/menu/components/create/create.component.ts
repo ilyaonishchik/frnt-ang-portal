@@ -14,6 +14,7 @@ import {IMenu} from '@modules/admin/sections/portal/menus/interfaces/menu.interf
 })
 export class CreateComponent implements OnInit {
   @Input() visible = false
+  @Input() subjectName = ''
 
   @Output() visibleChange = new EventEmitter<boolean>()
 

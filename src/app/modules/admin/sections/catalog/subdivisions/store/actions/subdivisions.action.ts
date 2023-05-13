@@ -4,17 +4,18 @@ import {LazyLoadEvent} from 'primeng/api'
 
 import {ITableItems} from '@shared/interfaces/table-items.interface'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
-import {SubdivisionsActionTypes} from '@modules/admin/sections/catalog/subdivisions/store/actionTypes'
 import {ISubdivision} from '@modules/admin/sections/catalog/subdivisions/interfaces/subdivision.interface'
+import {TCrudAction} from '@shared/types/crud-action.type'
+import {SubdivisionsActionTypes} from './types'
 
 export const getSubdivisionsAction = createAction(
   SubdivisionsActionTypes.GET_SUBDIVISIONS,
-  props<{event: LazyLoadEvent | null; action: number}>()
+  props<{event: LazyLoadEvent | null; action: TCrudAction}>()
 )
 
 export const getSubdivisionsSuccessAction = createAction(
   SubdivisionsActionTypes.GET_SUBDIVISIONS_SUCCESS,
-  props<{subdivisions: ITableItems<ISubdivision>}>()
+  props<{data: ITableItems<ISubdivision>}>()
 )
 
 export const getSubdivisionsFailureAction = createAction(

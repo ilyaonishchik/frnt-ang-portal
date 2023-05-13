@@ -37,7 +37,7 @@ const subdivisionsReducer = createReducer(
     (state, action): ISubdivisionsState => ({
       ...state,
       isLoading: false,
-      data: action.subdivisions,
+      data: action.data,
     })
   ),
   on(

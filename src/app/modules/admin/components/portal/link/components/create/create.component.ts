@@ -14,6 +14,7 @@ import {createLinkAction} from '../../store/actions/link.action'
 })
 export class CreateComponent implements OnInit {
   @Input() visible = false
+  @Input() subjectName = ''
 
   @Output() visibleChange = new EventEmitter<boolean>()
 

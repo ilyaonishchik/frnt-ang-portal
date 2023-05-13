@@ -25,6 +25,7 @@ import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 })
 export class ReadComponent implements OnInit, OnDestroy {
   @Input() visible = false
+  @Input() subjectName = ''
   @Input() itemId!: number
 
   @Output() visibleChange = new EventEmitter<boolean>()

@@ -24,6 +24,7 @@ import {CreateCategoryEffect} from '@modules/admin/components/docs/category/stor
 import {ReadCategoryEffect} from '@modules/admin/components/docs/category/store/effects/read-category.effect'
 import {UpdateCategoryEffect} from '@modules/admin/components/docs/category/store/effects/update-category.effect'
 import {DeleteCategoryEffect} from '@modules/admin/components/docs/category/store/effects/delete-category.effect'
+import {ModalDialogModule} from '@shared/modules/dialog/modal-dialog.module'
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {DeleteCategoryEffect} from '@modules/admin/components/docs/category/stor
     CheckboxModule,
     FormsModule,
     ButtonModule,
+    ModalDialogModule,
   ],
   exports: [ReadComponent, UpdateComponent, CreateComponent, DeleteComponent],
 })

@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   title: 'Бизнес-портал',
-  version: '0.1.8',
+  version: '0.1.9',
   urlApi: '/api/v1',
   urlApiCore: '/api/v1/core',
   urlApiAuth: '/api/v1/auth',

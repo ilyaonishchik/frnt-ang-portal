@@ -1,42 +1,22 @@
-<p-dialog
+<app-modal-dialog
   [(visible)]=visible
   (visibleChange)=onVisibleChange($event)
-  [style]="{width: '60%'}"
-  [modal]=true
-  class='p-fluid'
-  header='Создание ссылки'
+  (saveItem)=saveItem()
+  [errors]='validationErrors$ | async'
+  dialogType='create'
+  [subject]=subjectName
 >
-  <app-validate-errors
-    *ngIf='validationErrors$ | async'
-    [errors]='validationErrors$ | async'
-  ></app-validate-errors>
   <app-menu-form
+    slot='content'
     [initialValues]=item
     (changeValues)=changeItem($event)
     (formValid)=onValidate($event)
   ></app-menu-form>
-  <p-footer>
-    <div class='flex justify-content-between'>
-      <p-checkbox
-        class='align-content-start'
-        label='Активная'
-        [(ngModel)]=item.status
-        [binary]=true
-        (ngModelChange)=changeStatus($event)
-      ></p-checkbox>
-      <div>
-        <button
-          pButton label='Отмена' icon='pi pi-times'
-          class='p-button-outlined p-button-secondary'
-          (click)=onVisibleChange(false)
-        ></button>
-        <button
-          pButton label='Сохранить' icon='pi pi-check'
-          class='p-button-outlined p-button-success'
-          [disabled]=!formValid
-          (click)=saveItem()
-        ></button>
-      </div>
-    </div>
-  </p-footer>
-</p-dialog>
+  <p-checkbox
+    slot='status'
+    label='Активная'
+    [(ngModel)]=item.status
+    [binary]=true
+    (ngModelChange)=changeStatus($event)
+  ></p-checkbox>
+</app-modal-dialog>

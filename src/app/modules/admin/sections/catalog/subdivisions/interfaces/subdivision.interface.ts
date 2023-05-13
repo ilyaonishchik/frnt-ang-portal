@@ -19,3 +19,20 @@ export interface ISubdivisionSave {
   sort: number
   status: boolean
 }
+
+export interface ISubdivisionType {
+  id: number
+  name_st: string
+  name_st_full: string | null
+  name_st_desc: string | null
+  sort: number
+  status: boolean
+}
+
+export interface ISubdivisionTypeSave {
+  name_st: string
+  name_st_full: string | null
+  name_st_desc: string | null
+  sort: number
+  status: boolean
+}

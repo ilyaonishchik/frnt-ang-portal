@@ -29,6 +29,7 @@ import {UpdateMenuEffect} from './store/effects/update-menu.effect'
 import {DeleteMenuEffect} from './store/effects/delete-menu.effect'
 import {InputNumberModule} from 'primeng/inputnumber'
 import {DropdownModule} from 'primeng/dropdown'
+import {ModalDialogModule} from '@shared/modules/dialog/modal-dialog.module'
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import {DropdownModule} from 'primeng/dropdown'
     LoadingModule,
     InputNumberModule,
     DropdownModule,
+    ModalDialogModule,
   ],
   exports: [
     MenuComponent,

@@ -13,6 +13,7 @@ import {deleteMenuAction} from '../../store/actions/menu.action'
 })
 export class DeleteComponent implements OnInit {
   @Input() visible = false
+  @Input() subjectName = ''
   @Input() itemId!: number
   @Input() itemInfo: string | number | undefined = undefined
 

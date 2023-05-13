@@ -1,7 +1,7 @@
 <app-modal-dialog
   [(visible)]=visible
   (visibleChange)=onVisibleChange($event)
-  (saveItem)='saveItem()'
+  (saveItem)=saveItem()
   [errors]='validationErrors$ | async'
   [isLoading]='isLoading$ | async'
   dialogType='update'
@@ -15,7 +15,7 @@
     (formValid)=onValidate($event)
   ></app-permission-form>
   <p-checkbox
-    *ngIf='item'
+    *ngIf=item
     slot='status'
     label='Активная'
     [(ngModel)]=item.status

@@ -28,6 +28,7 @@ import {ReadLinkEffect} from './store/effects/read-link.effect'
 import {CreateLinkEffect} from './store/effects/create-link.effect'
 import {UpdateLinkEffect} from './store/effects/update-link.effect'
 import {DeleteLinkEffect} from './store/effects/delete-link.effect'
+import {ModalDialogModule} from '@shared/modules/dialog/modal-dialog.module'
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import {DeleteLinkEffect} from './store/effects/delete-link.effect'
     InputTextareaModule,
     LoadingModule,
     InputNumberModule,
+    ModalDialogModule,
   ],
   exports: [
     LinkComponent,

@@ -24,6 +24,7 @@ import {getCategoryAction} from '@modules/admin/components/docs/category/store/a
 })
 export class ReadComponent implements OnInit, OnDestroy {
   @Input() visible = false
+  @Input() subjectName = ''
   @Input() itemId!: number
 
   @Output() visibleChange = new EventEmitter<boolean>()

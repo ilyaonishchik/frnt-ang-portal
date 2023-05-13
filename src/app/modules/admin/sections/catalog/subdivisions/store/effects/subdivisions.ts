@@ -30,7 +30,7 @@ export class GetSubdivisionsEffect {
         return this.subdivisionsService.getSubdivisions(event, action).pipe(
           map((response: IResponseItems<ISubdivision>) => {
             return getSubdivisionsSuccessAction({
-              subdivisions: {
+              data: {
                 items: response.results,
                 count: response.records,
                 first: response.skip,

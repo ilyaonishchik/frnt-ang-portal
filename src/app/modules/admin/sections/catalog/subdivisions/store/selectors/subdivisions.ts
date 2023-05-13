@@ -1,6 +1,6 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store'
 import {ISubdivisionsState} from '@modules/admin/sections/catalog/subdivisions/interfaces/subdivisions-state.interface'
-import {subdivisionsFeatureKey} from '@modules/admin/sections/catalog/subdivisions/store/reducers'
+import {subdivisionsFeatureKey} from '@modules/admin/sections/catalog/subdivisions/store/reducers/subdivisions'
 
 export const subdivisionsFeatureSelector =
   createFeatureSelector<ISubdivisionsState>(subdivisionsFeatureKey)

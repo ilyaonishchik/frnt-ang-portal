@@ -1,46 +1,45 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {Observable} from 'rxjs'
-import {ITableItems} from '@shared/interfaces/table-items.interface'
 import {ICrudAction} from '@shared/interfaces/crud-action.interface'
+import {ITableItems} from '@shared/interfaces/table-items.interface'
+import {ISubdivisionType} from '@modules/admin/sections/catalog/subdivisions/interfaces/subdivision.interface'
 import {IColumn} from '@shared/interfaces/column.interface'
-import {LazyLoadEvent} from 'primeng/api'
 import {TCrudAction} from '@shared/types/crud-action.type'
+import {LazyLoadEvent} from 'primeng/api'
+import {
+  clearSubdivisionTypesStateAction,
+  getSubdivisionTypesAction,
+} from '@modules/admin/sections/catalog/subdivisions/store/actions/subdivision-types.action'
 import {
   dialogCancelAction,
   dialogShowAction,
 } from '@shared/store/actions/dialog.action'
 import {IDeleteEvent} from '@shared/interfaces/event.interface'
-import {ISubdivision} from '@modules/admin/sections/catalog/subdivisions/interfaces/subdivision.interface'
 import {
   dialogActionSelector,
   isLoadingSelector,
-  subdivisionsSelector,
-} from '@modules/admin/sections/catalog/subdivisions/store/selectors/subdivisions'
-import {
-  clearSubdivisionsStateAction,
-  getSubdivisionsAction,
-} from '@modules/admin/sections/catalog/subdivisions/store/actions/subdivisions.action'
+  subdivisionTypesSelector,
+} from '@modules/admin/sections/catalog/subdivisions/store/selectors/subdivision-types'
 
 @Component({
-  selector: 'app-subdivisions',
-  templateUrl: './subdivisions.component.html',
-  styleUrls: ['./subdivisions.component.scss'],
+  selector: 'app-subdivision-types',
+  templateUrl: './subdivision-types.component.html',
+  styleUrls: ['./subdivision-types.component.scss'],
 })
-export class SubdivisionsComponent implements OnInit, OnDestroy {
+export class SubdivisionTypesComponent implements OnInit, OnDestroy {
   isLoading$!: Observable<boolean>
-  items$!: Observable<ITableItems<ISubdivision> | null>
+  items$!: Observable<ITableItems<ISubdivisionType> | null>
   dialog$!: Observable<ICrudAction | null>
 
-  subjectName = 'подразделения'
+  subjectName = 'типа подразделения'
   columns!: IColumn[]
-  crudName = 'admin:subdivisions'
+  crudName = 'admin:subdivision-types'
   keyField = 'id'
   sortField = 'id'
-  confirmField = 'name_sd'
+  confirmField = 'name_st'
 
   constructor(private store: Store) {}
-
   ngOnInit(): void {
     this.initializeValues()
     this.initializeSubscriptions()
@@ -50,17 +49,15 @@ export class SubdivisionsComponent implements OnInit, OnDestroy {
   private initializeValues(): void {
     this.columns = [
       {field: 'id', header: 'ID', width: 'w-1rem'},
-      {field: 'parent', header: 'Родитель', width: 'w-2rem'},
-      {field: 'name_st', header: 'Вид'},
-      {field: 'name_sd', header: 'Наименование'},
-      {field: 'name_sd_full', header: 'Наименование полное'},
-      {field: 'name_sd_desc', header: 'Описание'},
+      {field: 'name_st', header: 'Наименование'},
+      {field: 'name_st_full', header: 'Наименование полное'},
+      {field: 'name_st_desc', header: 'Описание'},
     ]
   }
 
   private initializeSubscriptions(): void {
     this.isLoading$ = this.store.select(isLoadingSelector)
-    this.items$ = this.store.select(subdivisionsSelector)
+    this.items$ = this.store.select(subdivisionTypesSelector)
     this.dialog$ = this.store.select(dialogActionSelector)
   }
 
@@ -70,7 +67,7 @@ export class SubdivisionsComponent implements OnInit, OnDestroy {
 
   loadItems(event: LazyLoadEvent | null, action = TCrudAction.NONE): void {
     this.store.dispatch(
-      getSubdivisionsAction({
+      getSubdivisionTypesAction({
         event: event,
         action: action,
       })
@@ -112,6 +109,6 @@ export class SubdivisionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(clearSubdivisionsStateAction())
+    this.store.dispatch(clearSubdivisionTypesStateAction())
   }
 }

@@ -25,6 +25,7 @@ import {IMenu} from '@modules/admin/sections/portal/menus/interfaces/menu.interf
 })
 export class UpdateComponent implements OnInit, OnDestroy {
   @Input() visible = false
+  @Input() subjectName = ''
   @Input() itemId!: number
 
   @Output() visibleChange = new EventEmitter<boolean>()

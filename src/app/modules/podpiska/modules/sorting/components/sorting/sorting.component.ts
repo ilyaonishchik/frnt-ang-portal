@@ -22,6 +22,7 @@ import {SerialService} from '@shared/services/serial.service'
 import {ReportService} from '@shared/services/report.service'
 import {currentUserSelector} from '@modules/auth/store/selectors'
 
+
 @Component({
   selector: 'app-sorting',
   templateUrl: './sorting.component.html',

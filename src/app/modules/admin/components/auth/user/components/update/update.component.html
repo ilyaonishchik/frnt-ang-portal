@@ -16,7 +16,7 @@
     (formValid)=onValidate($event)
   ></app-user-form>
   <p-checkbox
-    *ngIf='item'
+    *ngIf=item
     slot='status'
     label='Активная'
     [(ngModel)]=item.status

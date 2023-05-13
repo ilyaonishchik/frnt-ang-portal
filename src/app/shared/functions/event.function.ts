@@ -43,7 +43,7 @@ export function eventToParams(event: LazyLoadEvent | null): HttpParams {
 export function eventAction(
   eventNew: LazyLoadEvent | null,
   eventOld: LazyLoadEvent,
-  action: number
+  action: TCrudAction
 ): LazyLoadEvent {
   let eventTemp: LazyLoadEvent
 
