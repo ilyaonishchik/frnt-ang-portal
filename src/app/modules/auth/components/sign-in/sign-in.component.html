@@ -15,7 +15,9 @@
           <span class='text-600 font-medium'>Авторизуйтесь для продолжения</span>
         </div>
         <div class='w-11 lg:w-10 mx-auto'>
-          <form [formGroup]='signInForm' (ngSubmit)='submitSignIn()'>
+          <form
+            [formGroup]=signInForm
+            (ngSubmit)=submitSignIn()>
             <div class='field'>
               <label for='username' class='block text-900 text-xl font-medium'>Пользователь</label>
               <input
@@ -24,8 +26,7 @@
                 type='text'
                 placeholder='Имя пользователя'
                 pInputText
-                autofocus
-                class='w-full p-3'>
+                class='w-full text-xl'>
               <ng-container
                 *ngIf="(f['username'].dirty || f['username'].touched) && f['username'].invalid">
                 <app-validate-input [errors]="f['username'].errors"></app-validate-input>
@@ -37,20 +38,24 @@
                 formControlName='password'
                 id='password'
                 placeholder='Пароль'
-                [toggleMask]='true'
-                [feedback]='false'
-                styleClass='w-full p-password p-component p-inputwrapper p-input-icon-right'>
+                [toggleMask]=true
+                [feedback]=false
+                styleClass='w-full justify-content-end'
+                inputStyleClass='w-full text-xl'
+              >
               </p-password>
               <ng-container
                 *ngIf="(f['password'].dirty || f['password'].touched) && f['password'].invalid">
                 <app-validate-input [errors]="f['password'].errors"></app-validate-input>
               </ng-container>
             </div>
-            <div class='flex align-items-center mb-3'>
+            <div
+              *ngIf=false
+              class='flex align-items-center mb-3'>
               <p-checkbox
                 formControlName='remember'
                 id='rememberme'
-                [binary]='true'
+                [binary]=true
                 styleClass='mr-2'>
               </p-checkbox>
               <label for='rememberme' class='text-xl'>Запомнить меня</label>
@@ -59,7 +64,7 @@
               [disabled]='signInForm.invalid || (isSubmitting$ | async)'
               pButton
               label='Войти'
-              class='w-full p-3 text-xl'
+              class='w-full text-xl mt-3'
               type='submit'>
             </button>
           </form>
@@ -70,7 +75,7 @@
               styleClass='p-button-text p-button-success text-xl'>
             </p-button>
             <p-button
-              *ngIf='false'
+              *ngIf=false
               routerLink='/auth/pass-reset'
               label='Забыли пароль?'
               styleClass='p-button-text p-button-danger text-xl'>

@@ -26,8 +26,7 @@
                 type='text'
                 placeholder='Имя пользователя'
                 pInputText
-                autofocus
-                class='w-full p-3'>
+                class='w-full text-xl'>
               <ng-container
                 *ngIf="(f['username'].dirty || f['username'].touched) && f['username'].invalid">
                 <app-validate-input [errors]="f['username'].errors"></app-validate-input>
@@ -40,7 +39,7 @@
                 id='email'
                 placeholder='Адрес электронной почты'
                 pInputText
-                class='w-full p-3'>
+                class='w-full text-xl'>
               <ng-container *ngIf="(f['email'].dirty || f['email'].touched) && f['email'].invalid">
                 <app-validate-input [errors]="f['email'].errors"></app-validate-input>
               </ng-container>
@@ -51,8 +50,10 @@
                 formControlName='password'
                 id='password'
                 placeholder='Пароль'
-                [toggleMask]='true'
-                styleClass='w-full p-password p-component p-inputwrapper p-input-icon-right'>
+                [toggleMask]=true
+                styleClass='w-full justify-content-end'
+                inputStyleClass='w-full text-xl'
+              >
               </p-password>
               <ng-container
                 *ngIf="(f['password'].dirty || f['password'].touched) && f['password'].invalid">
@@ -65,9 +66,11 @@
                 formControlName='password2'
                 id='password2'
                 placeholder='Пароль'
-                [toggleMask]='true'
-                [feedback]='false'
-                styleClass='w-full p-password p-component p-inputwrapper p-input-icon-right'>
+                [toggleMask]=true
+                [feedback]=false
+                styleClass='w-full justify-content-end'
+                inputStyleClass='w-full text-xl'
+              >
               </p-password>
               <ng-container
                 *ngIf="(f['password2'].dirty || f['password2'].touched) && f['password2'].invalid">
@@ -78,7 +81,7 @@
               [disabled]='signUpForm.invalid || (isSubmitting$ | async)'
               pButton
               label='Зарегистрироваться'
-              class='w-full p-3 text-xl'
+              class='w-full text-xl mt-3'
             ></button>
           </form>
           <div class='flex justify-content-between mt-3'>
