@@ -52,12 +52,14 @@
     *ngIf="item.items && item.visible !== false"
     [@children]="submenuAnimation">
     <ng-template ngFor let-child let-i="index" [ngForOf]="item.items">
+      <li>
       <app-menuitem
         [item]="child"
         [index]="i"
         [parentKey]="key"
         [class]="child.badgeClass"
       ></app-menuitem>
+      </li>
     </ng-template>
   </ul>
 </ng-container>
