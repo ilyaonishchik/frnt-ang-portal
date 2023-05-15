@@ -48,7 +48,7 @@ export class SignedInGuard {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    // console.log(`SignedInGuard (canActivateChild): ${state.url}`)
+    console.log(`SignedInGuard (canActivateChild): ${state.url}`)
     return this.store.select(isSignedInSelector)
     // .pipe(map((value) => {return value}))
   }

@@ -14,7 +14,7 @@ import {LayoutService} from '../../services/layout.service'
 import {MenuService} from '../../services/menu.service'
 
 @Component({
-  selector: '[app-menuitem]',
+  selector: 'app-menuitem',
   templateUrl: './menuitem.component.html',
   styleUrls: ['./menuitem.component.scss'],
   // host: {
