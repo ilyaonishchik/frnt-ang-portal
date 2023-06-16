@@ -1,9 +1,10 @@
 <p-dialog
   [(visible)]=visible
   (visibleChange)=onVisibleChange($event)
-  [style]="{'width': '90%', 'min-width': '35rem', 'max-width': '70rem'}"
+  [style]="{'width': '90%', 'min-width': '35rem', 'max-width': '70rem', 'min-height': '36rem'}"
   [modal]=true
   class='p-fluid'
+  [maximizable]=true
   [header]=header
 >
   <app-loading *ngIf=isLoading></app-loading>
