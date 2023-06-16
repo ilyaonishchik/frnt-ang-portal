@@ -33,7 +33,7 @@ export class MainComponent implements OnInit, OnDestroy {
   private emptyEvent!: LazyLoadEvent
   private readonly unsubscribe$: Subject<void> = new Subject()
 
-  categories: TreeNode<string>[] = []
+  categories: TreeNode[] = []
   selectedCategory: TreeNode | null = null
   defaultCategory = ''
 
@@ -132,14 +132,13 @@ export class MainComponent implements OnInit, OnDestroy {
       : this.selectedCategory?.key
       ? this.selectedCategory.key
       : this.defaultCategory
-
-    this.store.dispatch(
-      getFilesAction({
-        event: event,
-        category_id: new_category,
-        use_cache,
-      })
-    )
+    // this.store.dispatch(
+    //   getFilesAction({
+    //     event: event,
+    //     category_id: new_category,
+    //     use_cache,
+    //   })
+    // )
   }
 
   refreshItems(): void {
@@ -170,15 +169,15 @@ export class MainComponent implements OnInit, OnDestroy {
     }
   }
 
-  nodeSelect(use_cache = true): void {
-    if (this.selectedCategory && this.selectedCategory.key) {
-      this.emptyEvent = {...this.emptyEvent, rows: this.dvFiles.rows}
-      this.getFilesOfCategory(
-        this.emptyEvent,
-        this.selectedCategory.key,
-        use_cache
-      )
-    }
+  nodeSelect(use_cache = false): void {
+    // if (this.selectedCategory && this.selectedCategory.key) {
+    //   this.emptyEvent = {...this.emptyEvent, rows: this.dvFiles.rows}
+    //   this.getFilesOfCategory(
+    //     this.emptyEvent,
+    //     this.selectedCategory.key,
+    //     use_cache
+    //   )
+    // }
   }
 
   onSortChange(event: any): void {

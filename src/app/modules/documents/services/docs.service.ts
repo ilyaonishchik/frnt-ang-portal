@@ -61,7 +61,7 @@ export class DocsService {
     for (const item of data) {
       const res: TreeNode = {
         key: `${item.id}`,
-        label: item.label,
+        label: item.cat_name,
         icon: item.icon,
       }
 
