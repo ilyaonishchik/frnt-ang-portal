@@ -2,6 +2,7 @@ import {HttpParams} from '@angular/common/http'
 
 import {LazyLoadEvent} from 'primeng/api'
 import {TCrudAction} from '../types/crud-action.type'
+import {environment} from 'environments/environment'
 
 export function eventToParams(event: LazyLoadEvent | null): HttpParams {
   let params = new HttpParams()
@@ -15,6 +16,8 @@ export function eventToParams(event: LazyLoadEvent | null): HttpParams {
 
     if (event.rows && event.rows > 0) {
       params = params.append('limit', event.rows)
+    } else {
+      params = params.append('limit', environment.rowsPerPageCount)
     }
 
     if (event.sortField) {
