@@ -15,7 +15,7 @@ import {
   permissionsSelector,
 } from '../../store/selectors'
 import {ITableItems} from '@shared/interfaces/table-items.interface'
-import {IPermission} from '@shared/interfaces/permission.interface'
+import {IPermissionFull} from '@shared/interfaces/permission.interface'
 import {
   dialogCancelAction,
   dialogShowAction,
@@ -23,6 +23,12 @@ import {
 import {ICrudAction} from '@shared/interfaces/crud-action.interface'
 import {IDeleteEvent} from '@shared/interfaces/event.interface'
 import {TCrudAction} from '@shared/types/crud-action.type'
+import {
+  clearRolesAction,
+  clearUsersAction,
+  getAllRolesAction,
+  getAllUsersAction,
+} from '@shared/store/actions/session.actions'
 
 @Component({
   selector: 'app-permissions',
@@ -31,7 +37,7 @@ import {TCrudAction} from '@shared/types/crud-action.type'
 })
 export class PermissionsComponent implements OnInit, OnDestroy {
   isLoading$!: Observable<boolean>
-  items$!: Observable<ITableItems<IPermission> | null>
+  items$!: Observable<ITableItems<IPermissionFull> | null>
   dialog$!: Observable<ICrudAction | null>
 
   subjectName = 'разрешения'
@@ -64,6 +70,8 @@ export class PermissionsComponent implements OnInit, OnDestroy {
   }
 
   private initializeValues(): void {
+    this.store.dispatch(getAllRolesAction())
+    this.store.dispatch(getAllUsersAction())
     this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
   }
 
@@ -114,6 +122,8 @@ export class PermissionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(clearRolesAction())
+    this.store.dispatch(clearUsersAction())
     this.store.dispatch(clearPermissionsStateAction())
   }
 }

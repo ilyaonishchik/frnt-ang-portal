@@ -11,7 +11,7 @@ import {
   getPermissionsSuccessAction,
 } from '../actions/permissions.action'
 import {IResponseItems} from '@shared/interfaces/response-items.interface'
-import {IPermission} from '@shared/interfaces/permission.interface'
+import {IPermissionFull} from '@shared/interfaces/permission.interface'
 import {dialogConfirmAction} from '@shared/store/actions/dialog.action'
 import {responseToErrors} from '@shared/functions/error.function'
 
@@ -28,7 +28,7 @@ export class GetPermissionsEffect {
       ofType(getPermissionsAction),
       switchMap(({event, action}) => {
         return this.permissionsService.getPermissions(event, action).pipe(
-          map((response: IResponseItems<IPermission>) => {
+          map((response: IResponseItems<IPermissionFull>) => {
             return getPermissionsSuccessAction({
               permissions: {
                 items: response.results,

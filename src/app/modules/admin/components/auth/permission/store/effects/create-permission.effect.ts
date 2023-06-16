@@ -10,7 +10,7 @@ import {
   createPermissionFailureAction,
   createPermissionSuccessAction,
 } from '../actions/permission.action'
-import {IPermission} from '@shared/interfaces/permission.interface'
+import {IPermissionFull} from '@shared/interfaces/permission.interface'
 import {responseToErrors} from '@shared/functions/error.function'
 import {TCrudAction} from '@shared/types/crud-action.type'
 import {dialogConfirmAction} from '@shared/store/actions/dialog.action'
@@ -28,7 +28,7 @@ export class CreatePermissionEffect {
       ofType(createPermissionAction),
       switchMap(({permission}) => {
         return this.permissionService.createPermission(permission).pipe(
-          map((permission: IPermission) => {
+          map((permission: IPermissionFull) => {
             return createPermissionSuccessAction({permission: permission})
           }),
           catchError((errorResponse: HttpErrorResponse) => {

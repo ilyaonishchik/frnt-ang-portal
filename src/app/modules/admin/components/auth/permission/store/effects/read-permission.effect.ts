@@ -9,7 +9,7 @@ import {
   getPermissionFailureAction,
   getPermissionSuccessAction,
 } from '../actions/permission.action'
-import {IPermission} from '@shared/interfaces/permission.interface'
+import {IPermissionFull} from '@shared/interfaces/permission.interface'
 import {responseToErrors} from '@shared/functions/error.function'
 
 @Injectable()
@@ -24,7 +24,7 @@ export class ReadPermissionEffect {
       ofType(getPermissionAction),
       switchMap(({id}) => {
         return this.permissionService.getPermission(id).pipe(
-          map((permission: IPermission) => {
+          map((permission: IPermissionFull) => {
             return getPermissionSuccessAction({permission: permission})
           }),
           catchError((response: HttpErrorResponse) => {

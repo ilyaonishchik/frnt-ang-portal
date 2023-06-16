@@ -13,7 +13,10 @@ import {
   updatePermissionFailureAction,
 } from './actions/permission.action'
 import {deleteLinkFailureAction} from '../../../portal/link/store/actions/link.action'
-import {dialogCancelAction} from '@shared/store/actions/dialog.action'
+import {
+  dialogCancelAction,
+  dialogConfirmAction,
+} from '@shared/store/actions/dialog.action'
 
 export const permissionFeatureKey = 'permission'
 
@@ -109,7 +112,8 @@ const permissionReducer = createReducer(
       backendErrors: action.errors,
     })
   ),
-  on(dialogCancelAction, (): IPermissionState => initialState)
+  on(dialogCancelAction, (): IPermissionState => initialState),
+  on(dialogConfirmAction, (): IPermissionState => initialState)
 )
 
 export function reducerPermission(state: IPermissionState, action: Action) {

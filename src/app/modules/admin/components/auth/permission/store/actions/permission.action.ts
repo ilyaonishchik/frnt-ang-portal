@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store'
 
 import {PermissionActionTypes} from '../actionTypes'
-import {IPermission} from '@shared/interfaces/permission.interface'
+import {IPermissionFull} from '@shared/interfaces/permission.interface'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 import {IDeleteResponse} from '@shared/interfaces/delete-response.interface'
 
@@ -12,7 +12,7 @@ export const getPermissionAction = createAction(
 
 export const getPermissionSuccessAction = createAction(
   PermissionActionTypes.GET_PERMISSION_SUCCESS,
-  props<{permission: IPermission}>()
+  props<{permission: IPermissionFull}>()
 )
 
 export const getPermissionFailureAction = createAction(
@@ -22,12 +22,12 @@ export const getPermissionFailureAction = createAction(
 
 export const createPermissionAction = createAction(
   PermissionActionTypes.CREATE_PERMISSION,
-  props<{permission: IPermission}>()
+  props<{permission: IPermissionFull}>()
 )
 
 export const createPermissionSuccessAction = createAction(
   PermissionActionTypes.CREATE_PERMISSION_SUCCESS,
-  props<{permission: IPermission}>()
+  props<{permission: IPermissionFull}>()
 )
 
 export const createPermissionFailureAction = createAction(
@@ -37,12 +37,12 @@ export const createPermissionFailureAction = createAction(
 
 export const updatePermissionAction = createAction(
   PermissionActionTypes.UPDATE_PERMISSION,
-  props<{id: number; permission: IPermission}>()
+  props<{id: number; permission: IPermissionFull}>()
 )
 
 export const updatePermissionSuccessAction = createAction(
   PermissionActionTypes.UPDATE_PERMISSION_SUCCESS,
-  props<{permission: IPermission}>()
+  props<{permission: IPermissionFull}>()
 )
 
 export const updatePermissionFailureAction = createAction(

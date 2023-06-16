@@ -2,10 +2,11 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {Observable} from 'rxjs'
 import {Store} from '@ngrx/store'
 
-import {IPermission} from '@shared/interfaces/permission.interface'
+import {IPermissionFull} from '@shared/interfaces/permission.interface'
 import {createPermissionAction} from '../../store/actions/permission.action'
 import {errorsSelector} from '../../store/selectors'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
+import {TCrudAction} from '@shared/types/crud-action.type'
 
 @Component({
   selector: 'app-permission-create',
@@ -20,7 +21,8 @@ export class CreateComponent implements OnInit {
 
   validationErrors$!: Observable<IBackendErrors | null>
 
-  item!: IPermission
+  crudAction: TCrudAction = TCrudAction.CREATE
+  item!: IPermissionFull
   formValid = false
   statusItem = true
 
@@ -37,6 +39,8 @@ export class CreateComponent implements OnInit {
       code: '',
       name: '',
       comment: null,
+      roles: [],
+      users: [],
       status: true,
     }
   }
@@ -60,7 +64,7 @@ export class CreateComponent implements OnInit {
     this.formValid = valid
   }
 
-  changeItem(value: IPermission): void {
+  changeItem(value: IPermissionFull): void {
     this.item = {...value, status: this.statusItem}
   }
 

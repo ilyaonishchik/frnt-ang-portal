@@ -9,7 +9,7 @@ import {
 import {Store} from '@ngrx/store'
 import {Observable, Subject, takeUntil} from 'rxjs'
 
-import {IPermission} from '@shared/interfaces/permission.interface'
+import {IPermissionFull} from '@shared/interfaces/permission.interface'
 import {
   getPermissionAction,
   updatePermissionAction,
@@ -20,6 +20,7 @@ import {
   permissionSelector,
 } from '../../store/selectors'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
+import {TCrudAction} from '@shared/types/crud-action.type'
 
 @Component({
   selector: 'app-permission-update',
@@ -37,7 +38,8 @@ export class UpdateComponent implements OnInit, OnDestroy {
   isLoading$!: Observable<boolean>
   validationErrors$!: Observable<IBackendErrors | null>
 
-  item!: IPermission
+  crudAction: TCrudAction = TCrudAction.UPDATE
+  item!: IPermissionFull
   formValid = false
   statusItem = false
 
@@ -54,7 +56,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
     this.store
       .select(permissionSelector)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((item: IPermission | null) => {
+      .subscribe((item: IPermissionFull | null) => {
         if (item) {
           this.item = {...item}
           this.statusItem = item.status
@@ -83,7 +85,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
     this.formValid = valid
   }
 
-  changeItem(value: IPermission): void {
+  changeItem(value: IPermissionFull): void {
     this.item = {...value, status: this.statusItem}
   }
 

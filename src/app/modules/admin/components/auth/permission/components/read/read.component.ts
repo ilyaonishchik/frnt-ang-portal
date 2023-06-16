@@ -9,7 +9,7 @@ import {
 import {Observable, Subject, takeUntil} from 'rxjs'
 import {Store} from '@ngrx/store'
 
-import {IPermission} from '@shared/interfaces/permission.interface'
+import {IPermissionFull} from '@shared/interfaces/permission.interface'
 import {
   errorsSelector,
   isLoadingSelector,
@@ -17,6 +17,7 @@ import {
 } from '../../store/selectors'
 import {getPermissionAction} from '../../store/actions/permission.action'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
+import {TCrudAction} from '@shared/types/crud-action.type'
 
 @Component({
   selector: 'app-permission-read',
@@ -34,7 +35,8 @@ export class ReadComponent implements OnInit, OnDestroy {
   isLoading$!: Observable<boolean>
   validationErrors$!: Observable<IBackendErrors | null>
 
-  item!: IPermission
+  crudAction: TCrudAction = TCrudAction.READ
+  item!: IPermissionFull
 
   constructor(private store: Store) {}
 
@@ -49,7 +51,7 @@ export class ReadComponent implements OnInit, OnDestroy {
     this.store
       .select(permissionSelector)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((item: IPermission | null) => {
+      .subscribe((item: IPermissionFull | null) => {
         if (item) {
           this.item = item
         }

@@ -28,6 +28,8 @@ import {ReadPermissionEffect} from './store/effects/read-permission.effect'
 import {UpdatePermissionEffect} from './store/effects/update-permission.effect'
 import {DeletePermissionEffect} from './store/effects/delete-permission.effect'
 import {ModalDialogModule} from '@shared/modules/dialog/modal-dialog.module'
+import {TabViewModule} from 'primeng/tabview'
+import {PickListModule} from 'primeng/picklist'
 
 @NgModule({
   declarations: [
@@ -56,6 +58,8 @@ import {ModalDialogModule} from '@shared/modules/dialog/modal-dialog.module'
     LoadingModule,
     ValidateModule,
     ModalDialogModule,
+    TabViewModule,
+    PickListModule,
   ],
   exports: [
     ReadComponent,

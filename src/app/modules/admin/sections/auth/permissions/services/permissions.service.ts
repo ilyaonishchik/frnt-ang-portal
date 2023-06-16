@@ -6,7 +6,7 @@ import {LazyLoadEvent} from 'primeng/api'
 
 import {environment} from 'environments/environment'
 import {eventAction, eventToParams} from '@shared/functions/event.function'
-import {IPermission} from '@shared/interfaces/permission.interface'
+import {IPermissionFull} from '@shared/interfaces/permission.interface'
 import {IResponseItems} from '@shared/interfaces/response-items.interface'
 
 @Injectable({
@@ -23,10 +23,10 @@ export class PermissionsService {
   getPermissions(
     event: LazyLoadEvent | null,
     previousAction: number
-  ): Observable<IResponseItems<IPermission>> {
+  ): Observable<IResponseItems<IPermissionFull>> {
     this.previousEvent = eventAction(event, this.previousEvent, previousAction)
 
-    return this.http.get<IResponseItems<IPermission>>(this.fullUrl, {
+    return this.http.get<IResponseItems<IPermissionFull>>(this.fullUrl, {
       params: eventToParams(this.previousEvent),
     })
   }

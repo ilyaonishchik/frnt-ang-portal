@@ -9,6 +9,7 @@
   <app-permission-form
     slot='content'
     [initialValues]=item
+    [crudAction]=crudAction
     (changeValues)=changeItem($event)
     (formValid)=onValidate($event)
   ></app-permission-form>
