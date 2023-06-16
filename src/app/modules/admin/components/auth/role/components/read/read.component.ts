@@ -9,7 +9,7 @@ import {
 import {Observable, Subject, takeUntil} from 'rxjs'
 import {Store} from '@ngrx/store'
 
-import {IRole} from '@shared/interfaces/role.interface'
+import {IRoleFull} from '@shared/interfaces/role.interface'
 import {
   errorsSelector,
   isLoadingSelector,
@@ -34,7 +34,7 @@ export class ReadComponent implements OnInit, OnDestroy {
   isLoading$!: Observable<boolean>
   validationErrors$!: Observable<IBackendErrors | null>
 
-  item!: IRole
+  item!: IRoleFull
 
   constructor(private store: Store) {}
 
@@ -49,7 +49,7 @@ export class ReadComponent implements OnInit, OnDestroy {
     this.store
       .select(roleSelector)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((item: IRole | null) => {
+      .subscribe((item: IRoleFull | null) => {
         if (item) {
           this.item = item
         }

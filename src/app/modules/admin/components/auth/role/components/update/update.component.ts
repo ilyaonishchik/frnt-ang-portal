@@ -10,7 +10,7 @@ import {Observable, Subject, takeUntil} from 'rxjs'
 import {Store} from '@ngrx/store'
 
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
-import {IRole} from '@shared/interfaces/role.interface'
+import {IRole, IRoleFull} from '@shared/interfaces/role.interface'
 import {getRoleAction, updateRoleAction} from '../../store/actions/role.action'
 import {
   errorsSelector,
@@ -34,7 +34,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
   isLoading$!: Observable<boolean>
   validationErrors$!: Observable<IBackendErrors | null>
 
-  item!: IRole
+  item!: IRoleFull
   formValid = false
   statusItem = false
 
@@ -51,7 +51,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
     this.store
       .select(roleSelector)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((item: IRole | null) => {
+      .subscribe((item: IRoleFull | null) => {
         if (item) {
           this.item = {...item}
           this.statusItem = item.status
@@ -68,7 +68,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
     this.visibleChange.emit(value)
   }
 
-  changeItem(value: IRole): void {
+  changeItem(value: IRoleFull): void {
     this.item = {...value, status: this.statusItem}
   }
 

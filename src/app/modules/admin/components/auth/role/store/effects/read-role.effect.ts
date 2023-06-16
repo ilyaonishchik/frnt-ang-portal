@@ -9,7 +9,7 @@ import {
   getRoleFailureAction,
   getRoleSuccessAction,
 } from '../actions/role.action'
-import {IRole} from '@shared/interfaces/role.interface'
+import {IRoleFull} from '@shared/interfaces/role.interface'
 import {responseToErrors} from '@shared/functions/error.function'
 
 @Injectable()
@@ -21,7 +21,7 @@ export class ReadRoleEffect {
       ofType(getRoleAction),
       switchMap(({id}) => {
         return this.roleService.getRole(id).pipe(
-          map((role: IRole) => {
+          map((role: IRoleFull) => {
             return getRoleSuccessAction({role: role})
           }),
           catchError((response: HttpErrorResponse) => {

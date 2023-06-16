@@ -14,7 +14,10 @@ import {
   updateRoleFailureAction,
   updateRoleSuccessAction,
 } from './actions/role.action'
-import {dialogCancelAction} from '@shared/store/actions/dialog.action'
+import {
+  dialogCancelAction,
+  dialogConfirmAction,
+} from '@shared/store/actions/dialog.action'
 
 export const roleFeatureKey = 'role'
 
@@ -118,7 +121,8 @@ const roleReducer = createReducer(
       backendErrors: action.errors,
     })
   ),
-  on(dialogCancelAction, (): IRoleState => initialState)
+  on(dialogCancelAction, (): IRoleState => initialState),
+  on(dialogConfirmAction, (): IRoleState => initialState)
 )
 
 export function reducerRole(state: IRoleState, action: Action) {

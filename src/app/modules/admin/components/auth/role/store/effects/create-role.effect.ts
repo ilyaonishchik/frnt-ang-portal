@@ -13,7 +13,7 @@ import {
   createRoleFailureAction,
   createRoleSuccessAction,
 } from '../actions/role.action'
-import {IRole} from '@shared/interfaces/role.interface'
+import {IRoleFull} from '@shared/interfaces/role.interface'
 
 @Injectable()
 export class CreateRoleEffect {
@@ -28,7 +28,7 @@ export class CreateRoleEffect {
       ofType(createRoleAction),
       switchMap(({role}) => {
         return this.roleService.createRole(role).pipe(
-          map((role: IRole) => {
+          map((role: IRoleFull) => {
             return createRoleSuccessAction({role: role})
           }),
           catchError((errorResponse: HttpErrorResponse) => {

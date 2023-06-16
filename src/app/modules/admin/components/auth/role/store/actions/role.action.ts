@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store'
 
 import {RoleActionTypes} from '../actionTypes'
-import {IRole} from '@shared/interfaces/role.interface'
+import {IRoleFull} from '@shared/interfaces/role.interface'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 import {IDeleteResponse} from '@shared/interfaces/delete-response.interface'
 
@@ -12,7 +12,7 @@ export const getRoleAction = createAction(
 
 export const getRoleSuccessAction = createAction(
   RoleActionTypes.GET_ROLE_SUCCESS,
-  props<{role: IRole}>()
+  props<{role: IRoleFull}>()
 )
 
 export const getRoleFailureAction = createAction(
@@ -22,12 +22,12 @@ export const getRoleFailureAction = createAction(
 
 export const createRoleAction = createAction(
   RoleActionTypes.CREATE_ROLE,
-  props<{role: IRole}>()
+  props<{role: IRoleFull}>()
 )
 
 export const createRoleSuccessAction = createAction(
   RoleActionTypes.CREATE_ROLE_SUCCESS,
-  props<{role: IRole}>()
+  props<{role: IRoleFull}>()
 )
 
 export const createRoleFailureAction = createAction(
@@ -37,12 +37,12 @@ export const createRoleFailureAction = createAction(
 
 export const updateRoleAction = createAction(
   RoleActionTypes.UPDATE_ROLE,
-  props<{id: number; role: IRole}>()
+  props<{id: number; role: IRoleFull}>()
 )
 
 export const updateRoleSuccessAction = createAction(
   RoleActionTypes.UPDATE_ROLE_SUCCESS,
-  props<{role: IRole}>()
+  props<{role: IRoleFull}>()
 )
 
 export const updateRoleFailureAction = createAction(

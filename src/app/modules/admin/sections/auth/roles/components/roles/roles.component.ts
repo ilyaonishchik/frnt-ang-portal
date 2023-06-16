@@ -27,6 +27,7 @@ import {IDeleteEvent} from '@shared/interfaces/event.interface'
 import {
   clearPermissionsAction,
   getAllPermissionsAction,
+  getAllUsersAction,
 } from '@shared/store/actions/session.actions'
 
 @Component({
@@ -70,6 +71,7 @@ export class RolesComponent implements OnInit, OnDestroy {
 
   private initializeValues(): void {
     this.store.dispatch(getAllPermissionsAction())
+    this.store.dispatch(getAllUsersAction())
     this.loadItems({sortField: this.sortField, first: 0}, TCrudAction.NONE)
   }
 

@@ -11,9 +11,14 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import {Subject, takeUntil} from 'rxjs'
 import {Store} from '@ngrx/store'
 
-import {IRole} from '@shared/interfaces/role.interface'
+import {IRoleFull} from '@shared/interfaces/role.interface'
 import {IPermission} from '@shared/interfaces/permission.interface'
-import {allPermissionsSelector} from '@shared/store/selectors/session.selectors'
+import {
+  allPermissionsSelector,
+  allUsersSelector,
+} from '@shared/store/selectors/session.selectors'
+import {IUser} from '@shared/interfaces/user.interface'
+import {TCrudAction} from '@shared/types/crud-action.type'
 
 @Component({
   selector: 'app-role-form',
@@ -22,15 +27,19 @@ import {allPermissionsSelector} from '@shared/store/selectors/session.selectors'
 })
 export class RoleComponent implements OnInit, OnDestroy {
   @Input() readOnly = false
-  @Input() initialValues!: IRole
+  @Input() crudAction: TCrudAction = TCrudAction.NONE
+  @Input() initialValues!: IRoleFull
 
-  @Output() changeValues = new EventEmitter<IRole>()
+  @Output() changeValues = new EventEmitter<IRoleFull>()
   @Output() formValid = new EventEmitter<boolean>()
 
   private readonly unsubscribe$: Subject<void> = new Subject()
 
   sourcePermissions: IPermission[] = []
   targetPermissions: IPermission[] = []
+
+  sourceUsers: IUser[] = []
+  targetUsers: IUser[] = []
 
   formRole!: FormGroup
 
@@ -44,6 +53,7 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   private initializeValues(): void {
     this.targetPermissions.push(...this.initialValues.permissions)
+    this.targetUsers.push(...this.initialValues.users)
   }
 
   private initializeSubscriptions(): void {
@@ -54,6 +64,16 @@ export class RoleComponent implements OnInit, OnDestroy {
         if (items) {
           this.sourcePermissions = items.filter(
             (item) => !this.targetPermissions.find((tp) => tp.id == item.id)
+          )
+        }
+      })
+    this.store
+      .select(allUsersSelector)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((items: IUser[] | null) => {
+        if (items) {
+          this.sourceUsers = items.filter(
+            (item) => !this.targetUsers.find((tp) => tp.id == item.id)
           )
         }
       })
@@ -75,6 +95,7 @@ export class RoleComponent implements OnInit, OnDestroy {
       ],
       comment: [this.initialValues.comment, [Validators.maxLength(200)]],
       permissions: [this.initialValues.permissions],
+      users: [this.initialValues.users],
       status: [this.initialValues.status],
     })
     this.onChangeValues()
@@ -83,6 +104,7 @@ export class RoleComponent implements OnInit, OnDestroy {
   onChangeValues(): void {
     this.onValidateForm()
     this.changePermissions()
+    this.changeUsers()
     this.changeValues.emit(this.formRole.value)
   }
 
@@ -96,6 +118,10 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   changePermissions(): void {
     this.formRole.value['permissions'] = this.targetPermissions
+  }
+
+  changeUsers(): void {
+    this.formRole.value['users'] = this.targetUsers
   }
 
   private finalizeSubscriptions(): void {

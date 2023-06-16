@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {Observable} from 'rxjs'
 import {Store} from '@ngrx/store'
 
-import {IRole} from '@shared/interfaces/role.interface'
+import {IRoleFull} from '@shared/interfaces/role.interface'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 import {errorsSelector} from '../../store/selectors'
 import {createRoleAction} from '../../store/actions/role.action'
@@ -20,7 +20,7 @@ export class CreateComponent implements OnInit {
 
   validationErrors$!: Observable<IBackendErrors | null>
 
-  item!: IRole
+  item!: IRoleFull
   formValid = false
   statusItem = true
 
@@ -38,6 +38,7 @@ export class CreateComponent implements OnInit {
       name: '',
       comment: null,
       permissions: [],
+      users: [],
       status: true,
     }
   }
@@ -61,7 +62,7 @@ export class CreateComponent implements OnInit {
     this.formValid = valid
   }
 
-  changeItem(value: IRole): void {
+  changeItem(value: IRoleFull): void {
     this.item = {...value, status: this.statusItem}
   }
 
