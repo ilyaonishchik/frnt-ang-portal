@@ -6,6 +6,11 @@ import {sessionFeatureKey} from '../reducers/session.reducer'
 export const sessionFeatureSelector =
   createFeatureSelector<ISessionState>(sessionFeatureKey)
 
+export const allUsersSelector = createSelector(
+  sessionFeatureSelector,
+  (sessionState: ISessionState) => sessionState.allUsers
+)
+
 export const allRolesSelector = createSelector(
   sessionFeatureSelector,
   (sessionState: ISessionState) => sessionState.allRoles

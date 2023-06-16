@@ -7,12 +7,19 @@ import {IResponseItems} from '../interfaces/response-items.interface'
 import {IRole} from '../interfaces/role.interface'
 import {IPermission} from '../interfaces/permission.interface'
 import {IClient} from '@shared/interfaces/client.interface'
+import {IUser} from '@shared/interfaces/user.interface'
 
 @Injectable({
   providedIn: 'root',
 })
 export class SessionService {
   constructor(private http: HttpClient) {}
+
+  getUsers(): Observable<IUser[]> {
+    return this.http
+      .get<IResponseItems<IUser>>(`${environment.urlApiAuth}/users`)
+      .pipe(map((response: IResponseItems<IUser>) => response.results))
+  }
 
   getRoles(): Observable<IRole[]> {
     return this.http

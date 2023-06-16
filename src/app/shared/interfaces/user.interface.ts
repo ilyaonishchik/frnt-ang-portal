@@ -4,6 +4,13 @@ import {IPermission} from './permission.interface'
 export interface IUser {
   id: number
   username: string
+  comment: string | null
+  status: boolean
+}
+
+export interface IUserFull {
+  id: number
+  username: string
   email: string | null
   password: string | null
   comment: string | null

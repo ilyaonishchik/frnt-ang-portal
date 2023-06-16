@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core'
-import {IUser} from '../interfaces/user.interface'
+import {IUserFull} from '../interfaces/user.interface'
 
 const TOKEN_KEY = 'auth-token'
 const REFRESH_TOKEN_KEY = 'auth-refresh-token'
@@ -77,11 +77,11 @@ export class PersistenceService {
     }
   }
 
-  setCurrentUser(user: IUser): void {
+  setCurrentUser(user: IUserFull): void {
     sessionStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user))
   }
 
-  getCurrentUser(): IUser | null {
+  getCurrentUser(): IUserFull | null {
     const user = sessionStorage.getItem(CURRENT_USER_KEY)
     if (user) {
       return JSON.parse(user)

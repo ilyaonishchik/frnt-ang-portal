@@ -4,12 +4,16 @@ import {ISessionState} from '../../interfaces/session-state.interface'
 import {
   clearPermissionsAction,
   clearRolesAction,
+  clearUsersAction,
   getAllPermissionsAction,
   getAllPermissionsFailureAction,
   getAllPermissionsSuccessAction,
   getAllRolesAction,
   getAllRolesFailureAction,
   getAllRolesSuccessAction,
+  getAllUsersAction,
+  getAllUsersFailureAction,
+  getAllUsersSuccessAction,
   getClientInfoAction,
   getClientInfoFailureAction,
   getClientInfoSuccessAction,
@@ -20,6 +24,7 @@ export const sessionFeatureKey = 'session'
 const initialState: ISessionState = {
   isLoading: false,
   backendErrors: null,
+  allUsers: null,
   allRoles: null,
   allPermissions: null,
   client: null,
@@ -85,6 +90,36 @@ const sessionReducer = createReducer(
     (state): ISessionState => ({
       ...state,
       allRoles: null,
+    })
+  ),
+  on(
+    getAllUsersAction,
+    (state): ISessionState => ({
+      ...state,
+      isLoading: true,
+    })
+  ),
+  on(
+    getAllUsersSuccessAction,
+    (state, action): ISessionState => ({
+      ...state,
+      isLoading: false,
+      allUsers: action.users,
+    })
+  ),
+  on(
+    getAllUsersFailureAction,
+    (state, action): ISessionState => ({
+      ...state,
+      isLoading: false,
+      backendErrors: action.errors,
+    })
+  ),
+  on(
+    clearUsersAction,
+    (state): ISessionState => ({
+      ...state,
+      allUsers: null,
     })
   ),
   on(

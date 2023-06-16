@@ -10,6 +10,9 @@ import {
   getAllRolesAction,
   getAllRolesFailureAction,
   getAllRolesSuccessAction,
+  getAllUsersAction,
+  getAllUsersFailureAction,
+  getAllUsersSuccessAction,
   getClientInfoAction,
   getClientInfoFailureAction,
   getClientInfoSuccessAction,
@@ -19,6 +22,7 @@ import {IPermission} from '../../interfaces/permission.interface'
 import {responseToErrors} from '../../functions/error.function'
 import {IRole} from '../../interfaces/role.interface'
 import {IClient} from '@shared/interfaces/client.interface'
+import {IUser} from '@shared/interfaces/user.interface'
 
 @Injectable()
 export class SessionEffects {
@@ -58,6 +62,26 @@ export class SessionEffects {
           catchError((errorResponse: HttpErrorResponse) => {
             return of(
               getAllRolesFailureAction({
+                errors: responseToErrors(errorResponse),
+              })
+            )
+          })
+        )
+      })
+    )
+  })
+
+  getAllUsers$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getAllUsersAction),
+      switchMap(() => {
+        return this.sessionService.getUsers().pipe(
+          map((users: IUser[]) => {
+            return getAllUsersSuccessAction({users: users})
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            return of(
+              getAllUsersFailureAction({
                 errors: responseToErrors(errorResponse),
               })
             )
