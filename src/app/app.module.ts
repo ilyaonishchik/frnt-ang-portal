@@ -17,7 +17,8 @@ import {SessionModule} from '@shared/modules/session/session.module'
 import {LayoutModule} from '@shared/modules/layout/layout.module'
 
 import {AppComponent} from './app.component'
-import {httpInterceptorProviders} from './interceptors/http.interceptor'
+import {httpInterceptorProviders} from './interceptors/http.interceptor';
+import { HasPermissionsDirective } from './shared/directives/has-permissions.directive'
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function (state, action) {
@@ -31,7 +32,7 @@ export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
 export const metaReducers: MetaReducer<any>[] = [debug]
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, HasPermissionsDirective],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
