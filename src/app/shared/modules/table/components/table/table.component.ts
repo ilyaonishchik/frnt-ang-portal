@@ -115,11 +115,7 @@ export class TableComponent implements OnInit, OnDestroy {
     this.table.filters = {}
     if (this.filterValue) {
       for (const field in this.table.globalFilterFields) {
-        this.table.filter(
-          this.filterValue,
-          this.table.globalFilterFields[field],
-          'contains'
-        )
+        this.table.filter(this.filterValue, field, 'contains')
       }
       if (!this.table.hasFilter()) {
         this.table.filter(this.filterValue, '_', 'contains')
