@@ -10,7 +10,7 @@ import {Store} from '@ngrx/store'
 import {Observable, Subject, takeUntil} from 'rxjs'
 
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 import {
   errorsSelector,
   isLoadingSelector,
@@ -36,7 +36,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
   validationErrors$!: Observable<IBackendErrors | null>
 
   crudAction: TCrudAction = TCrudAction.UPDATE
-  item!: IUser
+  item!: IUserFull
   formValid = false
   statusItem = false
 
@@ -53,7 +53,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
     this.store
       .select(userSelector)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((item: IUser | null) => {
+      .subscribe((item: IUserFull | null) => {
         if (item) {
           this.item = {...item}
           this.statusItem = item.status
@@ -70,7 +70,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
     this.visibleChange.emit(value)
   }
 
-  changeItem(value: IUser): void {
+  changeItem(value: IUserFull): void {
     this.item = {...value, status: this.statusItem}
   }
 

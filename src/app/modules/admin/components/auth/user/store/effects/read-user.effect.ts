@@ -9,7 +9,7 @@ import {
   getUserFailureAction,
   getUserSuccessAction,
 } from '../actions/user.action'
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 import {responseToErrors} from '@shared/functions/error.function'
 
 @Injectable()
@@ -21,7 +21,7 @@ export class ReadUserEffect {
       ofType(getUserAction),
       switchMap(({id}) => {
         return this.userService.getUser(id).pipe(
-          map((response: IUser) => {
+          map((response: IUserFull) => {
             return getUserSuccessAction({user: response})
           }),
           catchError((response: HttpErrorResponse) => {

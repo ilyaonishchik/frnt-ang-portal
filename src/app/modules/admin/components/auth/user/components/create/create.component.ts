@@ -3,7 +3,7 @@ import {Observable} from 'rxjs'
 import {Store} from '@ngrx/store'
 
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 import {errorsSelector} from '../../store/selectors'
 import {createUserAction} from '../../store/actions/user.action'
 import {TCrudAction} from '@shared/types/crud-action.type'
@@ -22,7 +22,7 @@ export class CreateComponent implements OnInit {
   validationErrors$!: Observable<IBackendErrors | null>
 
   crudAction: TCrudAction = TCrudAction.CREATE
-  item!: IUser
+  item!: IUserFull
   formValid = false
   statusItem = true
 
@@ -69,7 +69,7 @@ export class CreateComponent implements OnInit {
     this.formValid = valid
   }
 
-  changeItem(value: IUser): void {
+  changeItem(value: IUserFull): void {
     this.item = {...value, status: this.statusItem}
   }
 

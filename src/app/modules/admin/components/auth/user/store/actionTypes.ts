@@ -14,6 +14,4 @@ export enum UserActionTypes {
   DELETE_USER = '[User] Delete user',
   DELETE_USER_SUCCESS = '[User] Delete user success',
   DELETE_USER_FAILURE = '[User] Delete user failure',
-
-  CLEAR_STATE = '[User] Clear state',
 }

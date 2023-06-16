@@ -11,7 +11,7 @@ import {Store} from '@ngrx/store'
 
 import {currentUserSelector} from '@modules/auth/store/selectors'
 import {environment} from 'environments/environment'
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -59,7 +59,7 @@ export class RoleGuard {
     )
   }
 
-  checkRole(data: Data, user: IUser): boolean {
+  checkRole(data: Data, user: IUserFull): boolean {
     // console.log(`RoleGuard (checkRole): ${data['role']}`)
     let result = false
     if (data['role']) {

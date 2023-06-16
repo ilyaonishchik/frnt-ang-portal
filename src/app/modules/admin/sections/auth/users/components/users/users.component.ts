@@ -6,7 +6,7 @@ import {LazyLoadEvent} from 'primeng/api'
 import {IColumn} from '@shared/interfaces/column.interface'
 import {ITableItems} from '@shared/interfaces/table-items.interface'
 import {ICrudAction} from '@shared/interfaces/crud-action.interface'
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 import {TCrudAction} from '@shared/types/crud-action.type'
 import {
   clearUsersStateAction,
@@ -36,7 +36,7 @@ import {
 })
 export class UsersComponent implements OnInit, OnDestroy {
   isLoading$!: Observable<boolean>
-  items$!: Observable<ITableItems<IUser> | null>
+  items$!: Observable<ITableItems<IUserFull> | null>
   dialog$!: Observable<ICrudAction | null>
 
   subjectName = 'пользователя'

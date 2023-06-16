@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {Observable} from 'rxjs'
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 import {currentUserSelector} from '@modules/auth/store/selectors'
 
 @Component({
@@ -10,7 +10,7 @@ import {currentUserSelector} from '@modules/auth/store/selectors'
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  currentUser$!: Observable<IUser | null>
+  currentUser$!: Observable<IUserFull | null>
   constructor(private store: Store) {}
 
   ngOnInit(): void {

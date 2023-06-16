@@ -142,8 +142,8 @@
         <ng-template let-role pTemplate='item'>
           <div
             class='text-900 font-medium'
-            [ngClass]="{'line-through': role.status === 0}"
-          >{{role.code}}-{{role.name}}</div>
+            [ngClass]="{'line-through': role.status === false}"
+          >{{role.code}} - {{role.name}}</div>
           <div class='text-600'>{{role.comment}}</div>
         </ng-template>
       </p-pickList>
@@ -151,12 +151,12 @@
     <p-tabPanel header='Разрешения'>
       <p-pickList
         [source]=sourcePermissions
-        [sourceStyle]="{'height':'10rem'}"
+        [sourceStyle]="{'height':'12rem'}"
         [showSourceControls]=false
         sourceHeader='Доступные'
         sourceFilterPlaceholder='Поиск по имени'
         [target]=targetPermissions
-        [targetStyle]="{'height':'10rem'}"
+        [targetStyle]="{'height':'12rem'}"
         [showTargetControls]=false
         targetHeader='Выбранные'
         targetFilterPlaceholder='Поиск по имени'
@@ -168,8 +168,8 @@
         <ng-template let-permission pTemplate='item'>
           <div
             class='text-900 font-medium'
-            [ngClass]="{'line-through': permission.status === 0}"
-          >{{permission.code}}-{{permission.name}}</div>
+            [ngClass]="{'line-through': permission.status === false}"
+          >{{permission.code}} - {{permission.name}}</div>
           <div class='text-600'>{{permission.comment}}</div>
         </ng-template>
       </p-pickList>

@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, Data, Router, UrlTree} from '@angular/router'
 import {map, Observable} from 'rxjs'
 import {Store} from '@ngrx/store'
 import {currentUserSelector} from '@modules/auth/store/selectors'
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 import {environment} from 'environments/environment'
 import {RbacService} from '@shared/services/rbac.service'
 
@@ -35,7 +35,7 @@ export class PermissionGuard {
     )
   }
 
-  checkPermission(data: Data, user: IUser): boolean | UrlTree {
+  checkPermission(data: Data, user: IUserFull): boolean | UrlTree {
     let result = false
     if (data['permission']) {
       for (const key in user.permissions) {

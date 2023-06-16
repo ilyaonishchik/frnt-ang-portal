@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store'
 
 import {UserActionTypes} from '../actionTypes'
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
 import {IDeleteResponse} from '@shared/interfaces/delete-response.interface'
 
@@ -12,7 +12,7 @@ export const getUserAction = createAction(
 
 export const getUserSuccessAction = createAction(
   UserActionTypes.GET_USER_SUCCESS,
-  props<{user: IUser}>()
+  props<{user: IUserFull}>()
 )
 
 export const getUserFailureAction = createAction(
@@ -22,12 +22,12 @@ export const getUserFailureAction = createAction(
 
 export const createUserAction = createAction(
   UserActionTypes.CREATE_USER,
-  props<{user: IUser}>()
+  props<{user: IUserFull}>()
 )
 
 export const createUserSuccessAction = createAction(
   UserActionTypes.CREATE_USER_SUCCESS,
-  props<{user: IUser}>()
+  props<{user: IUserFull}>()
 )
 
 export const createUserFailureAction = createAction(
@@ -37,12 +37,12 @@ export const createUserFailureAction = createAction(
 
 export const updateUserAction = createAction(
   UserActionTypes.UPDATE_USER,
-  props<{id: number; user: IUser}>()
+  props<{id: number; user: IUserFull}>()
 )
 
 export const updateUserSuccessAction = createAction(
   UserActionTypes.UPDATE_USER_SUCCESS,
-  props<{user: IUser}>()
+  props<{user: IUserFull}>()
 )
 
 export const updateUserFailureAction = createAction(
@@ -65,4 +65,4 @@ export const deleteUserFailureAction = createAction(
   props<{errors: IBackendErrors}>()
 )
 
-export const clearUserStateAction = createAction(UserActionTypes.CLEAR_STATE)
+// export const clearUserStateAction = createAction(UserActionTypes.CLEAR_STATE)

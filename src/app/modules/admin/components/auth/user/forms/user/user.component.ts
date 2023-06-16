@@ -16,7 +16,7 @@ import {
 import {Store} from '@ngrx/store'
 import {Subject, takeUntil} from 'rxjs'
 
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 import {IPermission} from '@shared/interfaces/permission.interface'
 import {IRole} from '@shared/interfaces/role.interface'
 import {
@@ -35,9 +35,9 @@ import {CustomValidators} from '@shared/validators/custom'
 export class UserComponent implements OnInit, OnDestroy {
   @Input() readOnly = false
   @Input() crudAction: TCrudAction = TCrudAction.NONE
-  @Input() initialValues!: IUser
+  @Input() initialValues!: IUserFull
 
-  @Output() changeValues = new EventEmitter<IUser>()
+  @Output() changeValues = new EventEmitter<IUserFull>()
   @Output() formValid = new EventEmitter<boolean>()
 
   formUser!: FormGroup
@@ -46,8 +46,8 @@ export class UserComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$: Subject<void> = new Subject()
 
   sourceRoles: IRole[] = []
-  sourcePermissions: IPermission[] = []
   targetRoles: IRole[] = []
+  sourcePermissions: IPermission[] = []
   targetPermissions: IPermission[] = []
 
   constructor(private fb: FormBuilder, private store: Store) {}
@@ -151,10 +151,6 @@ export class UserComponent implements OnInit, OnDestroy {
     this.changeValues.emit(this.formUser.value)
   }
 
-  get f() {
-    return this.formUser.controls
-  }
-
   onValidateForm(): void {
     this.formValid.emit(this.formUser.valid)
   }
@@ -165,6 +161,10 @@ export class UserComponent implements OnInit, OnDestroy {
 
   changePermissions(): void {
     this.formUser.value['permissions'] = this.targetPermissions
+  }
+
+  get f() {
+    return this.formUser.controls
   }
 
   private finalizeSubscriptions(): void {

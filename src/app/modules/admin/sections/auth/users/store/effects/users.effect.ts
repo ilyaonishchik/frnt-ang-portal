@@ -13,7 +13,7 @@ import {IResponseItems} from '@shared/interfaces/response-items.interface'
 import {responseToErrors} from '@shared/functions/error.function'
 import {dialogConfirmAction} from '@shared/store/actions/dialog.action'
 import {UsersService} from '../../services/users.service'
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 
 @Injectable()
 export class GetUsersEffect {
@@ -28,7 +28,7 @@ export class GetUsersEffect {
       ofType(getUsersAction),
       switchMap(({event, action}) => {
         return this.usersService.getUsers(event, action).pipe(
-          map((response: IResponseItems<IUser>) => {
+          map((response: IResponseItems<IUserFull>) => {
             return getUsersSuccessAction({
               users: {
                 items: response.results,

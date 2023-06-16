@@ -9,7 +9,7 @@ import {ISigninRequest} from '../interfaces/signin-request.interface'
 import {ISigninResponse} from '../interfaces/signin-response.interface'
 import {IToken} from '../interfaces/token.interface'
 import {IVerifyResponse} from '../interfaces/verify-response.interface'
-import {IUser, IUserReset} from '@shared/interfaces/user.interface'
+import {IUserFull, IUserReset} from '@shared/interfaces/user.interface'
 import {Store} from '@ngrx/store'
 import {
   currentUserSelector,
@@ -28,9 +28,9 @@ export class AuthService {
     private router: Router
   ) {}
 
-  getCurrentUser(): Observable<IUser> {
+  getCurrentUser(): Observable<IUserFull> {
     console.log('AuthService: getCurrentUser')
-    return this.http.get<IUser>(`${environment.urlApiAuth}/users/me`)
+    return this.http.get<IUserFull>(`${environment.urlApiAuth}/users/me`)
   }
 
   signUp(data: ISignupRequest): Observable<ISignupResponse> {

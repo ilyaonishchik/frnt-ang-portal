@@ -9,7 +9,7 @@ import {
 import {Observable, Subject, takeUntil} from 'rxjs'
 import {Store} from '@ngrx/store'
 
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 import {
   errorsSelector,
   isLoadingSelector,
@@ -36,7 +36,7 @@ export class ReadComponent implements OnInit, OnDestroy {
   validationErrors$!: Observable<IBackendErrors | null>
 
   crudAction: TCrudAction = TCrudAction.READ
-  item!: IUser
+  item!: IUserFull
 
   constructor(private store: Store) {}
 
@@ -51,7 +51,7 @@ export class ReadComponent implements OnInit, OnDestroy {
     this.store
       .select(userSelector)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((item: IUser | null) => {
+      .subscribe((item: IUserFull | null) => {
         if (item) {
           this.item = item
         }

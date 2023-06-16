@@ -1,4 +1,4 @@
-import {IPermission} from '@shared/interfaces/permission.interface'
+import {IPermissionFull} from '@shared/interfaces/permission.interface'
 import {IRole} from '@shared/interfaces/role.interface'
 
 export interface ISignupResponse {
@@ -10,7 +10,7 @@ export interface ISignupResponse {
   avatar: string | null
   sd_id: number | null
   roles: IRole[]
-  permissions: IPermission[]
+  permissions: IPermissionFull[]
   verify: string | null
   last_login: string | null
   status: boolean

@@ -13,7 +13,7 @@ import {
   updateUserFailureAction,
   updateUserSuccessAction,
 } from '../actions/user.action'
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 
 @Injectable()
 export class UpdateUserEffect {
@@ -28,7 +28,7 @@ export class UpdateUserEffect {
       ofType(updateUserAction),
       switchMap(({id, user}) => {
         return this.userService.updateUser(id, user).pipe(
-          map((user: IUser) => {
+          map((user: IUserFull) => {
             return updateUserSuccessAction({user: user})
           }),
           catchError((errorResponse: HttpErrorResponse) => {

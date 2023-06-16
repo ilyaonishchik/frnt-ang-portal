@@ -11,7 +11,7 @@ import {
   signupSuccessAction,
 } from '../actions/signup.action'
 import {AuthService} from '../../services/auth.service'
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 import {responseToErrors} from '@shared/functions/error.function'
 
 @Injectable()
@@ -28,7 +28,7 @@ export class SignupEffect {
       ofType(signupAction),
       switchMap(({request}) => {
         return this.authService.signUp(request).pipe(
-          map((currentUser: IUser) => {
+          map((currentUser: IUserFull) => {
             return signupSuccessAction({currentUser})
           }),
           catchError((errorResponse: HttpErrorResponse) => {

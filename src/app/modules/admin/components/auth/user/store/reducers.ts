@@ -3,7 +3,6 @@ import {Action, createReducer, on} from '@ngrx/store'
 import {IUserState} from '../interfaces/user-state.interface'
 
 import {
-  clearUserStateAction,
   createUserAction,
   createUserFailureAction,
   createUserSuccessAction,
@@ -16,7 +15,10 @@ import {
   updateUserFailureAction,
   updateUserSuccessAction,
 } from './actions/user.action'
-import {dialogCancelAction} from '@shared/store/actions/dialog.action'
+import {
+  dialogCancelAction,
+  dialogConfirmAction,
+} from '@shared/store/actions/dialog.action'
 
 export const userFeatureKey = 'user'
 
@@ -120,15 +122,9 @@ const userReducer = createReducer(
       backendErrors: action.errors,
     })
   ),
-  on(
-    dialogCancelAction,
-    (state): IUserState => ({
-      ...state,
-      item: null,
-      backendErrors: null,
-    })
-  ),
-  on(clearUserStateAction, (): IUserState => initialState)
+  on(dialogCancelAction, (): IUserState => initialState),
+  on(dialogConfirmAction, (): IUserState => initialState)
+  // on(clearUserStateAction, (): IUserState => initialState)
 )
 
 export function reducerUser(state: IUserState, action: Action) {

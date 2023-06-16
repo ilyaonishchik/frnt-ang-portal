@@ -5,7 +5,7 @@ import {LazyLoadEvent} from 'primeng/api'
 import {UsersActionTypes} from '../actionTypes'
 import {ITableItems} from '@shared/interfaces/table-items.interface'
 import {IBackendErrors} from '@shared/interfaces/backend-errors.interface'
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 
 export const getUsersAction = createAction(
   UsersActionTypes.GET_USERS,
@@ -14,7 +14,7 @@ export const getUsersAction = createAction(
 
 export const getUsersSuccessAction = createAction(
   UsersActionTypes.GET_USERS_SUCCESS,
-  props<{users: ITableItems<IUser>}>()
+  props<{users: ITableItems<IUserFull>}>()
 )
 
 export const getUsersFailureAction = createAction(

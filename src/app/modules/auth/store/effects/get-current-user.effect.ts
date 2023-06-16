@@ -13,7 +13,7 @@ import {
   getCurrentUserFailureAction,
   getCurrentUserSuccessAction,
 } from '../actions/get-current-user.action'
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 import {responseToErrors} from '@shared/functions/error.function'
 
 @Injectable()
@@ -35,7 +35,7 @@ export class GetCurrentUserEffect {
           return of(getCurrentUserFailureAction({errors: null}))
         }
         return this.authService.getCurrentUser().pipe(
-          map((currentUser: IUser) => {
+          map((currentUser: IUserFull) => {
             this.layoutService.config.menuMode = 'static'
             this.persistenceService.setCurrentUser(currentUser)
             return getCurrentUserSuccessAction({currentUser: currentUser})

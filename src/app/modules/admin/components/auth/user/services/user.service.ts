@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http'
 import {Observable} from 'rxjs'
 
 import {environment} from 'environments/environment'
-import {IUser, IUserSave} from '@shared/interfaces/user.interface'
+import {IUserFull, IUserSave} from '@shared/interfaces/user.interface'
 import {IDeleteResponse} from '@shared/interfaces/delete-response.interface'
 
 @Injectable({
@@ -16,23 +16,26 @@ export class UserService {
     this.fullUrl = `${environment.urlApi}/auth/users`
   }
 
-  getUser(id: number): Observable<IUser> {
-    return this.http.get<IUser>(`${this.fullUrl}/${id}`)
+  getUser(id: number): Observable<IUserFull> {
+    return this.http.get<IUserFull>(`${this.fullUrl}/${id}`)
   }
 
-  createUser(item: IUser): Observable<IUser> {
-    return this.http.post<IUser>(this.fullUrl, this.itemToSave(item))
+  createUser(item: IUserFull): Observable<IUserFull> {
+    return this.http.post<IUserFull>(this.fullUrl, this.itemToSave(item))
   }
 
-  updateUser(id: number, item: IUser): Observable<IUser> {
-    return this.http.put<IUser>(`${this.fullUrl}/${id}`, this.itemToSave(item))
+  updateUser(id: number, item: IUserFull): Observable<IUserFull> {
+    return this.http.put<IUserFull>(
+      `${this.fullUrl}/${id}`,
+      this.itemToSave(item)
+    )
   }
 
   deleteUser(id: number): Observable<IDeleteResponse> {
     return this.http.delete<IDeleteResponse>(`${this.fullUrl}/${id}`)
   }
 
-  itemToSave(item: IUser): IUserSave {
+  itemToSave(item: IUserFull): IUserSave {
     return {
       username: item.username,
       password: item.password,

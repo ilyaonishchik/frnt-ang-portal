@@ -13,7 +13,7 @@ import {
   createUserFailureAction,
   createUserSuccessAction,
 } from '../actions/user.action'
-import {IUser} from '@shared/interfaces/user.interface'
+import {IUserFull} from '@shared/interfaces/user.interface'
 
 @Injectable()
 export class CreateUserEffect {
@@ -28,7 +28,7 @@ export class CreateUserEffect {
       ofType(createUserAction),
       switchMap(({user}) => {
         return this.userService.createUser(user).pipe(
-          map((user: IUser) => {
+          map((user: IUserFull) => {
             return createUserSuccessAction({user: user})
           }),
           catchError((errorResponse: HttpErrorResponse) => {
